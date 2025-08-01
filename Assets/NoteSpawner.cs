@@ -5,7 +5,7 @@ using UnityEngine;
 public class NoteSpawner : MonoBehaviour
 {
     public GameObject notePrefab;
-    public float spawnInterval = 0.2f;
+    public float spawnInterval = 10.0f;
     private float timer = 0f;
 
     void Update()
