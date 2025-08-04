@@ -6,7 +6,8 @@ using System;
 
 public class TimeLifeScript : MonoBehaviour
 {
-	public float timeRemaining = 180;
+	private float timeRemaining = 0;
+	public GameObject Weather_Rain;
 	public bool timerIsRunning = false;
 	public TMP_Text clockText;
 
@@ -20,19 +21,27 @@ public class TimeLifeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerIsRunning)
+		if (timerIsRunning)
 		{
-			if (timeRemaining > 0)
-			{
-				timeRemaining -= Time.deltaTime;
-				DisplayTime(timeRemaining);
-			}
-			else
-			{
-				Debug.Log("Time has run out!");
+			timeRemaining += Time.deltaTime;
+			DisplayTime(timeRemaining);
 
-				timeRemaining = 0;
-				timerIsRunning = false;
+			if (timeRemaining > 55)
+			{
+				Debug.Log("Mùa Mưa đã đến!");
+				Weather_Rain.SetActive(true);
+			}
+			if (timeRemaining > 75)
+			{
+				Debug.Log("Thoại NPC - Hướng dẫn di chuyển tầng giữa");
+				Debug.Log("Cho phép di chuyển tầng giữa");
+
+			}
+			if (timeRemaining > 105)
+			{
+				Debug.Log("Thoại NPC - Hướng dẫn di chuyển tầng đáy");
+				Debug.Log("Cho phép di chuyển tầng đáy");
+				
 			}
 		}
 		
@@ -40,7 +49,7 @@ public class TimeLifeScript : MonoBehaviour
 	
 	void DisplayTime(float timeToDisplay)
 	{
-		timeToDisplay += 1;
+		// timeToDisplay += 1;
 		float minutes = Mathf.FloorToInt(timeToDisplay / 60);
 		float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 		clockText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
