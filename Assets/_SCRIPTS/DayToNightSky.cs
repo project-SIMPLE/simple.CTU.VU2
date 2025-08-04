@@ -23,6 +23,7 @@ public class DayToNightSky : MonoBehaviour
         RenderSettings.skybox = skyboxMaterial;
         audioSound = GetComponent<AudioSource>();
         skyboxMaterial.SetColor("_Tint", dayTint);
+
     }
 
     void Update()
