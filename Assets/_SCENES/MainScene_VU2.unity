@@ -551178,6 +551178,12 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1579544537679045955, guid: 41f4ed8df8caf3c4cb5fc1ba04e4de40, type: 3}
+--- !u!1 &1707926065 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1086610885346642672, guid: 3b6a9c699be03df4f82c734bef507f2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 584129478663811250}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1708245659 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9176242562311319873, guid: 22d4c37aab9130944a76d41c6e7646b1,
@@ -676906,7 +676912,7 @@ PrefabInstance:
     - target: {fileID: 1086610885346642672, guid: 3b6a9c699be03df4f82c734bef507f2b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7892985444795069931, guid: 3b6a9c699be03df4f82c734bef507f2b,
         type: 3}
@@ -677016,7 +677022,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1086610885346642672, guid: 3b6a9c699be03df4f82c734bef507f2b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8192663914629016818}
   m_SourcePrefab: {fileID: 100100000, guid: 3b6a9c699be03df4f82c734bef507f2b, type: 3}
 --- !u!33 &599363949533250278
 MeshFilter:
@@ -693385,6 +693395,25 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 584129478663811250}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8192663914629016818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707926065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!4 &8225945637784785545
 Transform:
   m_ObjectHideFlags: 0
