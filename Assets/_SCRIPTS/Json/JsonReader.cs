@@ -9,7 +9,7 @@ using System.IO;
 public class JsonReader : MonoBehaviour
 {
 	[Header("UI Setup")]
-    public Text playerNameText;
+    public Text sceneNameText;
     public Text levelText;
     public Text scoreText;
 	
@@ -22,10 +22,10 @@ public class JsonReader : MonoBehaviour
         PlayerData data = LoadJson();
         if (data != null)
         {
-            Debug.Log("Tên: " + data.playerName);
+            Debug.Log("Tên màn chơi: " + data.sceneName);
             Debug.Log("Level: " + data.level);
             Debug.Log("Score: " + data.score);
-			if (playerNameText != null) playerNameText.text = "Name: " + data.playerName;
+			if (sceneNameText != null) sceneNameText.text = "" + data.sceneName;
 			if (levelText != null) levelText.text = "Level: " + data.level;
 			if (scoreText != null) scoreText.text = "Score: " + data.score;
         }

@@ -25,12 +25,12 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			timeRemaining += Time.deltaTime;
 			DisplayTime(timeRemaining);
 
-			if (timeRemaining > 55)
+			if (timeRemaining > 150)
 			{
 				Debug.Log("Mùa Mưa đã đến!");
-				Weather_Rain.SetActive(true);
+				//Weather_Rain.SetActive(true);
 			}
-			if (timeRemaining > 75)
+			if (timeRemaining > 275)
 			{
 				Debug.Log("Thoại NPC - Hướng dẫn di chuyển tầng giữa");
 				Debug.Log("Cho phép di chuyển tầng giữa");
