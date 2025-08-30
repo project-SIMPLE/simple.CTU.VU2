@@ -1,35 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Thuan_23127_JsonReader : MonoBehaviour
 {
     [Header("UI Setup")]
-    public Text nameText; 
-    public Text levelText;   
-    public Text scoreText;   
-    public Text infoText;   
-    
+    public Text nameText;
+    public Text levelText;
+    public Text scoreText;
+    public Text infoText;
+
     [Header("Config")]
     public string fileName = "data.json";
-    [Tooltip("en hoặc vi")]
-    public string currentLang = "en"; // Default
+    public string currentLang = "en";
 
-    private Root _root;
+    public Root root;
 
     void Start()
     {
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
         if (!File.Exists(path))
         {
-            Debug.LogError("Không tìm thấy file JSON tại: " + path);
+            // Debug.LogError("Không tìm thấy file JSON tại: " + path);
             return;
         }
 
         var jsonString = File.ReadAllText(path);
-        _root = JsonUtility.FromJson<Root>(jsonString);
-        if (_root == null) { Debug.LogError("Parse JSON thất bại"); return; }
+        root = JsonUtility.FromJson<Root>(jsonString);
+        // if (Root == null) { Debug.LogError("Parse JSON thất bại"); return; }
 
         ApplyLanguage();
     }
@@ -38,53 +38,61 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     {
         switch (index)
         {
-            case 0:
-                currentLang = "en"; // English
-                break;
-            case 1:
-                currentLang = "vi"; // Vietnamese
-                break;
-            // case 2:
-            //     currentLang = "fr"; // French
-            //     break;
-            // case 3:
-            //     currentLang = "jp"; // Japanese
-            //     break;
+            case 0: currentLang = "en"; break;
+            case 1: currentLang = "vi"; break;
+            // case 2: currentLang = "fr"; break;
+            // case 3: currentLang = "th"; break;
             default:
-                currentLang = "en"; // Default fallback
-                Debug.LogWarning("Index không hợp lệ, set mặc định: en");
+                currentLang = "en";
+                // Debug.Log("Index không hợp lệ, set mặc định: en");
                 break;
         }
-
         Debug.Log($"[JsonReader] Language changed to: {currentLang}");
         ApplyLanguage();
     }
 
+    
+    public Lang GetCurrentLangData()
+    {
+        if (root == null) return null;
+
+        var fi = typeof(Root).GetField(currentLang, BindingFlags.Public | BindingFlags.Instance);
+        if (fi != null)
+        {
+            if (fi.GetValue(root) is Lang langObj) return langObj;
+        }
+
+        if (root.en != null) return root.en;
+
+        if (root.vi != null) return root.vi;
+
+        // if (Root.fr != null) return Root.fr;
+        // if (Root.th != null) return Root.th;
+
+        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp và không có fallback.");
+        return null;
+    }
+
+    /// <summary>
+    /// // Lấy mỗi plan -> Cần được cải tiến chưa biết cải tiến như nào ??
+    /// </summary>
+    /// <returns>lang -> plants</returns>
     public List<Plant> GetCurrentLangPlants()
     {
-        Lang lang = (currentLang == "en") ? _root.en : _root.vi;
+        Lang lang = GetCurrentLangData();
         return lang?.plants;
     }
 
     private void ApplyLanguage()
     {
-        if (_root == null) return;
+        if (root == null) return;
 
-        Lang L = (currentLang == "en") ? _root.en : _root.vi;
-        if (L == null) { Debug.LogWarning("Thiếu nhánh lang: " + currentLang); return; }
+        var l = GetCurrentLangData();
+        // if (L == null) { Debug.LogWarning("Thiếu dữ liệu cho ngôn ngữ: " + currentLang); return; }
 
-        var info  = L.labels?.info;
-        var name  = L.labels?.name;
-        var level = L.labels?.level;
-        var score = L.labels?.score;
-
-        var n   = L.gameplay?.name;   
-        var lvl = L.gameplay?.level;
-        var sc  = L.gameplay?.score;
-
-        if (infoText)  infoText.text  = info;
-        if (nameText)  nameText.text  = $"{name}:  {n}";
-        if (levelText) levelText.text = $"{level}: {lvl}";
-        if (scoreText) scoreText.text = $"{score}: {sc}";
+        if (infoText)  infoText.text  = l.labels?.info ?? "INFO";
+        if (nameText)  nameText.text  = $"{(l.labels?.name ?? "Name")}:  {l.gameplay?.name}";
+        if (levelText) levelText.text = $"{(l.labels?.level ?? "Level")}: {l.gameplay?.level}";
+        if (scoreText) scoreText.text = $"{(l.labels?.score ?? "Score")}: {l.gameplay?.score}";
     }
 }

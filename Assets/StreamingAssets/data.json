@@ -10,6 +10,20 @@
       "name": "Concepts",
       "level": 1,
       "score": 1200
+    }, 
+    "interpretation": {
+      "fields": {
+        "id": "ID",
+        "tag_name": "Plant name",
+        "growth_time": "Growth time",
+        "status": "Status",
+        "economic_benefits": "Economic benefits",
+        "information": "Information"
+      },
+      "units": {
+        "growth_time": "days"
+      },
+      "status_values": ["Good", "Sick", "Dead"]
     },
     "plants": [
       {
@@ -74,6 +88,20 @@
       "name": "Khái niệm",
       "level": 1,
       "score": 1200
+    },
+    "interpretation": {
+      "fields": {
+        "id": "Mã",
+        "tag_name": "Tên cây",
+        "growth_time": "Thời gian sinh trưởng",
+        "status": "Trạng thái",
+        "economic_benefits": "Lợi ích kinh tế",
+        "information": "Thông tin"
+      },
+      "units": {
+        "growth_time": "ngày"
+      },
+      "status_values": ["Tốt", "Bệnh", "Chết"]
     },
     "plants": [
       {

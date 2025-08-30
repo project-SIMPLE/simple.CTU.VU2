@@ -1,76 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Thuan_23127_DuckAiAction : MonoBehaviour
 {
-    Animator animator;
- 
+    private Animator _animator;
     public float moveSpeed = 0.2f;
- 
-    Vector3 stopPosition;
- 
-    float walkTime;
+    private Vector3 _stopPosition;
+    private float _walkTime;
     public float walkCounter;
-    float waitTime;
+    private float _waitTime;
     public float waitCounter;
- 
-    int WalkDirection;
+    private int _walkDirection;
  
     public bool isWalking;
- 
-    void Start()
+
+    private void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
  
-        walkTime = Random.Range(3,6);
-        waitTime = Random.Range(5,7);
+        _walkTime = Random.Range(3,6);
+        _waitTime = Random.Range(5,7);
  
  
-        waitCounter = waitTime;
-        walkCounter = walkTime;
+        waitCounter = _waitTime;
+        walkCounter = _walkTime;
  
         ChooseDirection();
     }
- 
-    void Update()
+
+    private void Update()
     {
         if (isWalking)
         {
-            animator.SetBool("isRunning", true);
+            _animator.SetBool("isRunning", true);
  
             walkCounter -= Time.deltaTime;
  
-            switch (WalkDirection)
+            switch (_walkDirection)
             {
                 case  0:
                     transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                    transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
                     break;
                 case  1:
                     transform.localRotation = Quaternion.Euler(0f, 90, 0f);
-                    transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
                     break;
                 case  2:
                     transform.localRotation = Quaternion.Euler(0f, -90, 0f);
-                    transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
                     break;
                 case  3:
                     transform.localRotation = Quaternion.Euler(0f, 180, 0f);
-                    transform.position += transform.forward * moveSpeed * Time.deltaTime;
+                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
                     break;
             }
- 
-            if (walkCounter <= 0)
-            {
-                stopPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                isWalking = false;
-                //stop movement
-                transform.position = stopPosition;
-                animator.SetBool("isRunning", false);
-                //reset the waitCounter
-                waitCounter = waitTime;
-            }
+
+            if (!(walkCounter <= 0)) return;
+            _stopPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            isWalking = false;
+            //stop movement
+            transform.position = _stopPosition;
+            _animator.SetBool("isRunning", false);
+            //reset the waitCounter
+            waitCounter = _waitTime;
         }
         else
         {
@@ -82,12 +74,12 @@ public class Thuan_23127_DuckAiAction : MonoBehaviour
             }
         }
     }
- 
-    public void ChooseDirection()
+
+    private void ChooseDirection()
     {
-        WalkDirection = Random.Range(0, 3);
+        _walkDirection = Random.Range(0, 3);
  
         isWalking = true;
-        walkCounter = walkTime;
+        walkCounter = _walkTime;
     }
 }
