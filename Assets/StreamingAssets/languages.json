@@ -6,8 +6,14 @@
     "next": "Next",
     "skip": "Skip",
     "start": "Start Game",
-    "exit": "Exit"
+    "exit": "Exit",
     
+    "labels": {
+      "info":  "THÔNG TIN",
+      "name":  "tên",
+      "level": "cấp",
+      "score": "điểm"
+    }
   },
   "vi": {
     "welcome": "Chào mừng!",
@@ -16,7 +22,13 @@
     "next": "Tiếp theo",
     "skip": "Bỏ qua",
     "start": "Bắt đầu",
-    "exit": "Thoát"
+    "exit": "Thoát",
+    
+    "labels": {
+      "info":  "THÔNG TIN",
+      "name":  "tên",
+      "level": "cấp",
+      "score": "điểm"
+    }
   }
-
 }
