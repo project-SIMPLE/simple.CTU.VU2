@@ -3,15 +3,20 @@ using UnityEngine;
 public class Thuan_23127_DuckAiAction : MonoBehaviour
 {
     private Animator _animator;
+    // public Vector3 stopPosition { get; private set; }
+    [Header("Di chuyển")]
     public float moveSpeed = 0.2f;
-    private Vector3 _stopPosition;
-    private float _walkTime;
     public float walkCounter;
-    private float _waitTime;
     public float waitCounter;
-    private int _walkDirection;
- 
     public bool isWalking;
+    private int _walkDirection;
+    private float _waitTime;
+    private float _walkTime;
+    
+    [Header("Mổ Thóc")]
+    private bool _isPecking;
+    private float _peckDuration;   // thời gian mổ
+    private float _peckCounter; 
 
     private void Start()
     {
@@ -19,7 +24,6 @@ public class Thuan_23127_DuckAiAction : MonoBehaviour
  
         _walkTime = Random.Range(3,6);
         _waitTime = Random.Range(5,7);
- 
  
         waitCounter = _waitTime;
         walkCounter = _walkTime;
@@ -32,48 +36,70 @@ public class Thuan_23127_DuckAiAction : MonoBehaviour
         if (isWalking)
         {
             _animator.SetBool("isRunning", true);
- 
+            _animator.SetInteger("animation", 2); 
+
             walkCounter -= Time.deltaTime;
- 
+
             switch (_walkDirection)
             {
-                case  0:
+                case 0:
                     transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
+                    WalkDirection();
                     break;
-                case  1:
+                case 1:
                     transform.localRotation = Quaternion.Euler(0f, 90, 0f);
-                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
+                    WalkDirection();
                     break;
-                case  2:
+                case 2:
                     transform.localRotation = Quaternion.Euler(0f, -90, 0f);
-                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
+                    WalkDirection();
                     break;
-                case  3:
+                case 3:
                     transform.localRotation = Quaternion.Euler(0f, 180, 0f);
-                    transform.position += transform.forward * (moveSpeed * Time.deltaTime);
+                    WalkDirection();
                     break;
             }
 
-            if (!(walkCounter <= 0)) return;
-            _stopPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            isWalking = false;
-            //stop movement
-            transform.position = _stopPosition;
-            _animator.SetBool("isRunning", false);
-            //reset the waitCounter
-            waitCounter = _waitTime;
+            if (walkCounter <= 0)
+            {
+                // Dừng đi bộ
+                isWalking = false;
+                _animator.SetBool("isRunning", false);
+                _animator.SetInteger("animation", 0);
+                waitCounter = _waitTime;
+                // stopPosition = transform.position;
+            }
+        }
+        else if (_isPecking)
+        {
+            _peckCounter -= Time.deltaTime;
+            if (_peckCounter <= 0)
+            {
+                _isPecking = false;
+                _animator.SetInteger("animation", 0);
+                waitCounter = _waitTime; // reset thời gian chờ
+            }
         }
         else
         {
+            // ---- Wait time ----
             waitCounter -= Time.deltaTime;
- 
+
             if (waitCounter <= 0)
             {
-                ChooseDirection();
+                // Random mổ or đi tiếp
+                if (Random.value < 0.4f) // 40% mổ thóc
+                {
+                    StartPecking();
+                }
+                else
+                {
+                    ChooseDirection();
+                }
             }
         }
     }
+
 
     private void ChooseDirection()
     {
@@ -81,5 +107,21 @@ public class Thuan_23127_DuckAiAction : MonoBehaviour
  
         isWalking = true;
         walkCounter = _walkTime;
+    }
+
+    private void StartPecking()
+    {
+        _isPecking = true;
+        _peckDuration = Random.Range(2f, 3f); // 2s - 3s 
+        _peckCounter = _peckDuration;
+        
+        _animator.SetInteger("animation",4);
+        // _animator.SetBool("isPecking", false);
+        // Nên tạo audio vào đây
+    }
+
+    private void WalkDirection()
+    {
+        transform.position += transform.forward * (moveSpeed * Time.deltaTime);
     }
 }

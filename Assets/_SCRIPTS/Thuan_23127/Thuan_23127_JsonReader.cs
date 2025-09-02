@@ -18,7 +18,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
 
     public Root root;
 
-    void Start()
+    protected virtual void Start()
     {
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
         if (!File.Exists(path))
@@ -47,7 +47,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
                 // Debug.Log("Index không hợp lệ, set mặc định: en");
                 break;
         }
-        Debug.Log($"[JsonReader] Language changed to: {currentLang}");
+        // Debug.Log($"[JsonReader] Language changed to: {currentLang}");
         ApplyLanguage();
     }
 
@@ -69,7 +69,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         // if (Root.fr != null) return Root.fr;
         // if (Root.th != null) return Root.th;
 
-        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp và không có fallback.");
+        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp ");
         return null;
     }
 
@@ -79,7 +79,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     /// <returns>lang -> plants</returns>
     public List<Plant> GetCurrentLangPlants()
     {
-        Lang lang = GetCurrentLangData();
+        var lang = GetCurrentLangData();
         return lang?.plants;
     }
 
