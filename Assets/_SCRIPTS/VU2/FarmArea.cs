@@ -22,17 +22,45 @@ public class FarmArea : MonoBehaviour
         // plantButton.onClick.AddListener(Plant);
     }
 
-    public void Plant(GameObject plantPrefab)
+    //public void Plant(PlantDialogue dialogue)
+    //{
+    //    // Tìm ô đất trống đầu tiên
+    //    for (int i = 0; i < plotPoints.Length; i++)
+    //    {
+    //        if (!isPlanted[i])
+    //        {
+    //            GameObject plant =  Instantiate(dialogue.smallPrefab, plotPoints[i].position, Quaternion.identity);
+    //            PlantGrowth growth = plant.AddComponent<PlantGrowth>();
+    //            growth.plantData = dialogue;
+    //            isPlanted[i] = true;
+    //            //break; // Trồng xong thì dừng
+    //        }
+    //    }
+    //}
+    public void Plant(PlantDialogue dialogue)
     {
         // Tìm ô đất trống đầu tiên
         for (int i = 0; i < plotPoints.Length; i++)
         {
             if (!isPlanted[i])
             {
-                Instantiate(plantPrefab, plotPoints[i].position, Quaternion.identity);
+                // Tạo object rỗng PlantRoot
+                GameObject plantRoot = new GameObject("PlantRoot");
+                plantRoot.transform.position = plotPoints[i].position;
+
+                // Thêm script PlantGrowth
+                PlantGrowth growth = plantRoot.AddComponent<PlantGrowth>();
+                growth.plantData = dialogue;
+
                 isPlanted[i] = true;
-                //break; // Trồng xong thì dừng
+
+                PlantProgress progressUI = FindObjectOfType<PlantProgress>();
+                if (progressUI != null)
+                {
+                    progressUI.ShowPlantInfo(growth);
+                }
+                //break;
             }
         }
     }
-}
+    }

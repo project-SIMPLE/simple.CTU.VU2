@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd8759981e9a7c458e19b18be5e963d, type: 3}
+  m_Name: DurianDialogue
+  m_EditorClassIdentifier: 
+  id: 1
+  saltTolerance: 0.5
+  smallPrefab: {fileID: 6471710743365757540, guid: e9a1eb2518c0b2746b622a648c4887e4,
+    type: 3}
+  timeStage1: 15
+  mediumPrefab: {fileID: 1409809628850057241, guid: 37d14ac61c7623241bae672bd10ccadb,
+    type: 3}
+  timeStage2: 5
+  largePrefab: {fileID: 2478584396381059259, guid: 502d90fb5b6ca2c45ac47f247589c91c,
+    type: 3}
+  sickPrefab: {fileID: 3473621737859062752, guid: 59256b8eb5c2ae043910f12a52a7f87a,
+    type: 3}
+  deadPrefab: {fileID: 1895149143859047347, guid: 41d8cd042af32a74e8241a039a1707eb,
+    type: 3}
