@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,70 +11,56 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text infoText;
 
     [Header("Config")]
-    public string fileName = "data.json";
+    public string fileName = "data";  // bắt buộc phải bỏ đuôi json mới nhận file
     public string currentLang = "en";
 
     public Root root;
 
     protected virtual void Start()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
-        if (!File.Exists(path))
+        LoadJsonFromResources();
+        ApplyLanguage();
+    }
+
+    private void LoadJsonFromResources()
+    {
+        TextAsset jsonFile = Resources.Load<TextAsset>(fileName);
+        if (jsonFile == null)
         {
-            // Debug.LogError("Không tìm thấy file JSON tại: " + path);
+            // Debug.LogError("[JsonReader] Không tìm thấy file trong Resources: " + fileName);
             return;
         }
 
-        var jsonString = File.ReadAllText(path);
-        root = JsonUtility.FromJson<Root>(jsonString);
-        // if (Root == null) { Debug.LogError("Parse JSON thất bại"); return; }
-
-        ApplyLanguage();
+        root = JsonUtility.FromJson<Root>(jsonFile.text);
+        if (root == null)
+        {
+            // Debug.LogError("[JsonReader] Parse JSON thất bại");
+        }
     }
-    
+
     public void SetLanguageByIndex(int index)
     {
         switch (index)
         {
             case 0: currentLang = "en"; break;
             case 1: currentLang = "vi"; break;
-            // case 2: currentLang = "fr"; break;
-            // case 3: currentLang = "th"; break;
-            default:
-                currentLang = "en";
-                // Debug.Log("Index không hợp lệ, set mặc định: en");
-                break;
+            default: currentLang = "en"; break;
         }
-        // Debug.Log($"[JsonReader] Language changed to: {currentLang}");
         ApplyLanguage();
     }
 
-    
     public Lang GetCurrentLangData()
     {
         if (root == null) return null;
 
-        var fi = typeof(Root).GetField(currentLang, BindingFlags.Public | BindingFlags.Instance);
-        if (fi != null)
-        {
-            if (fi.GetValue(root) is Lang langObj) return langObj;
-        }
+        var fi = typeof(Root).GetField(currentLang,
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-        if (root.en != null) return root.en;
+        if (fi != null && fi.GetValue(root) is Lang langObj) return langObj;
 
-        if (root.vi != null) return root.vi;
-
-        // if (Root.fr != null) return Root.fr;
-        // if (Root.th != null) return Root.th;
-
-        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp ");
-        return null;
+        return root.en ?? root.vi;
     }
 
-    /// <summary>
-    /// // Lấy mỗi plan -> Cần được cải tiến chưa biết cải tiến như nào ??
-    /// </summary>
-    /// <returns>lang -> plants</returns>
     public List<Plant> GetCurrentLangPlants()
     {
         var lang = GetCurrentLangData();
@@ -86,9 +70,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     private void ApplyLanguage()
     {
         if (root == null) return;
-
         var l = GetCurrentLangData();
-        // if (L == null) { Debug.LogWarning("Thiếu dữ liệu cho ngôn ngữ: " + currentLang); return; }
+        if (l == null) return;
 
         if (infoText)  infoText.text  = l.labels?.info ?? "INFO";
         if (nameText)  nameText.text  = $"{(l.labels?.name ?? "Name")}:  {l.gameplay?.name}";

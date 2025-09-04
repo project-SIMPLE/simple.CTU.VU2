@@ -28170,7 +28170,7 @@ MonoBehaviour:
   levelText: {fileID: 1126071875}
   scoreText: {fileID: 2023277767}
   infoText: {fileID: 906953947}
-  fileName: data.json
+  fileName: data
   currentLang: en
   root:
     en:
