@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44152433, g: 0.4699312, b: 0.46456528, a: 1}
+  m_IndirectSpecularColor: {r: 0.1545846, g: 0.26922813, b: 0.3577641, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -732,7 +732,7 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2799997
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -757,12 +757,12 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1.54
+      value: -1.165
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.11143994
+      value: 0.085
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -1314,7 +1314,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3609,6 +3609,145 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &111834668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111834670}
+  - component: {fileID: 111834669}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &111834669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111834668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd06938c46a45508e17245ca45bb7f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameText: {fileID: 0}
+  levelText: {fileID: 0}
+  scoreText: {fileID: 0}
+  infoText: {fileID: 0}
+  currentLang: en
+  root:
+    en:
+      labels:
+        info: 
+        name: 
+        level: 
+        score: 
+      gameplay:
+        name: 
+        level: 0
+        score: 0
+      interpretation:
+        fields:
+          id: 
+          tag_name: 
+          growth_time: 
+          status: 
+          economic_benefits: 
+          information: 
+        units:
+          growth_time: 
+        status_values: []
+      plants: []
+    vi:
+      labels:
+        info: 
+        name: 
+        level: 
+        score: 
+      gameplay:
+        name: 
+        level: 0
+        score: 0
+      interpretation:
+        fields:
+          id: 
+          tag_name: 
+          growth_time: 
+          status: 
+          economic_benefits: 
+          information: 
+        units:
+          growth_time: 
+        status_values: []
+      plants: []
+    fr:
+      labels:
+        info: 
+        name: 
+        level: 
+        score: 
+      gameplay:
+        name: 
+        level: 0
+        score: 0
+      interpretation:
+        fields:
+          id: 
+          tag_name: 
+          growth_time: 
+          status: 
+          economic_benefits: 
+          information: 
+        units:
+          growth_time: 
+        status_values: []
+      plants: []
+    th:
+      labels:
+        info: 
+        name: 
+        level: 
+        score: 
+      gameplay:
+        name: 
+        level: 0
+        score: 0
+      interpretation:
+        fields:
+          id: 
+          tag_name: 
+          growth_time: 
+          status: 
+          economic_benefits: 
+          information: 
+        units:
+          growth_time: 
+        status_values: []
+      plants: []
+  jsonFile: {fileID: 4900000, guid: ff2a8190bcd59cb4f830d4af910008b7, type: 3}
+--- !u!4 &111834670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111834668}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.6735287, y: -1.4083018, z: 16.986122}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &113477651
 GameObject:
   m_ObjectHideFlags: 0
@@ -12652,6 +12791,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2923970395470667645, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2923970395470667645, guid: fd28f23af44f73f4a95e33435872ad15,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -12848,7 +12992,7 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2799997
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -12873,12 +13017,12 @@ PrefabInstance:
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.36
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.11143994
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -28170,7 +28314,6 @@ MonoBehaviour:
   levelText: {fileID: 1126071875}
   scoreText: {fileID: 2023277767}
   infoText: {fileID: 906953947}
-  fileName: data.json
   currentLang: en
   root:
     en:
@@ -28261,6 +28404,7 @@ MonoBehaviour:
           growth_time: 
         status_values: []
       plants: []
+  jsonFile: {fileID: 0}
 --- !u!1 &1509942824
 GameObject:
   m_ObjectHideFlags: 0
@@ -45798,3 +45942,4 @@ SceneRoots:
   - {fileID: 1207999584}
   - {fileID: 249572826}
   - {fileID: 954244106}
+  - {fileID: 111834670}
