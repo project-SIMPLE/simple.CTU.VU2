@@ -3642,6 +3642,7 @@ MonoBehaviour:
   levelText: {fileID: 0}
   scoreText: {fileID: 0}
   infoText: {fileID: 0}
+  fileName: data.json
   currentLang: en
   root:
     en:
@@ -3732,7 +3733,6 @@ MonoBehaviour:
           growth_time: 
         status_values: []
       plants: []
-  jsonFile: {fileID: 4900000, guid: ff2a8190bcd59cb4f830d4af910008b7, type: 3}
 --- !u!4 &111834670
 Transform:
   m_ObjectHideFlags: 0
@@ -28314,6 +28314,7 @@ MonoBehaviour:
   levelText: {fileID: 1126071875}
   scoreText: {fileID: 2023277767}
   infoText: {fileID: 906953947}
+  fileName: data.json
   currentLang: en
   root:
     en:
@@ -28404,7 +28405,6 @@ MonoBehaviour:
           growth_time: 
         status_values: []
       plants: []
-  jsonFile: {fileID: 0}
 --- !u!1 &1509942824
 GameObject:
   m_ObjectHideFlags: 0
