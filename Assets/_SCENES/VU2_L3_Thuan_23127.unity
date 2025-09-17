@@ -18750,7 +18750,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1225105858667644, guid: 22ebc3f42e2c70d4caf06a1d1e892649,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1036691349}
   m_SourcePrefab: {fileID: 100100000, guid: 22ebc3f42e2c70d4caf06a1d1e892649, type: 3}
 --- !u!1 &959869272
 GameObject:
@@ -19490,6 +19494,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1209062196}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1036691346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1225105858667644, guid: 22ebc3f42e2c70d4caf06a1d1e892649,
+    type: 3}
+  m_PrefabInstance: {fileID: 954244106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1036691349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036691346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6721a5b27d232746956ed9e03dce675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.2
+  walkCounter: 0
+  waitCounter: 0
+  isWalking: 0
 --- !u!4 &1040280194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3953970342314940649, guid: 2ea572d587ee60f44bd5baa3bc2d6503,
@@ -28298,6 +28324,11 @@ MonoBehaviour:
   Weather_Rain: {fileID: 0}
   clockText: {fileID: 518560673}
   timeRemaining: 0
+  playGame: 0
+  Rain_image: {fileID: 0}
+  Sun_image: {fileID: 0}
+  Skybox_Rain: {fileID: 0}
+  Skybox_Sun: {fileID: 0}
 --- !u!114 &1501849107
 MonoBehaviour:
   m_ObjectHideFlags: 0
