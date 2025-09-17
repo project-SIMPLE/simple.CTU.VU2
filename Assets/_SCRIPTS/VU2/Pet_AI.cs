@@ -7,7 +7,7 @@ public class Pet_AI : MonoBehaviour
     private Animator _animator;
     // public Vector3 stopPosition { get; private set; }
     [Header("Di chuyển")]
-    public float moveSpeed = 0.2f;
+    public float moveSpeed = 0.1f;
     public float walkCounter;
     public float waitCounter;
     public bool isWalking;
@@ -124,7 +124,7 @@ public class Pet_AI : MonoBehaviour
     private void WalkDirection()
     {
         // Bắn ray dài 0.5f phía trước
-        if (!Physics.Raycast(transform.position, transform.forward, 0.1f))
+        if (!Physics.Raycast(transform.position, transform.forward, 0.15f))
         {
             // Không va chạm → đi tiếp
             transform.position += transform.forward * (moveSpeed * Time.deltaTime);

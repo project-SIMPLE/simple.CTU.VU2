@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6722510522170947180}
   m_Layer: 0
-  m_Name: Chickens
+  m_Name: VU2_Chickens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 7781089995358770364}
   - {fileID: 8815294512577503933}
-  - {fileID: 7290045390164183550}
+  - {fileID: 7288192124249963598}
   - {fileID: 2406897252987564541}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.2
+  moveSpeed: 0.1
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
@@ -185,7 +185,13 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1919916898988209870}
   m_SourcePrefab: {fileID: 100100000, guid: 57e8a1aa2a00dec4ebae2f1c9f76f220, type: 3}
---- !u!1 &7290045390164183549 stripped
+--- !u!4 &7288192124249963598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4413126837679538, guid: 57e8a1aa2a00dec4ebae2f1c9f76f220,
+    type: 3}
+  m_PrefabInstance: {fileID: 7290045390164183548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7291059163363927830 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1260064377417450, guid: 57e8a1aa2a00dec4ebae2f1c9f76f220,
     type: 3}
@@ -197,22 +203,16 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290045390164183549}
+  m_GameObject: {fileID: 7291059163363927830}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.2
+  moveSpeed: 0.1
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
---- !u!4 &7290045390164183550 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4413126837679538, guid: 57e8a1aa2a00dec4ebae2f1c9f76f220,
-    type: 3}
-  m_PrefabInstance: {fileID: 7290045390164183548}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7779180486220438652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.2
+  moveSpeed: 0.1
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
