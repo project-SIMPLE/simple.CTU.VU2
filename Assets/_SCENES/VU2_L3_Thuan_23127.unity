@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1545846, g: 0.26922813, b: 0.3577641, a: 1}
+  m_IndirectSpecularColor: {r: 0.44152433, g: 0.4699312, b: 0.46456528, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1314,7 +1314,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28345,7 +28345,7 @@ MonoBehaviour:
   levelText: {fileID: 1126071875}
   scoreText: {fileID: 2023277767}
   infoText: {fileID: 906953947}
-  fileName: data.json
+  fileName: data
   currentLang: en
   root:
     en:

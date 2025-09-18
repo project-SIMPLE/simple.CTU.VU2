@@ -13,7 +13,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text infoText;
 
     [Header("Config")]
-    public string fileName = "data.json";
+    public string fileName = "data";
     public string currentLang = "en";
     public Root root;
     //private TextAsset jsonFile;
@@ -22,28 +22,16 @@ public class Thuan_23127_JsonReader : MonoBehaviour
 
     protected virtual void Start()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, fileName);
-        if (!File.Exists(path))
+        string resourceName = Path.GetFileNameWithoutExtension(fileName);
+        TextAsset jsonFile = Resources.Load<TextAsset>(resourceName);
+        if (jsonFile == null)
         {
-            // Debug.LogError("Không tìm thấy file JSON tại: " + path);
+            Debug.LogError($"Không tìm thấy file JSON trong Resources: {resourceName}");
             return;
         }
-
-        var jsonString = File.ReadAllText(path);
+        jsonString = jsonFile.text;
         Debug.Log(jsonString);
-        // if (jsonFile != null)
-        // {
-        //     jsonString = path.text;
-        //     // Xử lý chuỗi JSON
-        //     Debug.Log(jsonString);
-        // }
-        // else
-        // {
-        //     Debug.LogError("Chưa gán file JSON vào script trong Inspector!");
-        // }
         root = JsonUtility.FromJson<Root>(jsonString);
-        // if (Root == null) { Debug.LogError("Parse JSON thất bại"); return; }
-
         ApplyLanguage();
     }
     
