@@ -75,7 +75,56 @@
         "information": "Information about nipa palm"
       }
     ],
-    "fish": []
+    "fish": [
+      {
+        "id": 1,
+        "tag_name": "Carp Fish",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about Carp Fish"
+      },
+      {
+        "id": 2,
+        "tag_name": "Tilapia Fish",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about Tilapia Fish"
+      },
+      {
+        "id": 3,
+        "tag_name": "Snake Head Fish",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about Snake Head Fish"
+      },
+      {
+        "id": 4,
+        "tag_name": "",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 5,
+        "tag_name": "",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 6,
+        "tag_name": "",
+        "growth_time": 160,
+        "status": ["Good", "Sick", "Dead"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      }
+    ]
   },
   "vi": {
     "labels": {
@@ -153,6 +202,55 @@
         "information": "Thông tin của dừa nước"
       }
     ],
-    "fish": []
+    "fish": [
+      {
+        "id": 1,
+        "tag_name": "Cá Chép",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 2,
+        "tag_name": "Cá Rô Phi",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 3,
+        "tag_name": "Cá Lốc (Cá Quả)",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 4,
+        "tag_name": "Tôm Sú",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 5,
+        "tag_name": "Tôm Càng Xanh",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      },
+      {
+        "id": 6,
+        "tag_name": "Cá Điêu Hồng",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Information about durian"
+      }
+    ]
   }
 }
