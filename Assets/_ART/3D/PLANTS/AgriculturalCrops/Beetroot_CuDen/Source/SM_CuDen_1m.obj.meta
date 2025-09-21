@@ -3,7 +3,12 @@ guid: e9bb8f3bb9b3cc04e8705883cde65805
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cu_den1_SM_CuDenMat
+    second: {fileID: 2100000, guid: 5afbabd3ad26ff34e887c09bf627c600, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
