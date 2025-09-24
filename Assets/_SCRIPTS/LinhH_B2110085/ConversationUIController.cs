@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,10 +16,10 @@ public class ConversationUIController : MonoBehaviour
     private StringBuilder stringBuilder = new StringBuilder();
     private bool _isTyping = false;
     private int _currentLine;
-    private string[] _npcDialogues;
+    private List<string> _npcDialogues;
 
 
-    public void StartConversation(string npcName, string[] dialogues)
+    public void StartConversation(string npcName, List<string> dialogues)
     {
         _npcDialogues = dialogues;
 
@@ -71,7 +72,7 @@ public class ConversationUIController : MonoBehaviour
         if (skipTyping) return;
 
         // if dialogue is typed completely, play  next line
-        if (++_currentLine < _npcDialogues.Length)
+        if (++_currentLine < _npcDialogues.Count)
         {
             StopAllCoroutines();
             StartCoroutine(PlayDialogue());

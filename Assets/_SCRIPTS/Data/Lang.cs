@@ -3,8 +3,11 @@
 [System.Serializable]
 public class Lang
 {
-    public Labels labels; 
-    public Gameplay gameplay;  
+    public Labels labels;
+    public Gameplay gameplay;
     public InterpretationData interpretation; // Mô tả của cây 
     public List<Plant> plants;
+
+    // Linh's code
+    public List<NPCDialogue> npcDialogues;
 }

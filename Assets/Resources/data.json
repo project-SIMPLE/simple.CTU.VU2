@@ -10,7 +10,7 @@
       "name": "Concepts",
       "level": 1,
       "score": 1200
-    }, 
+    },
     "interpretation": {
       "fields": {
         "id": "ID",
@@ -23,14 +23,22 @@
       "units": {
         "growth_time": "days"
       },
-      "status_values": ["Good", "Sick", "Dead"]
+      "status_values": [
+        "Good",
+        "Sick",
+        "Dead"
+      ]
     },
     "plants": [
       {
         "id": 1,
         "tag_name": "Durian tree",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 4,
         "information": "Information about durian"
       },
@@ -38,7 +46,11 @@
         "id": 2,
         "tag_name": "Beetroot",
         "growth_time": 40,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about beetroot"
       },
@@ -46,7 +58,11 @@
         "id": 3,
         "tag_name": "Cabbage",
         "growth_time": 40,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about cabbage"
       },
@@ -54,7 +70,11 @@
         "id": 4,
         "tag_name": "Corn",
         "growth_time": 50,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about corn"
       },
@@ -62,7 +82,11 @@
         "id": 5,
         "tag_name": "Dragon fruit",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about dragon fruit"
       },
@@ -70,19 +94,34 @@
         "id": 6,
         "tag_name": "Nipa palm",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about nipa palm"
       }
     ],
     "fish": [],
-    "dialogs": {
-      "welcome": "Welcome to the Agricultural Knowledge App!",
-      "select_language": "Please select your preferred language:",
-      "language_selected": "Language selected: English",
-      "exit": "Thank you for using the Agricultural Knowledge App. Goodbye!"
-    }
-    
+    "npcDialogues": [
+      {
+        "npcId": "Farmer",
+        "npcName": "Farmer",
+        "dialogues": [
+          "Hello, I'm a farmer in this farm.",
+          "Who are you?"
+        ]
+      },
+      {
+        "npcId": "LinhH",
+        "npcName": "LinhH",
+        "dialogues": [
+          "Hi, My name is LinhH.",
+          "I'm a CTU student, and you?"
+        ]
+      }
+    ]
   },
   "vi": {
     "labels": {
@@ -108,14 +147,22 @@
       "units": {
         "growth_time": "ngày"
       },
-      "status_values": ["Tốt", "Bệnh", "Chết"]
+      "status_values": [
+        "Tốt",
+        "Bệnh",
+        "Chết"
+      ]
     },
     "plants": [
       {
         "id": 1,
         "tag_name": "Cây sầu riêng",
         "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 4,
         "information": "Thông tin của sầu riêng"
       },
@@ -123,7 +170,11 @@
         "id": 2,
         "tag_name": "Củ dền",
         "growth_time": 40,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của củ dền"
       },
@@ -131,7 +182,11 @@
         "id": 3,
         "tag_name": "Cải bắp",
         "growth_time": 40,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của cải bắp"
       },
@@ -139,7 +194,11 @@
         "id": 4,
         "tag_name": "Cây bắp",
         "growth_time": 50,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của cây bắp"
       },
@@ -147,7 +206,11 @@
         "id": 5,
         "tag_name": "Thanh long",
         "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của thanh long"
       },
@@ -155,19 +218,33 @@
         "id": 6,
         "tag_name": "Dừa nước",
         "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của dừa nước"
       }
     ],
     "fish": [],
-
-    "dialogs": {
-      "welcome": "Chào mừng bạn đến với Ứng dụng Kiến thức Nông nghiệp!",
-      "select_language": "Vui lòng chọn ngôn ngữ ưa thích của bạn:",
-      "language_selected": "Ngôn ngữ đã chọn: Tiếng Việt",
-      "exit": "Cảm ơn bạn đã sử dụng Ứng dụng Kiến thức Nông nghiệp. Tạm biệt!"
-    }
-  
+    "npcDialogues": [
+      {
+        "npcId": "Farmer",
+        "npcName": "Nông dân",
+        "dialogues": [
+          "Xin chào, tôi là một nông dân trong khu vườn này.",
+          "Bạn là ai?"
+        ]
+      },
+      {
+        "npcId": "LinhH",
+        "npcName": "LinhH",
+        "dialogues": [
+          "Xin chào, tên tôi là LinhH.",
+          "Tôi là sinh viên CTU, còn bạn?"
+        ]
+      }
+    ]
   }
 }
