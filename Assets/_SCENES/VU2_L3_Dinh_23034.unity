@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1545846, g: 0.26922813, b: 0.3577641, a: 1}
+  m_IndirectSpecularColor: {r: 0.44152433, g: 0.4699312, b: 0.46456528, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9451,6 +9451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 446590920}
   - component: {fileID: 446590919}
+  - component: {fileID: 446590921}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -9490,6 +9491,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &446590921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446590918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f5663448d735ff4e8d8fe25c5efc5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UISetting: {fileID: 1289821708}
 --- !u!1 &448471635 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -30742,6 +30756,12 @@ MonoBehaviour:
   Sun_image: {fileID: 0}
   Skybox_Rain: {fileID: 0}
   Skybox_Sun: {fileID: 0}
+  rainMusic: {fileID: 0}
+  normalMusic: {fileID: 0}
+  target: {fileID: 0}
+  pointA: {x: 0, y: 0, z: 0}
+  pointB: {x: 0, y: 0, z: 0}
+  moveTime: 3
 --- !u!114 &1501849107
 MonoBehaviour:
   m_ObjectHideFlags: 0

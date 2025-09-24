@@ -4,14 +4,15 @@ using UnityEngine.XR;
 public class PlantArea : MonoBehaviour
 {
     [Header("Setup")]
-    public Transform plantPoint;   // Điểm trồng cây
-    public int panelIndex;         // panel UI nào (0-3)
+    public Transform plantPoint;
+    public int panelIndex;
     private GameObject currentPlant;
 
     private bool playerInside = false;
     private bool isUIOpen = false;
 
-    // static để biết plot nào đang active
+    private bool primaryButtonPrevState = false;
+
     public static PlantArea currentActivePlot;
 
     void OnTriggerEnter(Collider other)
@@ -19,51 +20,69 @@ public class PlantArea : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInside = true;
-            currentActivePlot = this;   // ghi nhớ plot hiện tại
+            currentActivePlot = this;
             Debug.Log("Player vào plot: " + gameObject.name + " -> Panel " + panelIndex);
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerInside = false;
             if (currentActivePlot == this) currentActivePlot = null;
-            PlantUIManager.Instance.HideUI();
+            HideUI();
             Debug.Log("Player rời plot: " + gameObject.name);
         }
     }
 
     void Update()
     {
-        if (playerInside)
+        if (!playerInside) return;
+
+        // Keyboard test
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            // Bấm bàn phím test
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                if (!isUIOpen)
-                {
-                    PlantUIManager.Instance.ShowUI(panelIndex);
-                    Debug.Log("Show UI cho plot: " + gameObject.name + " -> Panel " + panelIndex);
-                }
-                else
-                {
-                    PlantUIManager.Instance.HideUI();
-                    Debug.Log("Hide UI cho plot: " + gameObject.name);
-                }
-
-                isUIOpen = !isUIOpen; // đảo trạng thái
-            }
-
-            // VR controller
-            InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-            if (rightHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool buttonPressed) && buttonPressed)
-            {
-                PlantUIManager.Instance.ShowUI(panelIndex);
-                Debug.Log("Show UI cho plot: " + gameObject.name + " -> Panel " + panelIndex);
-            }
+            ToggleUI();
         }
+
+        // VR controller
+        InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        if (rightHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonPressed))
+        {
+            // Chỉ toggle khi nút vừa được nhấn (rising edge)
+            if (primaryButtonPressed && !primaryButtonPrevState)
+            {
+                ToggleUI();
+            }
+
+            primaryButtonPrevState = primaryButtonPressed;
+        }
+    }
+
+    private void ToggleUI()
+    {
+        if (!isUIOpen)
+        {
+            ShowUI();
+        }
+        else
+        {
+            HideUI();
+        }
+        isUIOpen = !isUIOpen;
+    }
+
+    private void ShowUI()
+    {
+        PlantUIManager.Instance.ShowUI(panelIndex);
+        Debug.Log("Show UI cho plot: " + gameObject.name + " -> Panel " + panelIndex);
+    }
+
+    private void HideUI()
+    {
+        PlantUIManager.Instance.HideUI();
+        Debug.Log("Hide UI cho plot: " + gameObject.name);
     }
 
     // Gọi khi chọn cây
