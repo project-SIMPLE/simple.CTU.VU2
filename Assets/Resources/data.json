@@ -75,7 +75,14 @@
         "information": "Information about nipa palm"
       }
     ],
-    "fish": []
+    "fish": [],
+    "dialogs": {
+      "welcome": "Welcome to the Agricultural Knowledge App!",
+      "select_language": "Please select your preferred language:",
+      "language_selected": "Language selected: English",
+      "exit": "Thank you for using the Agricultural Knowledge App. Goodbye!"
+    }
+    
   },
   "vi": {
     "labels": {
@@ -153,6 +160,14 @@
         "information": "Thông tin của dừa nước"
       }
     ],
-    "fish": []
+    "fish": [],
+
+    "dialogs": {
+      "welcome": "Chào mừng bạn đến với Ứng dụng Kiến thức Nông nghiệp!",
+      "select_language": "Vui lòng chọn ngôn ngữ ưa thích của bạn:",
+      "language_selected": "Ngôn ngữ đã chọn: Tiếng Việt",
+      "exit": "Cảm ơn bạn đã sử dụng Ứng dụng Kiến thức Nông nghiệp. Tạm biệt!"
+    }
+  
   }
 }
