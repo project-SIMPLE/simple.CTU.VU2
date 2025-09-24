@@ -32,7 +32,9 @@
         "growth_time": 160,
         "status": ["Good", "Sick", "Dead"],
         "economic_benefits": 4,
-        "information": "Information about durian"
+        "information": "Information about durian",
+        "salinity threshold": 0.8,
+        "harvest time": 5
       },
       {
         "id": 2,
