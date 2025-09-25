@@ -16,7 +16,6 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public string fileName = "data";
     public string currentLang = "en";
     public Root root;
-    //private TextAsset jsonFile;
     private string jsonString;
 
 
@@ -24,11 +23,11 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     {
         string resourceName = Path.GetFileNameWithoutExtension(fileName);
         TextAsset jsonFile = Resources.Load<TextAsset>(resourceName);
-        if (jsonFile == null)
-        {
-            Debug.LogError($"Không tìm thấy file JSON trong Resources: {resourceName}");
-            return;
-        }
+        // if (jsonFile == null)
+        // {
+        //     Debug.LogError($"Không tìm thấy file JSON trong Resources: {resourceName}");
+        //     return;
+        // }
         jsonString = jsonFile.text;
         Debug.Log(jsonString);
         root = JsonUtility.FromJson<Root>(jsonString);
@@ -45,10 +44,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
             // case 3: currentLang = "th"; break;
             default:
                 currentLang = "en";
-                // Debug.Log("Index không hợp lệ, set mặc định: en");
                 break;
         }
-        // Debug.Log($"[JsonReader] Language changed to: {currentLang}");
         ApplyLanguage();
     }
 
@@ -70,7 +67,6 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         // if (Root.fr != null) return Root.fr;
         // if (Root.th != null) return Root.th;
 
-        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp ");
         return null;
     }
 
@@ -89,11 +85,10 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (root == null) return;
 
         var l = GetCurrentLangData();
-        // if (L == null) { Debug.LogWarning("Thiếu dữ liệu cho ngôn ngữ: " + currentLang); return; }
 
         if (infoText)  infoText.text  = l.labels?.info ?? "INFO";
-        if (nameText)  nameText.text  = $"{(l.labels?.name ?? "Name")}:  {l.gameplay?.name}";
-        if (levelText) levelText.text = $"{(l.labels?.level ?? "Level")}: {l.gameplay?.level}";
-        if (scoreText) scoreText.text = $"{(l.labels?.score ?? "Score")}: {l.gameplay?.score}";
+        if (nameText)  nameText.text  = $"{l.labels?.name ?? "Name"}:  {l.gameplay?.name}";
+        if (levelText) levelText.text = $"{l.labels?.level ?? "Level"}: {l.gameplay?.level}";
+        if (scoreText) scoreText.text = $"{l.labels?.score ?? "Score"}: {l.gameplay?.score}";
     }
 }

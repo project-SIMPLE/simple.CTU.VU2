@@ -14,8 +14,7 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
     private void Start()
     {
         jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
-        if (scrollInfoPanel != null)
-            scrollInfoPanel.SetActive(false);
+        scrollInfoPanel?.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -44,7 +43,6 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (scrollInfoPanel != null)
-            scrollInfoPanel.SetActive(false);
+        scrollInfoPanel?.SetActive(false);
     }
 }
