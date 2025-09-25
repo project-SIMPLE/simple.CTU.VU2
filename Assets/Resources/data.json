@@ -4,12 +4,12 @@
       "info": "INFO",
       "name": "Name",
       "level": "Level",
-      "score": "Score"
+      "score": "Economic Benefit"
     },
     "gameplay": {
-      "name": "Concepts",
+      "name": "SIMPLE VU2",
       "level": 1,
-      "score": 1200
+      "score": 0
     },
     "interpretation": {
       "fields": {
@@ -254,7 +254,7 @@
         "economic_benefits": 3,
         "information": "Information about rabbit",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 16
       },
       {
         "id": 6,
@@ -268,7 +268,7 @@
         "economic_benefits": 3,
         "information": "Information about goat",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 16
       }
     ],
     "fish": [
@@ -380,13 +380,13 @@
     "labels": {
       "info": "THÔNG TIN",
       "name": "Tên",
-      "level": "Cấp",
-      "score": "Điểm"
+      "level": "Màn 1",
+      "score": "Lợi ích kinh tế"
     },
     "gameplay": {
-      "name": "Khái niệm",
+      "name": "SIMPLE VU2",
       "level": 1,
-      "score": 1200
+      "score": 0
     },
     "interpretation": {
       "fields": {
