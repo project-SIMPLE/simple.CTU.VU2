@@ -1,13 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Text;
+
+public enum EntityType
+{
+    Auto = 0,     // Tự dò cả 3
+    Plant = 1,    // Cây trồng
+    Livestock = 2,// Vật nuôi
+    Fish = 3      // Thủy sản
+}
 
 public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public int plantID;                         // ID cây
-    public GameObject scrollInfoPanel;          // Panel hiển thị
-    public Text headText;                       // Head Text panel
-    public Text infoText;                       // Text trong panel
+    [Header("Config")]
+    public int id;                       // ID dùng chung cho mọi loại
+    public EntityType type = EntityType.Auto; // 0=Auto, 1=Plant, 2=Livestock, 3=Fish
+
+    [Header("UI")]
+    public GameObject scrollInfoPanel;   // Panel hiển thị
+    public Text headText;                // Tiêu đề
+    public Text infoText;                // Nội dung
 
     private Thuan_23127_JsonReader jsonReader;  // Reader lấy dữ liệu từ JSON
 
@@ -21,23 +34,70 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
     {
         if (jsonReader == null || scrollInfoPanel == null || infoText == null) return;
 
-        Lang lang = jsonReader.GetCurrentLangData();
+        var lang = jsonReader.GetCurrentLangData();
         if (lang == null || lang.interpretation == null) return;
 
         var fields = lang.interpretation.fields;
         var units  = lang.interpretation.units;
 
-        var plantList = jsonReader.GetCurrentLangPlants();
-        var plant = plantList?.Find(p => p.id == plantID);
-        if (plant != null)
+        // Gom nhiều kết quả nếu trùng ID ở nhiều type
+        var sbBody = new StringBuilder();
+        var sbHead = new StringBuilder();
+
+        void AppendBlock(string groupLabel, string tag_name, int growth_time, int economic_benefits, string information)
+        {
+            if (sbHead.Length > 0) sbHead.Append(" | ");
+            sbHead.Append($"{groupLabel}: {tag_name}");
+
+            if (sbBody.Length > 0) sbBody.AppendLine().AppendLine("----------------");
+
+            sbBody.AppendLine($"- {fields.growth_time}: {growth_time} {units.growth_time}")
+                 .AppendLine($"- {fields.economic_benefits}: {economic_benefits}")
+                 .Append($"- {fields.information}: {information}");
+        }
+
+        bool foundAny = false;
+
+        // Theo "type" Auto scan tất cả
+        if (type == EntityType.Plant || type == EntityType.Auto)
+        {
+            var p = jsonReader.GetPlantById(id);
+            if (p != null)
+            {
+                AppendBlock("Plant", p.tag_name, p.growth_time, p.economic_benefits, p.information);
+                foundAny = true;
+            }
+        }
+
+        if (type == EntityType.Livestock || type == EntityType.Auto)
+        {
+            var a = jsonReader.GetLivestockById(id);
+            if (a != null)
+            {
+                AppendBlock("Livestock", a.tag_name, a.growth_time, a.economic_benefits, a.information);
+                foundAny = true;
+            }
+        }
+
+        if (type == EntityType.Fish || type == EntityType.Auto)
+        {
+            var f = jsonReader.GetFishById(id);
+            if (f != null)
+            {
+                AppendBlock("Fish", f.tag_name, f.growth_time, f.economic_benefits, f.information);
+                foundAny = true;
+            }
+        }
+
+        if (foundAny)
         {
             scrollInfoPanel.SetActive(true);
-            if (headText) headText.text = plant.tag_name;
-
-            infoText.text =
-                $"- {fields.growth_time}: {plant.growth_time} {units.growth_time}\n" +
-                $"- {fields.economic_benefits}: {plant.economic_benefits}\n" +
-                $"- {fields.information}: {plant.information}";
+            if (headText) headText.text = sbHead.ToString();
+            infoText.text = sbBody.ToString();
+        }
+        else
+        {
+            scrollInfoPanel.SetActive(false);
         }
     }
 

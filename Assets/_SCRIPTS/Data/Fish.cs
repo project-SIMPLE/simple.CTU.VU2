@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class Plant
+public class Fish
 {
     public int id;
     public string tag_name;
@@ -8,4 +8,3 @@ public class Plant
     public int economic_benefits;
     public string information;
 }
-
