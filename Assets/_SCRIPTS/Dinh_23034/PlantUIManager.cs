@@ -30,7 +30,7 @@ public class PlantUIManager : MonoBehaviour
 
             // --- Đặt UI trước mặt player ---
             Transform cam = Camera.main.transform;
-            float distance = 1f; // khoảng cách trước mặt
+            float distance = 2f; // khoảng cách trước mặt
             Vector3 targetPos = cam.position + cam.forward * distance;
             targetPos.y = cam.position.y; // ngang tầm mắt
 
