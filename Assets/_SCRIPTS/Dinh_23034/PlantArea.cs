@@ -1,19 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.UI;
+
+public enum PlotType { Plant, Fish, Animal }
 
 public class PlantArea : MonoBehaviour
 {
     [Header("Setup")]
     public Transform plantPoint;
     public int panelIndex;
+    public PlotType plotType;
     private GameObject currentPlant;
 
     private bool playerInside = false;
     private bool isUIOpen = false;
-
+    public GameObject button;
     private bool primaryButtonPrevState = false;
 
     public static PlantArea currentActivePlot;
+
+    private void Start()
+    {
+        if (button != null)
+            button.SetActive(false);
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -22,6 +32,9 @@ public class PlantArea : MonoBehaviour
             playerInside = true;
             currentActivePlot = this;
             Debug.Log("Player vào plot: " + gameObject.name + " -> Panel " + panelIndex);
+
+            if (button != null)
+                button.SetActive(true);
         }
     }
 
@@ -33,14 +46,23 @@ public class PlantArea : MonoBehaviour
             if (currentActivePlot == this) currentActivePlot = null;
             HideUI();
             Debug.Log("Player rời plot: " + gameObject.name);
+
+            if (button != null)
+                button.SetActive(false);
         }
+    }
+
+    // Gọi từ nút UI (Ray bấm)
+    public void OnClickShowUI()
+    {
+        ToggleUI();
     }
 
     void Update()
     {
         if (!playerInside) return;
 
-        // Keyboard test
+        // Test bằng bàn phím
         if (Input.GetKeyDown(KeyCode.X))
         {
             ToggleUI();
@@ -50,12 +72,10 @@ public class PlantArea : MonoBehaviour
         InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (rightHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonPressed))
         {
-            // Chỉ toggle khi nút vừa được nhấn (rising edge)
             if (primaryButtonPressed && !primaryButtonPrevState)
             {
                 ToggleUI();
             }
-
             primaryButtonPrevState = primaryButtonPressed;
         }
     }
@@ -75,13 +95,13 @@ public class PlantArea : MonoBehaviour
 
     private void ShowUI()
     {
-        PlantUIManager.Instance.ShowUI(panelIndex);
+        PlantUIManager.Instance.ShowGroup(plotType, panelIndex);
         Debug.Log("Show UI cho plot: " + gameObject.name + " -> Panel " + panelIndex);
     }
 
     private void HideUI()
     {
-        PlantUIManager.Instance.HideUI();
+        PlantUIManager.Instance.HideAllUI();
         Debug.Log("Hide UI cho plot: " + gameObject.name);
     }
 

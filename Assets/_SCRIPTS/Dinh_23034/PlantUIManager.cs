@@ -2,9 +2,14 @@
 
 public class PlantUIManager : MonoBehaviour
 {
-    public static PlantUIManager Instance; // Singleton để gọi từ PlantArea
-    public GameObject[] uiPanels; // chứa 4 UI panel
-    private int currentUI = -1;
+    public static PlantUIManager Instance;
+
+    [Header("GroupUI")]
+    public GameObject[] PlantPanels;
+    public GameObject[] FishPanels;
+    public GameObject[] AnimalPanels;
+
+    private GameObject currentPanel;
 
     void Awake()
     {
@@ -12,21 +17,54 @@ public class PlantUIManager : MonoBehaviour
         HideAllUI();
     }
 
-    public void ShowUI(int index)
+    public void ShowGroup(PlotType type, int index)
     {
-        // Nếu UI này đang mở -> bấm lại sẽ tắt
-        if (currentUI == index)
+        // Nếu panel đang mở là đúng nhóm + đúng index -> tắt đi
+        if (currentPanel != null && currentPanel.activeSelf)
         {
-            HideUI();
-            return;
+            switch (type)
+            {
+                case PlotType.Plant:
+                    if (index >= 0 && index < PlantPanels.Length && currentPanel == PlantPanels[index])
+                    {
+                        HideAllUI();
+                        return;
+                    }
+                    break;
+                case PlotType.Fish:
+                    if (index >= 0 && index < FishPanels.Length && currentPanel == FishPanels[index])
+                    {
+                        HideAllUI();
+                        return;
+                    }
+                    break;
+                case PlotType.Animal:
+                    if (index >= 0 && index < AnimalPanels.Length && currentPanel == AnimalPanels[index])
+                    {
+                        HideAllUI();
+                        return;
+                    }
+                    break;
+            }
         }
 
-        HideAllUI(); // ẩn hết trước
-        if (index >= 0 && index < uiPanels.Length)
+        // Ẩn hết trước
+        HideAllUI();
+
+        // Mở panel mới
+        GameObject[] panels = null;
+        switch (type)
         {
-            GameObject panel = uiPanels[index];
+            case PlotType.Plant: panels = PlantPanels; break;
+            case PlotType.Fish: panels = FishPanels; break;
+            case PlotType.Animal: panels = AnimalPanels; break;
+        }
+
+        if (panels != null && index >= 0 && index < panels.Length)
+        {
+            GameObject panel = panels[index];
             panel.SetActive(true);
-            currentUI = index;
+            currentPanel = panel;
 
             // --- Đặt UI trước mặt player ---
             Transform cam = Camera.main.transform;
@@ -35,28 +73,16 @@ public class PlantUIManager : MonoBehaviour
             targetPos.y = cam.position.y; // ngang tầm mắt
 
             panel.transform.position = targetPos;
-
-            // quay panel nhìn về phía player
             panel.transform.LookAt(cam);
             panel.transform.Rotate(0, 180f, 0); // lật lại vì canvas mặc định ngược
         }
     }
 
-    public void HideUI()
+    public void HideAllUI()
     {
-        if (currentUI >= 0 && currentUI < uiPanels.Length)
-        {
-            uiPanels[currentUI].SetActive(false);
-            currentUI = -1;
-        }
-    }
-
-    private void HideAllUI()
-    {
-        foreach (var panel in uiPanels)
-        {
-            panel.SetActive(false);
-        }
-        currentUI = -1;
+        foreach (var p in PlantPanels) p.SetActive(false);
+        foreach (var p in FishPanels) p.SetActive(false);
+        foreach (var p in AnimalPanels) p.SetActive(false);
+        currentPanel = null;
     }
 }

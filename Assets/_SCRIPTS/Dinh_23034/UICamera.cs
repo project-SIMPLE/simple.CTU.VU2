@@ -20,20 +20,17 @@ public class UICamera : MonoBehaviour
         InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
         if (rightHand.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonPressed))
         {
-            // Toggle UI **chỉ khi nút vừa được nhấn** (rising edge)
             if (secondaryButtonPressed && !secondaryButtonPrevState)
             {
                 ToggleUI();
             }
-
-            // Cập nhật trạng thái nút cho frame tiếp theo
             secondaryButtonPrevState = secondaryButtonPressed;
         }
     }
 
-    private void ToggleUI()
+    public void ToggleUI()
     {
-        isUIOpen = !isUIOpen;  // đổi trạng thái
+        isUIOpen = !isUIOpen;
         UISetting.SetActive(isUIOpen);
         Debug.Log((isUIOpen ? "Show" : "Hide") + " UI cho plot: " + gameObject.name);
     }
