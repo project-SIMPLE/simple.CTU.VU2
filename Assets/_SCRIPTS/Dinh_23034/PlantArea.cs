@@ -12,17 +12,19 @@ public class PlantArea : MonoBehaviour
     public PlotType plotType;
     private GameObject currentPlant;
 
-    private bool playerInside = false;
-    private bool isUIOpen = false;
+    private bool playerInside;
+    private bool isUIOpen;
     public GameObject button;
-    private bool primaryButtonPrevState = false;
-
+    private bool primaryButtonPrevState;
     public static PlantArea currentActivePlot;
 
     private void Start()
     {
         if (button != null)
             button.SetActive(false);
+        isUIOpen = false;
+        playerInside = false;
+        primaryButtonPrevState = false;
     }
 
     void OnTriggerEnter(Collider other)
