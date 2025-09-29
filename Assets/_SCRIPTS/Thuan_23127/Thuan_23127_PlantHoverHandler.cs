@@ -30,6 +30,18 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         scrollInfoPanel?.SetActive(false);
     }
 
+    private string LocalizeGroupLabelHardcoded(string langCode, EntityType t)
+    {
+        bool vi = (langCode == "vi");
+        switch (t)
+        {
+            case EntityType.Plant:     return vi ? "Cây"       : "Plant";
+            case EntityType.Livestock: return vi ? "Vật nuôi"  : "Livestock";
+            case EntityType.Fish:      return vi ? "Thủy sản"  : "Fish";
+            default:                   return vi ? "Thông tin" : "Info";
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (jsonReader == null || scrollInfoPanel == null || infoText == null) return;
@@ -39,6 +51,7 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
 
         var fields = lang.interpretation.fields;
         var units  = lang.interpretation.units;
+        var langCode = jsonReader.GetCurrentLangCode();
 
         // Gom nhiều kết quả nếu trùng ID ở nhiều type
         var sbBody = new StringBuilder();
@@ -64,7 +77,8 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
             var p = jsonReader.GetPlantById(id);
             if (p != null)
             {
-                AppendBlock("Plant", p.tag_name, p.growth_time, p.economic_benefits, p.information);
+                var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Plant);
+                AppendBlock(label, p.tag_name, p.growth_time, p.economic_benefits, p.information);
                 foundAny = true;
             }
         }
@@ -74,7 +88,8 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
             var a = jsonReader.GetLivestockById(id);
             if (a != null)
             {
-                AppendBlock("Livestock", a.tag_name, a.growth_time, a.economic_benefits, a.information);
+                var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Livestock);
+                AppendBlock(label, a.tag_name, a.growth_time, a.economic_benefits, a.information);
                 foundAny = true;
             }
         }
@@ -84,7 +99,8 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
             var f = jsonReader.GetFishById(id);
             if (f != null)
             {
-                AppendBlock("Fish", f.tag_name, f.growth_time, f.economic_benefits, f.information);
+                var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Fish);
+                AppendBlock(label, f.tag_name, f.growth_time, f.economic_benefits, f.information);
                 foundAny = true;
             }
         }

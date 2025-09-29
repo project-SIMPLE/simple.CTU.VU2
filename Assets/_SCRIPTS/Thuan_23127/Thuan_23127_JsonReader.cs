@@ -21,8 +21,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
 
     protected virtual void Start()
     {
-        string resourceName = Path.GetFileNameWithoutExtension(fileName);
-        TextAsset jsonFile = Resources.Load<TextAsset>(resourceName);
+        var resourceName = Path.GetFileNameWithoutExtension(fileName);
+        var jsonFile = Resources.Load<TextAsset>(resourceName);
         jsonString = jsonFile.text;
         Debug.Log(jsonString);
         root = JsonUtility.FromJson<Root>(jsonString);
@@ -52,6 +52,11 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (root.en != null) return root.en;
         if (root.vi != null) return root.vi;
         return null;
+    }
+
+    public string GetCurrentLangCode()
+    {
+        return string.IsNullOrEmpty(currentLang) ? "en" : currentLang;
     }
 
     public List<Plant> GetCurrentLangPlants()   => GetCurrentLangData()?.plants;
