@@ -60,9 +60,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         _growing = false;
         _ready   = true;
-        // Nếu bạn muốn auto-harvest, gọi TryHarvest() ở đây,
         TryHarvest();
-        // còn nếu muốn người chơi tương tác thì để trống.
+        // goi thang o day de tu tinh diem
     }
 
     private void TryHarvest()
