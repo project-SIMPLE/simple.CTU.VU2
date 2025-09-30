@@ -8,7 +8,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 {
     [Header("Progress UI")]
     public Image progressFill;
-    public TextMeshProUGUI progressPercentText;  
+    public TextMeshProUGUI progressPercentText;
 
     [Header("XR (Harvest optional)")]
     public XRSimpleInteractable harvestInteractable;
@@ -20,7 +20,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
     private FarmArea _ownerArea;
     private int _ownerIndex = -1;
-    private Thuan_23127_JsonReader _jsonReader; 
+    
+    private Thuan_23127_JsonReader _jsonReader;
 
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
@@ -29,7 +30,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _ownerIndex = plotIndex;
         _jsonReader = reader;
 
-        _totalTime = Mathf.Max(1f, data.growth_time); // ví dụ: 180 -> 180s
+        _totalTime = Mathf.Max(1f, data.growth_time); // 180 -> 180s
 
         if (!harvestInteractable) harvestInteractable = GetComponent<XRSimpleInteractable>();
         if (harvestInteractable)
@@ -38,7 +39,9 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             harvestInteractable.selectEntered.AddListener(_ => { TryHarvest(); });
         }
 
-        // Bắt đầu tăng trưởng
+        if (progressFill)        progressFill.fillAmount = 0f;
+        if (progressPercentText) progressPercentText.text = "0%";
+
         _growing = true;
         _ready   = false;
         StartCoroutine(CoGrow());
@@ -52,31 +55,31 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             _elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(_elapsed / _totalTime);
 
-            if (progressFill)         progressFill.fillAmount = t;
-            if (progressPercentText)  progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
+            if (progressFill)        progressFill.fillAmount = t;
+            if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
 
             yield return null;
         }
 
         _growing = false;
         _ready   = true;
+
+        //auto-harvest tự tính điểm
         TryHarvest();
-        // goi thang o day de tu tinh diem
     }
 
     private void TryHarvest()
     {
         if (!_ready) return;
 
-        // CỘNG ĐIỂM theo economic_benefits
         var gm = Thuan_23127_GameManager.Instance;
-        if (gm != null && _plantData != null)
+        if (gm && _plantData != null)
         {
-            gm.AddScore(_plantData.economic_benefits);
+            //plantId để chỉ cộng 1 lần cho mỗi loại
+            gm.AddScoreForPlant(_plantData.id, _plantData.economic_benefits);
         }
 
-        // Giải phóng ô và huỷ cây
-        if (_ownerArea != null) _ownerArea.FreePlot(_ownerIndex);
+        if (_ownerArea) _ownerArea.FreePlot(_ownerIndex);
         Destroy(gameObject);
     }
 }
