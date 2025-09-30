@@ -5,7 +5,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
 {
     public static Thuan_23127_GameManager Instance;
 
-    private int Score { get; set; }
+    public int Score { get; set; }
     public event Action<int> OnScoreChanged;
 
     [Header("Refs")]
@@ -26,7 +26,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
         if (jsonReader && jsonReader.scoreText)
         {
             var l = jsonReader.GetCurrentLangData();
-            string scoreLabel = l?.labels?.score ?? "Score";
+            var scoreLabel = l?.labels?.score ?? "Score";
             jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
         }
     }

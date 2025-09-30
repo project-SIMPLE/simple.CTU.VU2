@@ -68,10 +68,8 @@
 //         if (index >= 0 && index < isPlanted.Length) isPlanted[index] = false;
 //     }
 // }
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class FarmArea : MonoBehaviour
 {
@@ -93,7 +91,7 @@ public class FarmArea : MonoBehaviour
         PlantInternal(plantPrefab, fillAll: false);
     }
 
-    //trồng tất cả ô trống
+    // Trồng tất cả ô trống
     public void PlantAll(GameObject plantPrefab)
     {
         PlantInternal(plantPrefab, fillAll: true);
@@ -119,11 +117,13 @@ public class FarmArea : MonoBehaviour
                 var growth = go.GetComponent<Thuan_23127_PlantGrowth>();
                 if (!growth) growth = go.AddComponent<Thuan_23127_PlantGrowth>();
 
-                growth.Init(plantData, this, i, jsonReader);
+                // Khi trồng tất cả, KHÔNG truyền jsonReader để tránh ghi đè UI header
+                var readerForThis = fillAll ? null : jsonReader;
+                growth.Init(plantData, this, i, readerForThis);
+
                 isPlanted[i] = true;
 
-                if (!fillAll) break; // như cũ: chỉ trồng 1 ô rồi dừng
-                // nếu fillAll=true: tiếp tục vòng for để lấp hết ô trống
+                if (!fillAll) break; 
             }
         }
     }

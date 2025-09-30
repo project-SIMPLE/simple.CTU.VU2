@@ -1,7 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Thuan_23127_PlantGrowth : MonoBehaviour
@@ -9,7 +9,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     [Header("Progress UI")]
     public Image progressFill;
     public TextMeshProUGUI progressPercentText;  
-    public TextMeshProUGUI econGainText; 
 
     [Header("XR (Harvest optional)")]
     public XRSimpleInteractable harvestInteractable;
@@ -17,101 +16,68 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private Plant _plantData;
     private float _totalTime;   // giây
     private float _elapsed;
-    private bool _growing, _ready;
+    private bool  _growing, _ready;
 
-    // link trả ô đất & json cho label, score…
-    private FarmArea _ownerArea;  private int _ownerIndex = -1;
-    private Thuan_23127_JsonReader _jsonReader;
+    private FarmArea _ownerArea;
+    private int _ownerIndex = -1;
+    private Thuan_23127_JsonReader _jsonReader; 
 
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
-        _plantData = data;
-        _ownerArea = area;
+        _plantData  = data;
+        _ownerArea  = area;
         _ownerIndex = plotIndex;
         _jsonReader = reader;
 
-        _totalTime = Mathf.Max(1f, data.growth_time); // JSON dùng giây
+        _totalTime = Mathf.Max(1f, data.growth_time); // ví dụ: 180 -> 180s
 
         if (!harvestInteractable) harvestInteractable = GetComponent<XRSimpleInteractable>();
         if (harvestInteractable)
         {
-            harvestInteractable.enabled = false;               // chỉ bật khi sẵn sàng
-            harvestInteractable.selectEntered.AddListener(_ => TryHarvest());
+            harvestInteractable.selectEntered.RemoveAllListeners();
+            harvestInteractable.selectEntered.AddListener(_ => { TryHarvest(); });
         }
 
-        // Khởi tạo UI
-        if (progressFill) progressFill.fillAmount = 0f;
-        if (progressPercentText) progressPercentText.text = FormatTimeAndPercent(0f); // 0%
-        if (econGainText) econGainText.gameObject.SetActive(false);
-
-        // (tuỳ thích) đổi NameText trên HUD thành tên cây đang trồng
-        if (_jsonReader && _jsonReader.nameText)
-        {
-            var l = _jsonReader.GetCurrentLangData();
-            string label = l?.labels?.name ?? "Name";
-            _jsonReader.nameText.text = $"{label}: {_plantData.tag_name}";
-        }
-
-        _elapsed = 0f; _growing = true; _ready = false;
-        StartCoroutine(Grow());
+        // Bắt đầu tăng trưởng
+        _growing = true;
+        _ready   = false;
+        StartCoroutine(CoGrow());
     }
 
-    IEnumerator Grow()
+    private IEnumerator CoGrow()
     {
-        while (_growing && _elapsed < _totalTime)
+        _elapsed = 0f;
+        while (_elapsed < _totalTime)
         {
             _elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(_elapsed / _totalTime);
 
-            if (progressFill) progressFill.fillAmount = t;
-            if (progressPercentText) progressPercentText.text = FormatTimeAndPercent(t);
+            if (progressFill)         progressFill.fillAmount = t;
+            if (progressPercentText)  progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
 
             yield return null;
         }
-        OnGrowthDone();
-    }
 
-    string FormatTimeAndPercent(float t01)
-    {
-        int pct = Mathf.RoundToInt(t01 * 100f);
-        float remain = Mathf.Max(0f, _totalTime - _elapsed);
-        int remainInt = Mathf.CeilToInt(remain);
-        // ví dụ: "73% (52s)"
-        return $"{pct}% ({remainInt}s)";
-    }
-
-    void OnGrowthDone()
-    {
         _growing = false;
-        _ready = true;
-
-        bool autoHarvest = false; // đổi = true nếu muốn tự thu hoạch
-        if (harvestInteractable) harvestInteractable.enabled = true;
+        _ready   = true;
+        // Nếu bạn muốn auto-harvest, gọi TryHarvest() ở đây,
+        TryHarvest();
+        // còn nếu muốn người chơi tương tác thì để trống.
     }
 
-    public void TryHarvest()
+    private void TryHarvest()
     {
         if (!_ready) return;
 
-        // + điểm theo economic_benefits
-        Thuan_23127_GameManager.Instance?.AddScore(_plantData.economic_benefits);
-
-        // Popup lợi ích kinh tế (optional)
-        if (econGainText)
+        // CỘNG ĐIỂM theo economic_benefits
+        var gm = Thuan_23127_GameManager.Instance;
+        if (gm != null && _plantData != null)
         {
-            econGainText.text = $"+{_plantData.economic_benefits}";
-            econGainText.gameObject.SetActive(true);
-            // Ẩn sau 1.2s
-            StartCoroutine(HideAfter(econGainText.gameObject, 1.2f));
+            gm.AddScore(_plantData.economic_benefits);
         }
 
-        _ownerArea?.FreePlot(_ownerIndex);
-        Destroy(gameObject, 0.05f); // cho phép TMP hiển thị 1 frame nếu muốn
-    }
-
-    IEnumerator HideAfter(GameObject go, float sec)
-    {
-        yield return new WaitForSeconds(sec);
-        if (go) go.SetActive(false);
+        // Giải phóng ô và huỷ cây
+        if (_ownerArea != null) _ownerArea.FreePlot(_ownerIndex);
+        Destroy(gameObject);
     }
 }
