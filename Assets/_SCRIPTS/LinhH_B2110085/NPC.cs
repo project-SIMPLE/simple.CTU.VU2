@@ -21,7 +21,7 @@ public class NPC : MonoBehaviour
         if (_npcDialogues != null)
             _conversationController.StartConversation(_npcDialogues.npcName, _npcDialogues.dialogues);
         else
-            Debug.LogError("Can't get npc dialogue from data file.");
+            Debug.LogError("Can't get npc Id from data file.");
     }
 
 
