@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8975959674479257903}
   - component: {fileID: 8478689807313793244}
   - component: {fileID: 1340902883092431915}
+  - component: {fileID: 6850909912187791511}
   m_Layer: 0
   m_Name: show_icon_SnakeheadFish
   m_TagString: Untagged
@@ -107,6 +108,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &6850909912187791511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109680115326877068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantId: 1
 --- !u!1001 &4469813036456718614
 PrefabInstance:
   m_ObjectHideFlags: 0

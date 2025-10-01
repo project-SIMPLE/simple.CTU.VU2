@@ -5,7 +5,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
 {
     public static Thuan_23127_GameManager Instance;
 
-    public int Score { get; private set; }
+    public int Score { get; private set; } // Lưu điểm hiện tại của người chơi
     public event Action<int> OnScoreChanged;
 
     [Header("Refs")]
