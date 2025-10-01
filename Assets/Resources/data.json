@@ -501,17 +501,17 @@
   },
   {
     "id": 11,
-    "tag_name": "Chuối",
+    "tag_name": "Củ Dền",
     "growth_time": 160,
     "status": ["Tốt", "Bệnh", "Chết"],
     "economic_benefits": 3,
-    "information": "Thông tin của chuối",
+    "information": "Thông tin của dền",
     "salinity_threshold": 12,
     "harvest_time": 160
   },
   {
     "id": 12,
-    "tag_name": "Ổi",
+    "tag_name": "Dừa nước",
     "growth_time": 160,
     "status": ["Tốt", "Bệnh", "Chết"],
     "economic_benefits": 3,
