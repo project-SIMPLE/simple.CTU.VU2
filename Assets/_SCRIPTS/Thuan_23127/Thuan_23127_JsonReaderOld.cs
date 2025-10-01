@@ -51,8 +51,8 @@ public class Thuan_23127_JsonReaderOld : MonoBehaviour
         ApplyLanguage();
     }
 
-    
-    public Lang GetCurrentLangData()
+
+    private Lang GetCurrentLangData()
     {
         if (root == null) return null;
 

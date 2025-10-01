@@ -91,7 +91,7 @@ public class FarmArea : MonoBehaviour
         PlantInternal(plantPrefab, fillAll: false);
     }
 
-    // Trồng tất cả ô trống
+    // Plant all trees
     public void PlantAll(GameObject plantPrefab)
     {
         PlantInternal(plantPrefab, fillAll: true);
@@ -102,7 +102,7 @@ public class FarmArea : MonoBehaviour
         if (plantPrefab == null || jsonReader == null) return;
 
         var tag = plantPrefab.GetComponent<Thuan_23127_SeedTag>();
-        if (tag == null) { Debug.LogWarning("Prefab thiếu SeedTag (plantId)."); return; }
+        if (tag == null) { Debug.LogWarning("Prefab thiếu SeedTag."); return; }
 
         var plantData = jsonReader.GetPlantById(tag.plantId);
         if (plantData == null) { Debug.LogWarning($"Không tìm thấy plant id {tag.plantId} trong JSON."); return; }
@@ -117,7 +117,7 @@ public class FarmArea : MonoBehaviour
                 var growth = go.GetComponent<Thuan_23127_PlantGrowth>();
                 if (!growth) growth = go.AddComponent<Thuan_23127_PlantGrowth>();
 
-                // Khi trồng tất cả, KHÔNG truyền jsonReader để tránh ghi đè UI header
+                // when plant all tree, do not pass json to tranh' error
                 var readerForThis = fillAll ? null : jsonReader;
                 growth.Init(plantData, this, i, readerForThis);
 
