@@ -7,6 +7,7 @@ public class NPC : MonoBehaviour
     [SerializeField] private string _npcId;
     [SerializeField] private ConversationUIController _conversationController;
     [SerializeField] private GameObject _talkButton;
+[SerializeField] private Thuan_23127_JsonReader _jsonReader;
 
     private NPCDialogue _npcDialogues = null;
     private string _fileName = "data";
@@ -44,33 +45,10 @@ public class NPC : MonoBehaviour
         _root = JsonUtility.FromJson<Root>(jsonString);
 
         // get current langue (?)
-        var lang = GetCurrentLangData();
+        var lang = _jsonReader.GetCurrentLangData();
 
         // get npc dialogues via npc id
         var dialogues = lang?.npcDialogues;
         _npcDialogues = dialogues.Find(npc => npc.npcId == _npcId);
-    }
-
-
-    // copy từ script Thuan_23127_JsonReader.cs sang
-    public Lang GetCurrentLangData()
-    {
-        if (_root == null) return null;
-
-        var fi = typeof(Root).GetField(_currentLang, BindingFlags.Public | BindingFlags.Instance);
-        if (fi != null)
-        {
-            if (fi.GetValue(_root) is Lang langObj) return langObj;
-        }
-
-        if (_root.en != null) return _root.en;
-
-        if (_root.vi != null) return _root.vi;
-
-        // if (Root.fr != null) return Root.fr;
-        // if (Root.th != null) return Root.th;
-
-        // Debug.Log("Không tìm thấy ngôn ngữ phù hợp ");
-        return null;
     }
 }

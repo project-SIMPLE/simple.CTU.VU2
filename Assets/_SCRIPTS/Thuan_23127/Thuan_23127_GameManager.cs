@@ -28,6 +28,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
             var l = jsonReader.GetCurrentLangData();
             var scoreLabel = l?.labels?.score ?? "Score";
             jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
+            jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
         }
     }
 
@@ -40,6 +41,8 @@ public class Thuan_23127_GameManager : MonoBehaviour
             var l = jsonReader.GetCurrentLangData();
             var scoreLabel = l?.labels?.score ?? "Score";
             jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
+            jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
+
         }
         OnScoreChanged?.Invoke(Score);
     }

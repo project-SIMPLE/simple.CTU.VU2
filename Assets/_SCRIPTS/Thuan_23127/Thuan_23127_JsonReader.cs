@@ -11,7 +11,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text nameText;   
     public Text levelText;  
     public Text scoreText;  
-    public Text infoText; 
+    public Text infoText;
+    public Text scoreTextEndGame;
 
     [Header("Config")]
     public string fileName = "data";
@@ -69,15 +70,18 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         var l = GetCurrentLangData();
         if (l == null) return;
 
-        if (infoText)  infoText.text  = l.labels?.info  ?? "INFO";
-        if (nameText)  nameText.text  = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
+        if (infoText) infoText.text = l.labels?.info ?? "INFO";
+        if (nameText) nameText.text = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
         if (levelText) levelText.text = $"{l.labels?.level ?? "Level"}: {l.gameplay?.level}";
+
 
         if (!scoreText) return;
         var gm = Thuan_23127_GameManager.Instance;
         var label = l.labels?.score ?? "Score";
+
         var currentScore = gm ? gm.Score : 0;
         Debug.Log(label);
         scoreText.text = $"{label}: {currentScore}";
+        scoreTextEndGame.text = $"{"Score"}: {currentScore}";
     }
 }
