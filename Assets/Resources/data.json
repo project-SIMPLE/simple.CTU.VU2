@@ -656,6 +656,337 @@
     ]
   }
   ,
+
+  "fr":{
+    "labels": {
+      "info": "INFO",
+      "name": "Nom",
+      "level": "Niveau",
+      "score": "Économique"
+    },
+    "gameplay": {
+      "name": "SIMPLE VU2",
+      "level": 1,
+      "score": 0,
+      "assessment": {
+        "remarks": {
+          "win": [
+            "La ceinture de mangrove est restaurée et protège le village.",
+            "La salinité est sous contrôle; les sources d'eau douce se rétablissent.",
+            "Les moyens de subsistance rebondissent grâce à l'aquaculture durable."
+          ],
+          "lose": [
+            "L'érosion côtière s'aggrave; les défenses échouent.",
+            "La salinité augmente et les cultures s'effondrent.",
+            "Le financement et l'engagement communautaire se dégradent."
+          ]
+        },
+        "results": [
+          "Les résidents déménagent en raison de la salinité et de l'érosion.",
+          "Les pêcheries déclinent; le revenu des ménages diminue.",
+          "La communauté adopte une agriculture respectueuse des mangroves et se rétablit progressivement."
+        ]
+      }
+    },
+    "interpretation": {
+      "fields": {
+        "id": "ID",
+        "tag_name": "Nom de la plante",
+        "growth_time": "Temps de croissance",
+        "status": "Statut",
+        "economic_benefits": "Avantages économiques",
+        "information": "Information",
+        "assessment": "Évaluation",
+        "remarks": "Remarques",
+        "win": "Gagner",
+        "lose": "Perdre"
+      },
+      "units": {
+        "growth_time": "jours"
+      },
+      "status_values": [
+        "Bon",
+        "Malade",
+        "Mort"
+      ]
+    },
+    "plants": [
+      {
+        "id": 1,
+        "tag_name": "Durian",
+        "growth_time": 20,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 4,
+        "information": "Informations sur le durian",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 2,
+        "tag_name": "Banane",
+        "growth_time": 40,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 2,
+        "information": "Informations sur la banane",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 3,
+        "tag_name": "Chou",
+        "growth_time": 60,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 2,
+        "information": "Informations sur le chou",
+        "salinity_threshold": 1.15,
+        "harvest_time": 1
+      },
+      {
+        "id": 4,
+        "tag_name": "Maïs",
+        "growth_time": 70,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur le maïs",
+        "salinity_threshold": 1.09,
+        "harvest_time": 2
+      },
+      {
+        "id": 5,
+        "tag_name": "Fruit du dragon",
+        "growth_time": 180,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 2,
+        "information": "Informations sur le fruit du dragon",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 6,
+        "tag_name": "Goyave",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la goyave",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 7,
+        "tag_name": "Riz",
+        "growth_time": 80,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 4,
+        "information": "Informations sur le riz",
+        "salinity_threshold": 1.92,
+        "harvest_time": 2
+      },
+      {
+        "id": 8,
+        "tag_name": "Canne à sucre",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la canne à sucre",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 9,
+        "tag_name": "Orange",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur l'orange",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 10,
+        "tag_name": "Noix de coco",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la noix de coco",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 11,
+        "tag_name": "Banane",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la banane",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 12,
+        "tag_name": "Goyave",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la goyave",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 13,
+        "tag_name": "Mangue",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la mangue",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      }
+    ],
+    "livestock": [
+      {
+        "id": 1,
+        "tag_name": "Vache",
+        "growth_time": 180,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la vache",
+        "salinity_threshold": 0.5,
+        "harvest_time": 4
+      },
+      {
+        "id": 2,
+        "tag_name": "Cochon",
+        "growth_time": 140,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 4,
+        "information": "Informations sur le cochon",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "Poulet",
+        "growth_time": 120,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 2,
+        "information": "Informations sur le poulet",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "Canard",
+        "growth_time": 110,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur le canard",
+        "salinity_threshold": 1,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "Lapin",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur le lapin",
+        "salinity_threshold": 12,
+        "harvest_time": 16
+      },
+      {
+        "id": 6,
+        "tag_name": "Chèvre",
+        "growth_time": 160,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la chèvre",
+        "salinity_threshold": 12,
+        "harvest_time": 16
+      }
+    ],
+    "fish": [
+      {
+        "id": 1,
+        "tag_name": "Poisson tête de serpent",
+        "growth_time": 100,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 4,
+        "information": "Informations sur le poisson tête de serpent",
+        "salinity_threshold": 3,
+        "harvest_time": 3
+      },
+      {
+        "id": 2,
+        "tag_name": "Tilapia rouge",
+        "growth_time": 110,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur le tilapia rouge",
+        "salinity_threshold": 2.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "Tilapia",
+        "growth_time": 80,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur le tilapia",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "Carpe",
+        "growth_time": 120,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 2,
+        "information": "Informations sur la carpe",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "Crevette géante",
+        "growth_time": 110,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 5,
+        "information": "Informations sur la crevette géante",
+        "salinity_threshold": 15,
+        "harvest_time": 2
+      },
+      {
+        "id": 6,
+        "tag_name": "Crevette d'eau douce",
+        "growth_time": 100,
+        "status": ["Bon", "Malade", "Mort"],
+        "economic_benefits": 3,
+        "information": "Informations sur la crevette d'eau douce",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      }
+    ],
+    "npcDialogues": [
+      {
+        "npcId": "Farmer",
+        "npcName": "Agriculteur",
+        "dialogues": [
+          "Bonjour, je suis un agriculteur dans cette ferme.",
+          "Qui êtes-vous?"
+        ]
+      },
+      {
+        "npcId": "LinhH",
+        "npcName": "LinhH",
+        "dialogues": [
+          "Salut, je m'appelle LinhH.",
+          "Je suis étudiant à CTU, et vous?"
+        ]
+      }
+    ]
+      
+  }, 
+
   "th":{
     "labels": {
       "info": "ข้อมูล",
