@@ -655,4 +655,337 @@
       }
     ]
   }
+  ,
+  "th":{
+    "labels": {
+      "info": "ข้อมูล",
+      "name": "ชื่อ",
+      "level": "ระดับ",
+      "score": "ผลประโยชน์ทางเศรษฐกิจ"
+    },
+    "gameplay": {
+      "name": "SIMPLE VU2",
+      "level": 1,
+      "score": 0,
+      "assessment": {
+        "remarks": {
+          "win": [
+            "ป่าชายเลนได้รับการฟื้นฟูและปกป้องหมู่บ้าน",
+            "ความเค็มอยู่ภายใต้การควบคุม แหล่งน้ำจืดฟื้นตัว",
+            "วิถีชีวิตฟื้นตัวขึ้นด้วยการเพาะเลี้ยงสัตว์น้ำอย่างยั่งยืน"
+          ],
+          "lose": [
+            "การกัดเซาะชายฝั่งแย่ลง การป้องกันล้มเหลว",
+            "ความเค็มพุ่งสูงและพืชผลล้มเหลว",
+            "การระดมทุนและการมีส่วนร่วมของชุมชนล่มสลาย"
+          ]
+        },
+        "results": [
+          "ผู้อยู่อาศัยย้ายออกเนื่องจากความเค็มและการกัดเซาะ",
+          "ประมงลดลง รายได้ครัวเรือนลดลง",
+          "ชุมชนหันมาใช้การทำฟาร์มที่เป็นมิตรกับป่าชายเลนและฟื้นตัวอย่างค่อยเป็นค่อยไป"
+        ]
+      }
+    },
+    "interpretation": {
+      "fields": {
+        "id": "รหัส",
+        "tag_name": "ชื่อพืช",
+        "growth_time": "เวลาการเจริญเติบโต",
+        "status": "สถานะ",
+        "economic_benefits": "ผลประโยชน์ทางเศรษฐกิจ",
+        "information": "ข้อมูล",
+        "assessment": "การประเมินผล",
+        "remarks": "หมายเหตุ",
+        "win": "ชนะ",
+        "lose": "แพ้"
+      },
+      "units": {
+        "growth_time": "วัน"
+      },
+      "status_values": [
+        "ดี",
+        "ป่วย",
+        "ตาย"
+      ]
+    },
+    "plants": [
+     { 
+      "id": 1,
+        "tag_name": "ทุเรียน",
+        "growth_time": 20,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 4,
+        "information": "ข้อมูลเกี่ยวกับทุเรียน",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 2,
+        "tag_name": "กล้วย",
+        "growth_time": 40,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 2,
+        "information": "ข้อมูลเกี่ยวกับกล้วย",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 3,
+        "tag_name": "กะหล่ำปลี",
+        "growth_time": 60,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 2,
+        "information": "ข้อมูลเกี่ยวกับกะหล่ำปลี",
+        "salinity_threshold": 1.15,
+        "harvest_time": 1
+      },
+      {
+        "id": 4,
+        "tag_name": "ข้าวโพด",
+        "growth_time": 70,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับข้าวโพด",
+        "salinity_threshold": 1.09,
+        "harvest_time": 2
+      },
+      {
+        "id": 5,
+        "tag_name": "แก้วมังกร",
+        "growth_time": 180,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 2,
+        "information": "ข้อมูลเกี่ยวกับแก้วมังกร",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 6,
+        "tag_name": "ฝรั่ง",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับฝรั่ง",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 7,
+        "tag_name": "ข้าว",
+        "growth_time": 80,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 4,
+        "information": "ข้อมูลเกี่ยวกับข้าว",
+        "salinity_threshold": 1.92,
+        "harvest_time": 2
+      },
+      {
+        "id": 8,
+        "tag_name": "อ้อย",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับอ้อย",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 9,
+        "tag_name": "ส้ม",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับส้ม",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 10,
+        "tag_name": "มะพร้าว",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับมะพร้าว",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 11,
+        "tag_name": "กล้วย",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับกล้วย",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 12,
+        "tag_name": "ฝรั่ง",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับฝรั่ง",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 13,
+        "tag_name": "มะม่วง",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับมะม่วง",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      }
+    ],
+    "livestock": [
+      {
+        "id": 1,
+        "tag_name": "วัว",
+        "growth_time": 180,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับวัว",
+        "salinity_threshold": 0.5,
+        "harvest_time": 4
+      },
+      {
+        "id": 2,
+        "tag_name": "หมู",
+        "growth_time": 140,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 4,
+        "information": "ข้อมูลเกี่ยวกับหมู",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "ไก่",
+        "growth_time": 120,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 2,
+        "information": "ข้อมูลเกี่ยวกับไก่",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "เป็ด",
+        "growth_time": 110,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับเป็ด",
+        "salinity_threshold": 1,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "กระต่าย",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับกระต่าย",
+        "salinity_threshold": 12,
+        "harvest_time": 16
+      },
+      {
+        "id": 6,
+        "tag_name": "แพะ",
+        "growth_time": 160,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับแพะ",
+        "salinity_threshold": 12,
+        "harvest_time": 16
+      }
+    ],
+    "fish": [
+      {
+        "id": 1,
+        "tag_name": "ปลาช่อน",
+        "growth_time": 100,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 4,
+        "information": "ข้อมูลเกี่ยวกับปลาช่อน",
+        "salinity_threshold": 3,
+        "harvest_time": 3
+      },
+      {
+        "id": 2,
+        "tag_name": "ปลาทับทิม",
+        "growth_time": 110,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับปลาทับทิม",
+        "salinity_threshold": 2.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "ปลาร็อปี้",
+        "growth_time": 80,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับปลาร็อปี้",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "ปลาคาร์พ",
+        "growth_time": 120,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 2,
+        "information": "ข้อมูลเกี่ยวกับปลาคาร์พ",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "กุ้งก้ามกราม",
+        "growth_time": 110,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 5,
+        "information": "ข้อมูลเกี่ยวกับกุ้งก้ามกราม",
+        "salinity_threshold": 15,
+        "harvest_time": 2
+      },
+      {
+        "id": 6,
+        "tag_name": "กุ้งฝอย",
+        "growth_time": 100,
+        "status": ["ดี", "ป่วย", "ตาย"],
+        "economic_benefits": 3,
+        "information": "ข้อมูลเกี่ยวกับกุ้งฝอย",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      }
+    ],
+    "npcDialogues": [
+      {
+        "npcId": "Farmer",
+        "npcName": "ชาวนา",
+        "dialogues": [
+          "สวัสดี ฉันเป็นชาวนาในฟาร์มนี้",
+          "คุณคือใคร?"
+        ]
+      },
+      {
+        "npcId": "LinhH",
+        "npcName": "LinhH",
+        "dialogues": [
+          "สวัสดี ฉันชื่อ LinhH",
+          "ฉันเป็นนักศึกษาของ CTU แล้วคุณล่ะ?"
+        ]
+      }
+    ]
+
+
+
+
+  }
 }

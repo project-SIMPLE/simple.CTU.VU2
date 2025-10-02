@@ -43,8 +43,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         {
             case 0: currentLang = "en"; break;
             case 1: currentLang = "vi"; break;
-            case 2: currentLang = "an"; break;
-            case 3: currentLang = "tl"; break;
+            case 2: currentLang = "fr"; break;
+            case 3: currentLang = "th"; break;
             default: currentLang = "en"; break;
         }
         ApplyLanguage();
@@ -61,6 +61,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (fi != null && fi.GetValue(root) is Lang langObj) return langObj;
         if (root.en != null) return root.en;
         if (root.vi != null) return root.vi;
+        if (root.fr != null) return root.fr;
+        if (root.th != null) return root.th;
         return null;
     }
 
