@@ -18,32 +18,48 @@ public class Thuan_23127_GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    /// <summary>
+    /// Tính điểm 
+    /// </summary>
+    /// <param name="value"></param>
     public void AddScore(int value)
     {
         Score += value;
         OnScoreChanged?.Invoke(Score);
 
-        if (jsonReader && jsonReader.scoreText)
-        {
-            var l = jsonReader.GetCurrentLangData();
-            var scoreLabel = l?.labels?.score ?? "Score";
+        if (!jsonReader) jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
+
+        if (!jsonReader) return;
+        var l = jsonReader.GetCurrentLangData();
+        var scoreLabel = l?.labels?.score ?? "Score";
+
+        if (jsonReader.scoreText)
             jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
+        if (jsonReader.scoreTextEndGame)
             jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
-        }
     }
 
+    /// <summary>
+    /// Reset điểm về
+    /// </summary>
     public void ResetScore()
     {
         Score = 0;
 
-        if (jsonReader && jsonReader.scoreText)
+        if (!jsonReader)
+            jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
+
+        if (jsonReader)
         {
             var l = jsonReader.GetCurrentLangData();
             var scoreLabel = l?.labels?.score ?? "Score";
-            jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
-            jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
 
+            if (jsonReader.scoreText)
+                jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
+            if (jsonReader.scoreTextEndGame)
+                jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
         }
+
         OnScoreChanged?.Invoke(Score);
     }
 }

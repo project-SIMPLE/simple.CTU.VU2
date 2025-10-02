@@ -7,4 +7,7 @@ public class Fields
     public string status;
     public string economic_benefits;
     public string information;
+    
+    public float harvest_time;          // <-- THÊM
+    public float salinity_threshold;  
 }

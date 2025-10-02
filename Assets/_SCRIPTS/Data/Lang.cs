@@ -9,7 +9,7 @@ public class Lang
     public List<Plant> plants;
     public List<Animal> livestock;
     public List<Fish> fish;  
-
+    
     // Linh's code
     public List<NPCDialogue> npcDialogues;
 }

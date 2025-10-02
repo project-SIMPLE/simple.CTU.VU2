@@ -28,34 +28,39 @@ public class FarmArea : MonoBehaviour
         var tag = plantPrefab.GetComponent<Thuan_23127_SeedTag>(); // get ID
         if (tag == null) { Debug.LogWarning("Prefab thiếu SeedTag."); return; }
 
-        var plantData = jsonReader.GetPlantById(tag.plantId); // get data from ID
-        var fishData = jsonReader.GetFishById(tag.fishId); // get data from  fish ID
-        var animalData = jsonReader.GetLivestockById(tag.animalId); // get data from animal ID
+        var plantData  = (tag.plantId  > 0) ? jsonReader.GetPlantById(tag.plantId)         : null;
+        var fishData   = (tag.fishId   > 0) ? jsonReader.GetFishById(tag.fishId)           : null;
+        var animalData = (tag.animalId > 0) ? jsonReader.GetLivestockById(tag.animalId)    : null;
 
-        if (animalData == null) { Debug.LogWarning("Đây là con vật, không thể trồng ở đây."); return; }
-        if (fishData == null) { Debug.LogWarning("Đây là con cá, không thể trồng ở đây."); return; }
-        if (plantData == null) { Debug.LogWarning($"Không tìm thấy plant id {tag.plantId} trong JSON."); return; }
+        if (plantData == null && fishData == null && animalData == null)
+        {
+            Debug.LogWarning("Không tìm thấy dữ liệu phù hợp trong JSON (plant/fish/animal).");
+            return;
+        }
 
         for (int i = 0; i < plotPoints.Length; i++)
         {
             if (!isPlanted[i])
             {
-                var p = plotPoints[i];
+                var p  = plotPoints[i];
                 var go = Instantiate(plantPrefab, p.position, p.rotation);
 
                 var growth = go.GetComponent<Thuan_23127_PlantGrowth>();
                 if (!growth) growth = go.AddComponent<Thuan_23127_PlantGrowth>();
 
-                // when plant all tree, do not pass json to tranh' error
                 var readerForThis = fillAll ? null : jsonReader;
-                growth.Init(plantData, this, i, readerForThis);
+
+                // Gọi đúng Init theo loại
+                if (plantData != null)       growth.Init(plantData,  this, i, readerForThis);
+                else if (animalData != null) growth.Init(animalData, this, i, readerForThis);
+                else if (fishData != null)   growth.Init(fishData,   this, i, readerForThis);
 
                 isPlanted[i] = true;
-
                 if (!fillAll) break;
             }
         }
     }
+
 
     public void FreePlot(int index)
     {

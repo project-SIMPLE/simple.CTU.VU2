@@ -16,11 +16,17 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float destroyDelaySeconds = 30f; 
 
-    private Fish _fishData; // ca 
+    // dữ liệu nguồn (tuỳ loại)
+    private Plant  _plantData;
+    private Animal _animalData;
+    private Fish   _fishData;
 
-    private Plant _plantData;
+    // tham số chung
     private float _growTotal;
     private float _growElapsed;
+    private float _harvestTime;
+    private int   _econ;
+
     private bool  _growing, _ready;
     private bool  _harvested;
     private bool  _harvesting;
@@ -30,15 +36,47 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private int _ownerIndex = -1;
     private Thuan_23127_JsonReader _jsonReader;
 
+    // === Init cho Plant ===
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
-        _plantData  = data;
-        _ownerArea  = area;
-        _ownerIndex = plotIndex;
-        _jsonReader = reader;
+        _plantData  = data;  _animalData = null; _fishData = null;
+        _ownerArea  = area;  _ownerIndex = plotIndex;     _jsonReader = reader;
 
-        _growTotal = Mathf.Max(0.01f, data.growth_time);
+        _growTotal   = Mathf.Max(0.01f, data.growth_time);
+        _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
+        _econ        = Mathf.Max(0, data.economic_benefits);
 
+        CommonInitAndStart();
+    }
+
+    // === Init cho Animal ===
+    public void Init(Animal data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
+    {
+        _plantData  = null;  _animalData = data; _fishData = null;
+        _ownerArea  = area;  _ownerIndex = plotIndex;     _jsonReader = reader;
+
+        _growTotal   = Mathf.Max(0.01f, data.growth_time);
+        _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
+        _econ        = Mathf.Max(0, data.economic_benefits);
+
+        CommonInitAndStart();
+    }
+
+    // === Init cho Fish ===
+    public void Init(Fish data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
+    {
+        _plantData  = null;  _animalData = null; _fishData = data;
+        _ownerArea  = area;  _ownerIndex = plotIndex;     _jsonReader = reader;
+
+        _growTotal   = Mathf.Max(0.01f, data.growth_time);
+        _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
+        _econ        = Mathf.Max(0, data.economic_benefits);
+
+        CommonInitAndStart();
+    }
+
+    private void CommonInitAndStart()
+    {
         if (!harvestInteractable) harvestInteractable = GetComponent<XRSimpleInteractable>();
         if (harvestInteractable)
         {
@@ -73,15 +111,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         TryStartHarvest();
     }
 
-    private void OnMouseDown()
-    {
-        TryStartHarvest();
-    }
-
-    public void HarvestNow()
-    {
-        TryStartHarvest();
-    }
+    private void OnMouseDown() { TryStartHarvest(); }
+    public  void HarvestNow()  { TryStartHarvest(); }
 
     private void TryStartHarvest()
     {
@@ -93,16 +124,13 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private IEnumerator CoHarvest()
     {
         _harvesting = true;
-
-        float hTime = (_plantData != null && _plantData.harvest_time > 0f) 
-                        ? _plantData.harvest_time : 2f;
-
         if (harvestInteractable) harvestInteractable.enabled = false;
 
         // Reset UI to show thu hoach
         UpdateUI(0f);
 
         float e = 0f;
+        float hTime = (_harvestTime > 0f) ? _harvestTime : 2f;
         while (e < hTime)
         {
             e += Time.deltaTime;
@@ -123,8 +151,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _harvesting = false;
 
         var gm = Thuan_23127_GameManager.Instance;
-        if (gm && _plantData != null)
-            gm.AddScore(_plantData.economic_benefits);
+        if (gm) gm.AddScore(_econ);   // <-- cộng điểm chung cho Plant/Animal/Fish
 
         if (harvestInteractable)
         {
@@ -149,6 +176,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private void UpdateUI(float t)
     {
         if (progressFill) progressFill.fillAmount = t;
-        if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
+        if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f).ToString() + "%";
     }
 }

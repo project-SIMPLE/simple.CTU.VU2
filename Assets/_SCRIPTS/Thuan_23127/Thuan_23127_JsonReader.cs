@@ -25,12 +25,19 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         var resourceName = Path.GetFileNameWithoutExtension(fileName);
         var jsonFile = Resources.Load<TextAsset>(resourceName);
         jsonString = jsonFile.text;
-        Debug.Log(jsonString);
         root = JsonUtility.FromJson<Root>(jsonString);
+
+        var gm = Thuan_23127_GameManager.Instance;
+        if (gm) gm.jsonReader = this;
+
         ApplyLanguage();
     }
 
-    public void SetLanguageByIndex(int index)
+    /// <summary>
+    /// Hàm này onclick khi bấm vào sẽ đổi ngôn ngữ 
+    /// </summary>
+    /// <param name="index"> en or vi ...</param>
+    public void SetLanguageByIndex(int index) 
     {
         switch (index)
         {
@@ -43,6 +50,10 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         ApplyLanguage();
     }
 
+    /// <summary>
+    /// Lấy ngôn ngữ hiện tại
+    /// </summary>
+    /// <returns> Ngôn ngu </returns>
     public Lang GetCurrentLangData()
     {
         if (root == null) return null;
@@ -67,21 +78,25 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     private void ApplyLanguage()
     {
         if (root == null) return;
+
         var l = GetCurrentLangData();
         if (l == null) return;
 
-        if (infoText) infoText.text = l.labels?.info ?? "INFO";
-        if (nameText) nameText.text = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
+        if (infoText)  infoText.text  = l.labels?.info  ?? "INFO";
+        if (nameText)  nameText.text  = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
         if (levelText) levelText.text = $"{l.labels?.level ?? "Level"}: {l.gameplay?.level}";
 
-
-        if (!scoreText) return;
         var gm = Thuan_23127_GameManager.Instance;
         var label = l.labels?.score ?? "Score";
-
         var currentScore = gm ? gm.Score : 0;
-        Debug.Log(label);
-        scoreText.text = $"{label}: {currentScore}";
-        scoreTextEndGame.text = $"{"Score"}: {currentScore}";
+
+        if (scoreText)        scoreText.text        = $"{label}: {currentScore}";
+        if (scoreTextEndGame) scoreTextEndGame.text = $"{label}: {currentScore}";
+    }
+    
+    private void OnEnable()
+    {
+        var gm = Thuan_23127_GameManager.Instance;
+        if (gm) gm.jsonReader = this; 
     }
 }
