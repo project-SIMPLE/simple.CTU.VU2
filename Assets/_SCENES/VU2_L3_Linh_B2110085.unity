@@ -5665,6 +5665,7 @@ MonoBehaviour:
   - {fileID: 79176996}
   - {fileID: 1146259085}
   - {fileID: 798762401}
+  jsonReader: {fileID: 0}
 --- !u!224 &159237624 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1962376703435983919, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -6114,6 +6115,7 @@ MonoBehaviour:
   - {fileID: 2037093009}
   - {fileID: 1903078571}
   - {fileID: 77103741}
+  jsonReader: {fileID: 0}
 --- !u!1 &192279147
 GameObject:
   m_ObjectHideFlags: 0
@@ -8673,6 +8675,7 @@ MonoBehaviour:
   plotPoints:
   - {fileID: 1449503022}
   - {fileID: 1501247745}
+  jsonReader: {fileID: 0}
 --- !u!1 &294433244
 GameObject:
   m_ObjectHideFlags: 0
@@ -9486,6 +9489,7 @@ MonoBehaviour:
   - {fileID: 1655521432}
   - {fileID: 939250015}
   - {fileID: 1278712809}
+  jsonReader: {fileID: 0}
 --- !u!4 &349407396 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1565887663814566041, guid: 3e07eccb5e6f459d886de95044adb1d9,
@@ -14384,6 +14388,7 @@ MonoBehaviour:
   plotPoints:
   - {fileID: 723149673}
   - {fileID: 87067498}
+  jsonReader: {fileID: 0}
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15537,6 +15542,7 @@ MonoBehaviour:
   - {fileID: 202926565}
   - {fileID: 1490002785}
   - {fileID: 1597240225}
+  jsonReader: {fileID: 0}
 --- !u!1 &569253816
 GameObject:
   m_ObjectHideFlags: 0
@@ -15598,6 +15604,7 @@ MonoBehaviour:
   - {fileID: 1274821809}
   - {fileID: 749852239}
   - {fileID: 166406898}
+  jsonReader: {fileID: 0}
 --- !u!1001 &578230260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16237,6 +16244,7 @@ MonoBehaviour:
   - {fileID: 212600105}
   - {fileID: 1498857404}
   - {fileID: 870079851}
+  jsonReader: {fileID: 0}
 --- !u!224 &612610331 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -17502,6 +17510,7 @@ MonoBehaviour:
   - {fileID: 2098488616}
   - {fileID: 113477652}
   - {fileID: 294433245}
+  jsonReader: {fileID: 0}
 --- !u!1 &630724321
 GameObject:
   m_ObjectHideFlags: 0
@@ -31283,6 +31292,7 @@ MonoBehaviour:
   - {fileID: 73208502}
   - {fileID: 1183481234}
   - {fileID: 905252262}
+  jsonReader: {fileID: 0}
 --- !u!1 &1028696675
 GameObject:
   m_ObjectHideFlags: 0
@@ -34171,6 +34181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _npcId: LinhH
   _conversationController: {fileID: 619769673}
+  _talkButton: {fileID: 1733604388}
 --- !u!1 &1109556917
 GameObject:
   m_ObjectHideFlags: 0
@@ -43539,6 +43550,7 @@ MonoBehaviour:
   - {fileID: 763763189}
   - {fileID: 127553321}
   - {fileID: 1962732479}
+  jsonReader: {fileID: 0}
 --- !u!1001 &1437823287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45513,6 +45525,7 @@ MonoBehaviour:
   - {fileID: 29764003}
   - {fileID: 792052507}
   - {fileID: 1704961068}
+  jsonReader: {fileID: 0}
 --- !u!1001 &1471502275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46779,6 +46792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _npcId: 
   _conversationController: {fileID: 619769673}
+  _talkButton: {fileID: 0}
 --- !u!136 &1511299683
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51245,6 +51259,7 @@ MonoBehaviour:
   - {fileID: 579755745}
   - {fileID: 1092985686}
   - {fileID: 729667495}
+  jsonReader: {fileID: 0}
 --- !u!1 &1635951485
 GameObject:
   m_ObjectHideFlags: 0
@@ -60897,6 +60912,7 @@ MonoBehaviour:
   - {fileID: 424661029}
   - {fileID: 672433616}
   - {fileID: 367879519}
+  jsonReader: {fileID: 0}
 --- !u!1 &1800185287
 GameObject:
   m_ObjectHideFlags: 0
@@ -61118,6 +61134,7 @@ MonoBehaviour:
   - {fileID: 1567623335}
   - {fileID: 2126720302}
   - {fileID: 1226889932}
+  jsonReader: {fileID: 0}
 --- !u!1 &1827985578
 GameObject:
   m_ObjectHideFlags: 0
@@ -64034,6 +64051,7 @@ MonoBehaviour:
   - {fileID: 704257087}
   - {fileID: 834445815}
   - {fileID: 463258203}
+  jsonReader: {fileID: 0}
 --- !u!1 &1979998285
 GameObject:
   m_ObjectHideFlags: 0
@@ -64091,6 +64109,7 @@ MonoBehaviour:
   - {fileID: 656459337}
   - {fileID: 1520034825}
   - {fileID: 932131939}
+  jsonReader: {fileID: 0}
 --- !u!1001 &1984675192
 PrefabInstance:
   m_ObjectHideFlags: 0

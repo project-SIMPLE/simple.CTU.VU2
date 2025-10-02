@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -17,10 +18,14 @@ public class ConversationUIController : MonoBehaviour
     private bool _isTyping = false;
     private int _currentLine;
     private List<string> _npcDialogues;
+    private GameObject _talkButton;
 
 
     public void StartConversation(string npcName, List<string> dialogues)
     {
+        // hide npc talk button
+        _talkButton?.SetActive(false);
+
         _npcDialogues = dialogues;
 
         _dialogueText.text = "";
@@ -88,6 +93,15 @@ public class ConversationUIController : MonoBehaviour
     {
         StopAllCoroutines();
         EnableUI(false);
+
+        _talkButton?.SetActive(true);
+        _talkButton = null;
+    }
+
+
+    public void SetTalkButton(GameObject talkButton)
+    {
+        _talkButton = talkButton;
     }
 
 

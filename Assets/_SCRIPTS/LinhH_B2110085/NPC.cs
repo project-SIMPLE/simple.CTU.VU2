@@ -6,6 +6,7 @@ public class NPC : MonoBehaviour
 {
     [SerializeField] private string _npcId;
     [SerializeField] private ConversationUIController _conversationController;
+    [SerializeField] private GameObject _talkButton;
 
     private NPCDialogue _npcDialogues = null;
     private string _fileName = "data";
@@ -19,7 +20,10 @@ public class NPC : MonoBehaviour
         GetDialoguesFromData();
 
         if (_npcDialogues != null)
+        {
+            _conversationController.SetTalkButton(_talkButton);
             _conversationController.StartConversation(_npcDialogues.npcName, _npcDialogues.dialogues);
+        }
         else
             Debug.LogError("Can't get npc Id from data file.");
     }
@@ -46,7 +50,7 @@ public class NPC : MonoBehaviour
         var dialogues = lang?.npcDialogues;
         _npcDialogues = dialogues.Find(npc => npc.npcId == _npcId);
     }
-    
+
 
     // copy từ script Thuan_23127_JsonReader.cs sang
     public Lang GetCurrentLangData()
