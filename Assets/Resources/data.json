@@ -4,7 +4,9 @@
       "info": "INFO",
       "name": "Name",
       "level": "Level",
-      "score": "Economic"
+      "score": "Economic",
+      "play_again": "Play Again",
+      "language": "Language"
     },
     "gameplay": {
       "name": "SIMPLE VU2",
@@ -41,8 +43,7 @@
         "assessment": "Assessment",
         "remarks": "Remarks",
         "win": "Win",
-        "lose": "Lose",
-        "play_again": "Play Again"
+        "lose": "Lose"
       },
       "units": {
         "growth_time": "days"
@@ -333,7 +334,9 @@
       "info": "THÔNG TIN",
       "name": "Tên",
       "level": "Cấp độ",
-      "score": "Lợi ích kinh tế"
+      "score": "Lợi ích kinh tế",
+      "language": "Ngôn ngữ",
+      "play_again": "Chơi lại"
     },
     "gameplay": {
       "name": "SIMPLE VU2",
@@ -662,7 +665,9 @@
       "info": "INFO",
       "name": "Nom",
       "level": "Niveau",
-      "score": "Économique"
+      "score": "Économique",
+      "play_again": "Rejouer",
+      "language": "Langue"
     },
     "gameplay": {
       "name": "SIMPLE VU2",
@@ -992,7 +997,9 @@
       "info": "ข้อมูล",
       "name": "ชื่อ",
       "level": "ระดับ",
-      "score": "ผลประโยชน์ทางเศรษฐกิจ"
+      "score": "ผลประโยชน์ทางเศรษฐกิจ",
+      "language": "ภาษา",
+      "play_again": "เล่นอีกครั้ง"
     },
     "gameplay": {
       "name": "SIMPLE VU2",

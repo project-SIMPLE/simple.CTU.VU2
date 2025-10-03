@@ -14,6 +14,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text infoText;
     public Text scoreTextEndGame;
     public Text playAgainText;
+    public Text languageText;
 
     [Header("Config")]
     public string fileName = "data";
@@ -88,6 +89,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (infoText)  infoText.text  = l.labels?.info  ?? "INFO";
         if (nameText)  nameText.text  = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
         if (levelText) levelText.text = $"{l.labels?.level ?? "Level"}: {l.gameplay?.level}";
+        if (languageText) languageText.text = l.labels?.language ?? "Language";
         if (playAgainText) playAgainText.text = l.labels?.playagain ?? "Play Again";
 
         var gm = Thuan_23127_GameManager.Instance;
