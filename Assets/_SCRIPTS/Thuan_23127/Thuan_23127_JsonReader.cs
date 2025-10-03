@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,9 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text infoText;
     public Text scoreTextEndGame;
     public Text playAgainText;
-    public Text languageText;
     public Text settingText;
+    // public Text languageText;
+    public Text salinityText; 
 
     [Header("Config")]
     public string fileName = "data";
@@ -40,18 +42,21 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     /// Hàm này onclick khi bấm vào sẽ đổi ngôn ngữ 
     /// </summary>
     /// <param name="index"> en or vi ...</param>
-    public void SetLanguageByIndex(int index) 
+    public void SetLanguageByIndex(int index)
     {
         switch (index)
         {
-            case 0: currentLang = "en"; break;
-            case 1: currentLang = "vi"; break;
+            case 0: currentLang = "vi"; break;
+            case 1: currentLang = "en"; break;
             case 2: currentLang = "fr"; break;
             case 3: currentLang = "th"; break;
-            default: currentLang = "en"; break;
+            default: currentLang = "vi"; break;
         }
+        Debug.Log($"[Lang] Dropdown -> index={index}, currentLang={currentLang}");
         ApplyLanguage();
     }
+
+
 
     /// <summary>
     /// Lấy ngôn ngữ hiện tại
@@ -60,10 +65,19 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Lang GetCurrentLangData()
     {
         if (root == null) return null;
-        var fi = typeof(Root).GetField(currentLang, BindingFlags.Public | BindingFlags.Instance);
-        if (fi != null && fi.GetValue(root) is Lang langObj) return langObj;
-        if (root.en != null) return root.en;
+
+        var code = string.IsNullOrEmpty(currentLang) ? "vi" : currentLang.ToLowerInvariant();
+        var pick = code switch
+        {
+            "vi" => root.vi,
+            "en" => root.en,
+            "fr" => root.fr,
+            "th" => root.th,
+            _    => null
+        };
+        if (pick != null) return pick;
         if (root.vi != null) return root.vi;
+        if (root.en != null) return root.en;
         if (root.fr != null) return root.fr;
         if (root.th != null) return root.th;
         return null;
@@ -94,6 +108,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (playAgainText) playAgainText.text = l.labels?.playagain ?? "Play Again";
 
         var gm = Thuan_23127_GameManager.Instance;
+        if (gm) UpdateSalinityUI(gm.GetSeasonSalinity());
         var label = l.labels?.score ?? "Score";
         var currentScore = gm ? gm.Score : 0;
 
@@ -105,5 +120,12 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     {
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.jsonReader = this; 
+    }
+    
+    public void UpdateSalinityUI(float salinity)
+    {
+        var l = GetCurrentLangData();
+        string label = l?.labels?.salinity ?? "Salinity";
+        if (salinityText) salinityText.text = $"{label}: {salinity:0.00}";
     }
 }

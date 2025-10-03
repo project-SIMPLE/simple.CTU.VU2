@@ -1,8 +1,8 @@
 ﻿[System.Serializable]
 public class Root
 {
-    public Lang en; 
     public Lang vi;
+    public Lang en; 
     public Lang fr; 
     public Lang th;
 }

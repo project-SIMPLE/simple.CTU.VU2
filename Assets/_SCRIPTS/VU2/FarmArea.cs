@@ -45,10 +45,9 @@ public class FarmArea : MonoBehaviour
                 var p  = plotPoints[i];
                 // var go = Instantiate(plantPrefab, p.position, p.rotation);
                 var parent = plotPoints[i];
-                var go = Instantiate(plantPrefab, parent);
+                var go = Instantiate(plantPrefab, parent);   
                 go.transform.localPosition = Vector3.zero;
                 go.transform.localRotation = Quaternion.identity;
-                go.transform.localScale    = Vector3.one;
                 
                 var growth = go.GetComponent<Thuan_23127_PlantGrowth>();
                 if (!growth) growth = go.AddComponent<Thuan_23127_PlantGrowth>();

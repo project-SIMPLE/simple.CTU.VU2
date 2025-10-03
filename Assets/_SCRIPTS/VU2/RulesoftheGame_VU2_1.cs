@@ -27,6 +27,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	private AudioSource audioSource;
 
 	public static float Saltwater_Intrusion = 0.0f;
+	
+	private static float _cachedSeason = -999f;
 
 	// saltwater intrusion
 	//public Saltwater_Intrusion saltwaterIntrusionObject;
@@ -71,7 +73,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 			if (timeRemaining <= 90)
 			{
-				Saltwater_Intrusion = 0.0f;
+				SetSeason(0.0f); // mùa mưa
 				//Debug.Log("Mùa Mưa bắt đầu!");
 				rainning = true;
 				Weather_Rain.SetActive(true);
@@ -86,7 +88,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			}
 			else if (timeRemaining > 90 && timeRemaining <= 180)
 			{
-				Saltwater_Intrusion = 2.0f;
+				SetSeason(2.0f); // mùa khô
 				//Debug.Log("Mùa Khô bắt đầu!");
 				rainning = false;
 				Weather_Rain.SetActive(false);
@@ -111,7 +113,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			}
 			else if (timeRemaining > 180 && timeRemaining <= 270)
 			{
-				Saltwater_Intrusion = 1.0f;
+				SetSeason(1.0f); // bình thường
 				//Debug.Log("Mùa Mưa Trở Lại!");
 				rainning = true;
 				moving = true;
@@ -219,5 +221,24 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		{
 			farm.ResetAllPlots();
 		}
+	}
+	
+	private void SetSeason(float season)
+	{
+		// chỉ bắn update khi thực sự đổi mùa
+		if (Mathf.Approximately(_cachedSeason, season)) return;
+
+		Saltwater_Intrusion = season;
+		_cachedSeason = season;
+
+		// Cập nhật text salinity trên từng instance
+		var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
+		for (int i = 0; i < all.Length; i++)
+			all[i].UpdateSalinityText();
+
+		// (tuỳ chọn) cập nhật luôn UI salinity global nếu bạn có
+		var gm = Thuan_23127_GameManager.Instance;
+		if (gm && gm.jsonReader)
+			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
 	}
 }
