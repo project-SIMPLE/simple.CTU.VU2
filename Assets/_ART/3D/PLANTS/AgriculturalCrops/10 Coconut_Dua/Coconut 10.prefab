@@ -342,6 +342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantId: 10
+  animalId: 1
+  fishId: 1
 --- !u!114 &5775249922582494021
 MonoBehaviour:
   m_ObjectHideFlags: 0
