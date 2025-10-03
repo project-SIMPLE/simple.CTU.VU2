@@ -60,7 +60,7 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         void AppendBlock(string groupLabel, string tag_name, int growth_time, int economic_benefits, string information)
         {
             if (sbHead.Length > 0) sbHead.Append(" | ");
-            sbHead.Append($"{groupLabel}: {tag_name}");
+            sbHead.Append($"{tag_name}");
 
             if (sbBody.Length > 0) sbBody.AppendLine().AppendLine("----------------");
 

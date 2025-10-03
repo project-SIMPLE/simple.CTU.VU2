@@ -15,10 +15,11 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text scoreTextEndGame;
     public Text playAgainText;
     public Text languageText;
+    public Text settingText;
 
     [Header("Config")]
     public string fileName = "data";
-    public string currentLang = "en";
+    public string currentLang = "vi";
     public Root root;
     private string jsonString;
 
@@ -68,7 +69,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         return null;
     }
 
-    public string GetCurrentLangCode() => string.IsNullOrEmpty(currentLang) ? "en" : currentLang;
+    public string GetCurrentLangCode() => string.IsNullOrEmpty(currentLang) ? "vi" : currentLang;
 
     public List<Plant>  GetCurrentLangPlants()    => GetCurrentLangData()?.plants;
     public List<Animal> GetCurrentLangAnimals()   => GetCurrentLangData()?.livestock;
@@ -89,7 +90,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (infoText)  infoText.text  = l.labels?.info  ?? "INFO";
         if (nameText)  nameText.text  = $"{l.labels?.name ?? "Name"}: {l.gameplay?.name}";
         if (levelText) levelText.text = $"{l.labels?.level ?? "Level"}: {l.gameplay?.level}";
-        if (languageText) languageText.text = l.labels?.language ?? "Language";
+        if (settingText) settingText.text = l.labels?.setting ?? "Setting";
         if (playAgainText) playAgainText.text = l.labels?.playagain ?? "Play Again";
 
         var gm = Thuan_23127_GameManager.Instance;

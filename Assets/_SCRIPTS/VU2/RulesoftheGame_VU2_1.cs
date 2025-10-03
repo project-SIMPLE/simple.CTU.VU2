@@ -17,6 +17,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public GameObject StartMenu;
 	public GameObject ResultMenu;
 
+	public GameObject NPC_Talk;
 	public Material Skybox_Rain;
 	public Material Skybox_Sun;
 
@@ -24,6 +25,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public AudioClip rainMusic;
 	public AudioClip normalMusic;
 	private AudioSource audioSource;
+
+	public static float Saltwater_Intrusion = 0.0f;
 
 	// saltwater intrusion
 	//public Saltwater_Intrusion saltwaterIntrusionObject;
@@ -40,11 +43,13 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public void Start()
 	{
 		playGame = false;
+
 		ResultMenu.SetActive(false);
 		StartMenu.SetActive(true);
 		Weather_Rain.SetActive(false);
 		Rain_image.SetActive(false);
 		Sun_image.SetActive(true);
+		NPC_Talk.SetActive(false);
 		audioSource = GetComponent<AudioSource>();
 		PlayMusic(normalMusic);
 
@@ -66,6 +71,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 			if (timeRemaining <= 90)
 			{
+				Saltwater_Intrusion = 0.0f;
 				//Debug.Log("Mùa Mưa bắt đầu!");
 				rainning = true;
 				Weather_Rain.SetActive(true);
@@ -78,8 +84,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 
 			}
-			else if (timeRemaining > 90 && timeRemaining <= 160)
+			else if (timeRemaining > 90 && timeRemaining <= 180)
 			{
+				Saltwater_Intrusion = 2.0f;
 				//Debug.Log("Mùa Khô bắt đầu!");
 				rainning = false;
 				Weather_Rain.SetActive(false);
@@ -102,8 +109,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 
 			}
-			else if (timeRemaining > 160 && timeRemaining <= 180)
+			else if (timeRemaining > 180 && timeRemaining <= 270)
 			{
+				Saltwater_Intrusion = 1.0f;
 				//Debug.Log("Mùa Mưa Trở Lại!");
 				rainning = true;
 				moving = true;
@@ -183,6 +191,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		playGame = true;
 		StartMenu.SetActive(false);
 		timeRemaining = 0;
+		NPC_Talk.SetActive(true);
 	}
 
 	public void RestartGame()

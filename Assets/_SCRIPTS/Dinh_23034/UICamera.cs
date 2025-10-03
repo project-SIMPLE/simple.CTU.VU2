@@ -41,7 +41,7 @@ public class UICamera : MonoBehaviour
         }
     }
 
-    private void ToggleUISetting()
+    public void ToggleUISetting()
     {
         if (!UISetting) return;
 
@@ -50,7 +50,7 @@ public class UICamera : MonoBehaviour
         Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
     }
 
-    private void ToggleStartGameMenu()
+    public void ToggleStartGameMenu()
     {
         if (!startGameMenuUI) return;
 

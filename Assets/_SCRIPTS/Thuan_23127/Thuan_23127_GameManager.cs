@@ -24,6 +24,10 @@ public class Thuan_23127_GameManager : MonoBehaviour
     /// <param name="value"></param>
     public void AddScore(int value)
     {
+        if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 0.0f)
+        { value = value; }
+        else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1.0f) { value = (int)(value / 1.5f); }
+        else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 2.0f) { value = value / 2; }
         Score += value;
         OnScoreChanged?.Invoke(Score);
 
