@@ -20,8 +20,6 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public Material Skybox_Rain;
 	public Material Skybox_Sun;
 
-
-
 	// Music
 	public AudioClip rainMusic;
 	public AudioClip normalMusic;
@@ -190,14 +188,27 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public void RestartGame()
 	{
 		Debug.Log("Restart Game.");
+		
+		Thuan_23127_GameManager.Instance?.ResetScore(); // reset diem
+		ResetAllPlots(); // reset treê animal va fish
+		StartMenu.SetActive(true);
 		playGame = true;
 		ResultMenu.SetActive(false);
-		StartMenu.SetActive(true);
 		timeRemaining = 0;
 		Weather_Rain.SetActive(false);
 		Rain_image.SetActive(false);
 		Sun_image.SetActive(true);
-	}
-	
+		
+		target.transform.position = pointA;
 
+		PlayMusic(normalMusic);
+	}
+
+	private static void ResetAllPlots()
+	{
+		foreach (var farm in FindObjectsOfType<FarmArea>())
+		{
+			farm.ResetAllPlots();
+		}
+	}
 }

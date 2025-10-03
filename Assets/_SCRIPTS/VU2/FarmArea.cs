@@ -60,11 +60,28 @@ public class FarmArea : MonoBehaviour
             }
         }
     }
-
-
+    
     public void FreePlot(int index)
     {
         if (index >= 0 && index < isPlanted.Length) isPlanted[index] = false;
+    }
+    
+    public void ResetAllPlots()
+    {
+        for (int i = 0; i < plotPoints.Length; i++)
+        {
+            var p = plotPoints[i];
+            if (p == null) continue;
+
+            // Xoá mọi cây đang bám vào plotPoints
+            for (int c = p.childCount - 1; c >= 0; c--)
+            {
+                var child = p.GetChild(c);
+                Destroy(child.gameObject);
+            }
+
+            isPlanted[i] = false;
+        }
     }
     
 }

@@ -41,7 +41,8 @@
         "assessment": "Assessment",
         "remarks": "Remarks",
         "win": "Win",
-        "lose": "Lose"
+        "lose": "Lose",
+        "play_again": "Play Again"
       },
       "units": {
         "growth_time": "days"
@@ -369,7 +370,8 @@
         "assessment": "Đánh giá",
         "remarks": "Nhận xét",
         "win": "Thắng",
-        "lose": "Thua"
+        "lose": "Thua",
+        "play_again": "Chơi lại"
       },
       "units": {
         "growth_time": "ngày"
@@ -654,9 +656,7 @@
         ]
       }
     ]
-  }
-  ,
-
+  },
   "fr":{
     "labels": {
       "info": "INFO",
@@ -699,7 +699,8 @@
         "assessment": "Évaluation",
         "remarks": "Remarques",
         "win": "Gagner",
-        "lose": "Perdre"
+        "lose": "Perdre",
+        "play_again": ""
       },
       "units": {
         "growth_time": "jours"
@@ -985,8 +986,7 @@
       }
     ]
       
-  }, 
-
+  },
   "th":{
     "labels": {
       "info": "ข้อมูล",
@@ -1029,7 +1029,8 @@
         "assessment": "การประเมินผล",
         "remarks": "หมายเหตุ",
         "win": "ชนะ",
-        "lose": "แพ้"
+        "lose": "แพ้",
+        "play_again": ""
       },
       "units": {
         "growth_time": "วัน"

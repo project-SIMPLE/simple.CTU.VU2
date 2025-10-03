@@ -70787,6 +70787,7 @@ MonoBehaviour:
   scoreText: {fileID: 2023277767}
   infoText: {fileID: 906953947}
   scoreTextEndGame: {fileID: 761249571}
+  playAgainText: {fileID: 0}
   fileName: data
   currentLang: en
   root:
@@ -70796,6 +70797,7 @@ MonoBehaviour:
         name: 
         level: 
         score: 
+        playagain: 
       gameplay:
         name: 
         level: 0
@@ -70823,6 +70825,7 @@ MonoBehaviour:
         name: 
         level: 
         score: 
+        playagain: 
       gameplay:
         name: 
         level: 0
@@ -70850,6 +70853,7 @@ MonoBehaviour:
         name: 
         level: 
         score: 
+        playagain: 
       gameplay:
         name: 
         level: 0
@@ -70877,6 +70881,7 @@ MonoBehaviour:
         name: 
         level: 
         score: 
+        playagain: 
       gameplay:
         name: 
         level: 0
