@@ -3,35 +3,59 @@ using UnityEngine.XR;
 
 public class UICamera : MonoBehaviour
 {
+    [Header("UI điều khiển bằng tay phải (Secondary button)")]
     [SerializeField] private GameObject UISetting;
-    private bool isUIOpen = false;
 
-    private bool secondaryButtonPrevState = false;
+    [Header("UI điều khiển bằng tay trái (Primary button = X)")]
+    [SerializeField] private GameObject startGameMenuUI;
+
+    private bool isUISettingOpen = false;
+    private bool isStartGameMenuOpen = false;
+
+    private bool rightSecondaryPrev = false;
+    private bool leftPrimaryPrev = false;
 
     private void Update()
     {
-        // Toggle bằng phím M (keyboard test)
         if (Input.GetKeyDown(KeyCode.M))
+            ToggleUISetting();
+        if (Input.GetKeyDown(KeyCode.O))
+            ToggleStartGameMenu();
+
+        var rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+        if (rightHand.isValid &&
+            rightHand.TryGetFeatureValue(CommonUsages.secondaryButton, out bool rightPressed))
         {
-            ToggleUI();
+            if (rightPressed && !rightSecondaryPrev)
+                ToggleUISetting();
+            rightSecondaryPrev = rightPressed;
         }
 
-        // Toggle bằng nút Secondary VR
-        InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
-        if (rightHand.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonPressed))
+        var leftHand = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+        if (leftHand.isValid &&
+            leftHand.TryGetFeatureValue(CommonUsages.primaryButton, out bool leftPressed))
         {
-            if (secondaryButtonPressed && !secondaryButtonPrevState)
-            {
-                ToggleUI();
-            }
-            secondaryButtonPrevState = secondaryButtonPressed;
+            if (leftPressed && !leftPrimaryPrev)
+                ToggleStartGameMenu();
+            leftPrimaryPrev = leftPressed;
         }
     }
 
-    public void ToggleUI()
+    private void ToggleUISetting()
     {
-        isUIOpen = !isUIOpen;
-        UISetting.SetActive(isUIOpen);
-        Debug.Log((isUIOpen ? "Show" : "Hide") + " UI cho plot: " + gameObject.name);
+        if (!UISetting) return;
+
+        isUISettingOpen = !isUISettingOpen;
+        UISetting.SetActive(isUISettingOpen);
+        Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
+    }
+
+    private void ToggleStartGameMenu()
+    {
+        if (!startGameMenuUI) return;
+
+        isStartGameMenuOpen = !isStartGameMenuOpen;
+        startGameMenuUI.SetActive(isStartGameMenuOpen);
+        Debug.Log((isStartGameMenuOpen ? "Show" : "Hide") + " StartGameMenuUI");
     }
 }

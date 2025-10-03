@@ -52102,6 +52102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UISetting: {fileID: 1289821708}
+  startGameMenuUI: {fileID: 1228729654}
 --- !u!114 &1113687034
 MonoBehaviour:
   m_ObjectHideFlags: 0
