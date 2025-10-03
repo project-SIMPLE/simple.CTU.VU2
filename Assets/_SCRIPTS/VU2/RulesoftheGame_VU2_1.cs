@@ -199,7 +199,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		Rain_image.SetActive(false);
 		Sun_image.SetActive(true);
 		
-		target.transform.position = pointA;
+		target.transform.position = pointA; // reset vi tri ban dau
 
 		PlayMusic(normalMusic);
 	}
