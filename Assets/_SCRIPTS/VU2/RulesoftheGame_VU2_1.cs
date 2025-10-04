@@ -21,10 +21,6 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public Material Skybox_Rain;
 	public Material Skybox_Sun;
 
-	// Music
-	public AudioClip rainMusic;
-	public AudioClip normalMusic;
-	private AudioSource audioSource;
 
 	public static float Saltwater_Intrusion = 0.0f;
 	
@@ -36,6 +32,15 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public Vector3 pointA;          // Vị trí bắt đầu
 	public Vector3 pointB;          // Vị trí kết thúc
 	public float moveTime = 3f;     // Thời gian di chuyển (giây)
+
+	[Header("Music")]
+	// Music
+	public AudioClip rainMusic;
+	public AudioClip normalMusic;
+	public AudioClip messageSFX;
+	private AudioSource audioSource;
+
+
 
 	private float timer;
 	private bool moving;
@@ -142,6 +147,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 				RenderSettings.skybox = Skybox_Sun;
 				DynamicGI.UpdateEnvironment();
 				PlayMusic(normalMusic);
+
+				audioSource.PlayOneShot(messageSFX);
 				ResultMenu.SetActive(true);
 
 			}
@@ -213,6 +220,12 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		target.transform.position = pointA; // reset vi tri ban dau
 
 		PlayMusic(normalMusic);
+	}
+
+	public void PlaySFX(AudioClip audioClip)
+	{
+		if (audioClip == null) return;
+		audioSource.PlayOneShot(audioClip);
 	}
 
 	private static void ResetAllPlots()

@@ -391,7 +391,7 @@
       {
         "id": 1,
         "tag_name": "Cây sầu riêng",
-        "growth_time": 180,
+        "growth_time": 5,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 4,
         "information": "Thông tin của sầu riêng",
@@ -649,7 +649,11 @@
         "npcName": "Nông dân",
         "dialogues": [
           "Xin chào, tôi là một nông dân trong khu vườn này.",
-          "Bạn là ai?"
+          "Đây là một khu canh tác ven biển vùng đồng bằng sông Cửu Long", 
+          "nơi đang gặp một vấn đề rắc rối nho nhỏ.",
+          "Hãy hỗ trợ chúng tôi, những người dân địa phương việc canh tác, ",
+          "bảo vệ cây trồng và vật nuôi nhé.",
+          "Nào, đi thôi!"
         ]
       },
       {

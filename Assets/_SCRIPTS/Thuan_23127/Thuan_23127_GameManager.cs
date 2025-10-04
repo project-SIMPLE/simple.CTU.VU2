@@ -21,6 +21,10 @@ public class Thuan_23127_GameManager : MonoBehaviour
     [Tooltip("Hệ số mùa khô")]
     public float dryFactor = 1.5f;
 
+    [Header("SFX")]
+    public AudioSource audioSource;
+    public AudioClip harvestClip;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -95,6 +99,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
         // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1.0f) { value = (int)(value / 1.5f); }
         // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 2.0f) { value = value / 2; }
         Score += value;
+        audioSource.PlayOneShot(harvestClip);
         OnScoreChanged?.Invoke(Score);
 
         if (!jsonReader) jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();

@@ -11,34 +11,38 @@ public class Pet_AI : MonoBehaviour
     public float walkCounter;
     public float waitCounter;
     public bool isWalking;
+
+
+
     private int _walkDirection;
     private float _waitTime;
     private float _walkTime;
-    
+
     [Header("Mổ Thóc")]
     private bool _isPecking;
     private float _peckDuration;   // thời gian mổ
-    private float _peckCounter; 
+    private float _peckCounter;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
- 
-        _walkTime = Random.Range(3,6);
-        _waitTime = Random.Range(5,7);
- 
+
+        _walkTime = Random.Range(3, 6);
+        _waitTime = Random.Range(5, 7);
+
         waitCounter = _waitTime;
         walkCounter = _walkTime;
- 
+
         ChooseDirection();
     }
+
 
     private void Update()
     {
         if (isWalking)
         {
             _animator.SetBool("isRunning", true);
-            _animator.SetInteger("animation", 2); 
+            _animator.SetInteger("animation", 2);
 
             walkCounter -= Time.deltaTime;
 
@@ -105,7 +109,7 @@ public class Pet_AI : MonoBehaviour
     private void ChooseDirection()
     {
         _walkDirection = Random.Range(0, 3);
- 
+
         isWalking = true;
         walkCounter = _walkTime;
     }
@@ -115,8 +119,8 @@ public class Pet_AI : MonoBehaviour
         _isPecking = true;
         _peckDuration = Random.Range(2f, 3f); // 2s - 3s 
         _peckCounter = _peckDuration;
-        
-        _animator.SetInteger("animation",4);
+
+        _animator.SetInteger("animation", 4);
         // _animator.SetBool("isPecking", false);
         // Nên tạo audio vào đây
     }
@@ -137,4 +141,5 @@ public class Pet_AI : MonoBehaviour
             ChooseDirection(); // chọn hướng mới
         }
     }
+
 }

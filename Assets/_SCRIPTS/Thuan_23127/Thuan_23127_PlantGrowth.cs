@@ -19,8 +19,9 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float destroyDelaySeconds = 30f;
 
+
     // dữ liệu nguồn (tuỳ loại)
-    private Plant  _plantData;
+    private Plant _plantData;
     private Animal _animalData;
     private Fish   _fishData;
 
