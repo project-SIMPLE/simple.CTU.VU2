@@ -89,19 +89,10 @@ public class ConversationUIController : MonoBehaviour
     }
 
 
-    private void EndConversation()
+    public void EndConversation()
     {
         StopAllCoroutines();
         EnableUI(false);
-
-        _talkButton?.SetActive(true);
-        _talkButton = null;
-    }
-
-
-    public void SetTalkButton(GameObject talkButton)
-    {
-        _talkButton = talkButton;
     }
 
 

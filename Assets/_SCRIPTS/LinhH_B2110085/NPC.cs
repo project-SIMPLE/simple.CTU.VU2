@@ -6,8 +6,7 @@ public class NPC : MonoBehaviour
 {
     [SerializeField] private string _npcId;
     [SerializeField] private ConversationUIController _conversationController;
-    [SerializeField] private GameObject _talkButton;
-[SerializeField] private Thuan_23127_JsonReader _jsonReader;
+    [SerializeField] private Thuan_23127_JsonReader _jsonReader;
 
     private NPCDialogue _npcDialogues = null;
     private string _fileName = "data";
@@ -22,7 +21,6 @@ public class NPC : MonoBehaviour
 
         if (_npcDialogues != null)
         {
-            _conversationController.SetTalkButton(_talkButton);
             _conversationController.StartConversation(_npcDialogues.npcName, _npcDialogues.dialogues);
         }
         else
