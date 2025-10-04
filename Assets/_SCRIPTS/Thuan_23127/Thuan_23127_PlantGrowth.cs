@@ -92,17 +92,18 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         var gm = Thuan_23127_GameManager.Instance;
         if (!gm) return;
 
-        float currentSalinity = gm.GetSeasonSalinity();
-        float threshold = 0f;
-        string name = "";
+        var currentSalinity = gm.GetSeasonSalinity();
+        var threshold = 0f;
 
-        if (_plantData  != null) { threshold = _plantData.salinity_threshold;  name = _plantData.tag_name; }
-        if (_animalData != null) { threshold = _animalData.salinity_threshold; name = _animalData.tag_name; }
-        if (_fishData   != null) { threshold = _fishData.salinity_threshold;   name = _fishData.tag_name; }
+        if (_plantData  != null) { threshold = _plantData.salinity_threshold; }
+        if (_animalData != null) { threshold = _animalData.salinity_threshold; }
+        if (_fishData   != null) { threshold = _fishData.salinity_threshold; }
 
-        string status = (currentSalinity <= threshold) ? "OK" : "Stressed";
+        // string status = (currentSalinity <= threshold) ? "OK" : "Stressed";
 
-        salinityText.text = $"{currentSalinity:0.00}: {threshold}\n[{status}]";
+        // salinityText.text = $"{currentSalinity:0.00}: {threshold}\n[{status}]";
+        salinityText.text = $"{currentSalinity:0.00}: {threshold}]";
+        
     }
 
     // === Common Init ===

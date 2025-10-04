@@ -5,7 +5,6 @@ public class FarmArea : MonoBehaviour
     [Header("Setup")]
     public Transform[] plotPoints;
 
-
     [Header("Refs")]
     public Thuan_23127_JsonReader jsonReader;
 
@@ -38,17 +37,18 @@ public class FarmArea : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < plotPoints.Length; i++)
+        for (var i = 0; i < plotPoints.Length; i++)
         {
             if (!isPlanted[i])
             {
                 var p  = plotPoints[i];
                 // var go = Instantiate(plantPrefab, p.position, p.rotation);
                 var parent = plotPoints[i];
-                var go = Instantiate(plantPrefab, parent);   
+                var go = Instantiate(plantPrefab, parent);
                 go.transform.localPosition = Vector3.zero;
                 go.transform.localRotation = Quaternion.identity;
-                
+                go.transform.localScale    = plantPrefab.transform.localScale;
+
                 var growth = go.GetComponent<Thuan_23127_PlantGrowth>();
                 if (!growth) growth = go.AddComponent<Thuan_23127_PlantGrowth>();
 
@@ -72,13 +72,13 @@ public class FarmArea : MonoBehaviour
     
     public void ResetAllPlots()
     {
-        for (int i = 0; i < plotPoints.Length; i++)
+        for (var i = 0; i < plotPoints.Length; i++)
         {
             var p = plotPoints[i];
             if (p == null) continue;
 
             // Xoá mọi cây đang bám vào plotPoints
-            for (int c = p.childCount - 1; c >= 0; c--)
+            for (var c = p.childCount - 1; c >= 0; c--)
             {
                 var child = p.GetChild(c);
                 Destroy(child.gameObject);
@@ -87,5 +87,4 @@ public class FarmArea : MonoBehaviour
             isPlanted[i] = false;
         }
     }
-    
 }

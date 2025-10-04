@@ -23,11 +23,31 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
     public Text infoText;                // Nội dung
 
     private Thuan_23127_JsonReader jsonReader;  // Reader lấy dữ liệu từ JSON
+    private CanvasGroup _panelCg;               
 
     private void Start()
     {
         jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
-        scrollInfoPanel?.SetActive(false);
+        if (scrollInfoPanel)
+        {
+            // đảm bảo tooltip KHÔNG nhận/bắt input
+            _panelCg = scrollInfoPanel.GetComponent<CanvasGroup>();
+            if (!_panelCg) _panelCg = scrollInfoPanel.AddComponent<CanvasGroup>();
+            _panelCg.interactable = false;      
+            _panelCg.blocksRaycasts = false;    
+
+            //tắt Raycast Target cho toàn bộ đồ hoạ con để chắc chắn không nuốt input
+            foreach (var g in scrollInfoPanel.GetComponentsInChildren<Graphic>(true))
+            {
+                g.raycastTarget = false;
+            }
+
+            scrollInfoPanel.SetActive(false);
+        }
+        else
+        {
+            scrollInfoPanel?.SetActive(false);
+        }
     }
 
     private string LocalizeGroupLabelHardcoded(string langCode, EntityType t)
@@ -46,6 +66,9 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
     {
         if (jsonReader == null || scrollInfoPanel == null || infoText == null) return;
 
+        // nếu đang giữ chuột (click/drag) thì KHÔNG mở tooltip (tránh “click treo” gây trồng)
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || eventData.eligibleForClick) return; // FIX
+
         var lang = jsonReader.GetCurrentLangData();
         if (lang == null || lang.interpretation == null) return;
 
@@ -57,7 +80,7 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         var sbBody = new StringBuilder();
         var sbHead = new StringBuilder();
 
-        void AppendBlock(string groupLabel, string tag_name, int growth_time, int economic_benefits, string information)
+        void AppendBlock(string tag_name, int growth_time, int economic_benefits, string information)
         {
             if (sbHead.Length > 0) sbHead.Append(" | ");
             sbHead.Append($"{tag_name}");
@@ -72,35 +95,35 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         bool foundAny = false;
 
         // Theo "type" Auto scan tất cả
-        if (type == EntityType.Plant || type == EntityType.Auto)
+        if (type is EntityType.Plant or EntityType.Auto)
         {
             var p = jsonReader.GetPlantById(id);
             if (p != null)
             {
                 var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Plant);
-                AppendBlock(label, p.tag_name, p.growth_time, p.economic_benefits, p.information);
+                AppendBlock(p.tag_name, p.growth_time, p.economic_benefits, p.information);
                 foundAny = true;
             }
         }
 
-        if (type == EntityType.Livestock || type == EntityType.Auto)
+        if (type is EntityType.Livestock or EntityType.Auto)
         {
             var a = jsonReader.GetLivestockById(id);
             if (a != null)
             {
                 var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Livestock);
-                AppendBlock(label, a.tag_name, a.growth_time, a.economic_benefits, a.information);
+                AppendBlock(a.tag_name, a.growth_time, a.economic_benefits, a.information);
                 foundAny = true;
             }
         }
 
-        if (type == EntityType.Fish || type == EntityType.Auto)
+        if (type is EntityType.Fish or EntityType.Auto)
         {
             var f = jsonReader.GetFishById(id);
             if (f != null)
             {
                 var label = LocalizeGroupLabelHardcoded(langCode, EntityType.Fish);
-                AppendBlock(label, f.tag_name, f.growth_time, f.economic_benefits, f.information);
+                AppendBlock(f.tag_name, f.growth_time, f.economic_benefits, f.information);
                 foundAny = true;
             }
         }
