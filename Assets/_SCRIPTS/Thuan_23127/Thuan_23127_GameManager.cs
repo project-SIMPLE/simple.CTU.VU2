@@ -90,10 +90,10 @@ public class Thuan_23127_GameManager : MonoBehaviour
     // Mùa mưa S=0.30 ⇒ S ≤ T ⇒ factor=1.0 ⇒ econ=4 ⇒ +4 điểm.
     // Mùa khô S=1.50 ⇒ S > T ⇒ factor=0.8/1.5≈0.53 ⇒ 4×0.53≈2.1 ⇒ +2 điểm.
     {
-        if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 0.0f)
-        { value = value; }
-        else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1.0f) { value = (int)(value / 1.5f); }
-        else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 2.0f) { value = value / 2; }
+        // if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 0.0f)
+        // { value = value; }
+        // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1.0f) { value = (int)(value / 1.5f); }
+        // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 2.0f) { value = value / 2; }
         Score += value;
         OnScoreChanged?.Invoke(Score);
 
