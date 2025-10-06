@@ -59,7 +59,7 @@
       {
         "id": 1,
         "tag_name": "Durian",
-        "growth_time": 20,
+        "growth_time": 100,
         "status": ["Good", "Sick", "Dead"],
         "economic_benefits": 4,
         "information": "Information about durian",
@@ -391,7 +391,7 @@
       {
         "id": 1,
         "tag_name": "Cây sầu riêng",
-        "growth_time": 5,
+        "growth_time": 100,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 4,
         "information": "Thông tin của sầu riêng",

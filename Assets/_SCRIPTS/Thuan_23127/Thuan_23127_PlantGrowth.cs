@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,13 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float destroyDelaySeconds = 30f;
 
+    
+    // ===== Events để FarmArea/HUD nhận =====
+    public enum State { Growing, Ready, Harvesting, Done }
+    public event Action<float> OnProgressChanged;                 // 0..1
+    public event Action<float, float> OnSalinityChanged;          // current, threshold
+    public event Action<State> OnStateChanged;
+    public event Action OnAboutToDestroy;
 
     // dữ liệu nguồn (tuỳ loại)
     private Plant _plantData;
@@ -51,8 +59,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-
-        UpdateSalinityText();   // hiển thị ngay khi vừa trồng
+        UpdateSalinityEvent();
     }
 
     // === Init cho Animal ===
@@ -66,8 +73,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-
-        UpdateSalinityText();
+        UpdateSalinityEvent();   
     }
 
     // === Init cho Fish ===
@@ -81,31 +87,24 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-
-        UpdateSalinityText();
+        UpdateSalinityEvent();   
     }
 
     // === Update Salinity UI ===
     public void UpdateSalinityText()
     {
         if (salinityText == null) return;
-
-        var gm = Thuan_23127_GameManager.Instance;
-        if (!gm) return;
-
+        var gm = Thuan_23127_GameManager.Instance; if (!gm) return;
         var currentSalinity = gm.GetSeasonSalinity();
         var threshold = 0f;
+        if (_plantData  != null) threshold = _plantData.salinity_threshold;
+        if (_animalData != null) threshold = _animalData.salinity_threshold;
+        if (_fishData   != null) threshold = _fishData.salinity_threshold;
 
-        if (_plantData  != null) { threshold = _plantData.salinity_threshold; }
-        if (_animalData != null) { threshold = _animalData.salinity_threshold; }
-        if (_fishData   != null) { threshold = _fishData.salinity_threshold; }
-
-        // string status = (currentSalinity <= threshold) ? "OK" : "Stressed";
-
-        // salinityText.text = $"{currentSalinity:0.00}: {threshold}\n[{status}]";
-        salinityText.text = $"{currentSalinity:0.00}: {threshold}]";
-        
+        salinityText.text = $"{currentSalinity:0.00} / {threshold:0.00}";
     }
+    
+    private void PushProgress(float t) => OnProgressChanged?.Invoke(t);
 
     // === Common Init ===
     private void CommonInitAndStart()
@@ -117,14 +116,13 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             harvestInteractable.selectEntered.AddListener(_ => { TryStartHarvest(); });
         }
 
-        _growing    = true;
-        _ready      = false;
-        _harvested  = false;
-        _harvesting = false;
+        _growing = true; _ready = false; _harvested = false; _harvesting = false;
 
-        UpdateUI(0f);
+        PushProgress(0f);
+        OnStateChanged?.Invoke(State.Growing);
         StartCoroutine(CoGrow());
     }
+
 
     private IEnumerator CoGrow()
     {
@@ -132,15 +130,30 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         while (_growElapsed < _growTotal)
         {
             _growElapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(_growElapsed / _growTotal);
-            UpdateUI(t);
+            var t = Mathf.Clamp01(_growElapsed / _growTotal);
+
+            PushProgress(t);          
+            UpdateUI(t);            
+
             yield return null;
         }
 
         _growing = false;
         _ready   = true;
+        OnStateChanged?.Invoke(State.Ready); 
 
         TryStartHarvest(); // Auto
+    }
+    
+    public void UpdateSalinityEvent()
+    {
+        var gm = Thuan_23127_GameManager.Instance; if (!gm) return;
+        float current = gm.GetSeasonSalinity();
+        float threshold = 0f;
+        if (_plantData  != null) threshold = _plantData.salinity_threshold;
+        if (_animalData != null) threshold = _animalData.salinity_threshold;
+        if (_fishData   != null) threshold = _fishData.salinity_threshold;
+        OnSalinityChanged?.Invoke(current, threshold);
     }
 
     private void OnMouseDown() { TryStartHarvest(); }
@@ -156,30 +169,21 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private IEnumerator CoHarvest()
     {
         _harvesting = true;
+        OnStateChanged?.Invoke(State.Harvesting);
         if (harvestInteractable) harvestInteractable.enabled = false;
 
-        UpdateUI(0f);
-
-        float e = 0f;
-        float hTime = (_harvestTime > 0f) ? _harvestTime : 2f;
-        while (e < hTime)
-        {
-            e += Time.deltaTime;
-            float t = Mathf.Clamp01(e / hTime);
-            UpdateUI(t);
-            yield return null;
-        }
+        PushProgress(0f);
+        float e = 0f, h = (_harvestTime > 0f) ? _harvestTime : 2f;
+        while (e < h) { e += Time.deltaTime; PushProgress(Mathf.Clamp01(e / h)); yield return null; }
 
         FinalizeHarvest();
     }
 
+
     private void FinalizeHarvest()
     {
         if (_harvested) return;
-
-        _harvested  = true;
-        _ready      = false;
-        _harvesting = false;
+        _harvested = true; _ready = false; _harvesting = false;
 
         var gm = Thuan_23127_GameManager.Instance;
         if (gm)
@@ -187,24 +191,18 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             if      (_plantData  != null) gm.AddScoreForPlant (_econ, _plantData);
             else if (_animalData != null) gm.AddScoreForAnimal(_econ, _animalData);
             else if (_fishData   != null) gm.AddScoreForFish  (_econ, _fishData);
-            else                          gm.AddScore(_econ); 
+            else                          gm.AddScore(_econ);
         }
-
-        if (harvestInteractable)
-        {
-            harvestInteractable.enabled = false;
-            harvestInteractable.selectEntered.RemoveAllListeners();
-        }
-
-        if (progressFill)        progressFill.enabled = false;
-        if (progressPercentText) progressPercentText.gameObject.SetActive(false);
 
         StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
+        OnStateChanged?.Invoke(State.Done);
     }
+
 
     private IEnumerator CoDestroyAfter(float delay)
     {
         yield return new WaitForSeconds(delay);
+        OnAboutToDestroy?.Invoke();             
         if (_ownerArea) _ownerArea.FreePlot(_ownerIndex);
         Destroy(gameObject);
     }
@@ -214,4 +212,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (progressFill) progressFill.fillAmount = t;
         if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
     }
+    
+    
 }

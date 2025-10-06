@@ -247,7 +247,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		// Cập nhật text salinity trên từng instance
 		var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
 		for (int i = 0; i < all.Length; i++)
-			all[i].UpdateSalinityText();
+			all[i].UpdateSalinityEvent();
 
 		// (tuỳ chọn) cập nhật luôn UI salinity global nếu bạn có
 		var gm = Thuan_23127_GameManager.Instance;

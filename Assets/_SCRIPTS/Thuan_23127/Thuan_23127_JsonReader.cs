@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,7 +55,6 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     }
 
 
-
     /// <summary>
     /// Lấy ngôn ngữ hiện tại
     /// </summary>
@@ -94,6 +91,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Animal GetLivestockById(int id) => GetCurrentLangAnimals()?.FirstOrDefault(a => a.id == id);
     public Fish   GetFishById(int id)      => GetCurrentLangFish()?.FirstOrDefault(f => f.id == id);
 
+    
     private void ApplyLanguage()
     {
         if (root == null) return;
@@ -122,6 +120,7 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (gm) gm.jsonReader = this; 
     }
     
+    // hiển thị cho mình ngưỡng mặn
     public void UpdateSalinityUI(float salinity)
     {
         var l = GetCurrentLangData();
