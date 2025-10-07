@@ -22,7 +22,11 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public static float Saltwater_Intrusion = 0.0f;
 	
 	private static float _cachedSeason = -999f;
-
+	public static Season CurrentSeason = Season.Normal;
+	public static event System.Action<Season> OnSeasonChanged;
+	
+	private static Season _cachedSeasonEnum = (Season)(-1);
+	
 	// saltwater intrusion
 	//public Saltwater_Intrusion saltwaterIntrusionObject;
 	public GameObject target;       // Object cần di chuyển
@@ -107,9 +111,6 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 				float t = timer / moveTime;
 
 				target.transform.position = Vector3.Lerp(pointA, pointB, t);
-
-
-
 			}
 			else if (timeRemaining > 180 && timeRemaining <= 270)
 			{
@@ -233,18 +234,28 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	
 	private void SetSeason(float season)
 	{
-		// chỉ bắn update khi thực sự đổi mùa
 		if (Mathf.Approximately(_cachedSeason, season)) return;
 
 		Saltwater_Intrusion = season;
 		_cachedSeason = season;
 
-		// Cập nhật text salinity trên từng instance
+		Season newSeason;
+		if (Mathf.Approximately(season, 0f))      newSeason = Season.Rainy;
+		else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
+		else                                       newSeason = Season.Dry;
+
+		if (_cachedSeasonEnum != newSeason)
+		{
+			_cachedSeasonEnum = newSeason;
+			CurrentSeason = newSeason;
+			OnSeasonChanged?.Invoke(CurrentSeason);
+		}
+
+		// cập nhật salinity trên từng cây + UI global
 		var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
 		for (int i = 0; i < all.Length; i++)
 			all[i].UpdateSalinityEvent();
 
-		// (tuỳ chọn) cập nhật luôn UI salinity global nếu bạn có
 		var gm = Thuan_23127_GameManager.Instance;
 		if (gm && gm.jsonReader)
 			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());

@@ -40,10 +40,10 @@ public class Thuan_23127_GameManager : MonoBehaviour
     {
         var k = RulesoftheGame_VU2_1.Saltwater_Intrusion switch
         {
-            0.5f => rainyFactor,   // mưa
-            1.0f => normalFactor,  // bình thường
-            1.5f => dryFactor,     // khô
-            _    => normalFactor 
+            0f => rainyFactor,
+            1f => normalFactor,
+            2f => dryFactor,
+            _  => normalFactor
         };
         return Mathf.Max(0f, salinityBase * k);
     }

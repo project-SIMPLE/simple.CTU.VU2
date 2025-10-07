@@ -48,6 +48,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private int _ownerIndex = -1;
     private Thuan_23127_JsonReader _jsonReader;
     private Func<float> _salinityProvider;
+    
+    public event System.Action<int> OnHarvested;
 
     // === Init cho Plant ===
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
@@ -195,7 +197,13 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _harvested = true; _ready = false; _harvesting = false;
 
         var gm = Thuan_23127_GameManager.Instance;
-        if (gm) gm.AddScore(AdjustBySalinity(_econ));   // Tính theo area
+        // tính hiện tại của bạn theo farmArea
+        var points = AdjustBySalinity(_econ);
+
+        if (gm) gm.AddScore(points);
+
+        //  FarmArea/HUD cộng vào ô điểm mùa tương ứng
+        OnHarvested?.Invoke(points);
 
         StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
         OnStateChanged?.Invoke(State.Done);

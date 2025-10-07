@@ -23,6 +23,8 @@ public class FarmArea : MonoBehaviour
     [Range(0, 5)] public float normalSalinity = 1.0f; // bth
     [Range(0, 5)] public float drySalinity = 1.5f; // kho
     public bool useAreaSeasonalSalinity = true;
+    
+    private int _rainyScore, _normalScore, _dryScore;
 
     //trả về độ mặn hiện tại của area theo mùa toàn cục
     public float GetAreaSalinity()
@@ -58,32 +60,50 @@ public class FarmArea : MonoBehaviour
         _onProg = null; _onSalt = null; _onState = null; _onAboutToDestroy = null;
     }
 
-    public void BindGrowthToHUD(Thuan_23127_PlantGrowth growth)
+
+    // Pass qua hub to show điểm
+    private void BindGrowthToHUD(Thuan_23127_PlantGrowth growth)
     {
         if (!hud || !growth) return;
         UnbindCurrent();
 
-        // >>> provider: Growth sẽ luôn lấy độ mặn từ area này
-        growth.SetSalinityProvider(GetAreaSalinity);
+        growth.SetSalinityProvider(GetAreaSalinity); // bạn đã có
 
         hud.Show(true);
         hud.SetProgress(0f);
+        hud.SetSeasonScores(_rainyScore, _normalScore, _dryScore); 
 
         _onProg = hud.SetProgress;
         _onSalt = hud.SetSalinity;
         _onState = s => { if (s == Thuan_23127_PlantGrowth.State.Done) hud.SetProgress(0f); };
         _onAboutToDestroy = () => { UnbindCurrent(); hud.Show(false); };
 
+        // THÊM: cộng điểm vào đúng mùa khi harvest xong
+        System.Action<int> onHarvested = (gain) =>
+        {
+            var season = RulesoftheGame_VU2_1.CurrentSeason;
+            switch (season)
+            {
+                case Season.Rainy:  _rainyScore  += gain; break;
+                case Season.Normal: _normalScore += gain; break;
+                case Season.Dry:    _dryScore    += gain; break;
+            }
+            hud.SetSeasonScores(_rainyScore, _normalScore, _dryScore);
+        };
+
         growth.OnProgressChanged += _onProg;
         growth.OnSalinityChanged += _onSalt;
         growth.OnStateChanged    += _onState;
         growth.OnAboutToDestroy  += _onAboutToDestroy;
+        growth.OnHarvested       += onHarvested;               // << THÊM
+
+        // nhớ unbind cả OnHarvested:
+        _onAboutToDestroy += () => { growth.OnHarvested -= onHarvested; };
 
         _boundGrowth = growth;
 
-        growth.UpdateSalinityEvent();    // đẩy giá trị ban đầu (HUD sẽ hiện đúng số của area)
+        growth.UpdateSalinityEvent();
     }
-
 
     public void PlantAll(GameObject plantPrefab) => PlantInternal(plantPrefab, fillAll: true);
 
@@ -142,6 +162,7 @@ public class FarmArea : MonoBehaviour
                 Destroy(p.GetChild(c).gameObject);
             isPlanted[i] = false;
         }
+        _rainyScore = _normalScore = _dryScore = 0; 
         if (hud) { hud.SetProgress(0f); hud.Show(false); }
     }
 }
