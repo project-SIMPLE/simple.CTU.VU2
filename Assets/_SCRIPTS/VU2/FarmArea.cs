@@ -18,6 +18,26 @@ public class FarmArea : MonoBehaviour
     private Action<float, float> _onSalt;
     private Action<Thuan_23127_PlantGrowth.State> _onState;
     private Action _onAboutToDestroy;
+    
+    [Range(0, 5)] public float rainySalinity = 0.5f;   // Test cho 1_4
+    [Range(0, 5)] public float normalSalinity = 1.0f; // bth
+    [Range(0, 5)] public float drySalinity = 1.5f; // kho
+    public bool useAreaSeasonalSalinity = true;
+
+    //trả về độ mặn hiện tại của area theo mùa toàn cục
+    public float GetAreaSalinity()
+    {
+        if (!useAreaSeasonalSalinity)
+            return Thuan_23127_GameManager.Instance
+                ? Thuan_23127_GameManager.Instance.GetSeasonSalinity()
+                : 0f;
+        
+        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        if (Mathf.Approximately(s, 0f)) return rainySalinity;
+        if (Mathf.Approximately(s, 1f)) return normalSalinity;
+        if (Mathf.Approximately(s, 2f)) return drySalinity;
+        return normalSalinity;
+    }
 
     void Start()
     {
@@ -25,7 +45,7 @@ public class FarmArea : MonoBehaviour
         if (hud) hud.Show(true);
     }
 
-    private void UnbindCurrent()
+    private void UnbindCurrent() // trành 2 hub tự dính nhau
     {
         if (!_boundGrowth || !hud) return;
 
@@ -40,10 +60,11 @@ public class FarmArea : MonoBehaviour
 
     public void BindGrowthToHUD(Thuan_23127_PlantGrowth growth)
     {
-        if (!hud || growth == null) return;
-
-        //  tránh 2 cây cùng update vào HUD
+        if (!hud || !growth) return;
         UnbindCurrent();
+
+        // >>> provider: Growth sẽ luôn lấy độ mặn từ area này
+        growth.SetSalinityProvider(GetAreaSalinity);
 
         hud.Show(true);
         hud.SetProgress(0f);
@@ -51,12 +72,7 @@ public class FarmArea : MonoBehaviour
         _onProg = hud.SetProgress;
         _onSalt = hud.SetSalinity;
         _onState = s => { if (s == Thuan_23127_PlantGrowth.State.Done) hud.SetProgress(0f); };
-        _onAboutToDestroy = () =>
-        {
-            // tự tháo
-            UnbindCurrent();
-            hud.Show(false);
-        };
+        _onAboutToDestroy = () => { UnbindCurrent(); hud.Show(false); };
 
         growth.OnProgressChanged += _onProg;
         growth.OnSalinityChanged += _onSalt;
@@ -65,9 +81,9 @@ public class FarmArea : MonoBehaviour
 
         _boundGrowth = growth;
 
-        growth.UpdateSalinityEvent();  
-        hud.SetProgress(0f);
+        growth.UpdateSalinityEvent();    // đẩy giá trị ban đầu (HUD sẽ hiện đúng số của area)
     }
+
 
     public void PlantAll(GameObject plantPrefab) => PlantInternal(plantPrefab, fillAll: true);
 

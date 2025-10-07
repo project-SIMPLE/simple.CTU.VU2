@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+public enum Season { Rainy = 0, Normal = 1, Dry = 2 }
 
 public class Thuan_23127_AreaHUD : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     [Header("Salinity")]
     public Text salinityText;
     
-    // planting thứ mấy ở đây 
-    // độ mặn của planting
-
+    public Text rainyScoreText;
+    public Text normalScoreText;
+    public Text dryScoreText;
+    
     public void SetProgress(float t)
     {
         if (progressFill)        progressFill.fillAmount = Mathf.Clamp01(t);

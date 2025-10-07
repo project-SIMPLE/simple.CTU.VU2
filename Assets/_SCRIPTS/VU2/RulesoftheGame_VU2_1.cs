@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
+
 
 public class RulesoftheGame_VU2_1 : MonoBehaviour
 {
@@ -39,8 +36,6 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public AudioClip normalMusic;
 	public AudioClip messageSFX;
 	private AudioSource audioSource;
-
-
 
 	private float timer;
 	private bool moving;

@@ -40,15 +40,15 @@ public class Thuan_23127_GameManager : MonoBehaviour
     {
         var k = RulesoftheGame_VU2_1.Saltwater_Intrusion switch
         {
-            0.0f => rainyFactor,   // mưa
+            0.5f => rainyFactor,   // mưa
             1.0f => normalFactor,  // bình thường
-            2.0f => dryFactor,     // khô
-            _    => normalFactor
+            1.5f => dryFactor,     // khô
+            _    => normalFactor 
         };
         return Mathf.Max(0f, salinityBase * k);
     }
-    
-    public int ApplySalinityToScore(int baseValue, float plantThreshold)
+
+    private int ApplySalinityToScore(int baseValue, float plantThreshold)
     {
         float sal = GetSeasonSalinity();
         if (plantThreshold <= 0f) return baseValue;             // không set threshold → không giảm
@@ -58,7 +58,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
     }
     
-    
     // Cộng điểm cho plant có nguong mặn 
     public void AddScoreForPlant(int baseValue, Plant plant)
     {
@@ -67,7 +66,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
             : baseValue;
         AddScore(value);
     }
-    
     // Cộng điểm cho animal có nguong mặn 
     public void AddScoreForAnimal(int baseValue, Animal animal)
     {
@@ -88,16 +86,12 @@ public class Thuan_23127_GameManager : MonoBehaviour
     /// <summary>
     /// Tính điểm 
     /// </summary>
-    /// <param name="value"></param>
-    public void AddScore(int value)
     // sầu riêng (T=0.8):
     // Mùa mưa S=0.30 ⇒ S ≤ T ⇒ factor=1.0 ⇒ econ=4 ⇒ +4 điểm.
     // Mùa khô S=1.50 ⇒ S > T ⇒ factor=0.8/1.5≈0.53 ⇒ 4×0.53≈2.1 ⇒ +2 điểm.
+    // </param>
+    public void AddScore(int value)
     {
-        // if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 0.0f)
-        // { value = value; }
-        // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1.0f) { value = (int)(value / 1.5f); }
-        // else if (RulesoftheGame_VU2_1.Saltwater_Intrusion == 2.0f) { value = value / 2; }
         Score += value;
         audioSource.PlayOneShot(harvestClip);
         OnScoreChanged?.Invoke(Score);

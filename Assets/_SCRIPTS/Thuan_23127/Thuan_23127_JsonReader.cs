@@ -82,15 +82,14 @@ public class Thuan_23127_JsonReader : MonoBehaviour
 
     public string GetCurrentLangCode() => string.IsNullOrEmpty(currentLang) ? "vi" : currentLang;
 
-    public List<Plant>  GetCurrentLangPlants()    => GetCurrentLangData()?.plants;
-    public List<Animal> GetCurrentLangAnimals()   => GetCurrentLangData()?.livestock;
-    public List<Fish>   GetCurrentLangFish()      => GetCurrentLangData()?.fish;
+    private List<Plant>  GetCurrentLangPlants()    => GetCurrentLangData()?.plants;
+    private List<Animal> GetCurrentLangAnimals()   => GetCurrentLangData()?.livestock;
+    private List<Fish>   GetCurrentLangFish()      => GetCurrentLangData()?.fish;
 
     // ======= theo ID =======
     public Plant  GetPlantById(int id)     => GetCurrentLangPlants()?.FirstOrDefault(p => p.id == id);
     public Animal GetLivestockById(int id) => GetCurrentLangAnimals()?.FirstOrDefault(a => a.id == id);
     public Fish   GetFishById(int id)      => GetCurrentLangFish()?.FirstOrDefault(f => f.id == id);
-
     
     private void ApplyLanguage()
     {

@@ -6631,6 +6631,10 @@ MonoBehaviour:
   - {fileID: 798762401}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1001 &152782799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7596,6 +7600,10 @@ MonoBehaviour:
   - {fileID: 77103741}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1001 &177826219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17080,6 +17088,10 @@ MonoBehaviour:
   - {fileID: 1278712809}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!4 &349407396 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1565887663814566041, guid: 3e07eccb5e6f459d886de95044adb1d9,
@@ -19539,6 +19551,10 @@ MonoBehaviour:
   - {fileID: 658704608}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!4 &393031338
 Transform:
   m_ObjectHideFlags: 0
@@ -26128,6 +26144,10 @@ MonoBehaviour:
   - {fileID: 87067498}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26513,6 +26533,10 @@ MonoBehaviour:
   - {fileID: 801584354}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &508803655
 GameObject:
   m_ObjectHideFlags: 0
@@ -27732,6 +27756,10 @@ MonoBehaviour:
   - {fileID: 1597240225}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &569253816
 GameObject:
   m_ObjectHideFlags: 0
@@ -27795,6 +27823,10 @@ MonoBehaviour:
   - {fileID: 166406898}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &570011260
 GameObject:
   m_ObjectHideFlags: 0
@@ -31007,6 +31039,10 @@ MonoBehaviour:
   - {fileID: 870079851}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1958852141}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &606787313
 GameObject:
   m_ObjectHideFlags: 0
@@ -35703,6 +35739,10 @@ MonoBehaviour:
   - {fileID: 476109073}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!4 &676317427
 Transform:
   m_ObjectHideFlags: 0
@@ -49325,6 +49365,10 @@ MonoBehaviour:
   - {fileID: 1312395396}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1001 &930135213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54320,6 +54364,85 @@ MonoBehaviour:
   scrollInfoPanel: {fileID: 48384768}
   headText: {fileID: 1548292089}
   infoText: {fileID: 1590339880}
+--- !u!1 &1051348287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1051348288}
+  - component: {fileID: 1051348290}
+  - component: {fileID: 1051348289}
+  m_Layer: 5
+  m_Name: Text (Legacy) (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1051348288
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051348287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1630719503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.58, y: -7.7}
+  m_SizeDelta: {x: 323.14, y: 39.97}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1051348289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051348287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1051348290
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051348287}
+  m_CullTransparentMesh: 1
 --- !u!1 &1051561348
 GameObject:
   m_ObjectHideFlags: 0
@@ -69396,7 +69519,11 @@ MonoBehaviour:
   - {fileID: 2105832929}
   - {fileID: 366054943}
   jsonReader: {fileID: 1501849108}
-  hud: {fileID: 0}
+  hud: {fileID: 2147453076}
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
+  useAreaSeasonalSalinity: 1
 --- !u!1 &1331051222
 GameObject:
   m_ObjectHideFlags: 0
@@ -71889,12 +72016,12 @@ PrefabInstance:
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -74575,6 +74702,10 @@ MonoBehaviour:
   - {fileID: 1962732479}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &1429445504
 GameObject:
   m_ObjectHideFlags: 0
@@ -77008,6 +77139,10 @@ MonoBehaviour:
   - {fileID: 1704961068}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1001 &1471502275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79487,6 +79622,12 @@ MonoBehaviour:
   scrollInfoPanel: {fileID: 48384768}
   headText: {fileID: 1548292089}
   infoText: {fileID: 1590339880}
+--- !u!1 &1514662206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+    type: 3}
+  m_PrefabInstance: {fileID: 2147453072}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1515838982 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -80667,6 +80808,85 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
+--- !u!1 &1535054607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535054608}
+  - component: {fileID: 1535054610}
+  - component: {fileID: 1535054609}
+  m_Layer: 5
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1535054608
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535054607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1630719503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.58, y: 9.1}
+  m_SizeDelta: {x: 323.14, y: 39.97}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1535054609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535054607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1535054610
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535054607}
+  m_CullTransparentMesh: 1
 --- !u!1 &1539801977 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -83853,6 +84073,110 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628380236}
   m_CullTransparentMesh: 1
+--- !u!1 &1630719502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630719503}
+  - component: {fileID: 1630719506}
+  - component: {fileID: 1630719505}
+  - component: {fileID: 1630719504}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1630719503
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630719502}
+  m_LocalRotation: {x: -0, y: -0.9999902, z: -0, w: -0.004427641}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0034736625}
+  m_LocalScale: {x: 0.0019999996, y: 0.002, z: 0.0019999996}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1535054608}
+  - {fileID: 1764897517}
+  - {fileID: 1051348288}
+  m_Father: {fileID: 2147453073}
+  m_LocalEulerAnglesHint: {x: 0, y: 179.493, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.0061124335, y: 0.157}
+  m_SizeDelta: {x: 46.03545, y: 29.81034}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1630719504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630719502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1630719505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630719502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!223 &1630719506
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630719502}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1634554155
 GameObject:
   m_ObjectHideFlags: 0
@@ -85021,6 +85345,10 @@ MonoBehaviour:
   - {fileID: 1743313738}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &1666674502
 GameObject:
   m_ObjectHideFlags: 0
@@ -91783,6 +92111,10 @@ MonoBehaviour:
   - {fileID: 1029076490}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &1696945959
 GameObject:
   m_ObjectHideFlags: 0
@@ -97407,6 +97739,85 @@ MonoBehaviour:
   scrollInfoPanel: {fileID: 48384768}
   headText: {fileID: 1548292089}
   infoText: {fileID: 1590339880}
+--- !u!1 &1764897516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764897517}
+  - component: {fileID: 1764897519}
+  - component: {fileID: 1764897518}
+  m_Layer: 5
+  m_Name: Salinity
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1764897517
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764897516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1630719503}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.58, y: 0.8}
+  m_SizeDelta: {x: 323.14, y: 39.97}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1764897518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764897516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 50
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 50
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1764897519
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764897516}
+  m_CullTransparentMesh: 1
 --- !u!1 &1771933610
 GameObject:
   m_ObjectHideFlags: 0
@@ -99677,6 +100088,10 @@ MonoBehaviour:
   - {fileID: 1226889932}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
+  rainySalinity: 0.5
+  normalSalinity: 1
+  drySalinity: 1.5
+  useAreaSeasonalSalinity: 1
 --- !u!1 &1827985578
 GameObject:
   m_ObjectHideFlags: 0
@@ -114037,8 +114452,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1630719503}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2147453076}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &2147453073 stripped
 Transform:
@@ -114046,6 +114469,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2147453072}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2147453076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514662206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36388b8b7e3712f4a9264d0e69ff74b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressFill: {fileID: 0}
+  progressPercentText: {fileID: 1535054609}
+  salinityText: {fileID: 1764897518}
 --- !u!1 &166482612286679209 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1800448274573184026, guid: 8a8e571e3ca64bd40acd911ae9219a48,

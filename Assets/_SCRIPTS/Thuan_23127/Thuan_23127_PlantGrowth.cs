@@ -47,6 +47,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private FarmArea _ownerArea;
     private int _ownerIndex = -1;
     private Thuan_23127_JsonReader _jsonReader;
+    private Func<float> _salinityProvider;
 
     // === Init cho Plant ===
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
@@ -104,6 +105,16 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         salinityText.text = $"{currentSalinity:0.00} / {threshold:0.00}";
     }
     
+    public  void SetSalinityProvider(System.Func<float> provider) { _salinityProvider = provider; }
+
+    
+    private float CurrentSalinity() //cho hiển thị và tính điểm 
+    {
+        if (_salinityProvider != null) return Mathf.Max(0f, _salinityProvider());
+        var gm = Thuan_23127_GameManager.Instance;
+        return gm ? gm.GetSeasonSalinity() : 0f; // fallback
+    }
+    
     private void PushProgress(float t) => OnProgressChanged?.Invoke(t);
 
     // === Common Init ===
@@ -122,8 +133,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         OnStateChanged?.Invoke(State.Growing);
         StartCoroutine(CoGrow());
     }
-
-
+    
     private IEnumerator CoGrow()
     {
         _growElapsed = 0f;
@@ -145,14 +155,14 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         TryStartHarvest(); // Auto
     }
     
-    public void UpdateSalinityEvent()
+    public void UpdateSalinityEvent() // dùng text cục bộ
     {
-        var gm = Thuan_23127_GameManager.Instance; if (!gm) return;
-        float current = gm.GetSeasonSalinity();
-        float threshold = 0f;
+        var current = CurrentSalinity();
+        var threshold = 0f;
         if (_plantData  != null) threshold = _plantData.salinity_threshold;
         if (_animalData != null) threshold = _animalData.salinity_threshold;
         if (_fishData   != null) threshold = _fishData.salinity_threshold;
+
         OnSalinityChanged?.Invoke(current, threshold);
     }
 
@@ -178,26 +188,32 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         FinalizeHarvest();
     }
-
-
+    
     private void FinalizeHarvest()
     {
         if (_harvested) return;
         _harvested = true; _ready = false; _harvesting = false;
 
         var gm = Thuan_23127_GameManager.Instance;
-        if (gm)
-        {
-            if      (_plantData  != null) gm.AddScoreForPlant (_econ, _plantData);
-            else if (_animalData != null) gm.AddScoreForAnimal(_econ, _animalData);
-            else if (_fishData   != null) gm.AddScoreForFish  (_econ, _fishData);
-            else                          gm.AddScore(_econ);
-        }
+        if (gm) gm.AddScore(AdjustBySalinity(_econ));   // Tính theo area
 
         StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
         OnStateChanged?.Invoke(State.Done);
     }
+    
+    private int AdjustBySalinity(int baseValue)
+    {
+        var t = 0f;
+        if      (_plantData  != null) t = _plantData.salinity_threshold;
+        else if (_animalData != null) t = _animalData.salinity_threshold;
+        else if (_fishData   != null) t = _fishData.salinity_threshold;
 
+        var s = CurrentSalinity();
+        if (t <= 0f || s <= t) return baseValue;
+
+        var ratio = Mathf.Clamp01(t / s);
+        return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
+    }
 
     private IEnumerator CoDestroyAfter(float delay)
     {
@@ -213,5 +229,21 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
     }
     
-    
+    // private void FinalizeHarvest()
+    // {
+    //     if (_harvested) return;
+    //     _harvested = true; _ready = false; _harvesting = false;
+    //
+    //     var gm = Thuan_23127_GameManager.Instance;
+    //     if (gm)
+    //     {
+    //         if      (_plantData  != null) gm.AddScoreForPlant (_econ, _plantData);
+    //         else if (_animalData != null) gm.AddScoreForAnimal(_econ, _animalData);
+    //         else if (_fishData   != null) gm.AddScoreForFish  (_econ, _fishData);
+    //         else                          gm.AddScore(_econ);
+    //     }
+    //
+    //     StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
+    //     OnStateChanged?.Invoke(State.Done);
+    // }
 }
