@@ -101,7 +101,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     }
 
     /// <summary>
-    /// Lấy độ mặn hiện tại để hiển thị/tính điểm (ưu tiên provider từ Ô)
+    /// Lấy độ mặn hiện tại để hiển thị/tính điểm
     /// </summary>
     private float CurrentSalinity()
     {

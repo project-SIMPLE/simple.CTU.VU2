@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26793748, g: 0.4639402, b: 0.61437225, a: 1}
+  m_IndirectSpecularColor: {r: 0.2679295, g: 0.46393502, b: 0.6143905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4394,7 +4394,7 @@ GameObject:
   - component: {fileID: 68098976}
   - component: {fileID: 68098975}
   m_Layer: 0
-  m_Name: Rain Count (2)
+  m_Name: DryScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8119,7 +8119,7 @@ GameObject:
   - component: {fileID: 151686973}
   - component: {fileID: 151686972}
   m_Layer: 0
-  m_Name: Rain Count (1)
+  m_Name: Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17425,6 +17425,7 @@ GameObject:
   - component: {fileID: 291454757}
   - component: {fileID: 291454756}
   - component: {fileID: 291454755}
+  - component: {fileID: 291454758}
   m_Layer: 0
   m_Name: Scroll View
   m_TagString: Untagged
@@ -17521,6 +17522,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291454753}
   m_CullTransparentMesh: 1
+--- !u!114 &291454758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291454753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4873add878ae4d11a4cb00c135b27e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 241882394}
+  rowPrefab: {fileID: 1815435797}
 --- !u!1 &292301120 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -82594,7 +82609,7 @@ GameObject:
   - component: {fileID: 1328421844}
   - component: {fileID: 1328421843}
   m_Layer: 0
-  m_Name: Rain Count (1)
+  m_Name: NormalScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85617,12 +85632,12 @@ PrefabInstance:
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -85693,12 +85708,12 @@ PrefabInstance:
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -93916,6 +93931,7 @@ GameObject:
   - component: {fileID: 1501849108}
   - component: {fileID: 1501849109}
   - component: {fileID: 1501849110}
+  - component: {fileID: 1501849111}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -94242,6 +94258,18 @@ MonoBehaviour:
   dryFactor: 1.5
   audioSource: {fileID: 1501849109}
   harvestClip: {fileID: 8300000, guid: bccf7ddb76302c74fab675eed66d80c6, type: 3}
+--- !u!114 &1501849111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501849103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19672a76a6c44b597f610c250a26bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1502709438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98378,7 +98406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a12223fe7ce88fa418dc931a23aaf11d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -100989,7 +101017,7 @@ GameObject:
   - component: {fileID: 1639392320}
   - component: {fileID: 1639392321}
   m_Layer: 0
-  m_Name: Rain Count
+  m_Name: RainyScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117685,7 +117713,7 @@ GameObject:
   - component: {fileID: 1805737574}
   - component: {fileID: 1805737573}
   m_Layer: 0
-  m_Name: Rain Count
+  m_Name: Rainy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118027,6 +118055,7 @@ GameObject:
   - component: {fileID: 1815435796}
   - component: {fileID: 1815435795}
   - component: {fileID: 1815435794}
+  - component: {fileID: 1815435797}
   m_Layer: 0
   m_Name: Product
   m_TagString: Untagged
@@ -118121,6 +118150,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1815435792}
   m_CullTransparentMesh: 1
+--- !u!114 &1815435797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815435792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e171266047eb4803b9ad2553b4403740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 1587189426}
+  rainyText: {fileID: 1639392321}
+  normalText: {fileID: 1328421843}
+  dryText: {fileID: 68098975}
 --- !u!1001 &1822835665
 PrefabInstance:
   m_ObjectHideFlags: 0

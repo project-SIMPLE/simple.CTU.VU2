@@ -187,9 +187,13 @@ public class FarmArea : MonoBehaviour
 
             // 1) Đưa cây này vào bộ tổng của Ô
             WireGrowthForAreaTotals(growth);
-
+            
+            var summary = Thuan_23127_SeasonalSummary.Instance;
+            if (summary) summary.Track(growth, tag);
             // 2) (tuỳ ý) cho HUD theo dõi cây vừa trồng/được chọn
             BindGrowthToHUD(growth);
+            
+            
 
             var readerForThis = fillAll ? null : jsonReader;
             if (plantData != null)       growth.Init(plantData,  this, i, readerForThis);
