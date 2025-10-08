@@ -403,7 +403,7 @@
         "tag_name": "Chuối",
         "growth_time": 40,
         "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 2,
+        "economic_benefits": 5,
         "information": "Thông tin của chuối",
         "salinity_threshold": 0.8,
         "harvest_time": 5

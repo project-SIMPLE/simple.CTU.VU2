@@ -8,4 +8,7 @@ public class Thuan_23127_SeedTag : MonoBehaviour
     public int animalId = 1; 
     [Tooltip("ID Fish")]
     public int fishId = 1; 
+    
+    [Header("HUD visuals")]
+    public Sprite hudIcon;
 }

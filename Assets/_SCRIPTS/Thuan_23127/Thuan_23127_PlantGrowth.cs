@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,16 +19,16 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float destroyDelaySeconds = 30f;
 
-    
     // ===== Events để FarmArea/HUD nhận =====
     public enum State { Growing, Ready, Harvesting, Done }
-    public event Action<float> OnProgressChanged;                 // 0..1
-    public event Action<float, float> OnSalinityChanged;          // current, threshold
-    public event Action<State> OnStateChanged;
-    public event Action OnAboutToDestroy;
+    public event Action<float> OnProgressChanged;                  // 0..1
+    public event Action<float, float> OnSalinityChanged;           // current, threshold
+    public event Action<State> OnStateChanged;                     // vòng đời cây
+    public event Action OnAboutToDestroy;                          // trước khi Destroy
+    public event Action<int> OnHarvested;                          // điểm thực tế nhận được sau thu hoạch
 
     // dữ liệu nguồn (tuỳ loại)
-    private Plant _plantData;
+    private Plant  _plantData;
     private Animal _animalData;
     private Fish   _fishData;
 
@@ -47,11 +46,17 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private FarmArea _ownerArea;
     private int _ownerIndex = -1;
     private Thuan_23127_JsonReader _jsonReader;
+
+    // Provider độ mặn theo Ô (được FarmArea tiêm vào)
     private Func<float> _salinityProvider;
-    
-    public event System.Action<int> OnHarvested;
+
+    /// <summary>
+    /// Cho phép FarmArea tiêm vào hàm trả về độ mặn của Ô theo mùa hiện tại
+    /// </summary>
+    public void SetSalinityProvider(Func<float> provider) { _salinityProvider = provider; }
 
     // === Init cho Plant ===
+    /// <summary>Khởi tạo từ dữ liệu PLANT và bắt đầu vòng đời (grow→ready→harvest)</summary>
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = data;  _animalData = null; _fishData = null;
@@ -62,10 +67,11 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-        UpdateSalinityEvent();
+        UpdateSalinityEvent();   // đẩy UI độ mặn ban đầu
     }
 
     // === Init cho Animal ===
+    /// <summary>Khởi tạo từ dữ liệu ANIMAL</summary>
     public void Init(Animal data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = null;  _animalData = data; _fishData = null;
@@ -76,10 +82,11 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-        UpdateSalinityEvent();   
+        UpdateSalinityEvent();
     }
 
     // === Init cho Fish ===
+    /// <summary>Khởi tạo từ dữ liệu FISH</summary>
     public void Init(Fish data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = null;  _animalData = null; _fishData = data;
@@ -90,36 +97,36 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _econ        = Mathf.Max(0, data.economic_benefits);
 
         CommonInitAndStart();
-        UpdateSalinityEvent();   
+        UpdateSalinityEvent();
     }
 
-    // === Update Salinity UI ===
-    public void UpdateSalinityText()
-    {
-        if (salinityText == null) return;
-        var gm = Thuan_23127_GameManager.Instance; if (!gm) return;
-        var currentSalinity = gm.GetSeasonSalinity();
-        var threshold = 0f;
-        if (_plantData  != null) threshold = _plantData.salinity_threshold;
-        if (_animalData != null) threshold = _animalData.salinity_threshold;
-        if (_fishData   != null) threshold = _fishData.salinity_threshold;
-
-        salinityText.text = $"{currentSalinity:0.00} / {threshold:0.00}";
-    }
-    
-    public  void SetSalinityProvider(System.Func<float> provider) { _salinityProvider = provider; }
-
-    
-    private float CurrentSalinity() //cho hiển thị và tính điểm 
+    /// <summary>
+    /// Lấy độ mặn hiện tại để hiển thị/tính điểm (ưu tiên provider từ Ô)
+    /// </summary>
+    private float CurrentSalinity()
     {
         if (_salinityProvider != null) return Mathf.Max(0f, _salinityProvider());
         var gm = Thuan_23127_GameManager.Instance;
         return gm ? gm.GetSeasonSalinity() : 0f; // fallback
     }
     
-    private void PushProgress(float t) => OnProgressChanged?.Invoke(t);
 
-    // === Common Init ===
+    /// <summary>
+    /// Bắn event cập nhật độ mặn cho HUD (dùng khi đổi mùa)
+    /// </summary>
+    public void UpdateSalinityEvent()
+    {
+        float current = CurrentSalinity();
+        float threshold = 0f;
+        if (_plantData  != null) threshold = _plantData.salinity_threshold;
+        if (_animalData != null) threshold = _animalData.salinity_threshold;
+        if (_fishData   != null) threshold = _fishData.salinity_threshold;
+        OnSalinityChanged?.Invoke(current, threshold);
+    }
+
+    /// <summary>
+    /// Chuẩn bị interaction, reset trạng thái và bắt Coroutine grow
+    /// </summary>
     private void CommonInitAndStart()
     {
         if (!harvestInteractable) harvestInteractable = GetComponent<XRSimpleInteractable>();
@@ -131,46 +138,39 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         _growing = true; _ready = false; _harvested = false; _harvesting = false;
 
-        PushProgress(0f);
+        OnProgressChanged?.Invoke(0f);
         OnStateChanged?.Invoke(State.Growing);
         StartCoroutine(CoGrow());
     }
-    
-    private IEnumerator CoGrow()
+
+    /// <summary>
+    /// Vòng lặp tăng trưởng đến khi sẵn sàng thu hoạch
+    /// </summary>
+    private System.Collections.IEnumerator CoGrow()
     {
         _growElapsed = 0f;
         while (_growElapsed < _growTotal)
         {
             _growElapsed += Time.deltaTime;
-            var t = Mathf.Clamp01(_growElapsed / _growTotal);
-
-            PushProgress(t);          
-            UpdateUI(t);            
-
+            float t = Mathf.Clamp01(_growElapsed / _growTotal);
+            OnProgressChanged?.Invoke(t);
+            UpdateUI(t);
             yield return null;
         }
 
         _growing = false;
         _ready   = true;
-        OnStateChanged?.Invoke(State.Ready); 
+        OnStateChanged?.Invoke(State.Ready);
 
-        TryStartHarvest(); // Auto
-    }
-    
-    public void UpdateSalinityEvent() // dùng text cục bộ
-    {
-        var current = CurrentSalinity();
-        var threshold = 0f;
-        if (_plantData  != null) threshold = _plantData.salinity_threshold;
-        if (_animalData != null) threshold = _animalData.salinity_threshold;
-        if (_fishData   != null) threshold = _fishData.salinity_threshold;
-
-        OnSalinityChanged?.Invoke(current, threshold);
+        TryStartHarvest(); // auto-harvest nếu bạn muốn
     }
 
     private void OnMouseDown() { TryStartHarvest(); }
     public  void HarvestNow()  { TryStartHarvest(); }
 
+    /// <summary>
+    /// Kiểm tra điều kiện và bắt đầu coroutine thu hoạch
+    /// </summary>
     private void TryStartHarvest()
     {
         if (!_ready || _harvested || _harvesting) return;
@@ -178,80 +178,77 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _harvestCo = StartCoroutine(CoHarvest());
     }
 
-    private IEnumerator CoHarvest()
+    /// <summary>
+    /// Hiệu ứng thu hoạch (đầy progress trong _harvestTime)
+    /// </summary>
+    private System.Collections.IEnumerator CoHarvest()
     {
         _harvesting = true;
         OnStateChanged?.Invoke(State.Harvesting);
         if (harvestInteractable) harvestInteractable.enabled = false;
 
-        PushProgress(0f);
+        OnProgressChanged?.Invoke(0f);
         float e = 0f, h = (_harvestTime > 0f) ? _harvestTime : 2f;
-        while (e < h) { e += Time.deltaTime; PushProgress(Mathf.Clamp01(e / h)); yield return null; }
+        while (e < h) { e += Time.deltaTime; OnProgressChanged?.Invoke(Mathf.Clamp01(e / h)); yield return null; }
 
         FinalizeHarvest();
     }
-    
+
+    /// <summary>
+    /// Chốt điểm, bắn sự kiện, lên lịch tự hủy
+    /// </summary>
     private void FinalizeHarvest()
     {
         if (_harvested) return;
         _harvested = true; _ready = false; _harvesting = false;
 
-        var gm = Thuan_23127_GameManager.Instance;
-        // tính hiện tại của bạn theo farmArea
-        var points = AdjustBySalinity(_econ);
+        // Tính điểm theo độ mặn khu vực (đã set bằng provider)
+        int points = AdjustBySalinity(_econ);
 
+        var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.AddScore(points);
 
-        //  FarmArea/HUD cộng vào ô điểm mùa tương ứng
+        // Cho FarmArea biết số điểm của lần harvest này
         OnHarvested?.Invoke(points);
 
         StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
         OnStateChanged?.Invoke(State.Done);
     }
-    
+
+    /// <summary>
+    /// Điều chỉnh điểm theo ngưỡng mặn T và độ mặn hiện tại S (nếu S>T thì giảm)
+    /// </summary>
     private int AdjustBySalinity(int baseValue)
     {
-        var t = 0f;
+        float t = 0f;
         if      (_plantData  != null) t = _plantData.salinity_threshold;
         else if (_animalData != null) t = _animalData.salinity_threshold;
         else if (_fishData   != null) t = _fishData.salinity_threshold;
 
-        var s = CurrentSalinity();
+        float s = CurrentSalinity();
         if (t <= 0f || s <= t) return baseValue;
 
-        var ratio = Mathf.Clamp01(t / s);
+        float ratio = Mathf.Clamp01(t / s);
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
     }
 
-    private IEnumerator CoDestroyAfter(float delay)
+    /// <summary>
+    /// Đợi 1 khoảng rồi báo cho FarmArea giải phóng slot & Destroy
+    /// </summary>
+    private System.Collections.IEnumerator CoDestroyAfter(float delay)
     {
         yield return new WaitForSeconds(delay);
-        OnAboutToDestroy?.Invoke();             
+        OnAboutToDestroy?.Invoke();
         if (_ownerArea) _ownerArea.FreePlot(_ownerIndex);
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Cập nhật UI tiến độ cục bộ trên prefab (nếu có)
+    /// </summary>
     private void UpdateUI(float t)
     {
         if (progressFill) progressFill.fillAmount = t;
         if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
     }
-    
-    // private void FinalizeHarvest()
-    // {
-    //     if (_harvested) return;
-    //     _harvested = true; _ready = false; _harvesting = false;
-    //
-    //     var gm = Thuan_23127_GameManager.Instance;
-    //     if (gm)
-    //     {
-    //         if      (_plantData  != null) gm.AddScoreForPlant (_econ, _plantData);
-    //         else if (_animalData != null) gm.AddScoreForAnimal(_econ, _animalData);
-    //         else if (_fishData   != null) gm.AddScoreForFish  (_econ, _fishData);
-    //         else                          gm.AddScore(_econ);
-    //     }
-    //
-    //     StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
-    //     OnStateChanged?.Invoke(State.Done);
-    // }
 }

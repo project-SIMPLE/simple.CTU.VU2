@@ -21,14 +21,14 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public string fileName = "data";
     public string currentLang = "vi";
     public Root root;
-    private string jsonString;
+    private string _jsonString;
 
     protected virtual void Start()
     {
         var resourceName = Path.GetFileNameWithoutExtension(fileName);
         var jsonFile = Resources.Load<TextAsset>(resourceName);
-        jsonString = jsonFile.text;
-        root = JsonUtility.FromJson<Root>(jsonString);
+        _jsonString = jsonFile.text;
+        root = JsonUtility.FromJson<Root>(_jsonString);
 
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.jsonReader = this;
