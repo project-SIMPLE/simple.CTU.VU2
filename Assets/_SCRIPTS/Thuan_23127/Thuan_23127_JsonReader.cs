@@ -113,7 +113,6 @@ public class Thuan_23127_JsonReader : MonoBehaviour
         if (scoreText)        scoreText.text        = $"{label}: {currentScore}";
         if (scoreTextEndGame) scoreTextEndGame.text = $"{label}: {currentScore}";
         if (scoreTextDetails) scoreTextDetails.text = $"{label}: {currentScore}";
-        Debug.Log(scoreTextDetails);
     }
     
     private void OnEnable()

@@ -22559,9 +22559,9 @@ MonoBehaviour:
   - {fileID: 658704608}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2093222869}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!4 &393031338
 Transform:
@@ -30022,9 +30022,9 @@ MonoBehaviour:
   - {fileID: 87067498}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 425256548}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1001 &500677795
 PrefabInstance:
@@ -32398,9 +32398,9 @@ MonoBehaviour:
   - {fileID: 1597240225}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1511998616}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &567338468
 GameObject:
@@ -42281,9 +42281,9 @@ MonoBehaviour:
   - {fileID: 476109073}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1251532286}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!4 &676317427
 Transform:
@@ -99442,9 +99442,9 @@ MonoBehaviour:
   - {fileID: 1743313738}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2095703763}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &1666674502
 GameObject:
@@ -106268,9 +106268,9 @@ MonoBehaviour:
   - {fileID: 1029076490}
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 239248855}
-  rainySalinity: 0.5
-  normalSalinity: 1
-  drySalinity: 1.5
+  rainySalinity: 2
+  normalSalinity: 2.5
+  drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &1695823562
 GameObject:

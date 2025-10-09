@@ -220,6 +220,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		target.transform.position = pointA; // reset vi tri ban dau
 
 		PlayMusic(normalMusic);
+		var hud = FindObjectsOfType<Thuan_23127_AreaHUD>(true); 
+		foreach (var h in hud)
+			h.ResetHUDToDefaults();
 	}
 
 	public void ShowResultDetailsScore()

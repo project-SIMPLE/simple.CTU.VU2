@@ -120,13 +120,13 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         }
     }
     
-    void Awake() {
+    void Awake()
+    {
         // Ẩn Subject khi mới vào game
-        if (subjectImage) {
-            subjectImage.sprite  = null;
-            subjectImage.enabled = false;
-            var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
-        }
+        if (!subjectImage) return;
+        subjectImage.sprite  = null;
+        subjectImage.enabled = false;
+        var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
     }
 
     /// <summary>Trả về struct UI tương ứng mùa</summary>
@@ -151,4 +151,23 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         ui.iconImage.enabled = (_seasonScores[(int)season] > 0) && (ui.iconImage.sprite != null);
         ui.iconImage.preserveAspect = true;
     }
+    
+    public void ResetHUDToDefaults()
+    {
+        SetProgress(0f);
+
+        if (salinityText) salinityText.text = "0.00 / 0.00";
+
+        ResetSeasonScores();
+
+        if (!subjectImage) return;
+        subjectImage.sprite  = null;
+        subjectImage.enabled = false;
+        var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
+        
+
+        subjectImage.preserveAspect = true;
+    }
+
+
 }
