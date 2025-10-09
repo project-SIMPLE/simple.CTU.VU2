@@ -14,6 +14,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public GameObject StartMenu;
 	public GameObject ResultMenu;
 	public GameObject ResultDetailsScore;
+	public GameObject UIForVR;
 
 	public GameObject NPC_Talk;
 	public Material Skybox_Rain;
@@ -225,12 +226,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	{
 		ResultDetailsScore.SetActive(true);
 		ResultMenu.SetActive(false);
+		UIForVR.SetActive(false);
 	}
 
 	public void CloseResultDetailsScore()
 	{
 		ResultDetailsScore.SetActive(false);
 		ResultMenu.SetActive(true);
+		UIForVR.SetActive(true);
 	}
 
 	public void PlaySFX(AudioClip audioClip)
