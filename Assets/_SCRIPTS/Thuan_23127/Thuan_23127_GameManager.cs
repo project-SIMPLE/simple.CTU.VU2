@@ -106,6 +106,8 @@ public class Thuan_23127_GameManager : MonoBehaviour
             jsonReader.scoreText.text = $"{scoreLabel}: {Score}";
         if (jsonReader.scoreTextEndGame)
             jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
+        if (jsonReader.scoreTextDetails)
+            jsonReader.scoreTextDetails.text = $"{scoreLabel}: {Score}";
     }
 
     /// <summary>
