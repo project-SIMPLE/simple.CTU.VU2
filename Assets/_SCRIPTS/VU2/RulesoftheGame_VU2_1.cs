@@ -13,6 +13,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 	public GameObject StartMenu;
 	public GameObject ResultMenu;
+	public GameObject ResultDetailsScore;
 
 	public GameObject NPC_Talk;
 	public Material Skybox_Rain;
@@ -197,6 +198,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		StartMenu.SetActive(false);
 		timeRemaining = 0;
 		NPC_Talk.SetActive(true);
+		ResultDetailsScore.SetActive(false);
 	}
 
 	public void RestartGame()
@@ -212,10 +214,23 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		Weather_Rain.SetActive(false);
 		Rain_image.SetActive(false);
 		Sun_image.SetActive(true);
+		ResultDetailsScore.SetActive(false); // Ẩn đi 
 		
 		target.transform.position = pointA; // reset vi tri ban dau
 
 		PlayMusic(normalMusic);
+	}
+
+	public void ShowResultDetailsScore()
+	{
+		ResultDetailsScore.SetActive(true);
+		ResultMenu.SetActive(false);
+	}
+
+	public void CloseResultDetailsScore()
+	{
+		ResultDetailsScore.SetActive(false);
+		ResultMenu.SetActive(true);
 	}
 
 	public void PlaySFX(AudioClip audioClip)

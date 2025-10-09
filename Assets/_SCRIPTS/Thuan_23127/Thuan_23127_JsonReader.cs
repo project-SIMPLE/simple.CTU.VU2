@@ -15,7 +15,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text playAgainText;
     public Text settingText;
     // public Text languageText;
-    public Text salinityText; 
+    public Text salinityText;
+    public Text scoreTextDetails;
 
     [Header("Config")]
     public string fileName = "data";
@@ -111,6 +112,8 @@ public class Thuan_23127_JsonReader : MonoBehaviour
 
         if (scoreText)        scoreText.text        = $"{label}: {currentScore}";
         if (scoreTextEndGame) scoreTextEndGame.text = $"{label}: {currentScore}";
+        if (scoreTextDetails) scoreTextDetails.text = $"{label}: {currentScore}";
+        Debug.Log(scoreTextDetails);
     }
     
     private void OnEnable()

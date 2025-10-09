@@ -38,6 +38,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         foreach (var (icon, r, n, d) in data)
         {
             var row = Instantiate(rowPrefab, content);
+            row.gameObject.SetActive(true);   
             row.SetData(icon, r, n, d);
             _pool.Add(row);
         }
