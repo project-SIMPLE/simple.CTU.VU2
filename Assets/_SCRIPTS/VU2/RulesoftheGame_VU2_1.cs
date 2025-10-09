@@ -22,7 +22,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public static float Saltwater_Intrusion = 0.0f;
 	
 	private static float _cachedSeason = -999f;
-	public static Season CurrentSeason = Season.Normal;
+	private static Season _currentSeason = Season.Normal;
 	public static event System.Action<Season> OnSeasonChanged;
 	
 	private static Season _cachedSeasonEnum = (Season)(-1);
@@ -232,7 +232,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		}
 	}
 	
-	private void SetSeason(float season)
+	private static void SetSeason(float season)
 	{
 		if (Mathf.Approximately(_cachedSeason, season)) return;
 
@@ -247,8 +247,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		if (_cachedSeasonEnum != newSeason)
 		{
 			_cachedSeasonEnum = newSeason;
-			CurrentSeason = newSeason;
-			OnSeasonChanged?.Invoke(CurrentSeason);
+			_currentSeason = newSeason;
+			OnSeasonChanged?.Invoke(_currentSeason);
 		}
 
 		// cập nhật salinity trên từng cây + UI global

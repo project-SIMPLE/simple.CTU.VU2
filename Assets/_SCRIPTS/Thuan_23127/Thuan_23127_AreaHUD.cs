@@ -93,13 +93,14 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
         if (ui.scoreText) ui.scoreText.text = _seasonScores[idx].ToString();
 
-        if (ui.iconImage)
-        {
-            if (iconOverride) ui.iconImage.sprite = iconOverride;
-            if (!ui.iconImage.sprite) ui.iconImage.sprite = ui.defaultIcon;
-            ui.iconImage.enabled = (_seasonScores[idx] > 0) && (ui.iconImage.sprite != null);
-            ui.iconImage.preserveAspect = true;
-        }
+        // if (ui.iconImage)
+        // {
+        //     if (iconOverride) ui.iconImage.sprite = iconOverride;
+        //     if (!ui.iconImage.sprite) ui.iconImage.sprite = ui.defaultIcon;
+        //     ui.iconImage.enabled = (_seasonScores[idx] > 0) && (ui.iconImage.sprite != null);
+        //     ui.iconImage.preserveAspect = true;
+        // }
+        SetIconForSeason(season, iconOverride);
     }
 
     /// <summary>Refresh UI cho 1 mùa từ giá trị đang lưu</summary>
@@ -138,5 +139,16 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
             case Season.Dry:    return dry;
         }
         return null;
+    }
+    
+    private void SetIconForSeason(Season season, Sprite iconOverride = null)
+    {
+        var ui = GetUI(season);
+        if (ui == null || ui.iconImage == null) return;
+
+        // GÁN THẲNG sprite mỗi lần gọi (không check null)
+        ui.iconImage.sprite  = iconOverride != null ? iconOverride : ui.defaultIcon;
+        ui.iconImage.enabled = (_seasonScores[(int)season] > 0) && (ui.iconImage.sprite != null);
+        ui.iconImage.preserveAspect = true;
     }
 }
