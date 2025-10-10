@@ -28,6 +28,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	public static event System.Action<Season> OnSeasonChanged;
 	
 	private static Season _cachedSeasonEnum = (Season)(-1);
+
+	// singleton instance and local reference
+	public static RulesoftheGame_VU2_1 Instance;
+	private RulesoftheGame_VU2_1 rules;
 	
 	// saltwater intrusion
 	//public Saltwater_Intrusion saltwaterIntrusionObject;
@@ -67,6 +71,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		moving = false;
 	}
 
+
+	private void Awake()
+	{
+		Instance = this;
+		DontDestroyOnLoad(gameObject);
+		rules = FindObjectOfType<RulesoftheGame_VU2_1>();
+	}
+
 	// Update is called once per frame
 	public void Update()
 	{
@@ -80,7 +92,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			if (timeRemaining <= 90)
 			{
 				SetSeason(0.0f); // mùa mưa
-				//Debug.Log("Mùa Mưa bắt đầu!");
+								 //Debug.Log("Mùa Mưa bắt đầu!");
 				rainning = true;
 				Weather_Rain.SetActive(true);
 				Rain_image.SetActive(true);
@@ -95,7 +107,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			else if (timeRemaining > 90 && timeRemaining <= 180)
 			{
 				SetSeason(2.0f); // mùa khô
-				//Debug.Log("Mùa Khô bắt đầu!");
+								 //Debug.Log("Mùa Khô bắt đầu!");
 				rainning = false;
 				Weather_Rain.SetActive(false);
 				Rain_image.SetActive(false);
@@ -117,7 +129,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			else if (timeRemaining > 180 && timeRemaining <= 270)
 			{
 				SetSeason(1.0f); // bình thường
-				//Debug.Log("Mùa Mưa Trở Lại!");
+								 //Debug.Log("Mùa Mưa Trở Lại!");
 				rainning = true;
 				moving = true;
 				Weather_Rain.SetActive(true);

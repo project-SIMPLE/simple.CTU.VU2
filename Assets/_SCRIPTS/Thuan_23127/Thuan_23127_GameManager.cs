@@ -92,6 +92,9 @@ public class Thuan_23127_GameManager : MonoBehaviour
     // </param>
     public void AddScore(int value)
     {
+        var rules = FindObjectOfType<RulesoftheGame_VU2_1>();
+        if(rules != null && !rules.playGame) return; // không cộng điểm khi khi ket thuc game roi 
+
         Score += value;
         audioSource.PlayOneShot(harvestClip);
         OnScoreChanged?.Invoke(Score);
