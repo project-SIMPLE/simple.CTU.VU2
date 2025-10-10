@@ -220,18 +220,24 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		target.transform.position = pointA; // reset vi tri ban dau
 
 		PlayMusic(normalMusic);
-		var hud = FindObjectsOfType<Thuan_23127_AreaHUD>(true); 
+		var hud = FindObjectsOfType<Thuan_23127_AreaHUD>(true);  // reset hub
 		foreach (var h in hud)
 			h.ResetHUDToDefaults();
 	}
 
+	/// <summary>
+	/// Show details score
+	/// </summary>
 	public void ShowResultDetailsScore()
 	{
 		ResultDetailsScore.SetActive(true);
 		ResultMenu.SetActive(false);
 		UIForVR.SetActive(false);
 	}
-
+	
+	/// <summary>
+	/// Close details
+	/// </summary>
 	public void CloseResultDetailsScore()
 	{
 		ResultDetailsScore.SetActive(false);

@@ -119,8 +119,8 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
             ui.iconImage.preserveAspect = true;
         }
     }
-    
-    void Awake()
+
+    private void Awake()
     {
         // Ẩn Subject khi mới vào game
         if (!subjectImage) return;
@@ -164,7 +164,6 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         subjectImage.sprite  = null;
         subjectImage.enabled = false;
         var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
-        
 
         subjectImage.preserveAspect = true;
     }
