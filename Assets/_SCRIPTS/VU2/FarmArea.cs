@@ -27,10 +27,11 @@ public class FarmArea : MonoBehaviour
     private readonly List<Thuan_23127_PlantGrowth> _growths = new List<Thuan_23127_PlantGrowth>();
 
     [Header("Area Seasonal Salinity")]
-    [Range(0, 5)] public float rainySalinity  = 0.5f;
-    [Range(0, 5)] public float normalSalinity = 1.0f;
+    [Header("Area Seasonal Salinity")]
+    [Range(0, 5)] public float rainySalinity  = 0.5f;  // dùng cho Rainy1 & Rainy2
     [Range(0, 5)] public float drySalinity    = 1.5f;
     public bool useAreaSeasonalSalinity = true;
+
 
     /// <summary>
     /// Trả về độ mặn của Ô theo mùa
@@ -42,12 +43,21 @@ public class FarmArea : MonoBehaviour
                 ? Thuan_23127_GameManager.Instance.GetSeasonSalinity()
                 : 0f;
 
+        // 0=Rainy1, 1=Dry, 2=Rainy2 (tương thích số cũ)
         var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 0f)) return rainySalinity;
-        if (Mathf.Approximately(s, 1f)) return normalSalinity;
-        if (Mathf.Approximately(s, 2f)) return drySalinity;
-        return normalSalinity;
+        if (Mathf.Approximately(s, 1f)) return drySalinity;  // Dry
+        return rainySalinity;                                 // Rainy1 & Rainy2
     }
+
+    private SeasonPhase CurrentPhase()
+    {
+        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        if (Mathf.Approximately(s, 0f)) return SeasonPhase.Rainy1;
+        if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
+        return SeasonPhase.Rainy2;
+    }
+
+    
 
     /// <summary>
     /// Xác định mùa hiện tại dựa trên Saltwater_Intrusion (0/1/2)
@@ -99,30 +109,28 @@ public class FarmArea : MonoBehaviour
     private void WireGrowthForAreaTotals(Thuan_23127_PlantGrowth g)
     {
         if (!g) return;
-
-        // Growth luôn lấy độ mặn từ Ô
         g.SetSalinityProvider(GetAreaSalinity);
 
-        // Khi harvest xong → cộng tổng & đẩy HUD
         g.OnHarvested += (points) =>
         {
             if (points <= 0) return;
-            var season = CurrentSeason();
-            int idx = (int)season;
+            var phase = CurrentPhase();                 // Rainy1/Dry/Rainy2
+            int idx = (int)phase;
             _seasonTotals[idx] += points;
 
-            if (hud) hud.AddSeasonPoints(season, points, null);
+            // HUD mới theo pha (xem thêm phần HUD bên dưới)
+            if (hud) hud.AddSeasonPointsPhase(phase, points, null);
         };
 
-        // Khi sắp huỷ → tháo ra khỏi danh sách & listener
         g.OnAboutToDestroy += () =>
         {
-            g.OnHarvested -= null; // an toàn
+            g.OnHarvested -= null;
             _growths.Remove(g);
         };
 
         _growths.Add(g);
     }
+
 
     /// <summary>
     /// Bind “cây đang xem” cho HUD: chỉ progress/salinity (tổng điểm đã có WireGrowthForAreaTotals lo)

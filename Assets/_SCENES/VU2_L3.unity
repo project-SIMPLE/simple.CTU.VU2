@@ -1986,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7381,6 +7381,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 127750554}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 127750557}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &127750552 stripped
 Transform:
@@ -7413,15 +7417,30 @@ MonoBehaviour:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 705881820}
+--- !u!114 &127750557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127750553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &133421633
 GameObject:
   m_ObjectHideFlags: 0
@@ -7765,7 +7784,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 615013728}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1001 &152782799
@@ -9038,7 +9056,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1400608622}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &173594177
@@ -10490,6 +10507,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 193966110}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 193966113}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &193966108 stripped
 Transform:
@@ -10522,15 +10543,30 @@ MonoBehaviour:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 567338470}
+--- !u!114 &193966113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193966109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1001 &196549493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13256,6 +13292,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 239248855}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 239248858}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &239248853 stripped
 Transform:
@@ -13288,15 +13328,30 @@ MonoBehaviour:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 573410333}
+--- !u!114 &239248858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239248854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1001 &239395366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19640,7 +19695,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1071587356}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &349039605
@@ -22407,7 +22461,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2093222869}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!4 &393031338
@@ -25341,6 +25394,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 425256548}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 425256551}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &425256546 stripped
 Transform:
@@ -25373,15 +25430,30 @@ MonoBehaviour:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1695823564}
+--- !u!114 &425256551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425256547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &426838347
 GameObject:
   m_ObjectHideFlags: 0
@@ -29870,7 +29942,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 425256548}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1001 &500677795
@@ -30259,7 +30330,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 193966110}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &508803655
@@ -31064,6 +31134,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 517610664}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 517610667}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &517610662 stripped
 Transform:
@@ -31096,15 +31170,30 @@ MonoBehaviour:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 893276222}
+--- !u!114 &517610667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517610663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &518560671
 GameObject:
   m_ObjectHideFlags: 0
@@ -32106,7 +32195,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1511998616}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &567338468
@@ -32248,7 +32336,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 517610664}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &569856777
@@ -36159,7 +36246,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1958852141}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &606787313
@@ -36868,6 +36954,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 615013728}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 615013731}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &615013726 stripped
 Transform:
@@ -36900,15 +36990,30 @@ MonoBehaviour:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 16230762}
+--- !u!114 &615013731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615013727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &615743544
 GameObject:
   m_ObjectHideFlags: 0
@@ -39340,6 +39445,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662666715}
   m_CullTransparentMesh: 1
+--- !u!114 &663267576 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8073056905295127274, guid: 88e2e24d984df4d4fbea962c0b98b56e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1026360656}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &665722645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4266640295717640281, guid: beb4e2871579447497fe41dfb108e2cd,
@@ -41779,7 +41896,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1251532286}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!4 &676317427
@@ -56549,7 +56665,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 127750554}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1001 &930135213
@@ -61726,6 +61841,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4599076653523595281, guid: 88e2e24d984df4d4fbea962c0b98b56e,
+        type: 3}
+      propertyPath: rainy2Text
+      value: 
+      objectReference: {fileID: 663267576}
     - target: {fileID: 5134133638610994074, guid: 88e2e24d984df4d4fbea962c0b98b56e,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -61905,6 +62025,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -83
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649161614827577193, guid: 88e2e24d984df4d4fbea962c0b98b56e,
+        type: 3}
+      propertyPath: m_Name
+      value: RainyScore2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64103,6 +64228,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1071587356}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1071587359}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1071587354 stripped
 Transform:
@@ -64135,15 +64264,30 @@ MonoBehaviour:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1143221026}
+--- !u!114 &1071587359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071587355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1072782747
 GameObject:
   m_ObjectHideFlags: 0
@@ -64950,6 +65094,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1085519446}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1085519449}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1085519444 stripped
 Transform:
@@ -64982,15 +65130,30 @@ MonoBehaviour:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 659057181}
+--- !u!114 &1085519449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085519445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1088889635
 GameObject:
   m_ObjectHideFlags: 0
@@ -65153,6 +65316,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1089442106}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1089442109}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1089442104 stripped
 Transform:
@@ -65185,15 +65352,30 @@ MonoBehaviour:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1811308407}
+--- !u!114 &1089442109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089442105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1090393989
 GameObject:
   m_ObjectHideFlags: 0
@@ -75784,6 +75966,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1251532286}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1251532289}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1251532284 stripped
 Transform:
@@ -75816,15 +76002,30 @@ MonoBehaviour:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 205955155}
+--- !u!114 &1251532289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251532285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1255668407 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -80938,7 +81139,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1085519446}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &1331051222
@@ -85380,6 +85580,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1400608622}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1400608625}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1400608620 stripped
 Transform:
@@ -85412,15 +85616,30 @@ MonoBehaviour:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1223378706}
+--- !u!114 &1400608625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400608621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1401620220 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -86959,7 +87178,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1940317955}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &1429445504
@@ -89938,7 +90156,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2046061857}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1001 &1471502275
@@ -92560,6 +92777,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1511998616}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1511998619}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1511998614 stripped
 Transform:
@@ -92592,15 +92813,30 @@ MonoBehaviour:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 584041800}
-    iconImage: {fileID: 1413213960}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    iconImage: {fileID: 527005052}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 797077449}
+--- !u!114 &1511998619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511998615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1001 &1512436274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96520,7 +96756,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -99723,7 +99959,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2095703763}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &1666674502
@@ -99949,7 +100184,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671029278}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 50}
+  m_LocalPosition: {x: 0, y: 0, z: 338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -106651,7 +106886,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 239248855}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
 --- !u!1 &1695823562
@@ -115855,7 +116089,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1089442106}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
 --- !u!1 &1827985578
@@ -121533,6 +121766,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1940317955}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1940317958}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1940317953 stripped
 Transform:
@@ -121565,15 +121802,30 @@ MonoBehaviour:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1197735651}
+--- !u!114 &1940317958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940317954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1941527262
 GameObject:
   m_ObjectHideFlags: 0
@@ -122963,7 +123215,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 94fa7438b77b92d4ca798513ec403572,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94fa7438b77b92d4ca798513ec403572,
         type: 3}
@@ -122973,7 +123225,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 94fa7438b77b92d4ca798513ec403572,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94fa7438b77b92d4ca798513ec403572,
         type: 3}
@@ -123012,6 +123264,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1958852141}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1958852144}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &1958852139 stripped
 Transform:
@@ -123044,15 +123300,30 @@ MonoBehaviour:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 2068786274}
+--- !u!114 &1958852144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958852140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &1962732478
 GameObject:
   m_ObjectHideFlags: 0
@@ -127551,6 +127822,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2046061857}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2046061860}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &2046061855 stripped
 Transform:
@@ -127583,15 +127858,30 @@ MonoBehaviour:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1685902753}
+--- !u!114 &2046061860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046061856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1001 &2046416453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131147,6 +131437,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2093222869}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2093222872}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &2093222867 stripped
 Transform:
@@ -131179,15 +131473,30 @@ MonoBehaviour:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 1830520379}
+--- !u!114 &2093222872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093222868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &2093565645
 GameObject:
   m_ObjectHideFlags: 0
@@ -131362,6 +131671,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2095703763}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 94fa7438b77b92d4ca798513ec403572,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2095703766}
   m_SourcePrefab: {fileID: 100100000, guid: 94fa7438b77b92d4ca798513ec403572, type: 3}
 --- !u!4 &2095703761 stripped
 Transform:
@@ -131394,15 +131707,30 @@ MonoBehaviour:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  normal:
+  rainy2:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
-    defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
   subjectImage: {fileID: 352226891}
+--- !u!114 &2095703766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095703762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 250509635}
+  turnSpeed: 12
+  yawOffset: 0
 --- !u!1 &2099247869
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
     public float normalFactor = 1.0f;
     [Tooltip("Hệ số mùa khô")]
     public float dryFactor = 1.5f;
-
+    private RulesoftheGame_VU2_1 _rules;
     [Header("SFX")]
     public AudioSource audioSource;
     public AudioClip harvestClip;
@@ -38,15 +38,17 @@ public class Thuan_23127_GameManager : MonoBehaviour
     /// <returns>(theo mùa)</returns>
     public float GetSeasonSalinity()
     {
-        var k = RulesoftheGame_VU2_1.Saltwater_Intrusion switch
+        // Đọc theo pha 0/1/2 từ Saltwater_Intrusion để giữ tương thích
+        float k = RulesoftheGame_VU2_1.Saltwater_Intrusion switch
         {
-            0f => rainyFactor,
-            1f => normalFactor,
-            2f => dryFactor,
-            _  => normalFactor
+            0f => rainyFactor,    // Rainy1
+            1f => dryFactor,      // Dry
+            2f => rainyFactor,    // Rainy2
+            _  => rainyFactor
         };
         return Mathf.Max(0f, salinityBase * k);
     }
+
 
     private int ApplySalinityToScore(int baseValue, float plantThreshold)
     {
@@ -58,31 +60,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
     }
     
-    // Cộng điểm cho plant có nguong mặn 
-    public void AddScoreForPlant(int baseValue, Plant plant)
-    {
-        var value = (plant != null)
-            ? ApplySalinityToScore(baseValue, plant.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-    // Cộng điểm cho animal có nguong mặn 
-    public void AddScoreForAnimal(int baseValue, Animal animal)
-    {
-        var value = (animal != null)
-            ? ApplySalinityToScore(baseValue, animal.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-    // Cộng điểm cho fish có nguong mặn 
-    public void AddScoreForFish(int baseValue, Fish fish)
-    {
-        var value = (fish != null)
-            ? ApplySalinityToScore(baseValue, fish.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-
     /// <summary>
     /// Tính điểm 
     /// </summary>
@@ -92,6 +69,15 @@ public class Thuan_23127_GameManager : MonoBehaviour
     // </param>
     public void AddScore(int value)
     {
+        
+        if (!_rules)
+            _rules = FindObjectOfType<RulesoftheGame_VU2_1>();
+
+        if (_rules && !_rules.playGame)
+        {
+            return;
+        }
+        
         Score += value;
         audioSource.PlayOneShot(harvestClip);
         OnScoreChanged?.Invoke(Score);

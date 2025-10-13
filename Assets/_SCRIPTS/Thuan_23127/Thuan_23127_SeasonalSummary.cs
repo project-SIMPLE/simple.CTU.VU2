@@ -33,6 +33,15 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         if (Mathf.Approximately(s, 1f)) return Season.Normal;
         return Season.Dry;
     }
+    
+    private static SeasonPhase CurrentPhase()
+    {
+        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        if (Mathf.Approximately(s, 0f)) return SeasonPhase.Rainy1;
+        if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
+        return SeasonPhase.Rainy2;
+    }
+
 
     private static string Key(ProductKind kind, int id) => $"{kind}:{id}";
 
@@ -67,31 +76,33 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         // Khi harvest: +1 lượt cho mùa hiện tại (có thể đổi sang + điểm nếu muốn)
         growth.OnHarvested += points =>
         {
-            var s  = CurrentSeason();
+            var p = CurrentPhase();                   // 0=Rainy1,1=Dry,2=Rainy2
             var st = GetOrCreate(kind, id, tag.hudIcon);
-            st.count[(int)s] += 1;      // ĐẾM SỐ LƯỢT THU HOẠCH
-            st.score[(int)s] += points; // Cộng điểm tổng
+            st.count[(int)p] += 1;
+            st.score[(int)p] += points;
             OnChanged?.Invoke();
         };
+
 
         // Khi bị huỷ thì không cần unsub cụ thể — object sẽ bị GC cùng event target.
         growth.OnAboutToDestroy += () => { /* no-op */ };
     }
 
     /// <summary>Trả về snapshot dữ liệu để UI dựng bảng</summary>
-    public List<(Sprite icon, int rainy, int normal, int dry)> GetAllCounts()
+    public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllCounts()
     {
         var list = new List<(Sprite,int,int,int)>();
         foreach (var kv in _map.Values)
             list.Add((kv.icon, kv.count[0], kv.count[1], kv.count[2]));
         return list;
     }
-    // Trả về TỔNG ĐIỂM theo mùa
-    public List<(Sprite icon, int rainy, int normal, int dry)> GetAllScores()
+
+    public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllScores()
     {
         var list = new List<(Sprite,int,int,int)>();
         foreach (var kv in _map.Values)
             list.Add((kv.icon, kv.score[0], kv.score[1], kv.score[2]));
         return list;
     }
+
 }

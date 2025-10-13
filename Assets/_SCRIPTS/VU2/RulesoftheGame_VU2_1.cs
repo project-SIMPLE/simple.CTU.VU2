@@ -29,6 +29,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 	
 	private static Season _cachedSeasonEnum = (Season)(-1);
 	
+	private static SeasonPhase _currentPhase = SeasonPhase.Rainy1;
+	public static event System.Action<SeasonPhase> OnPhaseChanged;
+	private static SeasonPhase _cachedPhase = (SeasonPhase)(-1);
+	
 	// saltwater intrusion
 	//public Saltwater_Intrusion saltwaterIntrusionObject;
 	public GameObject target;       // Object cần di chuyển
@@ -79,7 +83,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 			if (timeRemaining <= 90)
 			{
-				SetSeason(0.0f); // mùa mưa
+				SetPhase(SeasonPhase.Rainy1);
+				// SetSeason(0.0f); // mùa mưa
 				//Debug.Log("Mùa Mưa bắt đầu!");
 				rainning = true;
 				Weather_Rain.SetActive(true);
@@ -94,7 +99,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			}
 			else if (timeRemaining > 90 && timeRemaining <= 180)
 			{
-				SetSeason(2.0f); // mùa khô
+				SetPhase(SeasonPhase.Dry);
+				// SetSeason(2.0f); // mùa khô
 				//Debug.Log("Mùa Khô bắt đầu!");
 				rainning = false;
 				Weather_Rain.SetActive(false);
@@ -116,7 +122,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 			}
 			else if (timeRemaining > 180 && timeRemaining <= 270)
 			{
-				SetSeason(1.0f); // bình thường
+				SetPhase(SeasonPhase.Rainy2);
+				// SetSeason(0.0f); // mùa mưa trở lại
 				//Debug.Log("Mùa Mưa Trở Lại!");
 				rainning = true;
 				moving = true;
@@ -268,7 +275,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 		Season newSeason;
 		if (Mathf.Approximately(season, 0f))      newSeason = Season.Rainy;
-		else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
+		// else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
 		else                                       newSeason = Season.Dry;
 
 		if (_cachedSeasonEnum != newSeason)
@@ -283,6 +290,30 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 		for (int i = 0; i < all.Length; i++)
 			all[i].UpdateSalinityEvent();
 
+		var gm = Thuan_23127_GameManager.Instance;
+		if (gm && gm.jsonReader)
+			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
+	}
+	
+	private static void SetPhase(SeasonPhase phase)
+	{
+		if (_cachedPhase == phase) return;
+		_cachedPhase = phase;
+		_currentPhase = phase;
+
+		// Giữ “Saltwater_Intrusion” làm code-compat nếu chỗ khác vẫn dùng số:
+		// 0 = Rainy1, 1 = Dry, 2 = Rainy2
+		Saltwater_Intrusion = (phase == SeasonPhase.Rainy1) ? 0f :
+			(phase == SeasonPhase.Dry)    ? 1f : 2f;
+
+		OnPhaseChanged?.Invoke(_currentPhase);
+
+		// Cập nhật salinity hiển thị trên từng plant
+		var all = UnityEngine.Object.FindObjectsOfType<Thuan_23127_PlantGrowth>();
+		for (int i = 0; i < all.Length; i++)
+			all[i].UpdateSalinityEvent();
+
+		// Cập nhật UI tổng mặn (nếu có)
 		var gm = Thuan_23127_GameManager.Instance;
 		if (gm && gm.jsonReader)
 			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());

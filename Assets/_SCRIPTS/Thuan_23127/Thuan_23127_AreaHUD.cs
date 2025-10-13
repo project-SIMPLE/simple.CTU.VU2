@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum Season { Rainy = 0, Normal = 1, Dry = 2 }
-
+public enum SeasonPhase { Rainy1 = 0, Dry = 1, Rainy2 = 2 }
 [Serializable]
 public class SeasonUI
 {
@@ -23,7 +23,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     [Header("Season Scores (Theo mùa)")]
     public SeasonUI rainy;
-    public SeasonUI normal;
+    public SeasonUI rainy2;
     public SeasonUI dry;
 
     [Header("Subject (cây/vật nuôi đang theo dõi)")]
@@ -135,7 +135,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         switch (s)
         {
             case Season.Rainy:  return rainy;
-            case Season.Normal: return normal;
+            case Season.Normal: return rainy2;
             case Season.Dry:    return dry;
         }
         return null;
@@ -166,6 +166,33 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
 
         subjectImage.preserveAspect = true;
+    }
+// Gọi từ FarmArea khi reset tổng theo pha
+    public void SetSeasonScoresPhase(int rainy1, int dry, int rainy2)
+    {
+        // _seasonScores: [0]=Rainy, [1]=Normal(rainy2), [2]=Dry
+        _seasonScores[0] = Mathf.Max(0, rainy1);
+        _seasonScores[2] = Mathf.Max(0, dry);
+        _seasonScores[1] = Mathf.Max(0, rainy2);
+
+        // Refresh đúng cột: Rainy → Dry → Rainy2
+        RefreshSeason(Season.Rainy); // cột mưa 1
+        RefreshSeason(Season.Dry);   // cột khô
+        RefreshSeason(Season.Normal);// cột mưa 2 (đang map vào rainy2)
+    }
+
+// Gọi từ FarmArea khi cộng điểm theo pha
+    public void AddSeasonPointsPhase(SeasonPhase phase, int delta, Sprite iconOverride = null)
+    {
+        switch (phase)
+        {
+            case SeasonPhase.Rainy1:
+                AddSeasonPoints(Season.Rainy,  delta, iconOverride); break;
+            case SeasonPhase.Dry:
+                AddSeasonPoints(Season.Dry,    delta, iconOverride); break;
+            case SeasonPhase.Rainy2:
+                AddSeasonPoints(Season.Normal, delta, iconOverride); break; // Normal == rainy2
+        }
     }
 
 

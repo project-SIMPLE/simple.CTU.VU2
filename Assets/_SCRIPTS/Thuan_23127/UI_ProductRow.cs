@@ -8,8 +8,8 @@ public class UI_ProductRow : MonoBehaviour
 {
     public Image icon;
     public Text rainyText;
-    public Text normalText;
     public Text dryText;
+    public Text rainy2Text;
 
     public void SetData(Sprite s, int r, int n, int d)
     {
@@ -20,7 +20,7 @@ public class UI_ProductRow : MonoBehaviour
             icon.preserveAspect = true;
         }
         if (rainyText)  rainyText.text  = r.ToString();
-        if (normalText) normalText.text = n.ToString();
+        if (rainy2Text) rainy2Text.text = n.ToString();
         if (dryText)    dryText.text    = d.ToString();
     }
 }

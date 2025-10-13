@@ -114,7 +114,7 @@
         "economic_benefits": 3,
         "information": "Information about guava",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 7,
@@ -134,7 +134,7 @@
         "economic_benefits": 3,
         "information": "Information about sugarcane",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 9,
@@ -144,7 +144,7 @@
         "economic_benefits": 3,
         "information": "Information about orange",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 10,
@@ -154,7 +154,7 @@
         "economic_benefits": 3,
         "information": "Information about coconut",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 11,
@@ -164,7 +164,7 @@
         "economic_benefits": 3,
         "information": "Information about banana",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 12,
@@ -446,7 +446,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 7,
@@ -466,7 +466,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của mía",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 9,
@@ -476,7 +476,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của cam",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 10,
@@ -486,7 +486,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của dừa",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 11,
@@ -496,7 +496,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của chuối",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 12,
@@ -506,7 +506,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 13,
@@ -516,7 +516,7 @@
         "economic_benefits": 3,
         "information": "Thông tin của xoài",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       }
     ],
     "livestock": [
@@ -782,7 +782,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la goyave",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 7,
@@ -802,7 +802,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la canne à sucre",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 9,
@@ -812,7 +812,7 @@
         "economic_benefits": 3,
         "information": "Informations sur l'orange",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 10,
@@ -822,7 +822,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la noix de coco",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 11,
@@ -832,7 +832,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la banane",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 12,
@@ -842,7 +842,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la goyave",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 13,
@@ -852,7 +852,7 @@
         "economic_benefits": 3,
         "information": "Informations sur la mangue",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       }
     ],
     "livestock": [
@@ -1115,7 +1115,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับฝรั่ง",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 7,
@@ -1135,7 +1135,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับอ้อย",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 9,
@@ -1145,7 +1145,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับส้ม",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 10,
@@ -1155,7 +1155,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับมะพร้าว",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 11,
@@ -1165,7 +1165,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับกล้วย",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 12,
@@ -1175,7 +1175,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับฝรั่ง",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       },
       {
         "id": 13,
@@ -1185,7 +1185,7 @@
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับมะม่วง",
         "salinity_threshold": 12,
-        "harvest_time": 160
+        "harvest_time": 5
       }
     ],
     "livestock": [
