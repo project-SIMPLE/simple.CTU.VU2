@@ -49,7 +49,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
         return Mathf.Max(0f, salinityBase * k);
     }
 
-
     private int ApplySalinityToScore(int baseValue, float plantThreshold)
     {
         float sal = GetSeasonSalinity();
@@ -60,6 +59,31 @@ public class Thuan_23127_GameManager : MonoBehaviour
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
     }
     
+    // Cộng điểm cho plant có nguong mặn 
+    public void AddScoreForPlant(int baseValue, Plant plant)
+    {
+        var value = (plant != null)
+            ? ApplySalinityToScore(baseValue, plant.salinity_threshold)
+            : baseValue;
+        AddScore(value);
+    }
+    // Cộng điểm cho animal có nguong mặn 
+    public void AddScoreForAnimal(int baseValue, Animal animal)
+    {
+        var value = (animal != null)
+            ? ApplySalinityToScore(baseValue, animal.salinity_threshold)
+            : baseValue;
+        AddScore(value);
+    }
+    // Cộng điểm cho fish có nguong mặn 
+    public void AddScoreForFish(int baseValue, Fish fish)
+    {
+        var value = (fish != null)
+            ? ApplySalinityToScore(baseValue, fish.salinity_threshold)
+            : baseValue;
+        AddScore(value);
+    }
+
     /// <summary>
     /// Tính điểm 
     /// </summary>

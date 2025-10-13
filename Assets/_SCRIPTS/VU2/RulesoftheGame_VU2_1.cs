@@ -275,7 +275,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
 		Season newSeason;
 		if (Mathf.Approximately(season, 0f))      newSeason = Season.Rainy;
-		// else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
+		else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
 		else                                       newSeason = Season.Dry;
 
 		if (_cachedSeasonEnum != newSeason)
