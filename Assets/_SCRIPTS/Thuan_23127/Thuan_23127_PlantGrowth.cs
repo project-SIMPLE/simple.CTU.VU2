@@ -109,7 +109,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         var gm = Thuan_23127_GameManager.Instance;
         return gm ? gm.GetSeasonSalinity() : 0f; // fallback
     }
-    
 
     /// <summary>
     /// Bắn event cập nhật độ mặn cho HUD (dùng khi đổi mùa)
@@ -212,7 +211,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
                 points = -5; // Trừ 5 điểm nếu nuôi sai chỗ
             }
         }
-
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.AddScore(points);
 
