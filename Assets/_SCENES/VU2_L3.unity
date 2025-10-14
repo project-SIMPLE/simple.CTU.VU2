@@ -3761,7 +3761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &48648443
 Transform:
   m_ObjectHideFlags: 0
@@ -66574,7 +66574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1118575846
 Transform:
   m_ObjectHideFlags: 0
@@ -81752,7 +81752,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1341061650
 Transform:
   m_ObjectHideFlags: 0
@@ -92051,7 +92051,7 @@ MonoBehaviour:
   Skybox_Rain: {fileID: 2100000, guid: c1c961cbd00909b45b34d97fd7df5cbf, type: 2}
   Skybox_Sun: {fileID: 2100000, guid: 55e64e617a8bfff4ba846574e2651eb9, type: 2}
   target: {fileID: 1309315319}
-  pointA: {x: 48, y: -1.5, z: 0}
+  pointA: {x: 0, y: -1.5, z: 0}
   pointB: {x: 0, y: -1.5, z: 0}
   moveTime: 30
   rainMusic: {fileID: 8300000, guid: dc6519d82aeaf4762b78ea722cdd1f58, type: 3}
