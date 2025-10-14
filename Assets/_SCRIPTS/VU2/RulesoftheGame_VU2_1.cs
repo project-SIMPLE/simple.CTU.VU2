@@ -1,321 +1,335 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-
 
 public class RulesoftheGame_VU2_1 : MonoBehaviour
 {
-	public GameObject Weather_Rain;
-	public Text clockText;
-	public float timeRemaining = 0;
-	public bool playGame = false;
-	public GameObject Rain_image;
-	public GameObject Sun_image;
+    public GameObject Weather_Rain;
+    public Text clockText;
+    public float timeRemaining = 0;
+    public bool playGame = false;
+    public GameObject Rain_image;
+    public GameObject Sun_image;
 
-	public GameObject StartMenu;
-	public GameObject ResultMenu;
-	public GameObject ResultDetailsScore;
-	public GameObject UIForVR;
+    public GameObject StartMenu;
+    public GameObject ResultMenu;
+    public GameObject ResultDetailsScore;
+    public GameObject UIForVR;
 
-	public GameObject NPC_Talk;
-	public Material Skybox_Rain;
-	public Material Skybox_Sun;
+    public GameObject NPC_Talk;
+    public Material Skybox_Rain;
+    public Material Skybox_Sun;
 
+    public static float Saltwater_Intrusion = 0.0f;
 
-	public static float Saltwater_Intrusion = 0.0f;
-	
-	private static float _cachedSeason = -999f;
-	private static Season _currentSeason = Season.Normal;
-	public static event System.Action<Season> OnSeasonChanged;
-	
-	private static Season _cachedSeasonEnum = (Season)(-1);
-	
-	private static SeasonPhase _currentPhase = SeasonPhase.Rainy1;
-	public static event System.Action<SeasonPhase> OnPhaseChanged;
-	private static SeasonPhase _cachedPhase = (SeasonPhase)(-1);
-	
-	// saltwater intrusion
-	//public Saltwater_Intrusion saltwaterIntrusionObject;
-	public GameObject target;       // Object cần di chuyển
-	public Vector3 pointA;          // Vị trí bắt đầu
-	public Vector3 pointB;          // Vị trí kết thúc
-	public float moveTime = 3f;     // Thời gian di chuyển (giây)
+    private static float _cachedSeason = -999f;
 
-	[Header("Music")]
-	// Music
-	public AudioClip rainMusic;
-	public AudioClip normalMusic;
-	public AudioClip messageSFX;
-	private AudioSource audioSource;
+    private static SeasonPhase _currentPhase = SeasonPhase.Rainy1;
+    public static event System.Action<SeasonPhase> OnPhaseChanged;
+    private static SeasonPhase _cachedPhase = (SeasonPhase)(-1);
 
-	private float timer;
-	private bool moving;
-	private bool rainning;
+    // saltwater intrusion
+    public GameObject target;       // Object nước cần di chuyển
+    public Vector3 pointA;          // Vị trí A (mưa: rút về)
+    public Vector3 pointB;          // Vị trí B (khô: dâng lên)
+    public float moveTime = 3f;     // Thời gian di chuyển (giây)
 
-	// Start is called before the first frame update
-	public void Start()
-	{
-		playGame = false;
+    [Header("Music")]
+    public AudioClip rainMusic;
+    public AudioClip normalMusic;
+    [FormerlySerializedAs("messageSFX")] public AudioClip messageSfx;
+    private AudioSource _audioSource;
 
-		ResultMenu.SetActive(false);
-		StartMenu.SetActive(true);
-		Weather_Rain.SetActive(false);
-		Rain_image.SetActive(false);
-		Sun_image.SetActive(true);
-		NPC_Talk.SetActive(false);
-		audioSource = GetComponent<AudioSource>();
-		PlayMusic(normalMusic);
+    private float _timer;
+    private bool _moving;
+    private bool _rainning;
 
-		target.transform.position = pointA;
-		timer = 0f;
-		rainning = false;
-		moving = false;
-	}
+    // ==== STATE cho di chuyển mượt theo từng pha ====
+    private bool _enteredDry = false;      // đã vào pha 90–180 chưa
+    private bool _enteredRainy2 = false;   // đã vào pha 180–270 chưa
+    private float _phaseStartTime = 0f;    // mốc thời gian khi bắt đầu pha
+    private Vector3 _fromPos;              // vị trí đầu pha
+    private Vector3 _toPos;                // vị trí cuối pha
+    private bool _applyMoveThisFrame = false; // LateUpdate sẽ áp vị trí nếu true
 
-	// Update is called once per frame
-	public void Update()
-	{
+    // ==== Tránh teleport khi Start lần đầu ====
+    [SerializeField] private bool snapPointAFromCurrentOnFirstStart = true;
+    private bool _didSnapPointA = false;
+    // ==========================================
 
-		if (playGame == true)
-		{
-			//saltwaterIntrusionObject.StartMove();
-			timeRemaining += Time.deltaTime;
-			DisplayTime(timeRemaining);
+    public void Start()
+    {
+        playGame = false;
 
-			if (timeRemaining <= 90)
-			{
-				SetPhase(SeasonPhase.Rainy1);
-				// SetSeason(0.0f); // mùa mưa
-				//Debug.Log("Mùa Mưa bắt đầu!");
-				rainning = true;
-				Weather_Rain.SetActive(true);
-				Rain_image.SetActive(true);
-				Sun_image.SetActive(false);
-				RenderSettings.skybox = Skybox_Rain;
-				DynamicGI.UpdateEnvironment();
-				PlayMusic(rainMusic);
-				//saltwaterIntrusionObject.StartMove();
+        ResultMenu.SetActive(false);
+        StartMenu.SetActive(true);
+        Weather_Rain.SetActive(false);
+        Rain_image.SetActive(false);
+        Sun_image.SetActive(true);
+        NPC_Talk.SetActive(false);
+        _audioSource = GetComponent<AudioSource>();
+        PlayMusic(normalMusic);
 
+        _timer = 0f;
+        _rainning = false;
+        _moving = false;
 
-			}
-			else if (timeRemaining > 90 && timeRemaining <= 180)
-			{
-				SetPhase(SeasonPhase.Dry);
-				// SetSeason(2.0f); // mùa khô
-				//Debug.Log("Mùa Khô bắt đầu!");
-				rainning = false;
-				Weather_Rain.SetActive(false);
-				Rain_image.SetActive(false);
-				Sun_image.SetActive(true);
-				RenderSettings.skybox = Skybox_Sun;
-				DynamicGI.UpdateEnvironment();
-				PlayMusic(normalMusic);
-				moving = false;
-				//saltwaterIntrusionObject.StartMove();
-				//target.transform.position = pointA;
+        _enteredDry = false;
+        _enteredRainy2 = false;
+        _applyMoveThisFrame = false;
+    }
 
-				//Debug.Log("Di chuyển nước .");
+    public void Update()
+    {
+        _applyMoveThisFrame = false; // reset mỗi frame (LateUpdate dùng)
 
-				timer += Time.deltaTime;
-				float t = timer / moveTime;
+        if (!playGame) return;
 
-				target.transform.position = Vector3.Lerp(pointA, pointB, t);
-			}
-			else if (timeRemaining > 180 && timeRemaining <= 270)
-			{
-				SetPhase(SeasonPhase.Rainy2);
-				// SetSeason(0.0f); // mùa mưa trở lại
-				//Debug.Log("Mùa Mưa Trở Lại!");
-				rainning = true;
-				moving = true;
-				Weather_Rain.SetActive(true);
-				Rain_image.SetActive(true);
-				Sun_image.SetActive(false);
-				RenderSettings.skybox = Skybox_Rain;
-				DynamicGI.UpdateEnvironment();
-				target.transform.position = pointB;
-				PlayMusic(rainMusic);
+        timeRemaining += Time.deltaTime;
+        DisplayTime(timeRemaining);
 
-				timer += Time.deltaTime;
-				float t = timer / moveTime;
+        if (timeRemaining <= 90f)
+        {
+            SetPhase(SeasonPhase.Rainy1);
 
-				target.transform.position = Vector3.Lerp(pointB, pointA, t);
-			}
+            _rainning = true;
+            Weather_Rain.SetActive(true);
+            Rain_image.SetActive(true);
+            Sun_image.SetActive(false);
+            RenderSettings.skybox = Skybox_Rain;
+            DynamicGI.UpdateEnvironment();
+            PlayMusic(rainMusic);
 
-			else
-			{
-				//Debug.Log("Màn chơi kết thúc.");
-				playGame = false;
-				rainning = false;
-				Weather_Rain.SetActive(false);
-				Rain_image.SetActive(false);
-				Sun_image.SetActive(true);
-				RenderSettings.skybox = Skybox_Sun;
-				DynamicGI.UpdateEnvironment();
-				PlayMusic(normalMusic);
+            // KHÔNG di chuyển ở Rainy1
+            _moving = false;
+            _enteredDry = false; // để 90->180 vào lại sẽ chốt from/to
+        }
+        else if (timeRemaining > 90f && timeRemaining <= 180f)
+        {
+            SetPhase(SeasonPhase.Dry);
 
-				audioSource.PlayOneShot(messageSFX);
-				ResultMenu.SetActive(true);
+            _rainning = false;
+            Weather_Rain.SetActive(false);
+            Rain_image.SetActive(false);
+            Sun_image.SetActive(true);
+            RenderSettings.skybox = Skybox_Sun;
+            DynamicGI.UpdateEnvironment();
+            PlayMusic(normalMusic);
 
-			}
+            // Vừa vào DRY lần đầu -> chốt from/to + mốc thời gian
+            if (!_enteredDry)
+            {
+                _enteredDry = true;
+                _enteredRainy2 = false;
 
-			// if (moving== true && rainning == false)
-			// {
-			// 	Debug.Log("Di chuyển nước .");
-			// 	timer += Time.deltaTime;
-			// 	float t = timer / moveTime;
+                _phaseStartTime = timeRemaining;
+                _fromPos = target ? target.transform.position : pointA;
+                _toPos = pointB;
 
-			// 	target.transform.position = Vector3.Lerp(pointA, pointB, t);
+                _timer = 0f;
+                _moving = true;
+            }
 
-			// 	if (t >= 1f)
-			// 		moving = false;
-			// }
-			// if (moving== true && rainning == true)
-			// {
-			// 	timer += Time.deltaTime;
-			// 	float t = timer / moveTime;
+            if (_moving && target)
+            {
+                _applyMoveThisFrame = true; // LateUpdate áp vị trí
+            }
+        }
+        else if (timeRemaining > 180f && timeRemaining <= 270f)
+        {
+            SetPhase(SeasonPhase.Rainy2);
 
-			// 	target.transform.position = Vector3.Lerp(pointB, pointA, t);
+            _rainning = true;
+            Weather_Rain.SetActive(true);
+            Rain_image.SetActive(true);
+            Sun_image.SetActive(false);
+            RenderSettings.skybox = Skybox_Rain;
+            DynamicGI.UpdateEnvironment();
+            PlayMusic(rainMusic);
 
-			// 	if (t >= 1f)
-			// 		moving = false;
-			// }
-		}
-	}
+            // TUYỆT ĐỐI không set cứng vị trí ở đây để tránh "nhảy"
+            if (!_enteredRainy2)
+            {
+                _enteredRainy2 = true;
 
-	void DisplayTime(float timeToDisplay)
-	{
-		// timeToDisplay += 1;
-		float minutes = Mathf.FloorToInt(timeToDisplay / 60);
-		float seconds = Mathf.FloorToInt(timeToDisplay % 60);
-		clockText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-	}
+                _phaseStartTime = timeRemaining;
+                _fromPos = target ? target.transform.position : pointB;
+                _toPos = pointA;
 
-	void PlayMusic(AudioClip clip)
-	{
-		if (clip == null) return;
-		if (audioSource.clip == clip) return; // nếu đang phát rồi thì bỏ qua
+                _timer = 0f;
+                _moving = true;
+            }
 
-		audioSource.clip = clip;
-		audioSource.Play();
-	}
+            if (_moving && target)
+            {
+                _applyMoveThisFrame = true; // LateUpdate áp vị trí
+            }
+        }
+        else
+        {
+            playGame = false;
+            _rainning = false;
+            Weather_Rain.SetActive(false);
+            Rain_image.SetActive(false);
+            Sun_image.SetActive(true);
+            RenderSettings.skybox = Skybox_Sun;
+            DynamicGI.UpdateEnvironment();
+            PlayMusic(normalMusic);
 
-	public void StartGame()
-	{
-		Debug.Log("Play Game.");
-		playGame = true;
-		StartMenu.SetActive(false);
-		timeRemaining = 0;
-		NPC_Talk.SetActive(true);
-		ResultDetailsScore.SetActive(false);
-	}
+            if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
+            ResultMenu.SetActive(true);
+        }
+    }
 
-	public void RestartGame()
-	{
-		Debug.Log("Restart Game.");
-		
-		Thuan_23127_GameManager.Instance?.ResetScore(); // reset diem
-		ResetAllPlots(); // reset treê animal va fish
-		StartMenu.SetActive(true);
-		playGame = true;
-		ResultMenu.SetActive(false);
-		timeRemaining = 0;
-		Weather_Rain.SetActive(false);
-		Rain_image.SetActive(false);
-		Sun_image.SetActive(true);
-		ResultDetailsScore.SetActive(false); // Ẩn đi 
-		
-		target.transform.position = pointA; // reset vi tri ban dau
+    private void LateUpdate()
+    {
+        if (_applyMoveThisFrame)
+            StepMove(); // áp vị trí SAU tất cả Update/Animator khác
+    }
 
-		PlayMusic(normalMusic);
-		var hud = FindObjectsOfType<Thuan_23127_AreaHUD>(true);  // reset hub
-		foreach (var h in hud)
-			h.ResetHUDToDefaults();
-	}
+    private void StepMove()
+    {
+        if (!target) return;
 
-	/// <summary>
-	/// Show details score
-	/// </summary>
-	public void ShowResultDetailsScore()
-	{
-		ResultDetailsScore.SetActive(true);
-		ResultMenu.SetActive(false);
-		UIForVR.SetActive(false);
-	}
-	
-	/// <summary>
-	/// Close details
-	/// </summary>
-	public void CloseResultDetailsScore()
-	{
-		ResultDetailsScore.SetActive(false);
-		ResultMenu.SetActive(true);
-		UIForVR.SetActive(true);
-	}
+        // Nếu A==B hoặc rất gần thì không cần di chuyển (tránh giật)
+        if ((_toPos - _fromPos).sqrMagnitude < 1e-6f)
+        {
+            _moving = false;
+            return;
+        }
 
-	public void PlaySFX(AudioClip audioClip)
-	{
-		if (audioClip == null) return;
-		audioSource.PlayOneShot(audioClip);
-	}
+        float elapsed = timeRemaining - _phaseStartTime;
+        float t = (moveTime <= 0f) ? 1f : Mathf.Clamp01(elapsed / moveTime);
+        t = Mathf.SmoothStep(0f, 1f, t); // easing mượt
 
-	private static void ResetAllPlots()
-	{
-		foreach (var farm in FindObjectsOfType<FarmArea>())
-		{
-			farm.ResetAllPlots();
-		}
-	}
-	
-	private static void SetSeason(float season)
-	{
-		if (Mathf.Approximately(_cachedSeason, season)) return;
+        target.transform.position = Vector3.Lerp(_fromPos, _toPos, t);
 
-		Saltwater_Intrusion = season;
-		_cachedSeason = season;
+        if (t >= 1f)
+            _moving = false; // tới đích thì dừng
+    }
 
-		Season newSeason;
-		if (Mathf.Approximately(season, 0f))      newSeason = Season.Rainy;
-		else if (Mathf.Approximately(season, 1f)) newSeason = Season.Normal;
-		else                                       newSeason = Season.Dry;
+    void DisplayTime(float timeToDisplay)
+    {
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        clockText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
 
-		if (_cachedSeasonEnum != newSeason)
-		{
-			_cachedSeasonEnum = newSeason;
-			_currentSeason = newSeason;
-			OnSeasonChanged?.Invoke(_currentSeason);
-		}
+    void PlayMusic(AudioClip clip)
+    {
+        if (!clip) return;
+        if (_audioSource.clip == clip) return; // đang phát rồi thì bỏ qua
+        _audioSource.clip = clip;
+        _audioSource.Play();
+    }
 
-		// cập nhật salinity trên từng cây + UI global
-		var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
-		for (int i = 0; i < all.Length; i++)
-			all[i].UpdateSalinityEvent();
+    public void StartGame()
+    {
+        Debug.Log("Play Game.");
+        playGame = true;
+        StartMenu.SetActive(false);
+        timeRemaining = 0f;
+        NPC_Talk.SetActive(true);
+        ResultDetailsScore.SetActive(false);
 
-		var gm = Thuan_23127_GameManager.Instance;
-		if (gm && gm.jsonReader)
-			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
-	}
-	
-	private static void SetPhase(SeasonPhase phase)
-	{
-		if (_cachedPhase == phase) return;
-		_cachedPhase = phase;
-		_currentPhase = phase;
+        // KHÔNG ép vị trí khi Start lần đầu để tránh teleport.
+        // Thay vào đó, nếu bật flag thì chụp PointA = vị trí hiện tại đúng 1 lần.
+        if (snapPointAFromCurrentOnFirstStart && !_didSnapPointA && target)
+        {
+            pointA = target.transform.position;
+            _didSnapPointA = true;
+        }
 
-		// Giữ “Saltwater_Intrusion” làm code-compat nếu chỗ khác vẫn dùng số:
-		// 0 = Rainy1, 1 = Dry, 2 = Rainy2
-		Saltwater_Intrusion = (phase == SeasonPhase.Rainy1) ? 0f :
-			(phase == SeasonPhase.Dry)    ? 1f : 2f;
+        // Reset state pha & nội suy
+        _enteredDry = false;
+        _enteredRainy2 = false;
+        _moving = false;
+        _applyMoveThisFrame = false;
+        _timer = 0f;
+        _phaseStartTime = timeRemaining;
+    }
 
-		OnPhaseChanged?.Invoke(_currentPhase);
+    public void RestartGame()
+    {
+        Debug.Log("Restart Game.");
 
-		// Cập nhật salinity hiển thị trên từng plant
-		var all = UnityEngine.Object.FindObjectsOfType<Thuan_23127_PlantGrowth>();
-		for (int i = 0; i < all.Length; i++)
-			all[i].UpdateSalinityEvent();
+        Thuan_23127_GameManager.Instance?.ResetScore(); // reset điểm
+        ResetAllPlots(); // reset farm/animal/fish
 
-		// Cập nhật UI tổng mặn (nếu có)
-		var gm = Thuan_23127_GameManager.Instance;
-		if (gm && gm.jsonReader)
-			gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
-	}
+        // Sau restart: vào chơi ngay
+        StartMenu.SetActive(false);
+        playGame = true;
+
+        ResultMenu.SetActive(false);
+        timeRemaining = 0f;
+        Weather_Rain.SetActive(false);
+        Rain_image.SetActive(false);
+        Sun_image.SetActive(true);
+        ResultDetailsScore.SetActive(false);
+
+        // Đưa nước về điểm A (điểm A đã được “chụp” ở lần Start đầu, nên không nhảy)
+        if (target) target.transform.position = pointA;
+
+        PlayMusic(normalMusic);
+        var hud = FindObjectsOfType<Thuan_23127_AreaHUD>(true);
+        foreach (var h in hud) h.ResetHUDToDefaults();
+
+        _enteredDry = false;
+        _enteredRainy2 = false;
+        _moving = false;
+        _applyMoveThisFrame = false;
+        _timer = 0f;
+        _phaseStartTime = timeRemaining;
+    }
+
+    /// <summary> Show details score </summary>
+    public void ShowResultDetailsScore()
+    {
+        ResultDetailsScore.SetActive(true);
+        ResultMenu.SetActive(false);
+        UIForVR.SetActive(false);
+    }
+
+    /// <summary> Close details </summary>
+    public void CloseResultDetailsScore()
+    {
+        ResultDetailsScore.SetActive(false);
+        ResultMenu.SetActive(true);
+        UIForVR.SetActive(true);
+    }
+
+    public void PlaySFX(AudioClip audioClip)
+    {
+        if (audioClip == null) return;
+        _audioSource.PlayOneShot(audioClip);
+    }
+
+    private static void ResetAllPlots()
+    {
+        foreach (var farm in FindObjectsOfType<FarmArea>())
+            farm.ResetAllPlots();
+    }
+
+    private static void SetPhase(SeasonPhase phase)
+    {
+        if (_cachedPhase == phase) return;
+        _cachedPhase = phase;
+        _currentPhase = phase;
+
+        // 0 = Rainy1, 1 = Dry, 2 = Rainy2
+        Saltwater_Intrusion = (phase == SeasonPhase.Rainy1) ? 0f :
+                              (phase == SeasonPhase.Dry)    ? 1f : 2f;
+
+        OnPhaseChanged?.Invoke(_currentPhase);
+
+        // Cập nhật salinity hiển thị trên từng plant
+        var all = UnityEngine.Object.FindObjectsOfType<Thuan_23127_PlantGrowth>();
+        for (int i = 0; i < all.Length; i++)
+            all[i].UpdateSalinityEvent();
+
+        // Cập nhật UI tổng mặn (nếu có)
+        var gm = Thuan_23127_GameManager.Instance;
+        if (gm && gm.jsonReader)
+            gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
+    }
 }

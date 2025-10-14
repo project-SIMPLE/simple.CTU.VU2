@@ -25,14 +25,6 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
-    private static Season CurrentSeason()
-    {
-        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 0f)) return Season.Rainy;
-        if (Mathf.Approximately(s, 1f)) return Season.Normal;
-        return Season.Dry;
-    }
     
     private static SeasonPhase CurrentPhase()
     {
@@ -41,7 +33,6 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
         return SeasonPhase.Rainy2;
     }
-
 
     private static string Key(ProductKind kind, int id) => $"{kind}:{id}";
 

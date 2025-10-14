@@ -7417,14 +7417,14 @@ MonoBehaviour:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 866151085}
-    iconImage: {fileID: 26281972}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 866151085}
+    iconImage: {fileID: 26281972}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 705881820}
 --- !u!114 &127750557
 MonoBehaviour:
@@ -10543,14 +10543,14 @@ MonoBehaviour:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1434914948}
-    iconImage: {fileID: 1353110721}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1434914948}
+    iconImage: {fileID: 1353110721}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 567338470}
 --- !u!114 &193966113
 MonoBehaviour:
@@ -13328,14 +13328,14 @@ MonoBehaviour:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1052871098}
-    iconImage: {fileID: 933492756}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1052871098}
+    iconImage: {fileID: 933492756}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 573410333}
 --- !u!114 &239248858
 MonoBehaviour:
@@ -25430,14 +25430,14 @@ MonoBehaviour:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 609190553}
-    iconImage: {fileID: 745147007}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 609190553}
+    iconImage: {fileID: 745147007}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1695823564}
 --- !u!114 &425256551
 MonoBehaviour:
@@ -30702,8 +30702,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -140, y: -221}
-  m_SizeDelta: {x: 288, y: 105}
+  m_AnchoredPosition: {x: -140, y: -217}
+  m_SizeDelta: {x: 288, y: 61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &515656910
 MonoBehaviour:
@@ -30840,7 +30840,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fd26e129efb75ee428d121a1c21bfaaa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13508ce550801c844935a2f6cfbc977a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31170,14 +31170,14 @@ MonoBehaviour:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 2070794291}
-    iconImage: {fileID: 442288669}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 2070794291}
+    iconImage: {fileID: 442288669}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 893276222}
 --- !u!114 &517610667
 MonoBehaviour:
@@ -36990,14 +36990,14 @@ MonoBehaviour:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1113279320}
-    iconImage: {fileID: 1281291193}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1113279320}
+    iconImage: {fileID: 1281291193}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 16230762}
 --- !u!114 &615013731
 MonoBehaviour:
@@ -64264,14 +64264,14 @@ MonoBehaviour:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1448206160}
-    iconImage: {fileID: 2115851040}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1448206160}
+    iconImage: {fileID: 2115851040}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1143221026}
 --- !u!114 &1071587359
 MonoBehaviour:
@@ -65130,14 +65130,14 @@ MonoBehaviour:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 173594179}
-    iconImage: {fileID: 636450434}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 173594179}
+    iconImage: {fileID: 636450434}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 659057181}
 --- !u!114 &1085519449
 MonoBehaviour:
@@ -65352,14 +65352,14 @@ MonoBehaviour:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1975408736}
-    iconImage: {fileID: 1228618219}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1975408736}
+    iconImage: {fileID: 1228618219}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1811308407}
 --- !u!114 &1089442109
 MonoBehaviour:
@@ -76002,14 +76002,14 @@ MonoBehaviour:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1286137999}
-    iconImage: {fileID: 1922114356}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1286137999}
+    iconImage: {fileID: 1922114356}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 205955155}
 --- !u!114 &1251532289
 MonoBehaviour:
@@ -85616,14 +85616,14 @@ MonoBehaviour:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 315023751}
-    iconImage: {fileID: 1187077797}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 315023751}
+    iconImage: {fileID: 1187077797}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1223378706}
 --- !u!114 &1400608625
 MonoBehaviour:
@@ -92056,7 +92056,8 @@ MonoBehaviour:
   moveTime: 30
   rainMusic: {fileID: 8300000, guid: dc6519d82aeaf4762b78ea722cdd1f58, type: 3}
   normalMusic: {fileID: 8300000, guid: 2977d1c14910940c181ddc393832ff0a, type: 3}
-  messageSFX: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
+  messageSfx: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
+  snapPointAFromCurrentOnFirstStart: 1
 --- !u!114 &1501849108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92316,7 +92317,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   salinityBase: 1
   rainyFactor: 0.3
-  normalFactor: 1
   dryFactor: 1.5
   audioSource: {fileID: 1501849109}
   harvestClip: {fileID: 8300000, guid: bccf7ddb76302c74fab675eed66d80c6, type: 3}
@@ -92813,14 +92813,14 @@ MonoBehaviour:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 584041800}
-    iconImage: {fileID: 527005052}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 584041800}
+    iconImage: {fileID: 527005052}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 797077449}
 --- !u!114 &1511998619
 MonoBehaviour:
@@ -121802,14 +121802,14 @@ MonoBehaviour:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 662666717}
-    iconImage: {fileID: 101522823}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 662666717}
+    iconImage: {fileID: 101522823}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1197735651}
 --- !u!114 &1940317958
 MonoBehaviour:
@@ -123300,14 +123300,14 @@ MonoBehaviour:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1081815814}
-    iconImage: {fileID: 939011688}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1081815814}
+    iconImage: {fileID: 939011688}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 2068786274}
 --- !u!114 &1958852144
 MonoBehaviour:
@@ -127858,14 +127858,14 @@ MonoBehaviour:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1765523007}
-    iconImage: {fileID: 1932073827}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1765523007}
+    iconImage: {fileID: 1932073827}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1685902753}
 --- !u!114 &2046061860
 MonoBehaviour:
@@ -131473,14 +131473,14 @@ MonoBehaviour:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 2114760940}
-    iconImage: {fileID: 527005052}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 2114760940}
+    iconImage: {fileID: 527005052}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1830520379}
 --- !u!114 &2093222872
 MonoBehaviour:
@@ -131707,14 +131707,14 @@ MonoBehaviour:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  rainy2:
-    scoreText: {fileID: 1176400432}
-    iconImage: {fileID: 1036677506}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   dry:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
+  rainy2:
+    scoreText: {fileID: 1176400432}
+    iconImage: {fileID: 1036677506}
+    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 352226891}
 --- !u!114 &2095703766
 MonoBehaviour:

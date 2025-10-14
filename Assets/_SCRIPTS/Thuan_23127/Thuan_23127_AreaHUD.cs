@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Season { Rainy = 0, Normal = 1, Dry = 2 }
 public enum SeasonPhase { Rainy1 = 0, Dry = 1, Rainy2 = 2 }
+
 [Serializable]
 public class SeasonUI
 {
@@ -21,16 +21,17 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     [Header("Salinity")]
     public Text salinityText;
 
-    [Header("Season Scores (Theo mùa)")]
-    public SeasonUI rainy;
-    public SeasonUI rainy2;
-    public SeasonUI dry;
+    [Header("Season Scores (Theo pha)")]
+    // Thứ tự cột mong muốn: Rainy1 (mùa mưa 1), Dry (mùa khô), Rainy2 (mùa mưa 2)
+    public SeasonUI rainy;   // cột 1
+    public SeasonUI dry;     // cột 2
+    public SeasonUI rainy2;  // cột 3
 
     [Header("Subject (cây/vật nuôi đang theo dõi)")]
     public Image subjectImage;
 
-    // lưu tổng điểm theo mùa (0:Rainy,1:Normal,2:Dry)
-    private readonly int[] _seasonScores = new int[3];
+    // Tổng điểm theo pha: [0]=Rainy1, [1]=Dry, [2]=Rainy2
+    private readonly int[] _phaseScores = new int[3];
 
     /// <summary>Ẩn/hiện toàn bộ HUD</summary>
     public void Show(bool v) => gameObject.SetActive(v);
@@ -50,7 +51,8 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     }
 
     /// <summary>Đặt icon “đối tượng đang theo dõi” (plant/animal/fish)</summary>
-    public void SetSubject(Sprite icon) {
+    public void SetSubject(Sprite icon)
+    {
         if (!subjectImage) return;
         subjectImage.sprite  = icon;
         subjectImage.enabled = (icon != null);
@@ -62,54 +64,59 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         subjectImage.preserveAspect = true;
     }
 
-    /// <summary>Reset điểm cả 3 mùa về 0 và refresh UI</summary>
-    public void ResetSeasonScores()
+    void Awake()
     {
-        _seasonScores[0] = _seasonScores[1] = _seasonScores[2] = 0;
-        RefreshSeason(Season.Rainy);
-        RefreshSeason(Season.Normal);
-        RefreshSeason(Season.Dry);
+        if (subjectImage)
+        {
+            subjectImage.sprite  = null;
+            subjectImage.enabled = false;
+            var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
+        }
     }
 
-    /// <summary>Set cứng tổng điểm 3 mùa (dùng khi reset hoặc load)</summary>
-    public void SetSeasonScores(int rainyVal, int normalVal, int dryVal)
+    /// ========== API THEO PHA (dùng ở FarmArea) ==========
+
+    /// <summary>Reset điểm 3 pha về 0 và refresh UI</summary>
+    public void ResetSeasonScoresPhase()
     {
-        _seasonScores[0] = Mathf.Max(0, rainyVal);
-        _seasonScores[1] = Mathf.Max(0, normalVal);
-        _seasonScores[2] = Mathf.Max(0, dryVal);
-        RefreshSeason(Season.Rainy);
-        RefreshSeason(Season.Normal);
-        RefreshSeason(Season.Dry);
+        _phaseScores[0] = _phaseScores[1] = _phaseScores[2] = 0;
+        RefreshPhase(SeasonPhase.Rainy1);
+        RefreshPhase(SeasonPhase.Dry);
+        RefreshPhase(SeasonPhase.Rainy2);
     }
 
-    /// <summary>Gộp điểm vào mùa tương ứng và (tuỳ chọn) set icon cho mùa đó</summary>
-    public void AddSeasonPoints(Season season, int delta, Sprite iconOverride = null)
+    /// <summary>Set cứng tổng điểm 3 pha</summary>
+    public void SetSeasonScoresPhase(int rainy1, int dryVal, int rainy2)
     {
-        int idx = (int)season;
-        _seasonScores[idx] = Mathf.Max(0, _seasonScores[idx] + delta);
+        _phaseScores[0] = Mathf.Max(0, rainy1);
+        _phaseScores[1] = Mathf.Max(0, dryVal);
+        _phaseScores[2] = Mathf.Max(0, rainy2);
 
-        var ui = GetUI(season);
+        RefreshPhase(SeasonPhase.Rainy1); // cột mưa 1
+        RefreshPhase(SeasonPhase.Dry);    // cột khô
+        RefreshPhase(SeasonPhase.Rainy2); // cột mưa 2
+    }
+
+    /// <summary>Gộp điểm vào pha tương ứng và (tuỳ chọn) set icon cho pha đó</summary>
+    public void AddSeasonPointsPhase(SeasonPhase phase, int delta, Sprite iconOverride = null)
+    {
+        int idx = (int)phase;
+        _phaseScores[idx] = Mathf.Max(0, _phaseScores[idx] + delta);
+
+        var ui = GetUI(phase);
         if (ui == null) return;
 
-        if (ui.scoreText) ui.scoreText.text = _seasonScores[idx].ToString();
-
-        // if (ui.iconImage)
-        // {
-        //     if (iconOverride) ui.iconImage.sprite = iconOverride;
-        //     if (!ui.iconImage.sprite) ui.iconImage.sprite = ui.defaultIcon;
-        //     ui.iconImage.enabled = (_seasonScores[idx] > 0) && (ui.iconImage.sprite != null);
-        //     ui.iconImage.preserveAspect = true;
-        // }
-        SetIconForSeason(season, iconOverride);
+        if (ui.scoreText) ui.scoreText.text = _phaseScores[idx].ToString();
+        SetIconForPhase(phase, iconOverride);
     }
 
-    /// <summary>Refresh UI cho 1 mùa từ giá trị đang lưu</summary>
-    private void RefreshSeason(Season s)
+    /// <summary>Refresh UI cho 1 pha từ giá trị đang lưu</summary>
+    private void RefreshPhase(SeasonPhase p)
     {
-        var ui = GetUI(s);
+        var ui = GetUI(p);
         if (ui == null) return;
 
-        int val = _seasonScores[(int)s];
+        int val = _phaseScores[(int)p];
         if (ui.scoreText) ui.scoreText.text = val.ToString();
 
         if (ui.iconImage)
@@ -119,82 +126,42 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
             ui.iconImage.preserveAspect = true;
         }
     }
-    
-    void Awake()
-    {
-        // Ẩn Subject khi mới vào game
-        if (!subjectImage) return;
-        subjectImage.sprite  = null;
-        subjectImage.enabled = false;
-        var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
-    }
 
-    /// <summary>Trả về struct UI tương ứng mùa</summary>
-    private SeasonUI GetUI(Season s)
+    /// <summary>Trả về struct UI tương ứng pha</summary>
+    private SeasonUI GetUI(SeasonPhase p)
     {
-        switch (s)
+        switch (p)
         {
-            case Season.Rainy:  return rainy;
-            case Season.Normal: return rainy2;
-            case Season.Dry:    return dry;
+            case SeasonPhase.Rainy1: return rainy;   // cột trái
+            case SeasonPhase.Dry:    return dry;     // cột giữa
+            case SeasonPhase.Rainy2: return rainy2;  // cột phải
         }
         return null;
     }
-    
-    private void SetIconForSeason(Season season, Sprite iconOverride = null)
+
+    private void SetIconForPhase(SeasonPhase phase, Sprite iconOverride = null)
     {
-        var ui = GetUI(season);
+        var ui = GetUI(phase);
         if (ui == null || ui.iconImage == null) return;
 
-        // GÁN THẲNG sprite mỗi lần gọi (không check null)
         ui.iconImage.sprite  = iconOverride != null ? iconOverride : ui.defaultIcon;
-        ui.iconImage.enabled = (_seasonScores[(int)season] > 0) && (ui.iconImage.sprite != null);
+        ui.iconImage.enabled = (_phaseScores[(int)phase] > 0) && (ui.iconImage.sprite != null);
         ui.iconImage.preserveAspect = true;
     }
-    
+
     public void ResetHUDToDefaults()
     {
         SetProgress(0f);
-
         if (salinityText) salinityText.text = "0.00 / 0.00";
 
-        ResetSeasonScores();
+        ResetSeasonScoresPhase();
 
-        if (!subjectImage) return;
-        subjectImage.sprite  = null;
-        subjectImage.enabled = false;
-        var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
-        
-
-        subjectImage.preserveAspect = true;
-    }
-// Gọi từ FarmArea khi reset tổng theo pha
-    public void SetSeasonScoresPhase(int rainy1, int dry, int rainy2)
-    {
-        // _seasonScores: [0]=Rainy, [1]=Normal(rainy2), [2]=Dry
-        _seasonScores[0] = Mathf.Max(0, rainy1);
-        _seasonScores[2] = Mathf.Max(0, dry);
-        _seasonScores[1] = Mathf.Max(0, rainy2);
-
-        // Refresh đúng cột: Rainy → Dry → Rainy2
-        RefreshSeason(Season.Rainy); // cột mưa 1
-        RefreshSeason(Season.Dry);   // cột khô
-        RefreshSeason(Season.Normal);// cột mưa 2 (đang map vào rainy2)
-    }
-
-// Gọi từ FarmArea khi cộng điểm theo pha
-    public void AddSeasonPointsPhase(SeasonPhase phase, int delta, Sprite iconOverride = null)
-    {
-        switch (phase)
+        if (subjectImage)
         {
-            case SeasonPhase.Rainy1:
-                AddSeasonPoints(Season.Rainy,  delta, iconOverride); break;
-            case SeasonPhase.Dry:
-                AddSeasonPoints(Season.Dry,    delta, iconOverride); break;
-            case SeasonPhase.Rainy2:
-                AddSeasonPoints(Season.Normal, delta, iconOverride); break; // Normal == rainy2
+            subjectImage.sprite  = null;
+            subjectImage.enabled = false;
+            var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
+            subjectImage.preserveAspect = true;
         }
     }
-
-
 }

@@ -16,8 +16,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
     public float salinityBase = 1.0f;
     [Tooltip("Hệ số mùa mưa")]
     public float rainyFactor = 0.3f;
-    [Tooltip("Hệ số mùa bình thường")]
-    public float normalFactor = 1.0f;
     [Tooltip("Hệ số mùa khô")]
     public float dryFactor = 1.5f;
     private RulesoftheGame_VU2_1 _rules;
@@ -49,41 +47,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
         return Mathf.Max(0f, salinityBase * k);
     }
 
-    private int ApplySalinityToScore(int baseValue, float plantThreshold)
-    {
-        float sal = GetSeasonSalinity();
-        if (plantThreshold <= 0f) return baseValue;             // không set threshold → không giảm
-        if (sal <= plantThreshold) return baseValue;            // chưa vượt ngưỡng → giữ nguyên
-
-        float ratio = Mathf.Clamp01(plantThreshold / sal);      // vượt ngưỡng → giảm theo tỉ lệ
-        return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
-    }
     
-    // Cộng điểm cho plant có nguong mặn 
-    public void AddScoreForPlant(int baseValue, Plant plant)
-    {
-        var value = (plant != null)
-            ? ApplySalinityToScore(baseValue, plant.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-    // Cộng điểm cho animal có nguong mặn 
-    public void AddScoreForAnimal(int baseValue, Animal animal)
-    {
-        var value = (animal != null)
-            ? ApplySalinityToScore(baseValue, animal.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-    // Cộng điểm cho fish có nguong mặn 
-    public void AddScoreForFish(int baseValue, Fish fish)
-    {
-        var value = (fish != null)
-            ? ApplySalinityToScore(baseValue, fish.salinity_threshold)
-            : baseValue;
-        AddScore(value);
-    }
-
     /// <summary>
     /// Tính điểm 
     /// </summary>

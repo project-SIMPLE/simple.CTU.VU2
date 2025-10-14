@@ -57,19 +57,6 @@ public class FarmArea : MonoBehaviour
         return SeasonPhase.Rainy2;
     }
 
-    
-
-    /// <summary>
-    /// Xác định mùa hiện tại dựa trên Saltwater_Intrusion (0/1/2)
-    /// </summary>
-    private Season CurrentSeason()
-    {
-        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 0f)) return Season.Rainy;
-        if (Mathf.Approximately(s, 1f)) return Season.Normal;
-        return Season.Dry;
-    }
-
     /// <summary>
     /// Khởi tạo mảng trạng thái & reset HUD của ô
     /// </summary>
@@ -79,7 +66,7 @@ public class FarmArea : MonoBehaviour
         if (hud)
         {
             hud.Show(true);
-            hud.SetSeasonScores(0, 0, 0); // clear tổng ban đầu
+            hud.SetSeasonScoresPhase(0, 0, 0); // clear tổng ban đầu
             hud.SetSubject(null);   
         }
     }
@@ -250,7 +237,7 @@ public class FarmArea : MonoBehaviour
         if (hud)
         {
             hud.SetProgress(0f);
-            hud.SetSeasonScores(0, 0, 0);
+            hud.SetSeasonScoresPhase(0, 0, 0);
             hud.Show(true);
         }
     }
