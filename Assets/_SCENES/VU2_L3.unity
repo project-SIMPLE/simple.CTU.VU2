@@ -7786,6 +7786,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &152782799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9058,6 +9059,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &173594177
 GameObject:
   m_ObjectHideFlags: 0
@@ -19697,6 +19699,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &349039605
 GameObject:
   m_ObjectHideFlags: 0
@@ -22463,6 +22466,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!4 &393031338
 Transform:
   m_ObjectHideFlags: 0
@@ -29944,6 +29948,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30332,6 +30337,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &508803655
 GameObject:
   m_ObjectHideFlags: 0
@@ -32197,6 +32203,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &567338468
 GameObject:
   m_ObjectHideFlags: 0
@@ -32338,6 +32345,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &569856777
 GameObject:
   m_ObjectHideFlags: 0
@@ -36248,6 +36256,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &606787313
 GameObject:
   m_ObjectHideFlags: 0
@@ -41898,6 +41907,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!4 &676317427
 Transform:
   m_ObjectHideFlags: 0
@@ -56166,7 +56176,7 @@ Transform:
   m_GameObject: {fileID: 924172384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -96.1835, y: -0.9, z: 0.276}
+  m_LocalPosition: {x: -96.1835, y: 0, z: 0.276}
   m_LocalScale: {x: 2.1950853, y: 2, z: 3.99069}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56667,6 +56677,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &930135213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -81141,6 +81152,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1331051222
 GameObject:
   m_ObjectHideFlags: 0
@@ -83937,12 +83949,12 @@ PrefabInstance:
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -87180,6 +87192,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1429445504
 GameObject:
   m_ObjectHideFlags: 0
@@ -90158,6 +90171,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &1471502275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99960,6 +99974,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1666674502
 GameObject:
   m_ObjectHideFlags: 0
@@ -106887,6 +106902,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1695823562
 GameObject:
   m_ObjectHideFlags: 0
@@ -116090,6 +116106,7 @@ MonoBehaviour:
   rainySalinity: 0.5
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1827985578
 GameObject:
   m_ObjectHideFlags: 0

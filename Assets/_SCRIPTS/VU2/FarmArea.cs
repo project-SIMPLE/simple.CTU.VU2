@@ -2,6 +2,12 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+public enum WaterType
+{
+    Fresh,  // Nước ngọt
+    Salt    // Nước mặn
+}
+
 public class FarmArea : MonoBehaviour
 {
     [Header("Setup")]
@@ -28,10 +34,12 @@ public class FarmArea : MonoBehaviour
 
     [Header("Area Seasonal Salinity")]
     [Header("Area Seasonal Salinity")]
-    [Range(0, 5)] public float rainySalinity  = 0.5f;  // dùng cho Rainy1 & Rainy2
-    [Range(0, 5)] public float drySalinity    = 1.5f;
+    [Range(0, 5)] public float rainySalinity = 0.5f;  // dùng cho Rainy1 & Rainy2
+    [Range(0, 5)] public float drySalinity = 1.5f;
     public bool useAreaSeasonalSalinity = true;
 
+    [Header("Area Type")]
+    public WaterType waterType = WaterType.Fresh; // default is Fresh
 
     /// <summary>
     /// Trả về độ mặn của Ô theo mùa
@@ -67,7 +75,7 @@ public class FarmArea : MonoBehaviour
         {
             hud.Show(true);
             hud.SetSeasonScoresPhase(0, 0, 0); // clear tổng ban đầu
-            hud.SetSubject(null);   
+            hud.SetSubject(null);
         }
     }
 
@@ -80,8 +88,8 @@ public class FarmArea : MonoBehaviour
 
         _boundGrowth.OnProgressChanged -= _onProg;
         _boundGrowth.OnSalinityChanged -= _onSalt;
-        _boundGrowth.OnStateChanged    -= _onState;
-        _boundGrowth.OnAboutToDestroy  -= _onAboutToDestroy;
+        _boundGrowth.OnStateChanged -= _onState;
+        _boundGrowth.OnAboutToDestroy -= _onAboutToDestroy;
 
         _boundGrowth = null;
         _onProg = null; _onSalt = null; _onState = null; _onAboutToDestroy = null;
@@ -140,8 +148,8 @@ public class FarmArea : MonoBehaviour
 
         growth.OnProgressChanged += _onProg;
         growth.OnSalinityChanged += _onSalt;
-        growth.OnStateChanged    += _onState;
-        growth.OnAboutToDestroy  += _onAboutToDestroy;
+        growth.OnStateChanged += _onState;
+        growth.OnAboutToDestroy += _onAboutToDestroy;
 
         _boundGrowth = growth;
         growth.UpdateSalinityEvent(); // cập nhật số ban đầu
@@ -162,8 +170,8 @@ public class FarmArea : MonoBehaviour
         var tag = plantPrefab.GetComponent<Thuan_23127_SeedTag>();
         if (tag == null) { Debug.LogWarning("Prefab thiếu SeedTag."); return; }
 
-        var plantData  = (tag.plantId  > 0) ? jsonReader.GetPlantById(tag.plantId)      : null;
-        var fishData   = (tag.fishId   > 0) ? jsonReader.GetFishById(tag.fishId)        : null;
+        var plantData = (tag.plantId > 0) ? jsonReader.GetPlantById(tag.plantId) : null;
+        var fishData = (tag.fishId > 0) ? jsonReader.GetFishById(tag.fishId) : null;
         var animalData = (tag.animalId > 0) ? jsonReader.GetLivestockById(tag.animalId) : null;
         if (plantData == null && fishData == null && animalData == null)
         { Debug.LogWarning("Không tìm thấy dữ liệu phù hợp trong JSON."); return; }
@@ -176,24 +184,24 @@ public class FarmArea : MonoBehaviour
             var go = Instantiate(plantPrefab, parent);
             go.transform.localPosition = Vector3.zero;
             go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale    = plantPrefab.transform.localScale;
+            go.transform.localScale = plantPrefab.transform.localScale;
 
             var growth = go.GetComponent<Thuan_23127_PlantGrowth>() ?? go.AddComponent<Thuan_23127_PlantGrowth>();
 
             // 1) Đưa cây này vào bộ tổng của Ô
             WireGrowthForAreaTotals(growth);
-            
+
             var summary = Thuan_23127_SeasonalSummary.Instance;
             if (summary) summary.Track(growth, tag);
             // 2) (tuỳ ý) cho HUD theo dõi cây vừa trồng/được chọn
             BindGrowthToHUD(growth);
-            
-            
+
+
 
             var readerForThis = fillAll ? null : jsonReader;
-            if (plantData != null)       growth.Init(plantData,  this, i, readerForThis);
+            if (plantData != null) growth.Init(plantData, this, i, readerForThis);
             else if (animalData != null) growth.Init(animalData, this, i, readerForThis);
-            else if (fishData != null)   growth.Init(fishData,   this, i, readerForThis);
+            else if (fishData != null) growth.Init(fishData, this, i, readerForThis);
 
             // Hiển thị icon đối tượng (nếu bạn set trong SeedTag)
             if (hud) hud.SetSubject(tag.hudIcon);
