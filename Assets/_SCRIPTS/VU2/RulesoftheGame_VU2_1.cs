@@ -44,16 +44,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     private bool _moving;
     private bool _rainning;
 
-    // ==== STATE cho di chuyển mượt theo từng pha ====
-    private bool _enteredDry = false;      // đã vào pha 90–180 chưa
-    private bool _enteredRainy2 = false;   // đã vào pha 180–270 chưa
-    private float _phaseStartTime = 0f;    // mốc thời gian khi bắt đầu pha
-    private Vector3 _fromPos;              // vị trí đầu pha
-    private Vector3 _toPos;                // vị trí cuối pha
+    // ==== STATE cho di chuyển====
+    private bool _enteredDry = false;      // đã vào time 90–180 chưa
+    private bool _enteredRainy2 = false;   // đã vào time 180–270 chưa
+    private float _phaseStartTime = 0f;    // mốc time khi bắt đầu
+    private Vector3 _fromPos;              // vị trí đầu 
+    private Vector3 _toPos;                // vị trí cuối 
     private bool _applyMoveThisFrame = false; // LateUpdate sẽ áp vị trí nếu true
 
-    // ==== Tránh teleport khi Start lần đầu ====
-    [SerializeField] private bool snapPointAFromCurrentOnFirstStart = true;
     private bool _didSnapPointA = false;
     // ==========================================
 
@@ -81,7 +79,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
     public void Update()
     {
-        _applyMoveThisFrame = false; // reset mỗi frame (LateUpdate dùng)
+        _applyMoveThisFrame = false; // reset mỗi frame
 
         if (!playGame) return;
 
@@ -102,7 +100,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
             // KHÔNG di chuyển ở Rainy1
             _moving = false;
-            _enteredDry = false; // để 90->180 vào lại sẽ chốt from/to
+            _enteredDry = false; 
         }
         else if (timeRemaining > 90f && timeRemaining <= 180f)
         {
@@ -116,7 +114,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             DynamicGI.UpdateEnvironment();
             PlayMusic(normalMusic);
 
-            // Vừa vào DRY lần đầu -> chốt from/to + mốc thời gian
+            // vao mua Dry nuoc' bat dau di chuyen
             if (!_enteredDry)
             {
                 _enteredDry = true;
@@ -147,7 +145,6 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             DynamicGI.UpdateEnvironment();
             PlayMusic(rainMusic);
 
-            // TUYỆT ĐỐI không set cứng vị trí ở đây để tránh "nhảy"
             if (!_enteredRainy2)
             {
                 _enteredRainy2 = true;
@@ -233,14 +230,13 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         ResultDetailsScore.SetActive(false);
 
         // KHÔNG ép vị trí khi Start lần đầu để tránh teleport.
-        // Thay vào đó, nếu bật flag thì chụp PointA = vị trí hiện tại đúng 1 lần.
-        if (snapPointAFromCurrentOnFirstStart && !_didSnapPointA && target)
+        if (!_didSnapPointA && target)
         {
             pointA = target.transform.position;
             _didSnapPointA = true;
         }
 
-        // Reset state pha & nội suy
+        // Reset state di chuyển
         _enteredDry = false;
         _enteredRainy2 = false;
         _moving = false;
@@ -267,7 +263,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         Sun_image.SetActive(true);
         ResultDetailsScore.SetActive(false);
 
-        // Đưa nước về điểm A (điểm A đã được “chụp” ở lần Start đầu, nên không nhảy)
+        // Đưa nước về điểm A ngay
         if (target) target.transform.position = pointA;
 
         PlayMusic(normalMusic);
@@ -297,19 +293,20 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         ResultMenu.SetActive(true);
         UIForVR.SetActive(true);
     }
-
+    /// <summary> Audio </summary>
     public void PlaySFX(AudioClip audioClip)
     {
         if (audioClip == null) return;
         _audioSource.PlayOneShot(audioClip);
     }
 
+    /// <summary> Reset tất cả farm/animal/fish về trạng thái ban đầu </summary>
     private static void ResetAllPlots()
     {
         foreach (var farm in FindObjectsOfType<FarmArea>())
             farm.ResetAllPlots();
     }
-
+    /// <summary> Chuyển mùa và cập nhật Saltwater_Intrusion </summary>
     private static void SetPhase(SeasonPhase phase)
     {
         if (_cachedPhase == phase) return;

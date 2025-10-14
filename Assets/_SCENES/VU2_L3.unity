@@ -56166,7 +56166,7 @@ Transform:
   m_GameObject: {fileID: 924172384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -96.1835, y: 0, z: 0.276}
+  m_LocalPosition: {x: -96.1835, y: -0.9, z: 0.276}
   m_LocalScale: {x: 2.1950853, y: 2, z: 3.99069}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -92057,7 +92057,6 @@ MonoBehaviour:
   rainMusic: {fileID: 8300000, guid: dc6519d82aeaf4762b78ea722cdd1f58, type: 3}
   normalMusic: {fileID: 8300000, guid: 2977d1c14910940c181ddc393832ff0a, type: 3}
   messageSfx: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
-  snapPointAFromCurrentOnFirstStart: 1
 --- !u!114 &1501849108
 MonoBehaviour:
   m_ObjectHideFlags: 0
