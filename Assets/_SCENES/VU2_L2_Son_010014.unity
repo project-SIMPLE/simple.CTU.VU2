@@ -6632,9 +6632,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &152782799
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7606,9 +7606,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &177826219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17181,9 +17181,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!4 &349407396 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1565887663814566041, guid: 3e07eccb5e6f459d886de95044adb1d9,
@@ -19644,9 +19644,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!4 &393031338
 Transform:
   m_ObjectHideFlags: 0
@@ -26242,9 +26242,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26631,9 +26631,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &508803655
 GameObject:
   m_ObjectHideFlags: 0
@@ -27933,9 +27933,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &569253816
 GameObject:
   m_ObjectHideFlags: 0
@@ -28000,9 +28000,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &570011260
 GameObject:
   m_ObjectHideFlags: 0
@@ -31221,9 +31221,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1958852141}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &606787313
 GameObject:
   m_ObjectHideFlags: 0
@@ -35922,9 +35922,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!4 &676317427
 Transform:
   m_ObjectHideFlags: 0
@@ -49663,9 +49663,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &930135213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69830,9 +69830,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2147453076}
   rainySalinity: 2
-  normalSalinity: 2.5
   drySalinity: 3
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1331051222
 GameObject:
   m_ObjectHideFlags: 0
@@ -75014,9 +75014,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1429445504
 GameObject:
   m_ObjectHideFlags: 0
@@ -77452,9 +77452,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1001 &1471502275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79067,6 +79067,8 @@ MonoBehaviour:
   Sun_image: {fileID: 1554546814}
   StartMenu: {fileID: 1228729654}
   ResultMenu: {fileID: 1239591041}
+  ResultDetailsScore: {fileID: 0}
+  UIForVR: {fileID: 0}
   NPC_Talk: {fileID: 1302545582}
   Skybox_Rain: {fileID: 2100000, guid: c1c961cbd00909b45b34d97fd7df5cbf, type: 2}
   Skybox_Sun: {fileID: 2100000, guid: 55e64e617a8bfff4ba846574e2651eb9, type: 2}
@@ -79076,7 +79078,7 @@ MonoBehaviour:
   moveTime: 30
   rainMusic: {fileID: 8300000, guid: dc6519d82aeaf4762b78ea722cdd1f58, type: 3}
   normalMusic: {fileID: 8300000, guid: 2977d1c14910940c181ddc393832ff0a, type: 3}
-  messageSFX: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
+  messageSfx: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
 --- !u!114 &1501849107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79109,6 +79111,7 @@ MonoBehaviour:
   playAgainText: {fileID: 0}
   settingText: {fileID: 906054598}
   salinityText: {fileID: 0}
+  scoreTextDetails: {fileID: 0}
   fileName: data
   currentLang: vi
   root:
@@ -79347,7 +79350,6 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   salinityBase: 1
   rainyFactor: 0.3
-  normalFactor: 1
   dryFactor: 1.5
   audioSource: {fileID: 1501849109}
   harvestClip: {fileID: 8300000, guid: bccf7ddb76302c74fab675eed66d80c6, type: 3}
@@ -85662,9 +85664,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1666674502
 GameObject:
   m_ObjectHideFlags: 0
@@ -92433,9 +92435,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1696945959
 GameObject:
   m_ObjectHideFlags: 0
@@ -100417,9 +100419,9 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 0}
   rainySalinity: 0.5
-  normalSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
+  waterType: 0
 --- !u!1 &1827985578
 GameObject:
   m_ObjectHideFlags: 0
@@ -106548,11 +106550,11 @@ MonoBehaviour:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
-  normal:
+  dry:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
-  dry:
+  rainy2:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
@@ -109494,6 +109496,144 @@ MonoBehaviour:
   scrollInfoPanel: {fileID: 48384768}
   headText: {fileID: 1548292089}
   infoText: {fileID: 1590339880}
+--- !u!1001 &2026859827
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -182007201127677246, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: Ground
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -182007201127677246, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: HUD
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: Ground
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: gameUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: StartButton
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: GamaCRSCoefY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 341288274086655003, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077568249799591053, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_Name
+      value: ManagersMulti
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077568249799591053, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: DefaultIP
+      value: 10.236.10.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: DesktopMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: fixedProperties
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130529563546616615, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 894cbc7e0986f4aa2bc1fee171cdb09b, type: 3}
 --- !u!1 &2028042278
 GameObject:
   m_ObjectHideFlags: 0
@@ -114920,11 +115060,11 @@ MonoBehaviour:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
-  normal:
+  dry:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
-  dry:
+  rainy2:
     scoreText: {fileID: 0}
     iconImage: {fileID: 0}
     defaultIcon: {fileID: 0}
@@ -116157,6 +116297,7 @@ SceneRoots:
   - {fileID: 28986385}
   - {fileID: 1343923936}
   - {fileID: 926746371}
+  - {fileID: 2026859827}
   - {fileID: 1162499682}
   - {fileID: 822227978}
   - {fileID: 487371829}
