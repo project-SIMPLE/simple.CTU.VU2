@@ -253,8 +253,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
         foreach (var b in boards)
         {
-            b.ClearAllRows();   
-            b.RebuildNow();     
+            b.ClearAllRows();
+            b.Rebuild();
         }
         
         Thuan_23127_GameManager.Instance?.ResetScore(); // reset điểm

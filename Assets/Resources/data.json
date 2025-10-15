@@ -310,6 +310,26 @@
         "information": "Thông tin của tôm càng xanh",
         "salinity_threshold": 2,
         "harvest_time": 3
+      },
+      {
+        "id": 7,
+        "tag_name": "Nghêu",
+        "growth_time": 10,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của nghêu",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 6,
+        "tag_name": "Cua biển",
+        "growth_time": 10,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của cua biển",
+        "salinity_threshold": 2,
+        "harvest_time": 3
       }
     ],
     "npcDialogues": [

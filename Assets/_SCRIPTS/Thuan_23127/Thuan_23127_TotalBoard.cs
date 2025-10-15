@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Thuan_23127_TotalBoard : MonoBehaviour
 {
-    [Header("Scroll content & row prefab (Prefab ASSET!)")]
-    public Transform content;       // Scroll View/Viewport/Content
-    public UI_ProductRow rowPrefab; // Prefab ASSET trong Project (không phải scene object)
+    [Header("Scroll content & row prefab")]
+    public Transform content;          // -> ScrollView/Viewport/Content
+    public UI_ProductRow rowPrefab;    // -> Prefab mỗi hàng
+
+    private readonly List<UI_ProductRow> _pool = new();
 
     private void OnEnable()
     {
@@ -20,34 +22,38 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         if (sum) sum.OnChanged -= Rebuild;
     }
 
-    private void Rebuild()
-    {
-        RebuildNow();
-    }
-
-    /// <summary>
-    /// Clear các dòng & tạo lại từ dữ liệu hiện tại
-    /// </summary>
-    public void RebuildNow()
+    public void Rebuild()
     {
         if (!content || !rowPrefab) return;
 
-        ClearAllRows();
+        // Xóa hàng cũ
+        for (int i = 0; i < _pool.Count; i++)
+        {
+            if (_pool[i])
+                Destroy(_pool[i].gameObject);
+        }
+        _pool.Clear();
 
         var sum = Thuan_23127_SeasonalSummary.Instance;
-        var data = sum ? sum.GetAllScores() : new List<(Sprite, int, int, int)>();
 
+        // Nếu cần lấy quantity (số lần lặp) dùng GetAllCounts()
+        // var data = sum ? sum.GetAllCounts() : new List<(Sprite, int, int, int)>();
+
+        // Hiện đang lấy điểm
+        var data = sum
+            ? sum.GetAllScores()
+            : new List<(Sprite, int, int, int)>();
+
+        // Tạo lại các hàng
         foreach (var (icon, r, n, d) in data)
         {
             var row = Instantiate(rowPrefab, content);
             row.gameObject.SetActive(true);
             row.SetData(icon, r, n, d);
+            _pool.Add(row);
         }
     }
 
-    /// <summary>
-    /// Xóa các hàng Product
-    /// </summary>
     public void ClearAllRows()
     {
         if (!content) return;
