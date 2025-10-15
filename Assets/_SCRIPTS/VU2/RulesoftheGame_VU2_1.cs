@@ -248,7 +248,15 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     public void RestartGame()
     {
         Debug.Log("Restart Game.");
+        Thuan_23127_GameManager.Instance?.ResetScore();
 
+        var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
+        foreach (var b in boards)
+        {
+            b.ClearAllRows();   
+            b.RebuildNow();     
+        }
+        
         Thuan_23127_GameManager.Instance?.ResetScore(); // reset điểm
         ResetAllPlots(); // reset farm/animal/fish
 
@@ -276,6 +284,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         _applyMoveThisFrame = false;
         _timer = 0f;
         _phaseStartTime = timeRemaining;
+        
     }
 
     /// <summary> Show details score </summary>

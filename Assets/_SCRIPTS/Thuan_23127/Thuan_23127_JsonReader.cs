@@ -14,7 +14,6 @@ public class Thuan_23127_JsonReader : MonoBehaviour
     public Text scoreTextEndGame;
     public Text playAgainText;
     public Text settingText;
-    // public Text languageText;
     public Text salinityText;
     public Text scoreTextDetails;
 

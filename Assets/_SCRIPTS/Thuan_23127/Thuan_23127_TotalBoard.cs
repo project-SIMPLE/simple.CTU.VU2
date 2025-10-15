@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class Thuan_23127_TotalBoard : MonoBehaviour
 {
-    [Header("Scroll content & row prefab")]
-    public Transform content;       // -> Scroll View/Viewport/Content
-    public UI_ProductRow rowPrefab; // -> Prefab hàng
-
-    private readonly List<UI_ProductRow> _pool = new();
+    [Header("Scroll content & row prefab (Prefab ASSET!)")]
+    public Transform content;       // Scroll View/Viewport/Content
+    public UI_ProductRow rowPrefab; // Prefab ASSET trong Project (không phải scene object)
 
     private void OnEnable()
     {
@@ -24,23 +22,41 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     private void Rebuild()
     {
+        RebuildNow();
+    }
+
+    /// <summary>
+    /// Clear các dòng & tạo lại từ dữ liệu hiện tại
+    /// </summary>
+    public void RebuildNow()
+    {
         if (!content || !rowPrefab) return;
 
-        // clear cũ
-        for (int i = 0; i < _pool.Count; i++)
-            if (_pool[i]) Destroy(_pool[i].gameObject);
-        _pool.Clear();
+        ClearAllRows();
 
         var sum = Thuan_23127_SeasonalSummary.Instance;
-        // var data = sum ? sum.GetAllCounts() : new List<(Sprite,int,int,int)>(); lấy quantiy lần lập lại
+        var data = sum ? sum.GetAllScores() : new List<(Sprite, int, int, int)>();
 
-        var data = sum ? sum.GetAllScores() : new List<(Sprite,int,int,int)>(); // Lấy điểm 
         foreach (var (icon, r, n, d) in data)
         {
             var row = Instantiate(rowPrefab, content);
-            row.gameObject.SetActive(true);   
+            row.gameObject.SetActive(true);
             row.SetData(icon, r, n, d);
-            _pool.Add(row);
+        }
+    }
+
+    /// <summary>
+    /// Xóa các hàng Product
+    /// </summary>
+    public void ClearAllRows()
+    {
+        if (!content) return;
+
+        var rows = content.GetComponentsInChildren<UI_ProductRow>(true);
+        for (int i = rows.Length - 1; i >= 0; i--)
+        {
+            if (rows[i])
+                Destroy(rows[i].gameObject);
         }
     }
 }

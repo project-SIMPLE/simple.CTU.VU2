@@ -1,4 +1,340 @@
 {
+  "vi": {
+    "labels": {
+      "info": "THÔNG TIN",
+      "name": "Tên",
+      "level": "Cấp độ",
+      "score": "Năng suất",
+      "language": "Ngôn ngữ",
+      "play_again": "Chơi lại",
+      "setting": "Cài đặt"
+    },
+    "gameplay": {
+      "name": "SIMPLE VU2",
+      "level": 1,
+      "score": 0,
+      "assessment": {
+        "remarks": {
+          "win": [
+            "Đai rừng ngập mặn được phục hồi, bảo vệ khu dân cư.",
+            "Độ mặn được kiểm soát; nguồn nước ngọt phục hồi.",
+            "Sinh kế cải thiện nhờ nuôi trồng thủy sản bền vững."
+          ],
+          "lose": [
+            "Xói lở bờ biển tăng; công trình phòng thủ thất bại.",
+            "Độ mặn tăng cao, cây trồng sụp đổ.",
+            "Nguồn vốn và sự tham gia cộng đồng bị đứt gãy."
+          ]
+        },
+        "results": [
+          "Dân phải rời đi vì xâm nhập mặn và xói lở.",
+          "Nguồn lợi thủy sản suy giảm, thu nhập hộ gia đình giảm.",
+          "Cộng đồng chuyển sang canh tác thân thiện rừng ngập mặn và phục hồi dần."
+        ]
+      }
+    },
+    "interpretation": {
+      "fields": {
+        "id": "Mã",
+        "tag_name": "Tên cây",
+        "growth_time": "Thời gian sinh trưởng",
+        "status": "Trạng thái",
+        "economic_benefits": "Lợi ích kinh tế",
+        "information": "Thông tin",
+        "assessment": "Đánh giá",
+        "remarks": "Nhận xét",
+        "win": "Thắng",
+        "lose": "Thua",
+        "play_again": "Chơi lại"
+      },
+      "units": {
+        "growth_time": "ngày"
+      },
+      "status_values": [
+        "Tốt",
+        "Bệnh",
+        "Chết"
+      ]
+    },
+    "plants": [
+      {
+        "id": 1,
+        "tag_name": "Cây sầu riêng",
+        "growth_time": 10,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Thông tin của sầu riêng",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 2,
+        "tag_name": "Chuối",
+        "growth_time": 40,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 5,
+        "information": "Thông tin của chuối",
+        "salinity_threshold": 0.8,
+        "harvest_time": 5
+      },
+      {
+        "id": 3,
+        "tag_name": "Bắp cải",
+        "growth_time": 60,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 2,
+        "information": "Thông tin của bắp cải",
+        "salinity_threshold": 1.15,
+        "harvest_time": 1
+      },
+      {
+        "id": 4,
+        "tag_name": "Bắp",
+        "growth_time": 70,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của bắp",
+        "salinity_threshold": 1.09,
+        "harvest_time": 2
+      },
+      {
+        "id": 5,
+        "tag_name": "Thanh long",
+        "growth_time": 180,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 2,
+        "information": "Thông tin của thanh long",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 6,
+        "tag_name": "Ổi",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của ổi",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 7,
+        "tag_name": "Lúa",
+        "growth_time": 80,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Thông tin của lúa",
+        "salinity_threshold": 1.92,
+        "harvest_time": 2
+      },
+      {
+        "id": 8,
+        "tag_name": "Mía",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của mía",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 9,
+        "tag_name": "Cam",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của cam",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 10,
+        "tag_name": "Dừa",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của dừa",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 11,
+        "tag_name": "Chuối",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của chuối",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 12,
+        "tag_name": "Ổi",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của ổi",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      },
+      {
+        "id": 13,
+        "tag_name": "Xoài",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của xoài",
+        "salinity_threshold": 12,
+        "harvest_time": 5
+      }
+    ],
+    "livestock": [
+      {
+        "id": 1,
+        "tag_name": "Bò",
+        "growth_time": 180,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của bò",
+        "salinity_threshold": 0.5,
+        "harvest_time": 4
+      },
+      {
+        "id": 2,
+        "tag_name": "Heo",
+        "growth_time": 140,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Thông tin của heo",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "Gà",
+        "growth_time": 120,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 2,
+        "information": "Thông tin của gà",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "Vịt",
+        "growth_time": 110,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của vịt",
+        "salinity_threshold": 1,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "Thỏ",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của thỏ",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      },
+      {
+        "id": 6,
+        "tag_name": "Dê",
+        "growth_time": 160,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của dê",
+        "salinity_threshold": 12,
+        "harvest_time": 160
+      }
+    ],
+    "fish": [
+      {
+        "id": 1,
+        "tag_name": "Cá lóc",
+        "growth_time": 100,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 4,
+        "information": "Thông tin của cá lóc",
+        "salinity_threshold": 3,
+        "harvest_time": 3
+      },
+      {
+        "id": 2,
+        "tag_name": "Cá điêu hồng",
+        "growth_time": 110,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của cá điêu hồng",
+        "salinity_threshold": 2.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 3,
+        "tag_name": "Cá rô phi",
+        "growth_time": 80,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của cá rô phi",
+        "salinity_threshold": 0.5,
+        "harvest_time": 3
+      },
+      {
+        "id": 4,
+        "tag_name": "Cá chép",
+        "growth_time": 120,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 2,
+        "information": "Thông tin của cá chép",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      },
+      {
+        "id": 5,
+        "tag_name": "Tôm sú",
+        "growth_time": 11,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 5,
+        "information": "Thông tin của tôm sú",
+        "salinity_threshold": 15,
+        "harvest_time": 2
+      },
+      {
+        "id": 6,
+        "tag_name": "Tôm càng xanh",
+        "growth_time": 10,
+        "status": ["Tốt", "Bệnh", "Chết"],
+        "economic_benefits": 3,
+        "information": "Thông tin của tôm càng xanh",
+        "salinity_threshold": 2,
+        "harvest_time": 3
+      }
+    ],
+    "npcDialogues": [
+      {
+        "npcId": "Farmer",
+        "npcName": "Nông dân",
+        "dialogues": [
+          "Xin chào, tôi là một nông dân trong khu vườn này.",
+          "Đây là một khu canh tác ven biển vùng đồng bằng sông Cửu Long",
+          "nơi đang gặp một vấn đề rắc rối nho nhỏ.",
+          "Hãy hỗ trợ chúng tôi, những người dân địa phương việc canh tác, ",
+          "bảo vệ cây trồng và vật nuôi nhé.",
+          "Nào, đi thôi!"
+        ]
+      },
+      {
+        "npcId": "LinhH",
+        "npcName": "LinhH",
+        "dialogues": [
+          "Xin chào, tên tôi là LinhH.",
+          "Tôi là sinh viên CTU, còn bạn?"
+        ]
+      }
+    ]
+  },
   "en": {
     "labels": {
       "info": "INFO",
@@ -326,342 +662,6 @@
         "dialogues": [
           "Hi, My name is LinhH.",
           "I'm a CTU student, and you?"
-        ]
-      }
-    ]
-  },
-  "vi": {
-    "labels": {
-      "info": "THÔNG TIN",
-      "name": "Tên",
-      "level": "Cấp độ",
-      "score": "Năng suất",
-      "language": "Ngôn ngữ",
-      "play_again": "Chơi lại",
-      "setting": "Cài đặt"
-    },
-    "gameplay": {
-      "name": "SIMPLE VU2",
-      "level": 1,
-      "score": 0,
-      "assessment": {
-        "remarks": {
-          "win": [
-            "Đai rừng ngập mặn được phục hồi, bảo vệ khu dân cư.",
-            "Độ mặn được kiểm soát; nguồn nước ngọt phục hồi.",
-            "Sinh kế cải thiện nhờ nuôi trồng thủy sản bền vững."
-          ],
-          "lose": [
-            "Xói lở bờ biển tăng; công trình phòng thủ thất bại.",
-            "Độ mặn tăng cao, cây trồng sụp đổ.",
-            "Nguồn vốn và sự tham gia cộng đồng bị đứt gãy."
-          ]
-        },
-        "results": [
-          "Dân phải rời đi vì xâm nhập mặn và xói lở.",
-          "Nguồn lợi thủy sản suy giảm, thu nhập hộ gia đình giảm.",
-          "Cộng đồng chuyển sang canh tác thân thiện rừng ngập mặn và phục hồi dần."
-        ]
-      }
-    },
-    "interpretation": {
-      "fields": {
-        "id": "Mã",
-        "tag_name": "Tên cây",
-        "growth_time": "Thời gian sinh trưởng",
-        "status": "Trạng thái",
-        "economic_benefits": "Lợi ích kinh tế",
-        "information": "Thông tin",
-        "assessment": "Đánh giá",
-        "remarks": "Nhận xét",
-        "win": "Thắng",
-        "lose": "Thua",
-        "play_again": "Chơi lại"
-      },
-      "units": {
-        "growth_time": "ngày"
-      },
-      "status_values": [
-        "Tốt",
-        "Bệnh",
-        "Chết"
-      ]
-    },
-    "plants": [
-      {
-        "id": 1,
-        "tag_name": "Cây sầu riêng",
-        "growth_time": 100,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 4,
-        "information": "Thông tin của sầu riêng",
-        "salinity_threshold": 0.8,
-        "harvest_time": 5
-      },
-      {
-        "id": 2,
-        "tag_name": "Chuối",
-        "growth_time": 40,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 5,
-        "information": "Thông tin của chuối",
-        "salinity_threshold": 0.8,
-        "harvest_time": 5
-      },
-      {
-        "id": 3,
-        "tag_name": "Bắp cải",
-        "growth_time": 60,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 2,
-        "information": "Thông tin của bắp cải",
-        "salinity_threshold": 1.15,
-        "harvest_time": 1
-      },
-      {
-        "id": 4,
-        "tag_name": "Bắp",
-        "growth_time": 70,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của bắp",
-        "salinity_threshold": 1.09,
-        "harvest_time": 2
-      },
-      {
-        "id": 5,
-        "tag_name": "Thanh long",
-        "growth_time": 180,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 2,
-        "information": "Thông tin của thanh long",
-        "salinity_threshold": 2,
-        "harvest_time": 3
-      },
-      {
-        "id": 6,
-        "tag_name": "Ổi",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của ổi",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 7,
-        "tag_name": "Lúa",
-        "growth_time": 80,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 4,
-        "information": "Thông tin của lúa",
-        "salinity_threshold": 1.92,
-        "harvest_time": 2
-      },
-      {
-        "id": 8,
-        "tag_name": "Mía",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của mía",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 9,
-        "tag_name": "Cam",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của cam",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 10,
-        "tag_name": "Dừa",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của dừa",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 11,
-        "tag_name": "Chuối",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của chuối",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 12,
-        "tag_name": "Ổi",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của ổi",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      },
-      {
-        "id": 13,
-        "tag_name": "Xoài",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của xoài",
-        "salinity_threshold": 12,
-        "harvest_time": 5
-      }
-    ],
-    "livestock": [
-      {
-        "id": 1,
-        "tag_name": "Bò",
-        "growth_time": 180,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của bò",
-        "salinity_threshold": 0.5,
-        "harvest_time": 4
-      },
-      {
-        "id": 2,
-        "tag_name": "Heo",
-        "growth_time": 140,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 4,
-        "information": "Thông tin của heo",
-        "salinity_threshold": 0.5,
-        "harvest_time": 3
-      },
-      {
-        "id": 3,
-        "tag_name": "Gà",
-        "growth_time": 120,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 2,
-        "information": "Thông tin của gà",
-        "salinity_threshold": 0.5,
-        "harvest_time": 3
-      },
-      {
-        "id": 4,
-        "tag_name": "Vịt",
-        "growth_time": 110,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của vịt",
-        "salinity_threshold": 1,
-        "harvest_time": 3
-      },
-      {
-        "id": 5,
-        "tag_name": "Thỏ",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của thỏ",
-        "salinity_threshold": 12,
-        "harvest_time": 160
-      },
-      {
-        "id": 6,
-        "tag_name": "Dê",
-        "growth_time": 160,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của dê",
-        "salinity_threshold": 12,
-        "harvest_time": 160
-      }
-    ],
-    "fish": [
-      {
-        "id": 1,
-        "tag_name": "Cá lóc",
-        "growth_time": 100,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 4,
-        "information": "Thông tin của cá lóc",
-        "salinity_threshold": 3,
-        "harvest_time": 3
-      },
-      {
-        "id": 2,
-        "tag_name": "Cá điêu hồng",
-        "growth_time": 110,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của cá điêu hồng",
-        "salinity_threshold": 2.5,
-        "harvest_time": 3
-      },
-      {
-        "id": 3,
-        "tag_name": "Cá rô phi",
-        "growth_time": 80,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của cá rô phi",
-        "salinity_threshold": 0.5,
-        "harvest_time": 3
-      },
-      {
-        "id": 4,
-        "tag_name": "Cá chép",
-        "growth_time": 120,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 2,
-        "information": "Thông tin của cá chép",
-        "salinity_threshold": 2,
-        "harvest_time": 3
-      },
-      {
-        "id": 5,
-        "tag_name": "Tôm sú",
-        "growth_time": 110,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 5,
-        "information": "Thông tin của tôm sú",
-        "salinity_threshold": 15,
-        "harvest_time": 2
-      },
-      {
-        "id": 6,
-        "tag_name": "Tôm càng xanh",
-        "growth_time": 100,
-        "status": ["Tốt", "Bệnh", "Chết"],
-        "economic_benefits": 3,
-        "information": "Thông tin của tôm càng xanh",
-        "salinity_threshold": 2,
-        "harvest_time": 3
-      }
-    ],
-    "npcDialogues": [
-      {
-        "npcId": "Farmer",
-        "npcName": "Nông dân",
-        "dialogues": [
-          "Xin chào, tôi là một nông dân trong khu vườn này.",
-          "Đây là một khu canh tác ven biển vùng đồng bằng sông Cửu Long", 
-          "nơi đang gặp một vấn đề rắc rối nho nhỏ.",
-          "Hãy hỗ trợ chúng tôi, những người dân địa phương việc canh tác, ",
-          "bảo vệ cây trồng và vật nuôi nhé.",
-          "Nào, đi thôi!"
-        ]
-      },
-      {
-        "npcId": "LinhH",
-        "npcName": "LinhH",
-        "dialogues": [
-          "Xin chào, tên tôi là LinhH.",
-          "Tôi là sinh viên CTU, còn bạn?"
         ]
       }
     ]

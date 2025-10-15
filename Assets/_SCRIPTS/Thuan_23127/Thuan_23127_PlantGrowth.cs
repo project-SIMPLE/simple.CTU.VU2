@@ -65,6 +65,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _growTotal   = Mathf.Max(0.01f, data.growth_time);
         _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
         _econ        = Mathf.Max(0, data.economic_benefits);
+        Debug.Log($"Plant Init - ID: {data.id}, Growth Time: {data.growth_time}");
 
         CommonInitAndStart();
         UpdateSalinityEvent();   // đẩy UI độ mặn ban đầu
@@ -79,7 +80,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         _growTotal   = Mathf.Max(0.01f, data.growth_time);
         _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
-        _econ        = Mathf.Max(0, data.economic_benefits);
+        _econ = Mathf.Max(0, data.economic_benefits);
+        Debug.Log($"Ânil Init - ID: {data.id}, Growth Time: {data.growth_time}");
 
         CommonInitAndStart();
         UpdateSalinityEvent();
@@ -95,7 +97,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _growTotal   = Mathf.Max(0.01f, data.growth_time);
         _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
         _econ        = Mathf.Max(0, data.economic_benefits);
-
+        Debug.Log($"Fish Init - ID: {data.id}, Growth Time: {data.growth_time}");
         CommonInitAndStart();
         UpdateSalinityEvent();
     }

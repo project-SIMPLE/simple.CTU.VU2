@@ -1986,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9427,9 +9427,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 1
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: df29aa43dff20374681f3a6a67684368, type: 3}
 --- !u!114 &177826224
 MonoBehaviour:
@@ -9860,9 +9860,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 3
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: b69a65371263e0241a1fb9d847d3d932, type: 3}
 --- !u!114 &180234003
 MonoBehaviour:
@@ -18444,9 +18444,9 @@ RectTransform:
   m_Father: {fileID: 1032823384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &323542882
 MonoBehaviour:
@@ -19154,8 +19154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantId: 7
-  animalId: 1
-  fishId: 1
+  animalId: -1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: e43e499a3bdd7b442a870f5936c83c8c, type: 3}
 --- !u!1 &340909634 stripped
 GameObject:
@@ -22466,7 +22466,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!4 &393031338
 Transform:
   m_ObjectHideFlags: 0
@@ -29948,7 +29948,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32203,7 +32203,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!1 &567338468
 GameObject:
   m_ObjectHideFlags: 0
@@ -36615,8 +36615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
-  animalId: 1
+  plantId: -1
+  animalId: -1
   fishId: 4
   hudIcon: {fileID: 21300000, guid: 253475ffd827a2b45a301a6b55fcefc4, type: 3}
 --- !u!114 &609360808
@@ -41907,7 +41907,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!4 &676317427
 Transform:
   m_ObjectHideFlags: 0
@@ -54746,8 +54746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
-  animalId: 1
+  plantId: -1
+  animalId: -1
   fishId: 6
   hudIcon: {fileID: 21300000, guid: 0c4a04dc2f94a4046b9972408ce3d184, type: 3}
 --- !u!114 &889350618
@@ -81152,7 +81152,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!1 &1331051222
 GameObject:
   m_ObjectHideFlags: 0
@@ -83949,12 +83949,12 @@ PrefabInstance:
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -84682,9 +84682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 4
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: 3616c0b26f1835246b04f35e598b9a4d, type: 3}
 --- !u!114 &1383315798
 MonoBehaviour:
@@ -86766,9 +86766,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 2
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: 7030a2ebaa2ad0c4d80dc4562ea82c34, type: 3}
 --- !u!1 &1422751300
 GameObject:
@@ -88747,9 +88747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 6
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: 00b705addb0062043ba1f2616b8354d5, type: 3}
 --- !u!114 &1444075625
 MonoBehaviour:
@@ -93485,8 +93485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
-  animalId: 1
+  plantId: -1
+  animalId: -1
   fishId: 5
   hudIcon: {fileID: 21300000, guid: 11b79844e06f72541a46d5054ef90a16, type: 3}
 --- !u!114 &1523792385
@@ -96151,7 +96151,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00072190096}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1573405100
 MonoBehaviour:
@@ -97857,8 +97857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
-  animalId: 1
+  plantId: -1
+  animalId: -1
   fishId: 3
   hudIcon: {fileID: 21300000, guid: 1a258b4b068c6ec4185a05128b1d87df, type: 3}
 --- !u!114 &1611527059
@@ -99974,7 +99974,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!1 &1666674502
 GameObject:
   m_ObjectHideFlags: 0
@@ -100189,7 +100189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1671029279
 RectTransform:
   m_ObjectHideFlags: 0
@@ -106902,7 +106902,7 @@ MonoBehaviour:
   rainySalinity: 2
   drySalinity: 3
   useAreaSeasonalSalinity: 1
-  waterType: 0
+  waterType: 1
 --- !u!1 &1695823562
 GameObject:
   m_ObjectHideFlags: 0
@@ -107822,6 +107822,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 163d2d2c43355074fa296f95e2a97b5e,
         type: 3}
+    - target: {fileID: 6850909912187791511, guid: a445a520b59be8a428bbb16f6c9f3de3,
+        type: 3}
+      propertyPath: plantId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6850909912187791511, guid: a445a520b59be8a428bbb16f6c9f3de3,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7144206110461729305, guid: a445a520b59be8a428bbb16f6c9f3de3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -114129,7 +114139,7 @@ RectTransform:
   m_Father: {fileID: 1066393475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -115226,9 +115236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
+  plantId: -1
   animalId: 5
-  fishId: 1
+  fishId: -1
   hudIcon: {fileID: 21300000, guid: c310a54a8b7548845b4ad2182af73a32, type: 3}
 --- !u!114 &1805439721
 MonoBehaviour:
@@ -122975,8 +122985,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantId: 7
-  animalId: 1
-  fishId: 1
+  animalId: -1
+  fishId: -1
   hudIcon: {fileID: 0}
 --- !u!114 &1957838289
 MonoBehaviour:
@@ -129402,8 +129412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6da81bb9cffd974a8a81d5132df5ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantId: 1
-  animalId: 1
+  plantId: -1
+  animalId: -1
   fishId: 2
   hudIcon: {fileID: 21300000, guid: aae93259c09be064fa758848f3b6272c, type: 3}
 --- !u!114 &2057722020
@@ -133800,10 +133810,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678037209067115742, guid: 32ef3d84ae4c91146a6543badc0f0670,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678037209067115742, guid: 32ef3d84ae4c91146a6543badc0f0670,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: a833d61348709364c89073f31a1af7ae,
         type: 3}
+    - target: {fileID: 8678037209067115742, guid: 32ef3d84ae4c91146a6543badc0f0670,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -133985,10 +134005,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5688286567650824742, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688286567650824742, guid: ef4d1efba012a94498652b4148c46546,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: f3e5bcf2788ae6f46845e53e1e93a0ca,
         type: 3}
+    - target: {fileID: 5688286567650824742, guid: ef4d1efba012a94498652b4148c46546,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6147626686578261487, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -134360,10 +134390,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5941358542198763300, guid: 37e44f0b006f7834b92ca93e48286b52,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941358542198763300, guid: 37e44f0b006f7834b92ca93e48286b52,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: 4c9adee1ec1f151409d94cf62de54264,
         type: 3}
+    - target: {fileID: 5941358542198763300, guid: 37e44f0b006f7834b92ca93e48286b52,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6808033233792064380, guid: 37e44f0b006f7834b92ca93e48286b52,
         type: 3}
       propertyPath: m_Name
@@ -134424,10 +134464,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4541128639746319744, guid: 6d0d8fbf2f4043544be583efa9398314,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4541128639746319744, guid: 6d0d8fbf2f4043544be583efa9398314,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: ba073d6006dbdfd44b6acdfb3482d72d,
         type: 3}
+    - target: {fileID: 4541128639746319744, guid: 6d0d8fbf2f4043544be583efa9398314,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4782194102320144914, guid: 6d0d8fbf2f4043544be583efa9398314,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -134588,10 +134638,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1935685356770101041, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935685356770101041, guid: 8a8e571e3ca64bd40acd911ae9219a48,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: 647939fbd0a592a49b016b9b3397487c,
         type: 3}
+    - target: {fileID: 1935685356770101041, guid: 8a8e571e3ca64bd40acd911ae9219a48,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 3078914660878169475, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
       propertyPath: m_IsActive
@@ -134777,10 +134837,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 539229717565730126, guid: a60b450f874bb5b4e96cdbbbd3dae0e5,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 539229717565730126, guid: a60b450f874bb5b4e96cdbbbd3dae0e5,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: bef6521011c70874ab8e77ceb9a1e6dc,
         type: 3}
+    - target: {fileID: 539229717565730126, guid: a60b450f874bb5b4e96cdbbbd3dae0e5,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5187490208955074707, guid: a60b450f874bb5b4e96cdbbbd3dae0e5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -134940,10 +135010,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436705157493498369, guid: d7b306ab44e671b44aecc0d3f9ec094f,
         type: 3}
+      propertyPath: fishId
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436705157493498369, guid: d7b306ab44e671b44aecc0d3f9ec094f,
+        type: 3}
       propertyPath: hudIcon
       value: 
       objectReference: {fileID: 21300000, guid: a12223fe7ce88fa418dc931a23aaf11d,
         type: 3}
+    - target: {fileID: 3436705157493498369, guid: d7b306ab44e671b44aecc0d3f9ec094f,
+        type: 3}
+      propertyPath: animalId
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4892041068423171883, guid: d7b306ab44e671b44aecc0d3f9ec094f,
         type: 3}
       propertyPath: m_IsActive
