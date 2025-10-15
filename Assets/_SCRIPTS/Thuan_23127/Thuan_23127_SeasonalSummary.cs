@@ -90,10 +90,19 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
 
     public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllScores()
     {
-        var list = new List<(Sprite,int,int,int)>();
+        var list = new List<(Sprite, int, int, int)>();
         foreach (var kv in _map.Values)
             list.Add((kv.icon, kv.score[0], kv.score[1], kv.score[2]));
         return list;
+    }
+    /// <summary>Reset toàn bộ dữ liệu đã lưu</summary>
+    public void ResetAllData()
+    {
+        _map.Clear();
+        
+        OnChanged?.Invoke();
+        
+        Debug.Log("SeasonalSummary: All data has been reset");
     }
 
 }

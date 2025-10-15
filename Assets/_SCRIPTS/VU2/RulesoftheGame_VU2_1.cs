@@ -86,7 +86,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         timeRemaining += Time.deltaTime;
         DisplayTime(timeRemaining);
 
-        if (timeRemaining <= 90f)
+        if (timeRemaining <= 10f)
         {
             SetPhase(SeasonPhase.Rainy1);
 
@@ -102,7 +102,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             _moving = false;
             _enteredDry = false; 
         }
-        else if (timeRemaining > 90f && timeRemaining <= 180f)
+        else if (timeRemaining > 10f && timeRemaining <= 20f)
         {
             SetPhase(SeasonPhase.Dry);
 
@@ -133,7 +133,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
                 _applyMoveThisFrame = true; // LateUpdate áp vị trí
             }
         }
-        else if (timeRemaining > 180f && timeRemaining <= 270f)
+        else if (timeRemaining > 20 && timeRemaining <= 50f)
         {
             SetPhase(SeasonPhase.Rainy2);
 
@@ -249,11 +249,12 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     {
         Debug.Log("Restart Game.");
         Thuan_23127_GameManager.Instance?.ResetScore();
+        var sum = Thuan_23127_SeasonalSummary.Instance;
+        if (sum) sum.ResetAllData();
 
         var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
         foreach (var b in boards)
         {
-            b.ClearAllRows();
             b.Rebuild();
         }
         
