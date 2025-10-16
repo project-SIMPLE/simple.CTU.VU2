@@ -206,13 +206,22 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         // Tính điểm theo độ mặn khu vực (đã set bằng provider)
         int points = AdjustBySalinity(_econ);
 
-        // if (_fishData != null && (_fishData.id == 5 || _fishData.id == 6))
-        // {
-        //     if (_ownerArea && _ownerArea.waterType == WaterType.Fresh)
-        //     {
-        //         points = -5; // Trừ 5 điểm nếu nuôi sai chỗ
-        //     }
-        // }
+        if (_fishData != null && (_fishData.id == 5 || _fishData.id == 6))
+        {
+            if (_ownerArea && _ownerArea.waterType == WaterType.Fresh)
+            {
+                points = -5; // Trừ 5 điểm nếu nuôi sai chỗ tom su'
+            }
+        }
+
+        if (_fishData != null && (_fishData.id == 2))
+        {
+            if (_ownerArea && _ownerArea.waterType == WaterType.Salt)
+            {
+                points = -5; // ca dieu hong ko nuoi dc trong nuoc man.
+            }
+        }
+
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.AddScore(points);
 
