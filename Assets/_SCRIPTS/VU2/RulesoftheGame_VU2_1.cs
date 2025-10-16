@@ -99,7 +99,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         timeRemaining += Time.deltaTime;
         DisplayTime(timeRemaining);
 
-        if (timeRemaining <= 10f)
+        if (timeRemaining <=90f)
         {
             SetPhase(SeasonPhase.Rainy1);
             _rainning = true;
@@ -112,7 +112,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             _moving = false;
             _enteredDry = false;
         }
-        else if (timeRemaining > 10f && timeRemaining <= 20f)
+        else if (timeRemaining > 90f && timeRemaining <= 180f)
         {
             SetPhase(SeasonPhase.Dry);
             _rainning = false;
@@ -132,7 +132,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             }
             if (_moving && target) _applyMoveThisFrame = true;
         }
-        else if (timeRemaining > 20f && timeRemaining <= 50f)
+        else if (timeRemaining > 180f && timeRemaining <= 270f)
         {
             SetPhase(SeasonPhase.Rainy2);
             _rainning = true;
