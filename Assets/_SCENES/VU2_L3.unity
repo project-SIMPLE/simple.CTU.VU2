@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2679963, g: 0.46390706, b: 0.6143565, a: 1}
+  m_IndirectSpecularColor: {r: 0.26678512, g: 0.46293086, b: 0.6139275, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -19267,7 +19267,7 @@ PrefabInstance:
     - target: {fileID: 7932797961504584099, guid: 6fbebadda342e884d9732a521f1cafb1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -61298,7 +61298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1001088043
 Transform:
   m_ObjectHideFlags: 0
@@ -92930,6 +92930,11 @@ MonoBehaviour:
   rainMusic: {fileID: 8300000, guid: dc6519d82aeaf4762b78ea722cdd1f58, type: 3}
   normalMusic: {fileID: 8300000, guid: 2977d1c14910940c181ddc393832ff0a, type: 3}
   messageSfx: {fileID: 8300000, guid: 09e4a19ff29ff2044b2240a8785c78de, type: 3}
+  moveProvider: {fileID: 0}
+  locomotionSystem: {fileID: 0}
+  turnProvider: {fileID: 0}
+  lockTurningToo: 0
+  player: {fileID: 0}
 --- !u!114 &1501849108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123909,7 +123914,7 @@ PrefabInstance:
     - target: {fileID: 9020096662358911812, guid: 3dbe10cabb9ea804ea1b82e51607efd5,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -134798,7 +134803,7 @@ PrefabInstance:
     - target: {fileID: 171958178633976952, guid: 32ef3d84ae4c91146a6543badc0f0670,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2247098262068116019, guid: 32ef3d84ae4c91146a6543badc0f0670,
         type: 3}
@@ -134959,7 +134964,7 @@ PrefabInstance:
     - target: {fileID: 6798703131122651999, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7011600712258097510, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
@@ -135078,7 +135083,7 @@ PrefabInstance:
     - target: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5107717620672951357, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
@@ -135494,7 +135499,7 @@ PrefabInstance:
     - target: {fileID: 6808033233792064380, guid: 37e44f0b006f7834b92ca93e48286b52,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -135633,7 +135638,7 @@ PrefabInstance:
     - target: {fileID: 5266419484997122216, guid: 6d0d8fbf2f4043544be583efa9398314,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7995160792362017980, guid: 6d0d8fbf2f4043544be583efa9398314,
         type: 3}
@@ -135716,7 +135721,7 @@ PrefabInstance:
     - target: {fileID: 1800448274573184026, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1935685356770101041, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
@@ -136131,7 +136136,7 @@ PrefabInstance:
     - target: {fileID: 6280058436849734269, guid: d7b306ab44e671b44aecc0d3f9ec094f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

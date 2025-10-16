@@ -108,6 +108,7 @@ public class FarmArea : MonoBehaviour
 
         g.OnHarvested += (points) =>
         {
+            if (!RulesoftheGame_VU2_1.GameActive) return; // hết game -> bo qua
             if (points <= 0) return;
             var phase = CurrentPhase();                 // Rainy1/Dry/Rainy2
             int idx = (int)phase;
@@ -158,7 +159,11 @@ public class FarmArea : MonoBehaviour
     /// <summary>
     /// Trồng tất cả các plot rỗng trong ô bằng 1 prefab
     /// </summary>
-    public void PlantAll(GameObject plantPrefab) => PlantInternal(plantPrefab, fillAll: true);
+    public void PlantAll(GameObject plantPrefab)
+    {
+        if (!RulesoftheGame_VU2_1.GameActive) return; // khi game chưa hoạt động ko trôồng đuược
+        PlantInternal(plantPrefab, fillAll: true);
+    }
 
     /// <summary>
     /// Core trồng cây: instantiate, gắn Growth, wire vào tổng & (tuỳ chọn) bind lên HUD
@@ -176,7 +181,7 @@ public class FarmArea : MonoBehaviour
         if (plantData == null && fishData == null && animalData == null)
         { Debug.LogWarning("Không tìm thấy dữ liệu phù hợp trong JSON."); return; }
 
-        for (int i = 0; i < plotPoints.Length; i++)
+        for (var i = 0; i < plotPoints.Length; i++)
         {
             if (isPlanted[i]) continue;
 
@@ -217,6 +222,12 @@ public class FarmArea : MonoBehaviour
     public void FreePlot(int index)
     {
         if (index >= 0 && index < isPlanted.Length) isPlanted[index] = false;
+    }
+    
+    public void FreezeHUD()
+    {
+        UnbindCurrent();         
+        if (hud) hud.Show(false);  // ẩn HUD
     }
 
     /// <summary>

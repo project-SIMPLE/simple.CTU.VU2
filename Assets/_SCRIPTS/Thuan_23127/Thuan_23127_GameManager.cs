@@ -57,6 +57,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
     // </param>
     public void AddScore(int value)
     {
+        if (!RulesoftheGame_VU2_1.GameActive) return;
         
         if (!_rules)
             _rules = FindObjectOfType<RulesoftheGame_VU2_1>();
