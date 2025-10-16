@@ -20,6 +20,8 @@ public class PlantUIManager : MonoBehaviour
     public void ShowGroup(PlotType type, int index)
     {
         // Nếu panel đang mở là đúng nhóm + đúng index -> tắt đi
+
+        if (!RulesoftheGame_VU2_1.GameActive) return;
         if (currentPanel != null && currentPanel.activeSelf)
         {
             switch (type)
@@ -80,9 +82,44 @@ public class PlantUIManager : MonoBehaviour
 
     public void HideAllUI()
     {
-        foreach (var p in PlantPanels) p.SetActive(false);
-        foreach (var p in FishPanels) p.SetActive(false);
-        foreach (var p in AnimalPanels) p.SetActive(false);
+        // Hide all UI panels
+        foreach (var p in PlantPanels)
+        {
+            if (p != null)
+            {
+                // Notify hover handlers before hiding
+                var hoverHandlers = p.GetComponentsInChildren<Thuan_23127_PlantHoverHandler>(true);
+                foreach (var handler in hoverHandlers)
+                {
+                    handler.ForceHideTooltip();
+                }
+                p.SetActive(false);
+            }
+        }
+        foreach (var p in FishPanels)
+        {
+            if (p != null)
+            {
+                var hoverHandlers = p.GetComponentsInChildren<Thuan_23127_PlantHoverHandler>(true);
+                foreach (var handler in hoverHandlers)
+                {
+                    handler.ForceHideTooltip();
+                }
+                p.SetActive(false);
+            }
+        }
+        foreach (var p in AnimalPanels)
+        {
+            if (p != null)
+            {
+                var hoverHandlers = p.GetComponentsInChildren<Thuan_23127_PlantHoverHandler>(true);
+                foreach (var handler in hoverHandlers)
+                {
+                    handler.ForceHideTooltip();
+                }
+                p.SetActive(false);
+            }
+        }
         currentPanel = null;
     }
 }

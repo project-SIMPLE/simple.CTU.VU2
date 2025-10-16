@@ -23,7 +23,7 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
     public Text infoText;                // Nội dung
 
     private Thuan_23127_JsonReader jsonReader;  // Reader lấy dữ liệu từ JSON
-    private CanvasGroup _panelCg;               
+    private CanvasGroup _panelCg;
 
     private void Start()
     {
@@ -33,8 +33,8 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
             // đảm bảo tooltip KHÔNG nhận/bắt input
             _panelCg = scrollInfoPanel.GetComponent<CanvasGroup>();
             if (!_panelCg) _panelCg = scrollInfoPanel.AddComponent<CanvasGroup>();
-            _panelCg.interactable = false;      
-            _panelCg.blocksRaycasts = false;    
+            _panelCg.interactable = false;
+            _panelCg.blocksRaycasts = false;
 
             //tắt Raycast Target cho toàn bộ đồ hoạ con để chắc chắn không nuốt input
             foreach (var g in scrollInfoPanel.GetComponentsInChildren<Graphic>(true))
@@ -47,6 +47,20 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         else
         {
             scrollInfoPanel?.SetActive(false);
+        }
+    }
+    
+    private void OnDisable()
+    {
+        // Hide tooltip when this object is disabled
+        ForceHideTooltip();
+    }
+
+    public void ForceHideTooltip()
+    {
+        if (scrollInfoPanel != null)
+        {
+            scrollInfoPanel.SetActive(false);
         }
     }
 

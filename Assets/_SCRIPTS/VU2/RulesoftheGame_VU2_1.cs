@@ -61,6 +61,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     public Transform player;                 // XR Origin (Transform)
     private Vector3 _playerStartPos;
     private bool _playerStartSaved = false;
+    
+    [Header("UI Root (optional)")]
+    public GameObject GameplayUIRoot; 
+    public GameObject GameUIRoot;
 
     private void Awake()
     {
@@ -89,6 +93,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
         // Khoá di chuyển khi chưa chơi
         SetMovementLocked(true);
+        GameplayUIRoot.SetActive(true);
+        GameUIRoot.SetActive(true);
     }
 
     public void Update()
@@ -99,7 +105,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         timeRemaining += Time.deltaTime;
         DisplayTime(timeRemaining);
 
-        if (timeRemaining <=90f)
+        if (timeRemaining <= 90f)
         {
             SetPhase(SeasonPhase.Rainy1);
             _rainning = true;
@@ -181,6 +187,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
             if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
             ResultMenu.SetActive(true);
+            GameplayUIRoot.SetActive(false);
+            GameUIRoot.SetActive(false);
+            
         }
     }
 
@@ -246,6 +255,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         _phaseStartTime = timeRemaining;
 
         SetMovementLocked(false); // mở di chuyển
+        GameplayUIRoot.SetActive(true);
+        GameUIRoot.SetActive(true);
+
     }
 
     public void RestartGame()
@@ -288,6 +300,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
         playGame = true;
         GameActive = true;
+        GameplayUIRoot.SetActive(true);
+        GameUIRoot.SetActive(true);
         // SetMovementLocked(false); //khoa di chuyen
     }
 
