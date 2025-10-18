@@ -352,6 +352,21 @@
           "Xin chào, tên tôi là LinhH.",
           "Tôi là sinh viên CTU, còn bạn?"
         ]
+      },
+      {
+        "npcId": "EngineerLinh",
+        "npcName": "Kỹ Sư Linh",
+        "dialogues": [
+          "Chào An, chú robot thông minh.",
+          "Anh là Linh, kĩ sư nông nghiệp. Mừng em đến với khu canh tác này.",
+          "Đây là một khu canh tác ở vùng đồng bằng sông Cửu Long, ...",
+          "nơi này đang gặp một vấn đề rắc rối nho nhỏ.",
+          "Hãy cùng anh hỗ trợ người dân địa phương canh tác, ...",
+          "và bảo vệ cây trồng và vật nuôi nhé.",
+          "Hãy canh tác và thu hoạch nhanh em nhé ...",
+          "đừng quên chọn loại cây trồng và vật nuôi phù hợp với điều kiện hạn mặn.",
+          "Nào, đi thôi!"
+        ]
       }
     ]
   },
@@ -684,6 +699,7 @@
           "I'm a CTU student, and you?"
         ]
       }
+
     ]
   },
   "fr":{
@@ -1014,6 +1030,30 @@
         "dialogues": [
           "Salut, je m'appelle LinhH.",
           "Je suis étudiant à CTU, et vous?"
+        ]
+      },
+      {
+        "npcId": "EngineerLinh",
+        "npcName": "Engineer Linh",
+        "dialogues": [
+          "Hello An, the smart robot. I'm Linh, an agricultural engineer. Welcome to the farming zone!",
+          "This is a cultivation area in the Mekong Delta, which is currently facing a small problem.",
+          "Let's work together to help local farmers cultivate, protect their crops, and care for their livestock.",
+          "The rain will help the plants grow. Stay focused on farming!",
+          "Keep farming and harvesting quickly. And don't forget to choose the right crops and livestock for the saline and drought conditions.",
+          "Alright, let’s get going!"
+        ]
+      },
+      {
+        "npcId": "EngineerLinh",
+        "npcName": "Ingénieur Linh",
+        "dialogues": [
+          "Bonjour An, le robot intelligent. Je suis Linh, ingénieur agronome. Bienvenue dans la zone de culture !",
+          "Voici une zone agricole du delta du Mékong, qui rencontre actuellement un petit problème.",
+          "Travaillons ensemble pour aider les agriculteurs locaux à cultiver, protéger leurs cultures et s’occuper de leurs animaux.",
+          "La pluie aidera les plantes à pousser. Reste concentré sur la culture !",
+          "Continue à cultiver et à récolter rapidement. Et n’oublie pas de choisir les cultures et les animaux adaptés aux conditions de salinité et de sécheresse.",
+          "Allez, c’est parti !"
         ]
       }
     ]
@@ -1347,6 +1387,18 @@
         "dialogues": [
           "สวัสดี ฉันชื่อ LinhH",
           "ฉันเป็นนักศึกษาของ CTU แล้วคุณล่ะ?"
+        ]
+      },
+      {
+        "npcId": "EngineerLinh",
+        "npcName": "วิศวกรหลิน",
+        "dialogues": [
+          "สวัสดีอัน หุ่นยนต์อัจฉริยะ ฉันชื่อหลิน วิศวกรเกษตร ยินดีต้อนรับสู่พื้นที่เพาะปลูกนี้!",
+          "นี่คือพื้นที่เพาะปลูกในเขตสามเหลี่ยมปากแม่น้ำโขง ซึ่งกำลังเผชิญกับปัญหาเล็กน้อยอยู่ตอนนี้",
+          "มาช่วยกันสนับสนุนเกษตรกรท้องถิ่นในการเพาะปลูก ปกป้องพืชผล และดูแลปศุสัตว์กันเถอะ",
+          "ฝนจะช่วยให้พืชเจริญเติบโตได้ดี มุ่งมั่นกับการเพาะปลูกนะ!",
+          "รีบเพาะปลูกและเก็บเกี่ยวให้เร็ว และอย่าลืมเลือกพืชและสัตว์เลี้ยงที่เหมาะสมกับสภาพดินเค็มและภัยแล้งนะ",
+          "เอาล่ะ ไปกันเถอะ!"
         ]
       }
     ]

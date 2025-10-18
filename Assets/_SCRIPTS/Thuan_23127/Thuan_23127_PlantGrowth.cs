@@ -210,7 +210,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         {
             if (_ownerArea && _ownerArea.waterType == WaterType.Fresh)
             {
-                points = -5; // Trừ 5 điểm nếu nuôi sai chỗ tom su'
+                points = -0; // Trừ 5 điểm nếu nuôi sai chỗ tom su'
             }
         }
 
@@ -218,7 +218,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         {
             if (_ownerArea && _ownerArea.waterType == WaterType.Salt)
             {
-                points = -5; // ca dieu hong ko nuoi dc trong nuoc man.
+                points = -0; // ca dieu hong ko nuoi dc trong nuoc man.
             }
         }
 
