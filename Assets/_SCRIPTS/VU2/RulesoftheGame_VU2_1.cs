@@ -3,6 +3,8 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
+public enum ScoreFlow { GrowthTime, Seasonal }
+
 public class RulesoftheGame_VU2_1 : MonoBehaviour
 {
     // ==== UI & FX ====
@@ -65,6 +67,9 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     [Header("UI Root (optional)")]
     public GameObject GameplayUIRoot; 
     public GameObject GameUIRoot;
+    // ========================================SeasonFlow=====================================================
+    [Header("Scoring Mode")]
+    public ScoreFlow scoringMode = ScoreFlow.Seasonal; // Flow cũ mặc định
 
     private void Awake()
     {
@@ -319,7 +324,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     }
 
     // Season switch + notify
-    private static void SetPhase(SeasonPhase phase)
+    private void SetPhase(SeasonPhase phase)
     {
         if (_cachedPhase == phase) return;
         _cachedPhase = phase;
@@ -329,7 +334,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
                               (phase == SeasonPhase.Dry)    ? 1f : 2f;
 
         OnPhaseChanged?.Invoke(_currentPhase);
-
+        
+        
+        if (InstanceExistsAndSeasonal())
+        {
+            // 1) Kết sổ: tính điểm tất cả cây/con/cá đang có theo mùa hiện tại
+            // 2) Dọn sạch ô để sang mùa trồng mới
+            SettleAllFarmsForNewSeason();
+        }
         // Refresh salinity on every growth
         var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
         foreach (var t in all)
@@ -346,5 +358,16 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
         if (lockTurningToo && turnProvider) turnProvider.enabled = !locked;
         if (locomotionSystem) locomotionSystem.enabled = !locked;
+    }
+
+    private bool InstanceExistsAndSeasonal()
+    {
+        return scoringMode == ScoreFlow.Seasonal;
+    }
+
+    private void SettleAllFarmsForNewSeason()
+    {
+        var farms = FindObjectsOfType<FarmArea>(true);
+        foreach (var a in farms) a.SettleAndClearForNewSeason();
     }
 }

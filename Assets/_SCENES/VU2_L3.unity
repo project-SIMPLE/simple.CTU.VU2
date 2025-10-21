@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26634616, g: 0.46252424, b: 0.6136589, a: 1}
+  m_IndirectSpecularColor: {r: 0.26619294, g: 0.46243495, b: 0.613682, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2121,7 +2121,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9719,6 +9719,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1502709440}
   salinityText: {fileID: 556550027}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 177826224}
   destroyDelaySeconds: 30
 --- !u!114 &177826223
@@ -10162,6 +10163,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1219174005}
   salinityText: {fileID: 2019585659}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 180234003}
   destroyDelaySeconds: 30
 --- !u!114 &180234002
@@ -12796,6 +12798,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 618456180}
   salinityText: {fileID: 1453019184}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 223787303}
   destroyDelaySeconds: 30
 --- !u!1 &225647011 stripped
@@ -19490,6 +19493,7 @@ MonoBehaviour:
   progressFill: {fileID: 1477999844}
   progressPercentText: {fileID: 1477999845}
   salinityText: {fileID: 2139858}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 339395321}
   destroyDelaySeconds: 60
 --- !u!114 &339395323
@@ -37385,6 +37389,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 2040668254}
   salinityText: {fileID: 10194650}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 609360812}
   destroyDelaySeconds: 30
 --- !u!114 &609360812
@@ -56448,6 +56453,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1264704172}
   salinityText: {fileID: 1284804727}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 889350618}
   destroyDelaySeconds: 30
 --- !u!114 &889350614
@@ -62579,6 +62585,81 @@ Transform:
   - {fileID: 4287172023840696189}
   m_Father: {fileID: 1118575846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1005812307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005812308}
+  - component: {fileID: 1005812310}
+  - component: {fileID: 1005812309}
+  m_Layer: 5
+  m_Name: IconWarning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1005812308
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005812307}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 252331707}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1005812309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005812307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9afeb13fd4483374c8fcda1a95b96e6b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1005812310
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005812307}
+  m_CullTransparentMesh: 1
 --- !u!1 &1006336041
 GameObject:
   m_ObjectHideFlags: 0
@@ -86848,6 +86929,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1170573088}
   salinityText: {fileID: 1090393991}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1383315798}
   destroyDelaySeconds: 30
 --- !u!114 &1383315797
@@ -89172,6 +89254,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 248785936}
   salinityText: {fileID: 991804242}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1422256755}
   destroyDelaySeconds: 30
 --- !u!114 &1422256757
@@ -91159,6 +91242,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1192534954}
   salinityText: {fileID: 856675913}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1444075625}
   destroyDelaySeconds: 30
 --- !u!114 &1444075624
@@ -94266,7 +94350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1500534563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -94587,6 +94671,7 @@ MonoBehaviour:
   player: {fileID: 250509635}
   GameplayUIRoot: {fileID: 1009528243}
   GameUIRoot: {fileID: 387794043}
+  scoringMode: 1
 --- !u!114 &1501849108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95002,7 +95087,7 @@ PrefabInstance:
     - target: {fileID: 2322523512828246267, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3713711776368242985, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
@@ -95987,6 +96072,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 973283055}
   salinityText: {fileID: 1442122106}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1523792385}
   destroyDelaySeconds: 30
 --- !u!114 &1523792381
@@ -100470,6 +100556,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1140543609}
   salinityText: {fileID: 1126634959}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1611527059}
   destroyDelaySeconds: 30
 --- !u!114 &1611527055
@@ -110912,6 +110999,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 0}
   salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1705942523}
   destroyDelaySeconds: 30
 --- !u!114 &1705942525
@@ -118350,6 +118438,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1384586446}
   salinityText: {fileID: 304849606}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1805439721}
   destroyDelaySeconds: 30
 --- !u!114 &1805439720
@@ -126834,6 +126923,7 @@ MonoBehaviour:
   progressFill: {fileID: 1068271825}
   progressPercentText: {fileID: 1068271826}
   salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 1957838289}
   destroyDelaySeconds: 60
 --- !u!114 &1957838288
@@ -133666,6 +133756,7 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1215894856}
   salinityText: {fileID: 735584998}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 2057722020}
   destroyDelaySeconds: 30
 --- !u!114 &2057722016
@@ -138121,6 +138212,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1118575846}
     m_Modifications:
+    - target: {fileID: 197892726881910941, guid: af65c28f4933ce544971af95b5e6f4c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2959331283761058794, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
       propertyPath: fishId
@@ -138145,7 +138241,7 @@ PrefabInstance:
     - target: {fileID: 6492800993426361097, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6798703131122651999, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
@@ -138234,12 +138330,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9023010195172112699, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
+      propertyPath: warningIcon
+      value: 
+      objectReference: {fileID: 1005812309}
+    - target: {fileID: 9023010195172112699, guid: af65c28f4933ce544971af95b5e6f4c0,
+        type: 3}
       propertyPath: salinityText
       value: 
       objectReference: {fileID: 1500534564}
+    - target: {fileID: 9023010195172112699, guid: af65c28f4933ce544971af95b5e6f4c0,
+        type: 3}
+      propertyPath: destroyDelaySeconds
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7011600712258097510, guid: af65c28f4933ce544971af95b5e6f4c0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1005812308}
     - targetCorrespondingSourceObject: {fileID: 7011600712258097510, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
       insertIndex: -1

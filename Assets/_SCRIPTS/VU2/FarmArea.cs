@@ -260,4 +260,47 @@ public class FarmArea : MonoBehaviour
             hud.Show(true);
         }
     }
+    //
+    
+    /// <summary>Trả về snapshot danh sách growth hiện có (để thao tác an toàn).</summary>
+    public List<Thuan_23127_PlantGrowth> GetAllGrowths()
+    {
+        return new List<Thuan_23127_PlantGrowth>(_growths);
+    }
+
+    /// <summary>
+    /// Kết sổ mùa hiện tại: ép thu hoạch tất cả đối tượng đang có để cộng điểm theo Ô,
+    /// sau đó dọn toàn bộ mảnh (clear plots) sẵn sàng cho mùa tiếp theo.
+    /// </summary>
+    public void SettleAndClearForNewSeason()
+    {
+        // 1) Tính điểm ngay & hủy tất cả growth đang còn sống
+        var snapshot = GetAllGrowths(); // tránh sửa khi đang iterate
+        foreach (var g in snapshot)
+        {
+            if (!g) continue;
+            // đảm bảo dùng salinity theo Ô:
+            g.SetSalinityProvider(GetAreaSalinity);
+            g.ForceHarvestImmediateAndDestroy();
+        }
+        _growths.Clear();
+
+        // 2) Dọn mảnh vườn cho mùa mới
+        for (int i = 0; i < plotPoints.Length; i++)
+        {
+            var p = plotPoints[i];
+            if (!p) continue;
+            for (int c = p.childCount - 1; c >= 0; c--) Destroy(p.GetChild(c).gameObject);
+            isPlanted[i] = false;
+        }
+
+        // 3) Reset tổng HUD (nếu muốn giữ tổng theo mùa từng ô, bỏ bước reset này)
+        _seasonTotals[0] = _seasonTotals[1] = _seasonTotals[2] = 0;
+        if (hud)
+        {
+            hud.SetProgress(0f);
+            hud.SetSeasonScoresPhase(0, 0, 0);
+            hud.Show(true);
+        }
+    }
 }

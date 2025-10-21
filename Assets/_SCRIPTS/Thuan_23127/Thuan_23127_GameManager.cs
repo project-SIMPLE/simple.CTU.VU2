@@ -46,7 +46,6 @@ public class Thuan_23127_GameManager : MonoBehaviour
         };
         return Mathf.Max(0f, salinityBase * k);
     }
-
     
     /// <summary>
     /// Tính điểm 

@@ -20,6 +20,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     [Header("Salinity")]
     public Text salinityText;
+    public static Image salinityImage;
 
     [Header("Season Scores (Theo pha)")]
     // Thứ tự cột mong muốn: Rainy1 (mùa mưa 1), Dry (mùa khô), Rainy2 (mùa mưa 2)
