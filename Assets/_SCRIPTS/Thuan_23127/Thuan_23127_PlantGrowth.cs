@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,6 +53,18 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
     // Provider độ mặn theo Ô (được FarmArea tiêm vào)
     private Func<float> _salinityProvider;
+    
+    
+    //========================= Cấu hình animator cho plant chưa có fish và animal
+    [Header("Anim (optional)")]
+    public Animator plantAnimator;              // drag vào nếu có; nếu bỏ trống sẽ tự tìm
+    public string animGood = "Tree_Good";
+    public string animBad  = "Tree_Bad";
+    public float salinityBadDelay = 10f;  
+    // runtime
+    private bool _isOverSalt = false;           // đang vượt ngưỡng?
+    private bool _badAnimPlayedThisSaltPeriod = false;
+    private Coroutine _salinityBadCo;
 
     /// <summary>
     /// Cho phép FarmArea tiêm vào hàm trả về độ mặn của Ô theo mùa hiện tại
@@ -126,6 +139,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (_animalData != null) threshold = _animalData.salinity_threshold;
         if (_fishData   != null) threshold = _fishData.salinity_threshold;
         OnSalinityChanged?.Invoke(current, threshold);
+        
+        EvaluateSalinityEffects(current, threshold); //  kiểm tra để đếm giờ anim xấu khi vượt
     }
 
     /// <summary>
@@ -150,23 +165,25 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     /// <summary>
     /// Vòng lặp tăng trưởng đến khi sẵn sàng thu hoạch
     /// </summary>
-    private System.Collections.IEnumerator CoGrow()
+    private IEnumerator CoGrow()
     {
         _growElapsed = 0f;
 
         if (_growTotal <= 0f)
         {
-            // ready ngay
             OnProgressChanged?.Invoke(1f);
             UpdateUI(1f);
             _growing = false; _ready = true;
             OnStateChanged?.Invoke(State.Ready);
-            TryStartHarvest();           // auto-harvest nếu bạn muốn
+
+            // ⬇️ CHỈ auto-harvest ở flow cũ
+            // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
+                TryStartHarvest();
+
             yield break;
         }
 
-        while (_growElapsed < _growTotal)
-        {
+        while (_growElapsed < _growTotal) {
             _growElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(_growElapsed / _growTotal);
             OnProgressChanged?.Invoke(t);
@@ -174,10 +191,12 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             yield return null;
         }
 
-        _growing = false;
-        _ready   = true;
+        _growing = false; _ready = true;
         OnStateChanged?.Invoke(State.Ready);
-        TryStartHarvest();
+
+        // ⬇️ CHỈ auto-harvest ở flow cũ
+        // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
+            TryStartHarvest();
     }
 
 
@@ -307,19 +326,24 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         var currentSalinity = CurrentSalinity();
         if (salinityText) salinityText.text = currentSalinity.ToString("F2") + " ‰";
 
+        // Tính threshold 1 lần
+        float threshold = 0f;
+        if (_plantData  != null) threshold = _plantData.salinity_threshold;
+        if (_animalData != null) threshold = _animalData.salinity_threshold;
+        if (_fishData   != null) threshold = _fishData.salinity_threshold;
+
+        // ✅ Luôn đánh giá logic mặn → coroutine anim, KHÔNG phụ thuộc vào warningIcon
+        EvaluateSalinityEffects(currentSalinity, threshold);
+
+        // Sau đó mới xử lý icon (nếu có)
         if (warningIcon)
         {
-            float threshold = 0f;
-            if (_plantData  != null) threshold = _plantData.salinity_threshold;
-            if (_animalData != null) threshold = _animalData.salinity_threshold;
-            if (_fishData   != null) threshold = _fishData.salinity_threshold;
-
             float targetAlpha = currentSalinity > threshold ? 1f : 0f;
 
             var cg = warningIcon.GetComponent<CanvasGroup>();
             if (!cg) cg = warningIcon.gameObject.AddComponent<CanvasGroup>();
 
-            // --- SNAP lần đầu: bật/tắt ngay, không fade ---
+            // SNAP lần đầu
             if (!_warningEvaluatedOnce)
             {
                 _warningEvaluatedOnce = true;
@@ -335,10 +359,10 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
                 if (!show && warningIcon.gameObject.activeSelf)
                     warningIcon.gameObject.SetActive(false);
 
-                return; // lần đầu kết thúc tại đây
+                return; // kết thúc lần đầu
             }
 
-            // --- Từ lần sau: fade mượt như cũ ---
+            // Fade mượt các lần sau
             if (targetAlpha > 0f && !warningIcon.gameObject.activeSelf)
             {
                 warningIcon.gameObject.SetActive(true);
@@ -360,7 +384,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
                 warningIcon.gameObject.SetActive(false);
         }
     }
-    
+
     /// <summary>
     /// Ép tính điểm ngay lập tức và hủy object (bỏ qua harvest animation).
     /// Dùng cho "kết sổ theo mùa".
@@ -392,16 +416,87 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (_ownerArea) _ownerArea.FreePlot(_ownerIndex);
         Destroy(gameObject);
     }
+    
+    
+    /// <summary>
+    /// Hàm xu lý animator cho plant 
+    /// </summary>
+    private void EvaluateSalinityEffects(float currentSalinity, float threshold)
+    {
+        // Chỉ áp cho cây (plant) — nếu muốn áp cho animal/fish thì bỏ điều kiện này
+        if (_plantData == null) return;
+
+        bool nowOver = currentSalinity > threshold;
+
+        // Khi rơi vào trạng thái "vượt"
+        if (nowOver && !_isOverSalt)
+        {
+            _isOverSalt = true;
+            _badAnimPlayedThisSaltPeriod = false;
+
+            // Bắt đầu đếm 10s
+            if (_salinityBadCo != null) StopCoroutine(_salinityBadCo);
+            _salinityBadCo = StartCoroutine(CoPlayBadAfterDelay());
+        }
+        // Khi rời trạng thái "vượt" (quay về an toàn)
+        else if (!nowOver && _isOverSalt)
+        {
+            _isOverSalt = false;
+
+            // Hủy đếm nếu còn
+            if (_salinityBadCo != null) { StopCoroutine(_salinityBadCo); _salinityBadCo = null; }
+
+            // (tuỳ chọn) phát anim tốt lại
+            if (plantAnimator && !string.IsNullOrEmpty(animGood))
+            {
+                // Play lại good nếu bạn muốn reset trạng thái
+                plantAnimator.Play(animGood, -1, 0f);
+            }
+        }
+    }
+
+    private IEnumerator CoPlayBadAfterDelay()
+    {
+        float t = 0f;
+        while (t < salinityBadDelay)
+        {
+            // Nếu trong lúc chờ mà hết vượt ngưỡng → thoát
+            if (!_isOverSalt)
+            {
+                _salinityBadCo = null;
+                yield break;
+            }
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        // Sau 10s vẫn vượt ⇒ play "xấu" 1 lần
+        if (_isOverSalt && !_badAnimPlayedThisSaltPeriod)
+        {
+            _badAnimPlayedThisSaltPeriod = true;
+            if (plantAnimator && !string.IsNullOrEmpty(animBad))
+            {
+                plantAnimator.Play(animBad, -1, 0f);
+            }
+        }
+        _salinityBadCo = null;
+    }
 
 
     private void Awake()
     {
-        if (!warningIcon) return;
-        var cg = warningIcon.GetComponent<CanvasGroup>();
-        if (!cg) cg = warningIcon.gameObject.AddComponent<CanvasGroup>();
-        cg.alpha = 0f;                      // bắt đầu từ 0
-        warningIcon.enabled = false;        // không vẽ
-        warningIcon.raycastTarget = false;  // không bắt ray
-        warningIcon.gameObject.SetActive(false); // tắt hẳn
+        if (warningIcon)
+        {
+            var cg = warningIcon.GetComponent<CanvasGroup>();
+            if (!cg) cg = warningIcon.gameObject.AddComponent<CanvasGroup>();
+            cg.alpha = 0f;
+            warningIcon.enabled = false;
+            warningIcon.raycastTarget = false;
+            warningIcon.gameObject.SetActive(false);
+        }
+
+        // Tìm animator nếu chưa gán
+        if (!plantAnimator)
+            plantAnimator = GetComponentInChildren<Animator>();
     }
 }

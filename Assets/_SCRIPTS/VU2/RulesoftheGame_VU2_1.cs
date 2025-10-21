@@ -70,13 +70,19 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     // ========================================SeasonFlow=====================================================
     [Header("Scoring Mode")]
     public ScoreFlow scoringMode = ScoreFlow.Seasonal; // Flow cũ mặc định
-
+    
+    public static ScoreFlow CurrentScoringMode { get; private set; }
+    public void SetScoringMode(ScoreFlow mode) {
+        scoringMode = mode;
+        CurrentScoringMode = mode;
+    }
     private void Awake()
     {
         if (!moveProvider) moveProvider = FindObjectOfType<ActionBasedContinuousMoveProvider>(true);
         if (!locomotionSystem) locomotionSystem = FindObjectOfType<LocomotionSystem>(true);
         if (!turnProvider) turnProvider = FindObjectOfType<ActionBasedContinuousTurnProvider>(true);
         _audioSource = GetComponent<AudioSource>();
+        CurrentScoringMode = scoringMode; // dung o flow tinh diem theo mua 
     }
 
     public void Start()
@@ -324,33 +330,57 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     }
 
     // Season switch + notify
+    // private void SetPhase(SeasonPhase phase)
+    // {
+    //     if (_cachedPhase == phase) return;
+    //     _cachedPhase = phase;
+    //     _currentPhase = phase;
+    //
+    //     Saltwater_Intrusion = (phase == SeasonPhase.Rainy1) ? 0f :
+    //                           (phase == SeasonPhase.Dry)    ? 1f : 2f;
+    //
+    //     OnPhaseChanged?.Invoke(_currentPhase);
+    //     
+    //     
+    //     if (InstanceExistsAndSeasonal())
+    //     {
+    //         // 1) Kết sổ: tính điểm tất cả cây/con/cá đang có theo mùa hiện tại
+    //         // 2) Dọn sạch ô để sang mùa trồng mới
+    //         SettleAllFarmsForNewSeason();
+    //     }
+    //     // Refresh salinity on every growth
+    //     var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
+    //     foreach (var t in all)
+    //         t.UpdateSalinityEvent(); 
+    //
+    //     var gm = Thuan_23127_GameManager.Instance;
+    //     if (gm && gm.jsonReader) gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
+    // }
     private void SetPhase(SeasonPhase phase)
     {
         if (_cachedPhase == phase) return;
+
+        // 1) Kết sổ theo mùa HIỆN TẠI 
+        if (InstanceExistsAndSeasonal())
+            SettleAllFarmsForNewSeason();
+
+        // 2) Bây giờ mới cập nhật state mùa sang mùa MỚI
         _cachedPhase = phase;
         _currentPhase = phase;
-
         Saltwater_Intrusion = (phase == SeasonPhase.Rainy1) ? 0f :
-                              (phase == SeasonPhase.Dry)    ? 1f : 2f;
+            (phase == SeasonPhase.Dry)    ? 1f : 2f;
 
         OnPhaseChanged?.Invoke(_currentPhase);
-        
-        
-        if (InstanceExistsAndSeasonal())
-        {
-            // 1) Kết sổ: tính điểm tất cả cây/con/cá đang có theo mùa hiện tại
-            // 2) Dọn sạch ô để sang mùa trồng mới
-            SettleAllFarmsForNewSeason();
-        }
-        // Refresh salinity on every growth
-        var all = FindObjectsOfType<Thuan_23127_PlantGrowth>();
-        foreach (var t in all)
-            t.UpdateSalinityEvent(); 
+
+        // 3) Refresh salinity & UI cho mùa mới
+        foreach (var t in FindObjectsOfType<Thuan_23127_PlantGrowth>())
+            t.UpdateSalinityEvent();
 
         var gm = Thuan_23127_GameManager.Instance;
         if (gm && gm.jsonReader) gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
     }
-
+    
+    
     // ==== Lock/mở CHỈ di chuyển (VR) ====
     private void SetMovementLocked(bool locked)
     {

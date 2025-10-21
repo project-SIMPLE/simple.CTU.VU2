@@ -70,7 +70,7 @@
       {
         "id": 2,
         "tag_name": "Chuối",
-        "growth_time": 40,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 5,
         "information": "Thông tin của chuối",
@@ -80,7 +80,7 @@
       {
         "id": 3,
         "tag_name": "Bắp cải",
-        "growth_time": 60,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 2,
         "information": "Thông tin của bắp cải",
@@ -90,7 +90,7 @@
       {
         "id": 4,
         "tag_name": "Bắp",
-        "growth_time": 70,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của bắp",
@@ -100,7 +100,7 @@
       {
         "id": 5,
         "tag_name": "Thanh long",
-        "growth_time": 180,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 2,
         "information": "Thông tin của thanh long",
@@ -110,7 +110,7 @@
       {
         "id": 6,
         "tag_name": "Ổi",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
@@ -120,7 +120,7 @@
       {
         "id": 7,
         "tag_name": "Lúa",
-        "growth_time": 80,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 4,
         "information": "Thông tin của lúa",
@@ -130,7 +130,7 @@
       {
         "id": 8,
         "tag_name": "Mía",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của mía",
@@ -140,7 +140,7 @@
       {
         "id": 9,
         "tag_name": "Cam",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của cam",
@@ -150,17 +150,17 @@
       {
         "id": 10,
         "tag_name": "Dừa",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của dừa",
-        "salinity_threshold": 12,
-        "harvest_time": 5
+        "salinity_threshold": 0.8,
+        "harvest_time": 10
       },
       {
         "id": 11,
         "tag_name": "Chuối",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của chuối",
@@ -170,7 +170,7 @@
       {
         "id": 12,
         "tag_name": "Ổi",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
@@ -180,7 +180,7 @@
       {
         "id": 13,
         "tag_name": "Xoài",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của xoài",
@@ -192,7 +192,7 @@
       {
         "id": 1,
         "tag_name": "Bò",
-        "growth_time": 180,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của bò",
@@ -202,7 +202,7 @@
       {
         "id": 2,
         "tag_name": "Heo",
-        "growth_time": 140,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 4,
         "information": "Thông tin của heo",
@@ -212,7 +212,7 @@
       {
         "id": 3,
         "tag_name": "Gà",
-        "growth_time": 120,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 2,
         "information": "Thông tin của gà",
@@ -222,7 +222,7 @@
       {
         "id": 4,
         "tag_name": "Vịt",
-        "growth_time": 110,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của vịt",
@@ -232,7 +232,7 @@
       {
         "id": 5,
         "tag_name": "Thỏ",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của thỏ",
@@ -242,7 +242,7 @@
       {
         "id": 6,
         "tag_name": "Dê",
-        "growth_time": 160,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của dê",
@@ -254,7 +254,7 @@
       {
         "id": 1,
         "tag_name": "Cá lóc",
-        "growth_time": 100,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 4,
         "information": "Thông tin của cá lóc",
@@ -264,7 +264,7 @@
       {
         "id": 2,
         "tag_name": "Cá điêu hồng",
-        "growth_time": 110,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của cá điêu hồng",
@@ -274,7 +274,7 @@
       {
         "id": 3,
         "tag_name": "Cá rô phi",
-        "growth_time": 80,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của cá rô phi",
@@ -284,7 +284,7 @@
       {
         "id": 4,
         "tag_name": "Cá chép",
-        "growth_time": 120,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 2,
         "information": "Thông tin của cá chép",
@@ -294,7 +294,7 @@
       {
         "id": 5,
         "tag_name": "Tôm sú",
-        "growth_time": 110,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 5,
         "information": "Thông tin của tôm sú",
@@ -304,7 +304,7 @@
       {
         "id": 6,
         "tag_name": "Tôm càng xanh",
-        "growth_time": 100,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của tôm càng xanh",
@@ -314,7 +314,7 @@
       {
         "id": 7,
         "tag_name": "Nghêu",
-        "growth_time": 10,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của nghêu",
@@ -324,7 +324,7 @@
       {
         "id": 6,
         "tag_name": "Cua biển",
-        "growth_time": 10,
+        "growth_time": 0,
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của cua biển",

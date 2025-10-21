@@ -11,7 +11,7 @@ public class RotateTargetHub : MonoBehaviour
     [Tooltip("Góc bù nếu model của bạn lệch hướng trước")]
     public float yawOffset = 0f;
 
-    void Awake()
+    private void Awake()
     {
         if (target == null && Camera.main != null)
             target = Camera.main.transform;
