@@ -74,7 +74,7 @@ public class FarmArea : MonoBehaviour
         if (hud)
         {
             hud.Show(true);
-            hud.SetSeasonScoresPhase(0, 0, 0); // clear tổng ban đầu
+            hud.SetSeasonScoresPhase(0, 0); // clear tổng ban đầu
             hud.SetSubject(null);
         }
     }
@@ -256,7 +256,7 @@ public class FarmArea : MonoBehaviour
         if (hud)
         {
             hud.SetProgress(0f);
-            hud.SetSeasonScoresPhase(0, 0, 0);
+            hud.SetSeasonScoresPhase(0, 0);
             hud.Show(true);
         }
     }
@@ -299,7 +299,7 @@ public class FarmArea : MonoBehaviour
         if (hud)
         {
             hud.SetProgress(0f);
-            hud.SetSeasonScoresPhase(0, 0, 0);
+            hud.SetSeasonScoresPhase(0, 0);
             hud.Show(true);
         }
     }

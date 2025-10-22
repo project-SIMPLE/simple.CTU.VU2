@@ -8,8 +8,8 @@ public enum ProductKind { Plant, Animal, Fish }
 public class SeasonalCounters
 {
     public Sprite icon;
-    public int[] count = new int[3];   // 0=Rainy,1=Normal,2=Dry
-    public int[] score = new int[3];   // Cộng điểm 
+    public int[] count = new int[2];   // 0=Rainy,1=Normal,2=Dry
+    public int[] score = new int[2];   // Cộng điểm 
 }
 
 public class Thuan_23127_SeasonalSummary : MonoBehaviour
@@ -26,12 +26,19 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     
+    // 3 mùa ẩn đi
+    // private static SeasonPhase CurrentPhase()
+    // {
+    //     var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+    //     if (Mathf.Approximately(s, 0f)) return SeasonPhase.Rainy1;
+    //     if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
+    //     return SeasonPhase.Rainy2;
+    // }
+    
     private static SeasonPhase CurrentPhase()
     {
         var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 0f)) return SeasonPhase.Rainy1;
-        if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
-        return SeasonPhase.Rainy2;
+        return Mathf.Approximately(s, 1f) ? SeasonPhase.Dry : SeasonPhase.Rainy1;
     }
 
     private static string Key(ProductKind kind, int id) => $"{kind}:{id}";
@@ -88,13 +95,21 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         return list;
     }
 
-    public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllScores()
+    // public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllScores()
+    // {
+    //     var list = new List<(Sprite, int, int, int)>();
+    //     foreach (var kv in _map.Values)
+    //         list.Add((kv.icon, kv.score[0], kv.score[1], kv.score[2]));
+    //     return list;
+    // }
+    public List<(Sprite icon, int rainy, int dry)> GetAllScores()
     {
-        var list = new List<(Sprite, int, int, int)>();
+        var list = new List<(Sprite, int, int)>();
         foreach (var kv in _map.Values)
-            list.Add((kv.icon, kv.score[0], kv.score[1], kv.score[2]));
+            list.Add((kv.icon, kv.score[0], kv.score[1]));
         return list;
     }
+    
     /// <summary>Reset toàn bộ dữ liệu đã lưu</summary>
     public void ResetAllData()
     {

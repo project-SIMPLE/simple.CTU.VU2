@@ -7,9 +7,9 @@ public enum SeasonPhase { Rainy1 = 0, Dry = 1, Rainy2 = 2 }
 [Serializable]
 public class SeasonUI
 {
-    public Text  scoreText;     // Text điểm của mùa
-    public Image iconImage;     // Ảnh đại diện của mùa (badge)
-    public Sprite defaultIcon;  // Icon mặc định (kéo sẵn ở Inspector)
+    public Text  scoreText;
+    public Image iconImage;
+    public Sprite defaultIcon;
 }
 
 public class Thuan_23127_AreaHUD : MonoBehaviour
@@ -22,22 +22,21 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     public Text salinityText;
     public static Image salinityImage;
 
-    [Header("Season Scores (Theo pha)")]
-    // Thứ tự cột mong muốn: Rainy1 (mùa mưa 1), Dry (mùa khô), Rainy2 (mùa mưa 2)
+    [Header("Season Scores (2 cột)")]
     public SeasonUI rainy;   // cột 1
     public SeasonUI dry;     // cột 2
-    public SeasonUI rainy2;  // cột 3
 
-    [Header("Subject (cây/vật nuôi đang theo dõi)")]
-    public Image subjectImage;
+    // [0]=Rainy, [1]=Dry
+    private readonly int[] _phaseScores = new int[2];
 
-    // Tổng điểm theo pha: [0]=Rainy1, [1]=Dry, [2]=Rainy2
-    private readonly int[] _phaseScores = new int[3];
+    private static int PhaseToIndex(SeasonPhase p)
+    {
+        // ✅ mọi thứ ngoài Rainy → Dry
+        return (p == SeasonPhase.Rainy1) ? 0 : 1;
+    }
 
-    /// <summary>Ẩn/hiện toàn bộ HUD</summary>
     public void Show(bool v) => gameObject.SetActive(v);
 
-    /// <summary>Cập nhật thanh % tiến độ</summary>
     public void SetProgress(float t)
     {
         t = Mathf.Clamp01(t);
@@ -45,25 +44,22 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
     }
 
-    /// <summary>Hiển thị S hiện tại / T ngưỡng</summary>
     public void SetSalinity(float current, float threshold)
     {
         if (salinityText) salinityText.text = $"{current:0.00} / {threshold:0.00}";
     }
 
-    /// <summary>Đặt icon “đối tượng đang theo dõi” (plant/animal/fish)</summary>
     public void SetSubject(Sprite icon)
     {
         if (!subjectImage) return;
         subjectImage.sprite  = icon;
         subjectImage.enabled = (icon != null);
 
-        var c = subjectImage.color;
-        c.a = (icon != null) ? 1f : 0f;
+        var c = subjectImage.color; c.a = (icon != null) ? 1f : 0f;
         subjectImage.color = c;
-
         subjectImage.preserveAspect = true;
     }
+    public Image subjectImage;
 
     void Awake()
     {
@@ -75,49 +71,38 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         }
     }
 
-    /// ========== API THEO PHA (dùng ở FarmArea) ==========
-
-    /// <summary>Reset điểm 3 pha về 0 và refresh UI</summary>
     public void ResetSeasonScoresPhase()
     {
-        _phaseScores[0] = _phaseScores[1] = _phaseScores[2] = 0;
+        _phaseScores[0] = _phaseScores[1] = 0;
         RefreshPhase(SeasonPhase.Rainy1);
         RefreshPhase(SeasonPhase.Dry);
-        RefreshPhase(SeasonPhase.Rainy2);
     }
 
-    /// <summary>Set cứng tổng điểm 3 pha</summary>
-    public void SetSeasonScoresPhase(int rainy1, int dryVal, int rainy2)
+    public void SetSeasonScoresPhase(int rainyVal, int dryVal)
     {
-        _phaseScores[0] = Mathf.Max(0, rainy1);
+        _phaseScores[0] = Mathf.Max(0, rainyVal);
         _phaseScores[1] = Mathf.Max(0, dryVal);
-        _phaseScores[2] = Mathf.Max(0, rainy2);
-
-        RefreshPhase(SeasonPhase.Rainy1); // cột mưa 1
-        RefreshPhase(SeasonPhase.Dry);    // cột khô
-        RefreshPhase(SeasonPhase.Rainy2); // cột mưa 2
+        RefreshPhase(SeasonPhase.Rainy1);
+        RefreshPhase(SeasonPhase.Dry);
     }
 
-    /// <summary>Gộp điểm vào pha tương ứng và (tuỳ chọn) set icon cho pha đó</summary>
     public void AddSeasonPointsPhase(SeasonPhase phase, int delta, Sprite iconOverride = null)
     {
-        int idx = (int)phase;
+        int idx = PhaseToIndex(phase);            // ✅ map 2 cột
         _phaseScores[idx] = Mathf.Max(0, _phaseScores[idx] + delta);
 
-        var ui = GetUI(phase);
-        if (ui == null) return;
-
+        var ui = (idx == 0) ? rainy : dry;
         if (ui.scoreText) ui.scoreText.text = _phaseScores[idx].ToString();
-        SetIconForPhase(phase, iconOverride);
+        SetIconForPhase(idx, iconOverride);
     }
 
-    /// <summary>Refresh UI cho 1 pha từ giá trị đang lưu</summary>
     private void RefreshPhase(SeasonPhase p)
     {
-        var ui = GetUI(p);
+        int idx = PhaseToIndex(p);
+        var ui  = (idx == 0) ? rainy : dry;
         if (ui == null) return;
 
-        int val = _phaseScores[(int)p];
+        int val = _phaseScores[idx];
         if (ui.scoreText) ui.scoreText.text = val.ToString();
 
         if (ui.iconImage)
@@ -128,25 +113,13 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         }
     }
 
-    /// <summary>Trả về struct UI tương ứng pha</summary>
-    private SeasonUI GetUI(SeasonPhase p)
+    private void SetIconForPhase(int idx, Sprite iconOverride = null)
     {
-        switch (p)
-        {
-            case SeasonPhase.Rainy1: return rainy;   // cột trái
-            case SeasonPhase.Dry:    return dry;     // cột giữa
-            case SeasonPhase.Rainy2: return rainy2;  // cột phải
-        }
-        return null;
-    }
-
-    private void SetIconForPhase(SeasonPhase phase, Sprite iconOverride = null)
-    {
-        var ui = GetUI(phase);
+        var ui = (idx == 0) ? rainy : dry;
         if (ui == null || ui.iconImage == null) return;
 
         ui.iconImage.sprite  = iconOverride != null ? iconOverride : ui.defaultIcon;
-        ui.iconImage.enabled = (_phaseScores[(int)phase] > 0) && (ui.iconImage.sprite != null);
+        ui.iconImage.enabled = (_phaseScores[idx] > 0) && (ui.iconImage.sprite != null);
         ui.iconImage.preserveAspect = true;
     }
 
@@ -154,7 +127,6 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     {
         SetProgress(0f);
         if (salinityText) salinityText.text = "0.00 / 0.00";
-
         ResetSeasonScoresPhase();
 
         if (subjectImage)

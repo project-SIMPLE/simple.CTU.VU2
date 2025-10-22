@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26728678, g: 0.46336055, b: 0.6141539, a: 1}
+  m_IndirectSpecularColor: {r: 0.2669736, g: 0.46305743, b: 0.61409223, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7732,10 +7732,6 @@ MonoBehaviour:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 866151085}
-    iconImage: {fileID: 26281972}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 705881820}
 --- !u!114 &127750557
 MonoBehaviour:
@@ -10892,10 +10888,6 @@ MonoBehaviour:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1434914948}
-    iconImage: {fileID: 1353110721}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 567338470}
 --- !u!114 &193966113
 MonoBehaviour:
@@ -13682,10 +13674,6 @@ MonoBehaviour:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1052871098}
-    iconImage: {fileID: 933492756}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 573410333}
 --- !u!114 &239248858
 MonoBehaviour:
@@ -26001,10 +25989,6 @@ MonoBehaviour:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 609190553}
-    iconImage: {fileID: 745147007}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1695823564}
 --- !u!114 &425256551
 MonoBehaviour:
@@ -31879,10 +31863,6 @@ MonoBehaviour:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 2070794291}
-    iconImage: {fileID: 442288669}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 893276222}
 --- !u!114 &517610667
 MonoBehaviour:
@@ -37854,10 +37834,6 @@ MonoBehaviour:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1113279320}
-    iconImage: {fileID: 1281291193}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 16230762}
 --- !u!114 &615013731
 MonoBehaviour:
@@ -60266,7 +60242,7 @@ GameObject:
   - component: {fileID: 939097968}
   - component: {fileID: 939097967}
   m_Layer: 0
-  m_Name: NormalIcon (1)
+  m_Name: DryIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60280,7 +60256,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939097965}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000045776367}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60288,7 +60264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 757.10016, y: -206.15}
+  m_AnchoredPosition: {x: 971, y: -206.15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &939097967
@@ -64129,7 +64105,7 @@ PrefabInstance:
     - target: {fileID: 7177660953755903035, guid: 88e2e24d984df4d4fbea962c0b98b56e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 956.67505
+      value: 860.93335
       objectReference: {fileID: 0}
     - target: {fileID: 7177660953755903035, guid: 88e2e24d984df4d4fbea962c0b98b56e,
         type: 3}
@@ -64149,7 +64125,7 @@ PrefabInstance:
     - target: {fileID: 7178601016172154501, guid: 88e2e24d984df4d4fbea962c0b98b56e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 382.225
+      value: 477.96667
       objectReference: {fileID: 0}
     - target: {fileID: 7178601016172154501, guid: 88e2e24d984df4d4fbea962c0b98b56e,
         type: 3}
@@ -64160,6 +64136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RainyScore2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649161614827577193, guid: 88e2e24d984df4d4fbea962c0b98b56e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -66388,10 +66369,6 @@ MonoBehaviour:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1448206160}
-    iconImage: {fileID: 2115851040}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1143221026}
 --- !u!114 &1071587359
 MonoBehaviour:
@@ -67359,10 +67336,6 @@ MonoBehaviour:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 173594179}
-    iconImage: {fileID: 636450434}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 659057181}
 --- !u!114 &1085519449
 MonoBehaviour:
@@ -67581,10 +67554,6 @@ MonoBehaviour:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1975408736}
-    iconImage: {fileID: 1228618219}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1811308407}
 --- !u!114 &1089442109
 MonoBehaviour:
@@ -78312,10 +78281,6 @@ MonoBehaviour:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1286137999}
-    iconImage: {fileID: 1922114356}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 205955155}
 --- !u!114 &1251532289
 MonoBehaviour:
@@ -87971,10 +87936,6 @@ MonoBehaviour:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 315023751}
-    iconImage: {fileID: 1187077797}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1223378706}
 --- !u!114 &1400608625
 MonoBehaviour:
@@ -95536,10 +95497,6 @@ MonoBehaviour:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 584041800}
-    iconImage: {fileID: 527005052}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 797077449}
 --- !u!114 &1511998619
 MonoBehaviour:
@@ -95890,7 +95847,7 @@ GameObject:
   - component: {fileID: 1513679940}
   - component: {fileID: 1513679939}
   m_Layer: 0
-  m_Name: RainIcon (1)
+  m_Name: RainIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95904,7 +95861,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513679937}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00007247925}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95912,7 +95869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 477.10004, y: -206.15}
+  m_AnchoredPosition: {x: 597, y: -206.15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1513679939
@@ -99545,81 +99502,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592461847}
-  m_CullTransparentMesh: 1
---- !u!1 &1592647282
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1592647283}
-  - component: {fileID: 1592647285}
-  - component: {fileID: 1592647284}
-  m_Layer: 0
-  m_Name: DryIcon (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1592647283
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592647282}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000045776367}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2008222137}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1042.0999, y: -206.15}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1592647284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592647282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1592647285
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592647282}
   m_CullTransparentMesh: 1
 --- !u!1 &1597240224
 GameObject:
@@ -125720,10 +125602,6 @@ MonoBehaviour:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 662666717}
-    iconImage: {fileID: 101522823}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1197735651}
 --- !u!114 &1940317958
 MonoBehaviour:
@@ -127192,10 +127070,6 @@ MonoBehaviour:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1081815814}
-    iconImage: {fileID: 939011688}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 2068786274}
 --- !u!114 &1958852144
 MonoBehaviour:
@@ -129621,7 +129495,6 @@ RectTransform:
   - {fileID: 584409438}
   - {fileID: 1513679938}
   - {fileID: 939097966}
-  - {fileID: 1592647283}
   - {fileID: 1032823384}
   - {fileID: 1759257166}
   m_Father: {fileID: 1671029279}
@@ -132195,10 +132068,6 @@ MonoBehaviour:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1765523007}
-    iconImage: {fileID: 1932073827}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1685902753}
 --- !u!114 &2046061860
 MonoBehaviour:
@@ -135827,10 +135696,6 @@ MonoBehaviour:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 2114760940}
-    iconImage: {fileID: 527005052}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 1830520379}
 --- !u!114 &2093222872
 MonoBehaviour:
@@ -136061,10 +135926,6 @@ MonoBehaviour:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  rainy2:
-    scoreText: {fileID: 1176400432}
-    iconImage: {fileID: 1036677506}
-    defaultIcon: {fileID: 21300000, guid: df2d82282b3bde4429ee95771987bf09, type: 3}
   subjectImage: {fileID: 352226891}
 --- !u!114 &2095703766
 MonoBehaviour:
