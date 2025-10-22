@@ -129,7 +129,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     }
 
     /// <summary>
-    /// Bắn event cập nhật độ mặn cho HUD (dùng khi đổi mùa)
+    /// Bắn event cập nhật độ mặn cho HUD 
     /// </summary>
     public void UpdateSalinityEvent()
     {
@@ -230,7 +230,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             var tt = Mathf.Clamp01(e / h);
             OnProgressChanged?.Invoke(tt);
 
-            UpdateUI(tt);
+            UpdateUI(tt);   
 
             yield return null;
         }
