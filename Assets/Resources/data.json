@@ -114,7 +114,7 @@
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
-        "salinity_threshold": 12,
+        "salinity_threshold": 0.8,
         "harvest_time": 10
       },
       {

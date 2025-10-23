@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7542034296858246823
 Transform:
   m_ObjectHideFlags: 0
@@ -35,12 +35,12 @@ Transform:
   - {fileID: 7493513969584084634}
   - {fileID: 5208998996965805772}
   - {fileID: 560949654599361581}
-  - {fileID: 6279604901859762395}
+  - {fileID: 2605669513217134711}
   - {fileID: 7222828065724085458}
-  - {fileID: 8819262419265961769}
+  - {fileID: 678004565877247877}
   - {fileID: 5081767947795716677}
   - {fileID: 291121403012655812}
-  - {fileID: 6559544370350122131}
+  - {fileID: 2883639835839009855}
   - {fileID: 2247098262068116019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -59,6 +59,7 @@ MonoBehaviour:
   plantId: 3
   animalId: 1
   fishId: 1
+  hudIcon: {fileID: 0}
 --- !u!114 &5983492670004537602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,8 +74,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressFill: {fileID: 7620022950664435552}
   progressPercentText: {fileID: 1112211471485295504}
+  salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 801290400964774635}
   destroyDelaySeconds: 60
+  plantAnimator: {fileID: 0}
+  animGood: Tree_Good
+  animBad: Tree_Bad
+  salinityBadDelay: 10
 --- !u!114 &801290400964774635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,8 +441,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 0}
+  salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 0}
   destroyDelaySeconds: 30
+  plantAnimator: {fileID: 0}
+  animGood: Tree_Good
+  animBad: Tree_Bad
+  salinityBadDelay: 10
 --- !u!1001 &1670890597647172735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -726,7 +739,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7efcd2c844c241543a1a728408b6d0e7, type: 3}
---- !u!4 &6279604901859762395 stripped
+--- !u!4 &2605669513217134711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8290161537821733037, guid: 7efcd2c844c241543a1a728408b6d0e7,
     type: 3}
@@ -800,7 +813,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7efcd2c844c241543a1a728408b6d0e7, type: 3}
---- !u!4 &6559544370350122131 stripped
+--- !u!4 &2883639835839009855 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8290161537821733037, guid: 7efcd2c844c241543a1a728408b6d0e7,
     type: 3}
@@ -1022,7 +1035,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7efcd2c844c241543a1a728408b6d0e7, type: 3}
---- !u!4 &8819262419265961769 stripped
+--- !u!4 &678004565877247877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8290161537821733037, guid: 7efcd2c844c241543a1a728408b6d0e7,
     type: 3}
