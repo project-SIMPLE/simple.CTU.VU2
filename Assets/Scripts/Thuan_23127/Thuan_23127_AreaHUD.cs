@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,13 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     [Header("Salinity")]
     public Text salinityText;
+    public TextMeshProUGUI salinityTextPro;
+
     public static Image salinityImage;
+    
+    public Image subjectImage;
+    
+    public Thuan_23127_JsonReader jsonReader;
 
     [Header("Season Scores (2 cột)")]
     public SeasonUI rainy;   // cột 1
@@ -46,7 +53,22 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     public void SetSalinity(float current, float threshold)
     {
-        if (salinityText) salinityText.text = $"{current:0.00} / {threshold:0.00}";
+        // Lấy nhãn "Độ mặn" từ JSON
+        string salinityLabel = "Salinity"; // default
+        if (jsonReader != null)
+        {
+            var langData = jsonReader.GetCurrentLangData();
+            if (langData?.interpretation?.fields != null)
+            {
+                salinityLabel = langData.interpretation.fields.salinity ?? "Salinity";
+            }
+        }
+
+        // Format: "Độ mặn + 0.5 / 0.8"
+        string formattedText = $"{salinityLabel} : {current:0.00} / {threshold:0.00}";
+        
+        if (salinityText) salinityText.text = formattedText;
+        if (salinityTextPro) salinityTextPro.text = formattedText;
     }
 
     public void SetSubject(Sprite icon)
@@ -59,7 +81,6 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         subjectImage.color = c;
         subjectImage.preserveAspect = true;
     }
-    public Image subjectImage;
 
     void Awake()
     {
@@ -126,7 +147,17 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     public void ResetHUDToDefaults()
     {
         SetProgress(0f);
-        if (salinityText) salinityText.text = "0.00 / 0.00";
+        string defaultSalinityLabel = "Salinity";
+        if (jsonReader != null)
+        {
+            var langData = jsonReader.GetCurrentLangData();
+            if (langData?.interpretation?.fields != null)
+            {
+                defaultSalinityLabel = langData.interpretation.fields.salinity ?? "Salinity";
+            }
+        }
+        if (salinityText) salinityText.text = $"{defaultSalinityLabel} + 0.00 / 0.00";
+        if (salinityTextPro) salinityTextPro.text = $"{defaultSalinityLabel} + 0.00 / 0.00";
         ResetSeasonScoresPhase();
 
         if (subjectImage)

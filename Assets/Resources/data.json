@@ -45,7 +45,8 @@
         "remarks": "Nhận xét",
         "win": "Thắng",
         "lose": "Thua",
-        "play_again": "Chơi lại"
+        "play_again": "Chơi lại",
+        "salinity" : "Độ mặn"
       },
       "units": {
         "growth_time": "ngày"
