@@ -12,8 +12,6 @@ public class Pet_AI : MonoBehaviour
     public float waitCounter;
     public bool isWalking;
 
-
-
     private int _walkDirection;
     private float _waitTime;
     private float _walkTime;
@@ -35,7 +33,6 @@ public class Pet_AI : MonoBehaviour
 
         ChooseDirection();
     }
-
 
     private void Update()
     {

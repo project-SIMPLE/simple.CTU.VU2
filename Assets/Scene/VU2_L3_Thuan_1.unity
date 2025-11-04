@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2677949, g: 0.46382543, b: 0.61434734, a: 1}
+  m_IndirectSpecularColor: {r: 0.26813197, g: 0.4640063, b: 0.61440057, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7573,6 +7573,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 705881820}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
@@ -11669,6 +11670,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 567338470}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 343682194}
   rainy:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
@@ -13942,6 +13944,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 573410333}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
@@ -21668,7 +21671,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 343682194}
+      addedObject: {fileID: 343682195}
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
 --- !u!224 &343682191 stripped
 RectTransform:
@@ -21688,7 +21691,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 343682190}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &343682194
+--- !u!114 &343682194 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881028038475493880, guid: fd28f23af44f73f4a95e33435872ad15,
+    type: 3}
+  m_PrefabInstance: {fileID: 343682190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &343682195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21697,12 +21712,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 343682193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Script: {fileID: 11500000, guid: a68e56ee0f3ab4a9ebf2cead0937088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 250509635}
-  turnSpeed: 12
-  yawOffset: 0
+  target: {fileID: 0}
 --- !u!1001 &344825516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26961,7 +26974,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 407587077}
+      addedObject: {fileID: 407587078}
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
 --- !u!224 &407587074 stripped
 RectTransform:
@@ -26981,7 +26994,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 407587073}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &407587077
+--- !u!114 &407587077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881028038475493880, guid: fd28f23af44f73f4a95e33435872ad15,
+    type: 3}
+  m_PrefabInstance: {fileID: 407587073}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &407587078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26990,12 +27015,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 407587076}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Script: {fileID: 11500000, guid: a68e56ee0f3ab4a9ebf2cead0937088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 250509635}
-  turnSpeed: 12
-  yawOffset: 0
+  target: {fileID: 0}
 --- !u!1 &408585929
 GameObject:
   m_ObjectHideFlags: 0
@@ -27683,6 +27706,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1695823564}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
@@ -33896,6 +33920,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 893276222}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
@@ -39586,6 +39611,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 16230762}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 822214935}
   rainy:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
@@ -54214,7 +54240,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 810230807}
+      addedObject: {fileID: 810230808}
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
 --- !u!224 &810230804 stripped
 RectTransform:
@@ -54234,7 +54260,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 810230803}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &810230807
+--- !u!114 &810230807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881028038475493880, guid: fd28f23af44f73f4a95e33435872ad15,
+    type: 3}
+  m_PrefabInstance: {fileID: 810230803}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &810230808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54243,12 +54281,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 810230806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Script: {fileID: 11500000, guid: a68e56ee0f3ab4a9ebf2cead0937088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 250509635}
-  turnSpeed: 12
-  yawOffset: 0
+  target: {fileID: 0}
 --- !u!1001 &814203476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56764,7 +56800,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4015128326712939855, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 822214935}
+      addedObject: {fileID: 822214936}
   m_SourcePrefab: {fileID: 100100000, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
 --- !u!224 &822214932 stripped
 RectTransform:
@@ -56784,7 +56820,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 822214931}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &822214935
+--- !u!114 &822214935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881028038475493880, guid: fd28f23af44f73f4a95e33435872ad15,
+    type: 3}
+  m_PrefabInstance: {fileID: 822214931}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &822214936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56793,12 +56841,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 822214934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89119026b6c42789ace346c7a8d1578, type: 3}
+  m_Script: {fileID: 11500000, guid: a68e56ee0f3ab4a9ebf2cead0937088e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 250509635}
-  turnSpeed: 12
-  yawOffset: 0
+  target: {fileID: 0}
 --- !u!1 &830246159
 GameObject:
   m_ObjectHideFlags: 0
@@ -72820,6 +72866,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1143221026}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 810230807}
   rainy:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
@@ -73706,6 +73753,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 659057181}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
@@ -73926,6 +73974,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1811308407}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
@@ -84101,6 +84150,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 205955155}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
@@ -95213,6 +95263,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1223378706}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
@@ -102691,11 +102742,22 @@ MonoBehaviour:
           status_good: 
           status_sick: 
           status_dead: 
-          harvest_time: 0
-          salinity_threshold: 0
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -102726,11 +102788,22 @@ MonoBehaviour:
           status_good: 
           status_sick: 
           status_dead: 
-          harvest_time: 0
-          salinity_threshold: 0
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -102761,11 +102834,22 @@ MonoBehaviour:
           status_good: 
           status_sick: 
           status_dead: 
-          harvest_time: 0
-          salinity_threshold: 0
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -102796,11 +102880,22 @@ MonoBehaviour:
           status_good: 
           status_sick: 
           status_dead: 
-          harvest_time: 0
-          salinity_threshold: 0
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -103345,6 +103440,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 797077449}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
@@ -117571,6 +117667,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1754148776}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1754148779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8881028038475493880, guid: fd28f23af44f73f4a95e33435872ad15,
+    type: 3}
+  m_PrefabInstance: {fileID: 1754148776}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1754148780 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5849765080698951394, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -127736,6 +127844,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1197735651}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
@@ -129176,6 +129285,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 2068786274}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 407587077}
   rainy:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
@@ -133568,6 +133678,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1685902753}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 1754148779}
   rainy:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
@@ -137086,6 +137197,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 1830520379}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
@@ -137239,6 +137351,7 @@ MonoBehaviour:
   salinityTextPro: {fileID: 0}
   subjectImage: {fileID: 352226891}
   jsonReader: {fileID: 1501849108}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
@@ -140153,6 +140266,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8555109926504051575}
+    - targetCorrespondingSourceObject: {fileID: 6798703131122651999, guid: af65c28f4933ce544971af95b5e6f4c0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8555109926504051580}
   m_SourcePrefab: {fileID: 100100000, guid: af65c28f4933ce544971af95b5e6f4c0, type: 3}
 --- !u!1 &2478584394973801606 stripped
 GameObject:
@@ -141503,6 +141620,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8555109926504051580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350168600411037620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1d62cd42c4431ba90d57780f6b81c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1754148782}
+  headText: {fileID: 1754148780}
+  bodyText: {fileID: 1754148779}
+  bodyTextTMP: {fileID: 0}
 --- !u!4 &8772028638794606891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8879813345634939895, guid: ef4d1efba012a94498652b4148c46546,

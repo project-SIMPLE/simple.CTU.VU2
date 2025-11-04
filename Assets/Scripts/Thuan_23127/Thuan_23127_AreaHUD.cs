@@ -28,7 +28,14 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     public Image subjectImage;
     
     public Thuan_23127_JsonReader jsonReader;
-
+    
+    public Text descriptionText;
+    
+    public void SetDescription(string s)
+    {
+        if (descriptionText) descriptionText.text = s ?? string.Empty;
+    }
+    
     [Header("Season Scores (2 cột)")]
     public SeasonUI rainy;   // cột 1
     public SeasonUI dry;     // cột 2
@@ -147,6 +154,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     public void ResetHUDToDefaults()
     {
         SetProgress(0f);
+        if (descriptionText) descriptionText.text = string.Empty;
         string defaultSalinityLabel = "Salinity";
         if (jsonReader != null)
         {

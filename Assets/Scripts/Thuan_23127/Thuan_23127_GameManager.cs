@@ -29,23 +29,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    
-    /// <summary>
-    /// Độ mặn hiện tại 
-    /// </summary>
-    /// <returns>(theo mùa)</returns>
-    // public float GetSeasonSalinity()
-    // {
-    //     // Đọc theo pha 0/1/2 từ Saltwater_Intrusion để giữ tương thích
-    //     float k = RulesoftheGame_VU2_1.Saltwater_Intrusion switch
-    //     {
-    //         0f => rainyFactor,    // Rainy1
-    //         1f => dryFactor,      // Dry
-    //         2f => rainyFactor,    // Rainy2
-    //         _  => rainyFactor
-    //     };
-    //     return Mathf.Max(0f, salinityBase * k);
-    // }
+
     public float GetSeasonSalinity()
     {
         float k = (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1f) ? dryFactor : rainyFactor;

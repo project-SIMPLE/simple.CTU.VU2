@@ -90,9 +90,10 @@ public class FarmArea : MonoBehaviour
         _boundGrowth.OnSalinityChanged -= _onSalt;
         _boundGrowth.OnStateChanged -= _onState;
         _boundGrowth.OnAboutToDestroy -= _onAboutToDestroy;
-
+        _boundGrowth.OnHealthTextChanged -= hud.SetDescription;
         _boundGrowth = null;
         _onProg = null; _onSalt = null; _onState = null; _onAboutToDestroy = null;
+        
     }
 
     /// <summary>
@@ -151,6 +152,7 @@ public class FarmArea : MonoBehaviour
         growth.OnSalinityChanged += _onSalt;
         growth.OnStateChanged += _onState;
         growth.OnAboutToDestroy += _onAboutToDestroy;
+        growth.OnHealthTextChanged += hud.SetDescription;
 
         _boundGrowth = growth;
         growth.UpdateSalinityEvent(); // cập nhật số ban đầu
@@ -300,7 +302,9 @@ public class FarmArea : MonoBehaviour
         {
             hud.SetProgress(0f);
             hud.SetSeasonScoresPhase(0, 0);
+            hud.SetDescription(string.Empty);
             hud.Show(true);
         }
     }
+    
 }

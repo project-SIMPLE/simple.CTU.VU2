@@ -66,6 +66,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     private bool _badAnimPlayedThisSaltPeriod = false;
     private Coroutine _salinityBadCo;
 
+    public event Action<string> OnHealthTextChanged;
     /// <summary>
     /// Cho phép FarmArea tiêm vào hàm trả về độ mặn của Ô theo mùa hiện tại
     /// </summary>
@@ -141,6 +142,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         OnSalinityChanged?.Invoke(current, threshold);
         
         EvaluateSalinityEffects(current, threshold); //  kiểm tra để đếm giờ anim xấu khi vượt
+        EmitHealthDescription(current, threshold); // thêm dòng này
     }
 
     /// <summary>
@@ -176,7 +178,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             _growing = false; _ready = true;
             OnStateChanged?.Invoke(State.Ready);
 
-            // ⬇️ CHỈ auto-harvest ở flow cũ
             // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
                 TryStartHarvest();
 
@@ -194,7 +195,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _growing = false; _ready = true;
         OnStateChanged?.Invoke(State.Ready);
 
-        // ⬇️ CHỈ auto-harvest ở flow cũ
         // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
             TryStartHarvest();
     }
@@ -237,18 +237,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         FinalizeHarvest();
     }
-    // private System.Collections.IEnumerator CoHarvest()
-    // {
-    //     _harvesting = true;
-    //     OnStateChanged?.Invoke(State.Harvesting);
-    //     if (harvestInteractable) harvestInteractable.enabled = false;
-    //
-    //     OnProgressChanged?.Invoke(0f);
-    //     float e = 0f, h = (_harvestTime > 0f) ? _harvestTime : 2f;
-    //     while (e < h) { e += Time.deltaTime; OnProgressChanged?.Invoke(Mathf.Clamp01(e / h)); yield return null; }
-    //
-    //     FinalizeHarvest();
-    // }
 
     /// <summary>
     /// Chốt điểm, bắn sự kiện, lên lịch tự hủy
@@ -316,7 +304,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     }
 
     /// <summary>
-    /// Cập nhật UI tiến độ cục bộ trên prefab (nếu có)
+    /// Cập nhật UI tiến độ cục bộ trên prefab 
     /// </summary>
     private void UpdateUI(float t)
     {
@@ -332,9 +320,9 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (_animalData != null) threshold = _animalData.salinity_threshold;
         if (_fishData   != null) threshold = _fishData.salinity_threshold;
 
-        // ✅ Luôn đánh giá logic mặn → coroutine anim, KHÔNG phụ thuộc vào warningIcon
+        //  Luôn đánh giá logic mặn → coroutine anim, KHÔNG phụ thuộc vào warningIcon
         EvaluateSalinityEffects(currentSalinity, threshold);
-
+        EmitHealthDescription(currentSalinity, threshold);
         // Sau đó mới xử lý icon (nếu có)
         if (warningIcon)
         {
@@ -499,4 +487,73 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (!plantAnimator)
             plantAnimator = GetComponentInChildren<Animator>();
     }
+    
+    private (string unit, string statusHealthy, string statusDiseased,
+        string labelThreshold, string labelCurrent,
+        string tplHealthy, string tplDiseased)
+        GetLangStrings()
+    {
+        var jr = _jsonReader ?? Thuan_23127_GameManager.Instance?.jsonReader;
+
+        string unit = "‰", sh = "Tốt", sd = "Bệnh",
+            thr = "Ngưỡng chịu mặn", cur = "Độ mặn hiện tại",
+            thTpl = "{tag} đang {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
+            dsTpl = "{tag} đang {status} do mặn vượt ngưỡng. {currentLabel}: {current}{unit} > {thresholdLabel}: {threshold}{unit}.";
+
+        var l = jr != null ? jr.GetCurrentLangData() : null;
+        if (l != null && l.interpretation != null)
+        {
+            var f = l.interpretation.fields;
+            var s = l.interpretation.status_text;
+            var t = l.interpretation.templates;
+
+            unit  = f?.unit_ppt                ?? unit;
+            sh    = s?.healthy                 ?? sh;
+            sd    = s?.diseased                ?? sd;
+            thr   = f?.threshold_label         ?? thr;
+            cur   = f?.current_salinity_label  ?? cur;
+            thTpl = t?.healthy_desc            ?? thTpl;
+            dsTpl = t?.diseased_desc           ?? dsTpl;
+
+            Debug.Log($"[Lang] templates from JSON? healthy={t?.healthy_desc != null}, diseased={t?.diseased_desc != null}, langCode={jr?.GetCurrentLangCode()}");
+        }
+        else
+        {
+            Debug.LogWarning("[Lang] interpretation null → using fallback defaults.");
+        }
+
+        return (unit, sh, sd, thr, cur, thTpl, dsTpl);
+    }
+
+
+    private void EmitHealthDescription(float currentSalinity, float threshold)
+    {
+        if (_plantData == null) { OnHealthTextChanged?.Invoke(string.Empty); return; }
+
+        string tagName = _plantData.tag_name ?? "Cây";
+        bool   diseased = currentSalinity > threshold;
+
+        var ls = GetLangStrings();
+
+        string text = !diseased
+            ? ls.tplHealthy
+                .Replace("{tag}", tagName)
+                .Replace("{status}", ls.statusHealthy)
+                .Replace("{currentLabel}", ls.labelCurrent)
+                .Replace("{thresholdLabel}", ls.labelThreshold)
+                .Replace("{current}", currentSalinity.ToString("0.00"))
+                .Replace("{threshold}", threshold.ToString("0.00"))
+                .Replace("{unit}", ls.unit)
+            : ls.tplDiseased
+                .Replace("{tag}", tagName)
+                .Replace("{status}", ls.statusDiseased)
+                .Replace("{currentLabel}", ls.labelCurrent)
+                .Replace("{thresholdLabel}", ls.labelThreshold)
+                .Replace("{current}", currentSalinity.ToString("0.00"))
+                .Replace("{threshold}", threshold.ToString("0.00"))
+                .Replace("{unit}", ls.unit);
+
+        OnHealthTextChanged?.Invoke(text);
+    }
+
 }
