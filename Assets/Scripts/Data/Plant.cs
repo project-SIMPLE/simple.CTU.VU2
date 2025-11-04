@@ -7,7 +7,7 @@ public class Plant
     public string[] status;
     public int economic_benefits;
     public string information;
-    public float salinity_threshold; // do ngap man 
-    public float harvest_time; // time thu hoach 
+    public float salinity_threshold;
+    public float harvest_time;
 }
 

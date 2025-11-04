@@ -11,8 +11,4 @@ public class Thuan_23127_SeedTag : MonoBehaviour
 
     [Header("HUD visuals")]
     public Sprite hudIcon;
-    
-    public bool IsPlant => plantId > 0;
-    public bool IsAnimal => animalId > 0;
-    public bool IsFish => fishId > 0;
 }

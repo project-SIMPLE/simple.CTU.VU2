@@ -216,8 +216,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressFill: {fileID: 1720019658077101109}
   progressPercentText: {fileID: 8146484186288255173}
+  salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 4443285951151487619}
   destroyDelaySeconds: 30
+  plantAnimator: {fileID: 0}
+  animGood: Tree_Good
+  animBad: Tree_Bad
+  salinityBadDelay: 10
 --- !u!114 &2408039457530011138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +239,7 @@ MonoBehaviour:
   plantId: 1
   animalId: 1
   fishId: 1
+  hudIcon: {fileID: 0}
 --- !u!114 &4443285951151487619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,8 +425,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressFill: {fileID: 1720019658077101109}
   progressPercentText: {fileID: 8146484186288255173}
+  salinityText: {fileID: 0}
+  warningIcon: {fileID: 0}
   harvestInteractable: {fileID: 779706016243403995}
   destroyDelaySeconds: 25
+  plantAnimator: {fileID: 0}
+  animGood: Tree_Good
+  animBad: Tree_Bad
+  salinityBadDelay: 10
 --- !u!114 &779706016243403995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +550,7 @@ MonoBehaviour:
   plantId: 1
   animalId: 1
   fishId: 1
+  hudIcon: {fileID: 0}
 --- !u!65 &1081761771387529514
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ public class UICamera : MonoBehaviour
 
         isUISettingOpen = !isUISettingOpen;
         UISetting.SetActive(isUISettingOpen);
-        Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
+            Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
     }
 
     public void ToggleStartGameMenu()

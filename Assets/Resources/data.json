@@ -6,33 +6,11 @@
       "level": "Cấp độ",
       "score": "Năng suất",
       "language": "Ngôn ngữ",
-      "play_again": "Chơi lại",
-      "setting": "Cài đặt"
+      "playagain": "Chơi lại",
+      "setting": "Cài đặt",
+      "salinity": "Độ mặn"
     },
-    "gameplay": {
-      "name": "SIMPLE VU2",
-      "level": 1,
-      "score": 0,
-      "assessment": {
-        "remarks": {
-          "win": [
-            "Đai rừng ngập mặn được phục hồi, bảo vệ khu dân cư.",
-            "Độ mặn được kiểm soát; nguồn nước ngọt phục hồi.",
-            "Sinh kế cải thiện nhờ nuôi trồng thủy sản bền vững."
-          ],
-          "lose": [
-            "Xói lở bờ biển tăng; công trình phòng thủ thất bại.",
-            "Độ mặn tăng cao, cây trồng sụp đổ.",
-            "Nguồn vốn và sự tham gia cộng đồng bị đứt gãy."
-          ]
-        },
-        "results": [
-          "Dân phải rời đi vì xâm nhập mặn và xói lở.",
-          "Nguồn lợi thủy sản suy giảm, thu nhập hộ gia đình giảm.",
-          "Cộng đồng chuyển sang canh tác thân thiện rừng ngập mặn và phục hồi dần."
-        ]
-      }
-    },
+    "gameplay": { "name": "SIMPLE VU2", "level": 1, "score": 0 },
     "interpretation": {
       "fields": {
         "id": "Mã",
@@ -41,20 +19,24 @@
         "status": "Trạng thái",
         "economic_benefits": "Lợi ích kinh tế",
         "information": "Thông tin",
-        "assessment": "Đánh giá",
-        "remarks": "Nhận xét",
-        "win": "Thắng",
-        "lose": "Thua",
-        "play_again": "Chơi lại"
+        "salinity": "Độ mặn",
+        "status_good": "Tốt",
+        "status_sick": "Bệnh",
+        "status_dead": "Chết",
+        "productivity": "Năng suất",
+        "base_yield": "Chuẩn",
+        "adjusted_yield": "Sau mặn",
+        "threshold_label": "Ngưỡng chịu mặn",
+        "current_salinity_label": "Độ mặn hiện tại",
+        "unit_ppt": "‰"
       },
-      "units": {
-        "growth_time": "ngày"
-      },
-      "status_values": [
-        "Tốt",
-        "Bệnh",
-        "Chết"
-      ]
+      "units": { "growth_time": "ngày" },
+      "status_values": ["Tốt", "Bệnh", "Chết"],
+      "status_text": { "healthy": "Tốt", "diseased": "Bệnh", "dead": "Chết" },
+      "templates": {
+        "healthy_desc": "{tag} đang {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
+        "diseased_desc": "{tag} đang {status} do mặn vượt ngưỡng. {currentLabel}: {current}{unit} > {thresholdLabel}: {threshold}{unit}."
+      }
     },
     "plants": [
       {
@@ -376,9 +358,10 @@
       "name": "Name",
       "level": "Level",
       "score": "Yield",
-      "play_again": "Play Again",
       "language": "Language",
-      "setting": "Setting"
+      "playagain": "Play Again",
+      "setting": "Setting",
+      "salinity": "Salinity"
     },
     "gameplay": {
       "name": "SIMPLE VU2",
@@ -412,19 +395,26 @@
         "status": "Status",
         "economic_benefits": "Economic benefits",
         "information": "Information",
-        "assessment": "Assessment",
-        "remarks": "Remarks",
-        "win": "Win",
-        "lose": "Lose"
+        "salinity": "Salinity",
+        "status_good": "Good",
+        "status_sick": "Sick",
+        "status_dead": "Dead",
+        "productivity": "Productivity",
+        "base_yield": "Base",
+        "adjusted_yield": "After salinity",
+        "threshold_label": "Salinity threshold",
+        "current_salinity_label": "Current salinity",
+        "unit_ppt": "‰"
       },
       "units": {
         "growth_time": "days"
       },
-      "status_values": [
-        "Good",
-        "Sick",
-        "Dead"
-      ]
+      "status_values": ["Good", "Sick", "Dead"],
+      "status_text": { "healthy": "Good", "diseased": "Sick", "dead": "Dead" },
+      "templates": {
+        "healthy_desc": "{tag} is {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
+        "diseased_desc": "{tag} is {status} due to salinity exceeding the threshold. {currentLabel}: {current}{unit} > {thresholdLabel}: {threshold}{unit}."
+      }
     },
     "plants": [
       {
@@ -695,13 +685,13 @@
         "npcId": "LinhH",
         "npcName": "LinhH",
         "dialogues": [
-          "Hi, My name is LinhH.",
+          "Hi, my name is LinhH.",
           "I'm a CTU student, and you?"
         ]
       }
-
     ]
   },
+
   "fr":{
     "labels": {
       "info": "INFO",
