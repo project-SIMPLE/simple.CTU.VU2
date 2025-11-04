@@ -36,7 +36,10 @@ public class PlantArea : MonoBehaviour
             Debug.Log("Player vào plot: " + gameObject.name + " -> Panel " + panelIndex);
 
             if (button != null)
+            {
                 button.SetActive(true);
+                Debug.Log("display button");
+            }
         }
     }
 
