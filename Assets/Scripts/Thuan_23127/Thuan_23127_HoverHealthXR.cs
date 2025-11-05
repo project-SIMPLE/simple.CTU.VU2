@@ -8,16 +8,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Thuan_23127_HoverHealthXR : MonoBehaviour
 {
     [Header("Scroll UI Sample panel")]
-    [Tooltip("Kéo object 'Scroll UI Sample' trong UI_Info_Salinity 4 vào đây.")]
     public GameObject panel;                  // world-space panel
-    [Tooltip("Text tiêu đề (ví dụ 'Độ mặn: 0.50 / 0.80')")]
-    public Text headText;                     // optional (Unity UI Text)
-    [Tooltip("Text thường nếu không dùng TMP")]
+    [Tooltip("Text tiêu đề (ví dụ 'Độ mặn')")]
+    public Text headText;                     // optional 
+    [Tooltip("Text thườngP")]
     public Text bodyText;                     // optional
-    [Tooltip("Text TMP cho phần mô tả dài (Scroll Text)")]
-    public TextMeshProUGUI bodyTextTMP;       // optional (khuyên dùng)
 
-    [Header("Optional (để lấy nhãn từ JSON)")]
     public Thuan_23127_JsonReader jsonReader; // có thể bỏ trống, sẽ fallback
 
     private Thuan_23127_PlantGrowth _growth;
@@ -35,7 +31,6 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
             _cg = panel.GetComponent<CanvasGroup>();
             if (!_cg) _cg = panel.AddComponent<CanvasGroup>();
 
-            // panel không bắt ray để không chặn ray của XR controller
             _cg.blocksRaycasts = false;
             _cg.interactable   = false;
 
@@ -47,7 +42,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         if (_growth != null)
         {
@@ -62,7 +57,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (_growth != null)
         {
@@ -77,7 +72,6 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         }
     }
 
-// Handlers giữ nguyên chữ ký:
     private void OnHoverEntered(HoverEnterEventArgs _)
     {
         if (!_growth) return;
@@ -90,8 +84,6 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         SetVisible(false);
     }
 
-
-
     // ===== PC (Editor/Standalone) fallback =====
     void OnMouseEnter()
     {
@@ -100,14 +92,14 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         SetVisible(true);
     }
 
-    void OnMouseExit() => SetVisible(false);
+    private void OnMouseExit() => SetVisible(false);
 
     // ===== Nhận dữ liệu & cập nhật UI =====
     private void HandleSalinityChanged(float current, float threshold)
     {
         if (!headText) return;
 
-        // Lấy nhãn từ JSON (giống AreaHUD)
+        // Lấy nhãn từ JSON 
         string salinityLabel = "Salinity";
         var jr = jsonReader ? jsonReader : Thuan_23127_GameManager.Instance?.jsonReader;
         var lang = jr ? jr.GetCurrentLangData() : null;
@@ -119,8 +111,6 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
 
     private void HandleDescriptionChanged(string desc)
     {
-        // desc đã được format bằng GetLangStrings() + EmitHealthDescription() trong PlantGrowth
-        if (bodyTextTMP) bodyTextTMP.text = desc ?? string.Empty;
         if (bodyText)    bodyText.text    = desc ?? string.Empty;
     }
 
