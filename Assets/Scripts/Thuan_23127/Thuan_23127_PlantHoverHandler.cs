@@ -27,7 +27,10 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
 
     private void Start()
     {
-        jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
+        // Đảm bảo tìm lại jsonReader nếu bị null
+        if (jsonReader == null)
+            jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
+        
         if (scrollInfoPanel)
         {
             // đảm bảo tooltip KHÔNG nhận/bắt input
@@ -78,10 +81,14 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        // Đảm bảo jsonReader không null
+        if (jsonReader == null)
+            jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
+        
         if (jsonReader == null || scrollInfoPanel == null || infoText == null) return;
 
-        // nếu đang giữ chuột (click/drag) thì KHÔNG mở tooltip (tránh “click treo” gây trồng)
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || eventData.eligibleForClick) return; // FIX
+        // nếu đang giữ chuột (click/drag) thì KHÔNG mở tooltip (tránh "click treo" gây trồng)
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(1) || eventData.eligibleForClick) return;
 
         var lang = jsonReader.GetCurrentLangData();
         if (lang == null || lang.interpretation == null) return;

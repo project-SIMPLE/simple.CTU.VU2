@@ -515,11 +515,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             thTpl = t?.healthy_desc            ?? thTpl;
             dsTpl = t?.diseased_desc           ?? dsTpl;
 
-            Debug.Log($"[Lang] templates from JSON? healthy={t?.healthy_desc != null}, diseased={t?.diseased_desc != null}, langCode={jr?.GetCurrentLangCode()}");
-        }
-        else
-        {
-            Debug.LogWarning("[Lang] interpretation null → using fallback defaults.");
         }
 
         return (unit, sh, sd, thr, cur, thTpl, dsTpl);
@@ -528,10 +523,28 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
     private void EmitHealthDescription(float currentSalinity, float threshold)
     {
-        if (_plantData == null) { OnHealthTextChanged?.Invoke(string.Empty); return; }
+        // Xác định tagName từ plant, animal hoặc fish
+        string tagName = string.Empty;
+        if (_plantData != null)
+        {
+            tagName = _plantData.tag_name ?? "Cây";
+        }
+        else if (_animalData != null)
+        {
+            tagName = _animalData.tag_name ?? "Vật nuôi";
+        }
+        else if (_fishData != null)
+        {
+            tagName = _fishData.tag_name ?? "Thủy sản";
+        }
+        else
+        {
+            // Không có dữ liệu nào, emit empty và return
+            OnHealthTextChanged?.Invoke(string.Empty);
+            return;
+        }
 
-        string tagName = _plantData.tag_name ?? "Cây";
-        bool   diseased = currentSalinity > threshold;
+        bool diseased = currentSalinity > threshold;
 
         var ls = GetLangStrings();
 

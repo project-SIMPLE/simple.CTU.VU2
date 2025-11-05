@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public enum WaterType
 {
@@ -192,8 +193,33 @@ public class FarmArea : MonoBehaviour
             go.transform.localPosition = Vector3.zero;
             go.transform.localRotation = Quaternion.identity;
             go.transform.localScale = plantPrefab.transform.localScale;
+            
+            // Đảm bảo object được active trước khi lấy component
+            go.SetActive(true);
 
             var growth = go.GetComponent<Thuan_23127_PlantGrowth>() ?? go.AddComponent<Thuan_23127_PlantGrowth>();
+
+            // Đảm bảo XRSimpleInteractable có collider được setup
+            var xrInteractable = go.GetComponent<XRSimpleInteractable>();
+            if (xrInteractable != null && xrInteractable.colliders.Count == 0)
+            {
+                // Tìm collider trong object hoặc children
+                var colliders = go.GetComponentsInChildren<Collider>();
+                foreach (var col in colliders)
+                {
+                    if (!xrInteractable.colliders.Contains(col))
+                        xrInteractable.colliders.Add(col);
+                }
+            }
+
+            // Đảm bảo HoverHealthXR được enable lại để tìm panel
+            var hoverHealth = go.GetComponent<Thuan_23127_HoverHealthXR>();
+            if (hoverHealth != null)
+            {
+                // Force enable để Awake/OnEnable chạy lại và tìm panel
+                hoverHealth.enabled = false;
+                hoverHealth.enabled = true;
+            }
 
             // 1) Đưa cây này vào bộ tổng của Ô
             WireGrowthForAreaTotals(growth);
@@ -202,8 +228,6 @@ public class FarmArea : MonoBehaviour
             if (summary) summary.Track(growth, tag);
             // 2) (tuỳ ý) cho HUD theo dõi cây vừa trồng/được chọn
             BindGrowthToHUD(growth);
-
-
 
             var readerForThis = fillAll ? null : jsonReader;
             if (plantData != null) growth.Init(plantData, this, i, readerForThis);
