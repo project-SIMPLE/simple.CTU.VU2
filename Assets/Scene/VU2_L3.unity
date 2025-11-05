@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26693884, g: 0.46302855, b: 0.6138758, a: 1}
+  m_IndirectSpecularColor: {r: 0.26628888, g: 0.46248883, b: 0.6136364, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7724,6 +7724,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1589748039}
   salinityText: {fileID: 1573263709}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 705881820}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
@@ -7732,7 +7736,6 @@ MonoBehaviour:
     scoreText: {fileID: 866151085}
     iconImage: {fileID: 26281972}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 705881820}
 --- !u!114 &127750557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10880,6 +10883,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1536875406}
   salinityText: {fileID: 251667070}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 567338470}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
@@ -10888,7 +10895,6 @@ MonoBehaviour:
     scoreText: {fileID: 1434914948}
     iconImage: {fileID: 1353110721}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 567338470}
 --- !u!114 &193966113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13666,6 +13672,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 535954309}
   salinityText: {fileID: 1257074670}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 573410333}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
@@ -13674,7 +13684,6 @@ MonoBehaviour:
     scoreText: {fileID: 1052871098}
     iconImage: {fileID: 933492756}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 573410333}
 --- !u!114 &239248858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19385,7 +19394,7 @@ PrefabInstance:
     - target: {fileID: 7932797961504584099, guid: 6fbebadda342e884d9732a521f1cafb1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23194,6 +23203,109 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a84695a37727d64aba10193bab8c334, type: 3}
+--- !u!1001 &397712341
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.0350213
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.20000005
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.889475
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2748050759398483974, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_Name
+      value: SM_Durian
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155394025917283226, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7253492200660984818, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5723878903d793644bdfc0853b75d7c9, type: 3}
 --- !u!1001 &398039228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26011,6 +26123,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 904260614}
   salinityText: {fileID: 426838349}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1695823564}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
@@ -26019,7 +26135,6 @@ MonoBehaviour:
     scoreText: {fileID: 609190553}
     iconImage: {fileID: 745147007}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1695823564}
 --- !u!114 &425256551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31885,6 +32000,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1160876482}
   salinityText: {fileID: 50834610}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 893276222}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
@@ -31893,7 +32012,6 @@ MonoBehaviour:
     scoreText: {fileID: 2070794291}
     iconImage: {fileID: 442288669}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 893276222}
 --- !u!114 &517610667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37856,6 +37974,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1690681611}
   salinityText: {fileID: 1290623680}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 16230762}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
@@ -37864,7 +37986,6 @@ MonoBehaviour:
     scoreText: {fileID: 1113279320}
     iconImage: {fileID: 1281291193}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 16230762}
 --- !u!114 &615013731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62707,7 +62828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1001088043
 Transform:
   m_ObjectHideFlags: 0
@@ -66391,6 +66512,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1430030255}
   salinityText: {fileID: 2010027031}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1143221026}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
@@ -66399,7 +66524,6 @@ MonoBehaviour:
     scoreText: {fileID: 1448206160}
     iconImage: {fileID: 2115851040}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1143221026}
 --- !u!114 &1071587359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67358,6 +67482,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 650088668}
   salinityText: {fileID: 1663695950}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 659057181}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
@@ -67366,7 +67494,6 @@ MonoBehaviour:
     scoreText: {fileID: 173594179}
     iconImage: {fileID: 636450434}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 659057181}
 --- !u!114 &1085519449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67576,6 +67703,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1836806860}
   salinityText: {fileID: 26421724}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1811308407}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
@@ -67584,7 +67715,6 @@ MonoBehaviour:
     scoreText: {fileID: 1975408736}
     iconImage: {fileID: 1228618219}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1811308407}
 --- !u!114 &1089442109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68798,7 +68928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1118575846
 Transform:
   m_ObjectHideFlags: 0
@@ -78303,6 +78433,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 133421635}
   salinityText: {fileID: 306916196}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 205955155}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
@@ -78311,7 +78445,6 @@ MonoBehaviour:
     scoreText: {fileID: 1286137999}
     iconImage: {fileID: 1922114356}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 205955155}
 --- !u!114 &1251532289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87979,6 +88112,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 666020633}
   salinityText: {fileID: 1842020693}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1223378706}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
@@ -87987,7 +88124,6 @@ MonoBehaviour:
     scoreText: {fileID: 315023751}
     iconImage: {fileID: 1187077797}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1223378706}
 --- !u!114 &1400608625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94825,11 +94961,26 @@ MonoBehaviour:
           status: 
           economic_benefits: 
           information: 
-          harvest_time: 0
-          salinity_threshold: 0
+          salinity: 
+          status_good: 
+          status_sick: 
+          status_dead: 
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -94856,11 +95007,26 @@ MonoBehaviour:
           status: 
           economic_benefits: 
           information: 
-          harvest_time: 0
-          salinity_threshold: 0
+          salinity: 
+          status_good: 
+          status_sick: 
+          status_dead: 
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -94887,11 +95053,26 @@ MonoBehaviour:
           status: 
           economic_benefits: 
           information: 
-          harvest_time: 0
-          salinity_threshold: 0
+          salinity: 
+          status_good: 
+          status_sick: 
+          status_dead: 
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -94918,11 +95099,26 @@ MonoBehaviour:
           status: 
           economic_benefits: 
           information: 
-          harvest_time: 0
-          salinity_threshold: 0
+          salinity: 
+          status_good: 
+          status_sick: 
+          status_dead: 
+          productivity: 
+          base_yield: 
+          adjusted_yield: 
+          threshold_label: 
+          current_salinity_label: 
+          unit_ppt: 
         units:
           growth_time: 
         status_values: []
+        status_text:
+          healthy: 
+          diseased: 
+          dead: 
+        templates:
+          healthy_desc: 
+          diseased_desc: 
       plants: []
       livestock: []
       fish: []
@@ -95540,6 +95736,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 2040849618}
   salinityText: {fileID: 161105244}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 797077449}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
@@ -95548,7 +95748,6 @@ MonoBehaviour:
     scoreText: {fileID: 584041800}
     iconImage: {fileID: 1413213960}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 797077449}
 --- !u!114 &1511998619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125645,6 +125844,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 579752069}
   salinityText: {fileID: 1562054124}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1197735651}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
@@ -125653,7 +125856,6 @@ MonoBehaviour:
     scoreText: {fileID: 662666717}
     iconImage: {fileID: 101522823}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1197735651}
 --- !u!114 &1940317958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127113,6 +127315,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1433006444}
   salinityText: {fileID: 570011262}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 2068786274}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
@@ -127121,7 +127327,6 @@ MonoBehaviour:
     scoreText: {fileID: 1081815814}
     iconImage: {fileID: 939011688}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 2068786274}
 --- !u!114 &1958852144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132111,6 +132316,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 70827120}
   salinityText: {fileID: 1529268503}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1685902753}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
@@ -132119,7 +132328,6 @@ MonoBehaviour:
     scoreText: {fileID: 1765523007}
     iconImage: {fileID: 1932073827}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1685902753}
 --- !u!114 &2046061860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135739,6 +135947,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1289702523}
   salinityText: {fileID: 251105986}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 1830520379}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
@@ -135747,7 +135959,6 @@ MonoBehaviour:
     scoreText: {fileID: 2114760940}
     iconImage: {fileID: 527005052}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 1830520379}
 --- !u!114 &2093222872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135969,6 +136180,10 @@ MonoBehaviour:
   progressFill: {fileID: 0}
   progressPercentText: {fileID: 1567231745}
   salinityText: {fileID: 569856779}
+  salinityTextPro: {fileID: 0}
+  subjectImage: {fileID: 352226891}
+  jsonReader: {fileID: 0}
+  descriptionText: {fileID: 0}
   rainy:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
@@ -135977,7 +136192,6 @@ MonoBehaviour:
     scoreText: {fileID: 1176400432}
     iconImage: {fileID: 1036677506}
     defaultIcon: {fileID: 21300000, guid: b246e276d4547ee468212e2160ea06ef, type: 3}
-  subjectImage: {fileID: 352226891}
 --- !u!114 &2095703766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137974,7 +138188,7 @@ PrefabInstance:
     - target: {fileID: 171958178633976952, guid: 32ef3d84ae4c91146a6543badc0f0670,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2247098262068116019, guid: 32ef3d84ae4c91146a6543badc0f0670,
         type: 3}
@@ -138175,7 +138389,7 @@ PrefabInstance:
     - target: {fileID: 6798703131122651999, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7011600712258097510, guid: af65c28f4933ce544971af95b5e6f4c0,
         type: 3}
@@ -138344,7 +138558,7 @@ PrefabInstance:
     - target: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5107717620672951357, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
@@ -138832,7 +139046,7 @@ PrefabInstance:
     - target: {fileID: 6808033233792064380, guid: 37e44f0b006f7834b92ca93e48286b52,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -139089,7 +139303,7 @@ PrefabInstance:
     - target: {fileID: 1800448274573184026, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1935685356770101041, guid: 8a8e571e3ca64bd40acd911ae9219a48,
         type: 3}
@@ -139595,7 +139809,7 @@ PrefabInstance:
     - target: {fileID: 6280058436849734269, guid: d7b306ab44e671b44aecc0d3f9ec094f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -139704,3 +139918,4 @@ SceneRoots:
   - {fileID: 1280709228}
   - {fileID: 1125739624}
   - {fileID: 1674735824}
+  - {fileID: 397712341}
