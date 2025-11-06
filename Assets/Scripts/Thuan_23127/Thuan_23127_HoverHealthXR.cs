@@ -1,7 +1,4 @@
-    using System;
-    using System.Collections;
-    using System.Linq;
-using TMPro;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -10,13 +7,13 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Thuan_23127_HoverHealthXR : MonoBehaviour
 {   
     [Header("Scroll UI Sample panel")]
-    public GameObject panel;                  // world-space panel
+    public GameObject panel;            
     [Tooltip("Text tiêu đề (ví dụ 'Độ mặn')")]
-    public Text headText;                     // optional 
+    public Text headText;                   
     [Tooltip("Text thườngP")]
-    public Text bodyText;                     // optional
+    public Text bodyText;        
 
-    public Thuan_23127_JsonReader jsonReader; // có thể bỏ trống, sẽ fallback
+    public Thuan_23127_JsonReader jsonReader; 
 
     private Thuan_23127_PlantGrowth _growth;
     private XRSimpleInteractable _xr;
@@ -29,7 +26,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     private void FindPanelAndTexts()
     {
         // Tìm panel nếu null - tìm theo tên phổ biến hoặc tag
-        if (panel == null)
+        if (!panel)
         {
             // Tìm trong children với các tên phổ biến
             Transform panelTransform = transform.Find("Panel") 
@@ -37,19 +34,19 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
                 ?? transform.Find("HealthPanel")
                 ?? transform.Find("InfoPanel");
             
-            if (panelTransform != null)
+            if (panelTransform)
                 panel = panelTransform.gameObject;
             else
             {
                 // Tìm Canvas trong children
                 Canvas canvas = GetComponentInChildren<Canvas>(true);
-                if (canvas != null)
+                if (canvas)
                     panel = canvas.gameObject;
             }
         }
 
         // Tìm headText nếu null
-        if (headText == null && panel != null)
+        if (!headText && panel)
         {
             headText = panel.GetComponentInChildren<Text>(true);
             // Nếu có nhiều Text, tìm theo tên
@@ -73,7 +70,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         }
 
         // Tìm bodyText nếu null
-        if (bodyText == null && panel != null)
+        if (!bodyText && panel)
         {
             Text[] texts = panel.GetComponentsInChildren<Text>(true);
             if (texts.Length > 1)
@@ -92,7 +89,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
                     }
                 }
                 // Nếu vẫn null, lấy text thứ 2
-                if (bodyText == null && texts.Length > 1)
+                if (!bodyText && texts.Length > 1)
                     bodyText = texts[1];
             }
         }
@@ -229,13 +226,13 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     private void HandleSalinityChanged(float current, float threshold)
     {
         // Đảm bảo headText tồn tại
-        if (headText == null && panel != null)
+        if (!headText && panel)
             FindPanelAndTexts();
         
         if (!headText) return;
 
         // Lấy nhãn từ JSON 
-        string salinityLabel = "Salinity";
+        var salinityLabel = "Salinity";
         var jr = jsonReader ? jsonReader : Thuan_23127_GameManager.Instance?.jsonReader;
         var lang = jr ? jr.GetCurrentLangData() : null;
         if (lang?.interpretation?.fields != null)
@@ -247,7 +244,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     private void HandleDescriptionChanged(string desc)
     {
         // Đảm bảo bodyText tồn tại
-        if (bodyText == null && panel != null)
+        if (!bodyText && panel)
             FindPanelAndTexts();
         
         if (bodyText) bodyText.text = desc ?? string.Empty;

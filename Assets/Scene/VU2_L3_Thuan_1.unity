@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26742646, g: 0.46350485, b: 0.6141559, a: 1}
+  m_IndirectSpecularColor: {r: 0.26682872, g: 0.462931, b: 0.6138663, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7962,7 +7962,7 @@ PrefabInstance:
     - target: {fileID: 2329259283312711481, guid: b6d061d52faca7348a158aacba235f98,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3016325410274865663, guid: b6d061d52faca7348a158aacba235f98,
         type: 3}
@@ -11807,7 +11807,7 @@ PrefabInstance:
     - target: {fileID: 4632642573343938458, guid: 6ffdbea4599620e4ab8774bed8550f1a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6722510522170947180, guid: 6ffdbea4599620e4ab8774bed8550f1a,
         type: 3}
@@ -21402,6 +21402,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 339395326}
+    - targetCorrespondingSourceObject: {fileID: 7932797961504584099, guid: 6fbebadda342e884d9732a521f1cafb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 339395327}
   m_SourcePrefab: {fileID: 100100000, guid: 6fbebadda342e884d9732a521f1cafb1, type: 3}
 --- !u!4 &339395319 stripped
 Transform:
@@ -21613,6 +21617,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 8.230244, y: 4.454456, z: 4.2251487}
   m_Center: {x: -0.25630087, y: 2.1405723, z: 0.13969243}
+--- !u!114 &339395327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339395320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1 &340909634 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -94709,12 +94734,12 @@ PrefabInstance:
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080478431418, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -94785,12 +94810,12 @@ PrefabInstance:
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.9999995
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5849765080850205986, guid: fd28f23af44f73f4a95e33435872ad15,
         type: 3}
@@ -96323,6 +96348,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.9213037, y: 3.5140553, z: 2.5659914}
   m_Center: {x: 0.107792616, y: 1.6787672, z: -0.061493635}
+--- !u!114 &1400542370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400542357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1001 &1400608619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96858,7 +96904,7 @@ PrefabInstance:
     - target: {fileID: 5482404490969995263, guid: bddcf81e1ff65be43af9570eb5d7fbf9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7166018583669284694, guid: bddcf81e1ff65be43af9570eb5d7fbf9,
         type: 3}
@@ -122439,7 +122485,7 @@ PrefabInstance:
     - target: {fileID: 4400660943419681257, guid: 21e240240f2ab664e8eb4198f268b13d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -141431,6 +141477,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2478584394973801615}
+    - targetCorrespondingSourceObject: {fileID: 171958178633976952, guid: 32ef3d84ae4c91146a6543badc0f0670,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2478584394973801619}
   m_SourcePrefab: {fileID: 100100000, guid: 32ef3d84ae4c91146a6543badc0f0670, type: 3}
 --- !u!1 &520261649090344193 stripped
 GameObject:
@@ -141618,6 +141668,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -1481209391311995745, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1481209391311995745, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.001265713
+      objectReference: {fileID: 0}
+    - target: {fileID: -1481209391311995745, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5723878903d793644bdfc0853b75d7c9,
         type: 3}
       propertyPath: m_Name
@@ -141670,6 +141735,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8555109926504051581}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8555109926504051582}
   m_SourcePrefab: {fileID: 100100000, guid: 5723878903d793644bdfc0853b75d7c9, type: 3}
 --- !u!1 &2478584394973801606 stripped
 GameObject:
@@ -141735,6 +141804,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.3093922, y: 1.292899, z: 2.7723472}
   m_Center: {x: -0.064395934, y: 0.5597939, z: -0.97901535}
+--- !u!114 &2478584394973801619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2478584394973801606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1 &3176459516121281609 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6808033233792064380, guid: 37e44f0b006f7834b92ca93e48286b52,
@@ -141757,6 +141847,27 @@ MonoBehaviour:
   headText: {fileID: 115573909}
   bodyText: {fileID: 115573908}
   jsonReader: {fileID: 1501849108}
+--- !u!114 &3176459516121281618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176459516121281609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1001 &3239618704891635745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141977,6 +142088,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8772028638794606900}
+    - targetCorrespondingSourceObject: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8772028638794606904}
+    - targetCorrespondingSourceObject: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8772028638794606905}
   m_SourcePrefab: {fileID: 100100000, guid: ef4d1efba012a94498652b4148c46546, type: 3}
 --- !u!1 &3473621739294178759 stripped
 GameObject:
@@ -142018,6 +142137,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3493748050417043009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520261649090344193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1001 &3537398723027887016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142178,6 +142318,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3585093, y: 2.7327025, z: 1.9609269}
   m_Center: {x: 0.67925465, y: 1.2796956, z: -0.57330614}
+--- !u!114 &4287172023840696202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3473621739294178759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1001 &4745394507321100988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142405,6 +142566,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3176459516121281610}
+    - targetCorrespondingSourceObject: {fileID: 6808033233792064380, guid: 37e44f0b006f7834b92ca93e48286b52,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3176459516121281618}
   m_SourcePrefab: {fileID: 100100000, guid: 37e44f0b006f7834b92ca93e48286b52, type: 3}
 --- !u!1 &5350168600411037620 stripped
 GameObject:
@@ -142607,6 +142772,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1400542366}
+    - targetCorrespondingSourceObject: {fileID: 5266419484997122216, guid: 6d0d8fbf2f4043544be583efa9398314,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1400542370}
   m_SourcePrefab: {fileID: 100100000, guid: 6d0d8fbf2f4043544be583efa9398314, type: 3}
 --- !u!1 &5700406452396204914 stripped
 GameObject:
@@ -143079,6 +143248,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4287172023840696198}
+    - targetCorrespondingSourceObject: {fileID: 239976205069679293, guid: a60b450f874bb5b4e96cdbbbd3dae0e5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4287172023840696202}
   m_SourcePrefab: {fileID: 100100000, guid: a60b450f874bb5b4e96cdbbbd3dae0e5, type: 3}
 --- !u!1001 &7847469502972539611
 PrefabInstance:
@@ -143252,6 +143425,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3493748050417043001}
+    - targetCorrespondingSourceObject: {fileID: 6280058436849734269, guid: d7b306ab44e671b44aecc0d3f9ec094f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3493748050417043009}
   m_SourcePrefab: {fileID: 100100000, guid: d7b306ab44e671b44aecc0d3f9ec094f, type: 3}
 --- !u!4 &8555109926504051570 stripped
 Transform:
@@ -143552,7 +143729,28 @@ MonoBehaviour:
   plantId: 1
   animalId: -1
   fishId: -1
-  hudIcon: {fileID: 0}
+  hudIcon: {fileID: 21300000, guid: 9afeb13fd4483374c8fcda1a95b96e6b, type: 3}
+--- !u!114 &8555109926504051582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350168600411037620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 1
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!4 &8772028638794606891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8879813345634939895, guid: ef4d1efba012a94498652b4148c46546,
@@ -143617,6 +143815,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8086804, y: 2.0832474, z: 1.4676889}
   m_Center: {x: 0.013676465, y: 0.9549681, z: -0.015496314}
+--- !u!114 &8772028638794606904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700406452396204914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
+--- !u!114 &8772028638794606905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700406452396204914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8555109926504051575}
+  animBad: Tree_Bad
+  animGood: Tree_Good
+  animatorLayer: 0
+  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badScale: 0.8
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
+  includeInactiveChildren: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
