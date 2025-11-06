@@ -297,6 +297,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
         playGame = true;
         GameActive = true;
+        SetMovementLocked(false);
         GameplayUIRoot.SetActive(true);
         GameUIRoot.SetActive(true);
     }

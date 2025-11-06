@@ -191,6 +191,9 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs _)
     {
+        //  Kiểm tra game có đang active không
+        if (!RulesoftheGame_VU2_1.GameActive) return;
+        
         // Đảm bảo panel và growth tồn tại
         if (panel == null) FindPanelAndTexts();
         if (!_growth && panel != null) _growth = GetComponent<Thuan_23127_PlantGrowth>();
@@ -209,6 +212,9 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     // ===== PC (Editor/Standalone) fallback =====
     void OnMouseEnter()
     {
+        // Kiểm tra game có đang active không
+        if (!RulesoftheGame_VU2_1.GameActive) return;
+        
         // Đảm bảo panel và growth tồn tại
         if (panel == null) FindPanelAndTexts();
         if (!_growth && panel != null) _growth = GetComponent<Thuan_23127_PlantGrowth>();
