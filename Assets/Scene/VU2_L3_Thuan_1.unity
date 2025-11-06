@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26682872, g: 0.462931, b: 0.6138663, a: 1}
+  m_IndirectSpecularColor: {r: 0.2668085, g: 0.46298668, b: 0.61395115, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11318,17 +11318,17 @@ PrefabInstance:
     - target: {fileID: 2844742620082104276, guid: dbca43b0f578ce346bbc22bb7021eecc,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2844742620082104276, guid: dbca43b0f578ce346bbc22bb7021eecc,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2844742620082104276, guid: dbca43b0f578ce346bbc22bb7021eecc,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2844742620082104276, guid: dbca43b0f578ce346bbc22bb7021eecc,
         type: 3}
@@ -11774,8 +11774,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 0.33949602, y: 0.3818299, z: 0.42017347}
+  m_Center: {x: -0.0032260492, y: 0.1713636, z: 0.048233986}
 --- !u!1001 &180233999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12267,8 +12267,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 0.54454064, y: 0.4141125, z: 0.43098354}
+  m_Center: {x: -0.07980633, y: 0.18750489, z: 0.015343915}
 --- !u!1 &180684132
 GameObject:
   m_ObjectHideFlags: 0
@@ -21629,12 +21629,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8555109926504051575}
+  animator: {fileID: 339395324}
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
+  badTint: {r: 0.54901963, g: 0.45882353, b: 0.29411766, a: 1}
+  badScale: 1
   colorProperty: _BaseColor
   tryCommonColorProps: 1
   includeInactiveChildren: 1
@@ -95729,8 +95729,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 0.4420855, y: 0.38182992, z: 0.5757445}
+  m_Center: {x: -0.1402046, y: 0.17136359, z: -0.02116853}
 --- !u!1001 &1384586444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96360,12 +96360,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8555109926504051575}
+  animator: {fileID: 1400542361}
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
+  badTint: {r: 0.72156864, g: 0.6509804, b: 0.5176471, a: 1}
+  badScale: 1
   colorProperty: _BaseColor
   tryCommonColorProps: 1
   includeInactiveChildren: 1
@@ -97845,8 +97845,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 0.4405784, y: 0.3818299, z: 0.34984237}
+  m_Center: {x: -0.033782028, y: 0.1713636, z: -0.0025866926}
 --- !u!1 &1422751300
 GameObject:
   m_ObjectHideFlags: 0
@@ -99976,8 +99976,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 0.36382294, y: 0.47365305, z: 0.31785607}
+  m_Center: {x: -0.10107332, y: 0.12545204, z: 0.0037898065}
 --- !u!224 &1444858939 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8180815009888545700, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -111651,7 +111651,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -122697,8 +122697,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.18631694, y: 0.3818299, z: 0.247943}
-  m_Center: {x: -0.012320319, y: 0.1713636, z: 0.0011047381}
+  m_Size: {x: 1.441584, y: 0.3818299, z: 0.7804305}
+  m_Center: {x: -0.43338853, y: 0.1713636, z: 0.079381235}
 --- !u!1 &1811308405
 GameObject:
   m_ObjectHideFlags: 0
@@ -141820,8 +141820,8 @@ MonoBehaviour:
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
+  badTint: {r: 0.54901963, g: 0.45882353, b: 0.29411766, a: 1}
+  badScale: 1
   colorProperty: _BaseColor
   tryCommonColorProps: 1
   includeInactiveChildren: 1
@@ -141854,7 +141854,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3176459516121281609}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
@@ -141864,7 +141864,7 @@ MonoBehaviour:
   animGood: Tree_Good
   animatorLayer: 0
   badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
+  badScale: 1
   colorProperty: _BaseColor
   tryCommonColorProps: 1
   includeInactiveChildren: 1
@@ -142091,10 +142091,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8772028638794606904}
-    - targetCorrespondingSourceObject: {fileID: 2688513184743660260, guid: ef4d1efba012a94498652b4148c46546,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8772028638794606905}
   m_SourcePrefab: {fileID: 100100000, guid: ef4d1efba012a94498652b4148c46546, type: 3}
 --- !u!1 &3473621739294178759 stripped
@@ -142144,7 +142140,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520261649090344193}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
@@ -142153,7 +142149,7 @@ MonoBehaviour:
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badTint: {r: 0.72156864, g: 0.6509804, b: 0.5176471, a: 1}
   badScale: 0.8
   colorProperty: _BaseColor
   tryCommonColorProps: 1
@@ -142330,11 +142326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8555109926504051575}
+  animator: {fileID: 4287172023840696193}
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
+  badTint: {r: 0.72156864, g: 0.6509804, b: 0.5176471, a: 1}
   badScale: 0.8
   colorProperty: _BaseColor
   tryCommonColorProps: 1
@@ -143737,7 +143733,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5350168600411037620}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
@@ -143815,27 +143811,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8086804, y: 2.0832474, z: 1.4676889}
   m_Center: {x: 0.013676465, y: 0.9549681, z: -0.015496314}
---- !u!114 &8772028638794606904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700406452396204914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  animBad: Tree_Bad
-  animGood: Tree_Good
-  animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
-  colorProperty: _BaseColor
-  tryCommonColorProps: 1
-  includeInactiveChildren: 1
 --- !u!114 &8772028638794606905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143848,12 +143823,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790fd544a3a426248935717a0c31d3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 8555109926504051575}
+  animator: {fileID: 8772028638794606895}
   animBad: Tree_Bad
   animGood: Tree_Good
   animatorLayer: 0
-  badTint: {r: 0, g: 0, b: 0, a: 1}
-  badScale: 0.8
+  badTint: {r: 0.54901963, g: 0.4585426, b: 0.29411766, a: 1}
+  badScale: 1
   colorProperty: _BaseColor
   tryCommonColorProps: 1
   includeInactiveChildren: 1

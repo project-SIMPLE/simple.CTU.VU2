@@ -153,21 +153,20 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     public void ResetHUDToDefaults()
     {
+        // Reset progress về 0
         SetProgress(0f);
+        
+        // Reset description về empty
         if (descriptionText) descriptionText.text = string.Empty;
-        string defaultSalinityLabel = "Salinity";
-        if (jsonReader != null)
-        {
-            var langData = jsonReader.GetCurrentLangData();
-            if (langData?.interpretation?.fields != null)
-            {
-                defaultSalinityLabel = langData.interpretation.fields.salinity ?? "Salinity";
-            }
-        }
-        if (salinityText) salinityText.text = $"{defaultSalinityLabel} + 0.00 / 0.00";
-        if (salinityTextPro) salinityTextPro.text = $"{defaultSalinityLabel} + 0.00 / 0.00";
+        
+        // Reset salinity text về empty (không hiển thị gì)
+        if (salinityText) salinityText.text = string.Empty;
+        if (salinityTextPro) salinityTextPro.text = string.Empty;
+        
+        // Reset season scores về 0
         ResetSeasonScoresPhase();
-
+        
+        // Reset subject image về null
         if (subjectImage)
         {
             subjectImage.sprite  = null;

@@ -33,7 +33,6 @@ public class Thuan_23127_PlantHoverHandler : MonoBehaviour, IPointerEnterHandler
         
         if (scrollInfoPanel)
         {
-            // đảm bảo tooltip KHÔNG nhận/bắt input
             _panelCg = scrollInfoPanel.GetComponent<CanvasGroup>();
             if (!_panelCg) _panelCg = scrollInfoPanel.AddComponent<CanvasGroup>();
             _panelCg.interactable = false;

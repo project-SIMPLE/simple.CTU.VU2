@@ -185,9 +185,8 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
             _xr.hoverEntered.RemoveListener(OnHoverEntered);
             _xr.hoverExited.RemoveListener(OnHoverExited);
         }
-        
-        // Ẩn panel khi disable
-        SetVisible(false);
+        StopAllCoroutines();
+        SetVisible(false, instant:true);
     }
 
     private void OnHoverEntered(HoverEnterEventArgs _)
@@ -231,14 +230,20 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         
         if (!headText) return;
 
-        // Lấy nhãn từ JSON 
+        // Lấy nhãn và đơn vị từ JSON 
         var salinityLabel = "Salinity";
+        var unit = "‰"; // Mặc định là phần ngàn
+        
         var jr = jsonReader ? jsonReader : Thuan_23127_GameManager.Instance?.jsonReader;
         var lang = jr ? jr.GetCurrentLangData() : null;
         if (lang?.interpretation?.fields != null)
+        {
             salinityLabel = lang.interpretation.fields.salinity ?? salinityLabel;
+            unit = lang.interpretation.fields.unit_ppt ?? unit; // Lấy đơn vị từ JSON
+        }
 
-        headText.text = $"{salinityLabel}: {current:0.00} / {threshold:0.00}";
+        // Hiển thị với đơn vị phần ngàn (‰)
+        headText.text = $"{salinityLabel}: {current:0.00} {unit} / {threshold:0.00} {unit}";
     }
 
     private void HandleDescriptionChanged(string desc)
@@ -255,6 +260,8 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         _shown = v;
         if (!panel || !_cg) return;
 
+        StopAllCoroutines();
+
         if (instant)
         {
             panel.SetActive(v);
@@ -263,7 +270,6 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
         }
 
         if (v && !panel.activeSelf) panel.SetActive(true);
-        StopAllCoroutines();
         StartCoroutine(FadeTo(v ? 1f : 0f, 0.15f, () =>
         {
             if (!v) panel.SetActive(false);
