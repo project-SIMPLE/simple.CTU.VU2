@@ -96,7 +96,7 @@
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
-        "salinity_threshold": 0.8,
+        "salinity_threshold": 3.01,
         "harvest_time": 10
       },
       {
@@ -126,7 +126,7 @@
         "status": ["Tốt", "Bệnh", "Chết"],
         "economic_benefits": 3,
         "information": "Thông tin của cam",
-        "salinity_threshold": 12,
+        "salinity_threshold": 0.83,
         "harvest_time": 10
       },
       {

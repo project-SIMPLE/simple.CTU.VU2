@@ -32,7 +32,7 @@ public class Thuan_23127_GameManager : MonoBehaviour
 
     public float GetSeasonSalinity()
     {
-        float k = (RulesoftheGame_VU2_1.Saltwater_Intrusion == 1f) ? dryFactor : rainyFactor;
+        var k = (Mathf.Approximately(RulesoftheGame_VU2_1.Saltwater_Intrusion, 1f)) ? dryFactor : rainyFactor;
         return Mathf.Max(0f, salinityBase * k);
     }
 
