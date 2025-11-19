@@ -8,7 +8,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     public UI_ProductRow rowPrefab;
     private bool _frozen = false;
     private readonly List<UI_ProductRow> _pool = new();
-
+    
     private void OnEnable()
     {
         var sum = Thuan_23127_SeasonalSummary.Instance;

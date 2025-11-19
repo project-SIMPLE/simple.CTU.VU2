@@ -19,33 +19,127 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
     public Image progressFill;
     public Text  progressPercentText;
 
-    [Header("Salinity")]
+    [Header("Salinity (HUD nhỏ trên bảng)")]
     public Text salinityText;
     public TextMeshProUGUI salinityTextPro;
 
-    public static Image salinityImage;
-    
+    [Header("Subject & mô tả ngắn trên bảng")]
     public Image subjectImage;
-    
     public Thuan_23127_JsonReader jsonReader;
-    
     public Text descriptionText;
-    
+
+    // (UI_Info_Salinity) 
+    [Header("Popup salinity panel (UI_Info_Salinity)")]
+    public GameObject showUIInformationSalinity; // UI_Info_Salinity
+    public Text popupHeadText;                   // SalintyText (Text)
+    public Text popupBodyText;                   // Scroll Text (Text)
+
+    // Giữ CanvasGroup của panel để chỉnh alpha
+    private CanvasGroup _popupCg;
+
+    // ==== NEW: HUD nào đang "sở hữu" popup hiện tại ====
+    private static Thuan_23127_AreaHUD _currentOwner;
+
+    private void Awake()
+    {
+        // Lấy CanvasGroup nếu có 
+        if (showUIInformationSalinity)
+        {
+            _popupCg = showUIInformationSalinity.GetComponent<CanvasGroup>();
+        }
+
+        if (subjectImage)
+        {
+            subjectImage.sprite  = null;
+            subjectImage.enabled = false;
+            var c = subjectImage.color; 
+            c.a = 0f; 
+            subjectImage.color = c;
+        }
+    }
+
+    public void OnClickShowInformationSalinity()
+    {
+        if (!showUIInformationSalinity) return;
+
+        // Panel hiện chưa? (active + alpha > 0)
+        bool visible = showUIInformationSalinity.activeSelf;
+        if (_popupCg == null && visible)
+            _popupCg = showUIInformationSalinity.GetComponent<CanvasGroup>();
+        if (_popupCg != null)
+            visible = visible && _popupCg.alpha > 0.01f;
+
+        // Nếu panel đang mở và owner chính là HUD này -> tắt
+        if (visible && _currentOwner == this)
+        {
+            HideInformationSalinity();
+            return;
+        }
+
+        // Ngược lại: mở (hoặc chuyển sang HUD mới)
+
+        // Copy text độ mặn hiện tại từ HUD sang popup
+        if (popupHeadText)
+        {
+            if (salinityTextPro != null && !string.IsNullOrEmpty(salinityTextPro.text))
+                popupHeadText.text = salinityTextPro.text;
+            else if (salinityText != null)
+                popupHeadText.text = salinityText.text;
+            else
+                popupHeadText.text = string.Empty;
+        }
+
+        // Copy mô tả dài 
+        if (popupBodyText && descriptionText)
+            popupBodyText.text = descriptionText.text ?? string.Empty;
+
+        // Bật panel + đảm bảo alpha = 1
+        showUIInformationSalinity.SetActive(true);
+
+        if (_popupCg == null)
+            _popupCg = showUIInformationSalinity.GetComponent<CanvasGroup>();
+
+        if (_popupCg != null)
+        {
+            _popupCg.alpha = 1f;
+            // Nếu muốn popup bắt click thì mở 2 dòng dưới:
+            // _popupCg.blocksRaycasts = true;
+            // _popupCg.interactable   = true;
+        }
+
+        _currentOwner = this; // gán owner hiện tại
+        Debug.Log($"[AreaHUD] Show salinity info popup - owner = {name}");
+    }
+
+    // Nút Close hoặc gọi nội bộ
+    public void HideInformationSalinity()
+    {
+        if (showUIInformationSalinity)
+            showUIInformationSalinity.SetActive(false);
+
+        // Nếu chính mình đang sở hữu thì clear
+        if (_currentOwner == this)
+            _currentOwner = null;
+
+        if (_popupCg != null)
+            _popupCg.alpha = 0f;
+
+        Debug.Log($"[AreaHUD] Hide salinity info popup - owner = {name}");
+    }
+
     public void SetDescription(string s)
     {
         if (descriptionText) descriptionText.text = s ?? string.Empty;
     }
-    
+
     [Header("Season Scores (2 cột)")]
     public SeasonUI rainy;   // cột 1
     public SeasonUI dry;     // cột 2
 
-    // [0]=Rainy, [1]=Dry
     private readonly int[] _phaseScores = new int[2];
 
     private static int PhaseToIndex(SeasonPhase p)
     {
-        // ✅ mọi thứ ngoài Rainy → Dry
         return (p == SeasonPhase.Rainy1) ? 0 : 1;
     }
 
@@ -60,8 +154,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     public void SetSalinity(float current, float threshold)
     {
-        // Lấy nhãn "Độ mặn" từ JSON
-        string salinityLabel = "Salinity"; // default
+        string salinityLabel = "Salinity";
         if (jsonReader != null)
         {
             var langData = jsonReader.GetCurrentLangData();
@@ -71,10 +164,9 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
             }
         }
 
-        // Format: "Độ mặn + 0.5 / 0.8"
         string formattedText = $"{salinityLabel} : {current:0.00} / {threshold:0.00}";
-        
-        if (salinityText) salinityText.text = formattedText;
+
+        if (salinityText)    salinityText.text    = formattedText;
         if (salinityTextPro) salinityTextPro.text = formattedText;
     }
 
@@ -84,19 +176,10 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         subjectImage.sprite  = icon;
         subjectImage.enabled = (icon != null);
 
-        var c = subjectImage.color; c.a = (icon != null) ? 1f : 0f;
+        var c = subjectImage.color; 
+        c.a = (icon != null) ? 1f : 0f;
         subjectImage.color = c;
         subjectImage.preserveAspect = true;
-    }
-
-    void Awake()
-    {
-        if (subjectImage)
-        {
-            subjectImage.sprite  = null;
-            subjectImage.enabled = false;
-            var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
-        }
     }
 
     public void ResetSeasonScoresPhase()
@@ -116,7 +199,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     public void AddSeasonPointsPhase(SeasonPhase phase, int delta, Sprite iconOverride = null)
     {
-        int idx = PhaseToIndex(phase);            // ✅ map 2 cột
+        int idx = PhaseToIndex(phase);
         _phaseScores[idx] = Mathf.Max(0, _phaseScores[idx] + delta);
 
         var ui = (idx == 0) ? rainy : dry;
@@ -153,25 +236,21 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
 
     public void ResetHUDToDefaults()
     {
-        // Reset progress về 0
         SetProgress(0f);
-        
-        // Reset description về empty
+
         if (descriptionText) descriptionText.text = string.Empty;
-        
-        // Reset salinity text về empty (không hiển thị gì)
         if (salinityText) salinityText.text = string.Empty;
         if (salinityTextPro) salinityTextPro.text = string.Empty;
-        
-        // Reset season scores về 0
+
         ResetSeasonScoresPhase();
-        
-        // Reset subject image về null
+
         if (subjectImage)
         {
             subjectImage.sprite  = null;
             subjectImage.enabled = false;
-            var c = subjectImage.color; c.a = 0f; subjectImage.color = c;
+            var c = subjectImage.color; 
+            c.a = 0f; 
+            subjectImage.color = c;
             subjectImage.preserveAspect = true;
         }
     }
