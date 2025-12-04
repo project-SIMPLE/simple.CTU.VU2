@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class LocalizedText : MonoBehaviour
+public class LocalizedText_old : MonoBehaviour
 {
     public string key; // Khóa của câu muốn hiển thị
     private TextMeshProUGUI textComponent;
@@ -24,12 +24,12 @@ public class LocalizedText : MonoBehaviour
     
     public void UpdateText()
     {
-        textComponent.text = LocalizationManager.Instance.GetText(key);
+        textComponent.text = LocalizationManager_old.Instance.GetText(key);
     }
 
     void OnEnable()
     {
-        if (LocalizationManager.Instance != null)
+        if (LocalizationManager_old.Instance != null)
             UpdateText();
     }
 }

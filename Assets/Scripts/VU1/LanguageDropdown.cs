@@ -15,9 +15,9 @@ public class LanguageDropdown : MonoBehaviour
     void OnLanguageChanged(int index)
     {
         string langCode = (index == 0) ? "en" : "vi"; // hoặc gắn theo list
-        LocalizationManager.Instance.SetLanguage(langCode);
+        LocalizationManager_old.Instance.SetLanguage(langCode);
 
-        foreach (var t in FindObjectsOfType<LocalizedText>())
+        foreach (var t in FindObjectsOfType<LocalizedText_old>())
         {
             t.UpdateText();
         }

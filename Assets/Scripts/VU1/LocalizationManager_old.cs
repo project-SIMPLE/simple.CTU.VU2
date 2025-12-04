@@ -4,9 +4,9 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 
-public class LocalizationManager : MonoBehaviour
+public class LocalizationManager_old : MonoBehaviour
 {
-    public static LocalizationManager Instance;
+    public static LocalizationManager_old Instance;
 
     private Dictionary<string, string> localizedText;
     private string currentLanguage = "en";

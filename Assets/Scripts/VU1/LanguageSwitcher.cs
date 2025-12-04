@@ -6,10 +6,10 @@ public class LanguageSwitcher : MonoBehaviour
 {
     public void SetLanguage(string languageCode)
     {
-        LocalizationManager.Instance.SetLanguage(languageCode);
+        LocalizationManager_old.Instance.SetLanguage(languageCode);
 
         // Cập nhật lại toàn bộ text
-        foreach (var text in FindObjectsOfType<LocalizedText>())
+        foreach (var text in FindObjectsOfType<LocalizedText_old>())
         {
             text.UpdateText();
         }
