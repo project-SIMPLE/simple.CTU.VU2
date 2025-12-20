@@ -63,13 +63,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CausticTiling: 6.55
-    - _NoiseTiling: 16.05
+    - _CausticTiling: 3.55
+    - _NoiseTiling: 20
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Salinity: 2.39
-    - _Salinity_Contrast: 9.39
-    - _Speed: 0.01
+    - _Salinity: 4.7
+    - _Salinity_Contrast: 10.69
+    - _Speed: -0.26
     - _Texture: 0
     - _Tiling: 5.15
     - _UV_Noise: 12.38
@@ -81,6 +81,6 @@ Material:
     - _Water_Color: {r: 0.30072978, g: 0.57620126, b: 0.5849056, a: 0}
     - _Water_Color_02: {r: 0.33891064, g: 0.50597805, b: 0.6037736, a: 0}
     - _Water_Color_03: {r: 0.21568629, g: 0.39607847, b: 0.46274513, a: 0}
-    - _Water_Color_Clear: {r: 0.078431375, g: 0.6666667, b: 0.80392164, a: 1}
-    - _Water_Color_Salty: {r: 0.11764707, g: 0.47450984, b: 0.47450984, a: 0}
+    - _Water_Color_Clear: {r: 0.25035602, g: 0.5471698, b: 0.53545344, a: 0.74509805}
+    - _Water_Color_Salty: {r: 0.11764705, g: 0.1448148, b: 0.4745098, a: 0}
   m_BuildTextureStacks: []
