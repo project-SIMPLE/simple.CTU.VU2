@@ -165,6 +165,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             _moving = false;
             _applyMoveThisFrame = false;
 
+            
+            // can toi uu
             var farms = FindObjectsOfType<FarmArea>(true);
             foreach (var a in farms) a.FreezeHUD();
 

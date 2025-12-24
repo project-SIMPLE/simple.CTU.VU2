@@ -21,6 +21,8 @@ TagManager:
   - Note
   - GroupTree
   - GroupRocks
+  - BigPet
+  - HUD
   layers:
   - Default
   - TransparentFX
@@ -37,7 +39,7 @@ TagManager:
   - Construction
   - Lake
   - PlayerPositionInMap
-  - 
+  - Ground
   - 
   - 
   - 

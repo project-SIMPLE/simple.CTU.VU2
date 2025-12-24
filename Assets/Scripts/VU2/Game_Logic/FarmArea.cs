@@ -41,6 +41,8 @@ public class FarmArea : MonoBehaviour
 
     [Header("Area Type")]
     public WaterType waterType = WaterType.Fresh; // default is Fresh
+    [Header("Server")]
+    [SerializeField] private string serverAreaId = "area_a";
 
     /// <summary>
     /// Trả về độ mặn của Ô theo mùa
@@ -71,13 +73,13 @@ public class FarmArea : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        isPlanted = new bool[plotPoints.Length];
-        if (hud)
-        {
-            hud.Show(true);
-            hud.SetSeasonScoresPhase(0, 0); // clear tổng ban đầu
-            hud.SetSubject(null);
-        }
+        // isPlanted = new bool[plotPoints.Length];
+        // if (hud)
+        // {
+        //     hud.Show(true);
+        //     hud.SetSeasonScoresPhase(0, 0); // clear tổng ban đầu
+        //     hud.SetSubject(null);
+        // }
     }
 
     /// <summary>
@@ -226,7 +228,7 @@ public class FarmArea : MonoBehaviour
 
             var summary = Thuan_23127_SeasonalSummary.Instance;
             if (summary) summary.Track(growth, tag);
-            // 2) (tuỳ ý) cho HUD theo dõi cây vừa trồng/được chọn
+            // 2)  cho HUD theo dõi cây vừa trồng/được chọn
             BindGrowthToHUD(growth);
 
             var readerForThis = fillAll ? null : jsonReader;
@@ -238,6 +240,22 @@ public class FarmArea : MonoBehaviour
             if (hud) hud.SetSubject(tag.hudIcon);
 
             isPlanted[i] = true;
+
+            // if (ConnectionManager.Instance != null && ConnectionManager.Instance.IsConnectionState(ConnectionState.AUTHENTICATED))
+            // {
+            //     var args = new Dictionary<string, string>
+            //     {
+            //         { "area_index", i.ToString() },  // index của plot trong ô
+            //         { "area_id", GetServerAreaId() }, // id của ô
+            //         { "plant_id", tag.plantId > 0 ? tag.plantId.ToString() : "0" }, 
+            //         { "animal_id", tag.animalId > 0 ? tag.animalId.ToString() : "0" },
+            //         { "fish_id", tag.fishId > 0 ? tag.fishId.ToString() : "0" },
+            //         { "salinity", GetAreaSalinity().ToString("F2") }
+            //     };
+            //     ConnectionManager.Instance.SendExecutableAsk("plantingData", args);
+            // }
+            
+            
             if (!fillAll) break;
         }
     }
@@ -331,4 +349,14 @@ public class FarmArea : MonoBehaviour
         }
     }
     
+    public float GetCurrentSalinityForServer()
+    {
+        return GetAreaSalinity(); // đã tính đúng theo mùa/ô
+    }
+
+    public string GetServerAreaId()
+    {
+        // Ưu tiên giá trị cấu hình, fallback về tên GameObject
+        return string.IsNullOrEmpty(serverAreaId) ? name : serverAreaId;
+    }
 }

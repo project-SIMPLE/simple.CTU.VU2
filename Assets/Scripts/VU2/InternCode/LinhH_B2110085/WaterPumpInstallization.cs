@@ -8,9 +8,7 @@ public class WaterPumpInstallization : MonoBehaviour
     [SerializeField] public GameObject waterPumpButton;
     [SerializeField] public GameObject waterPumpPrefab;
 
-
     private bool playerInside = false;
-
 
     private void Start()
     {
@@ -20,7 +18,6 @@ public class WaterPumpInstallization : MonoBehaviour
         waterPumpButton.GetComponent<Button>().onClick.AddListener(InstallWaterPump);
     }
 
-
     private void OnDisable()
     {
         if (waterPumpButton != null)
@@ -28,7 +25,6 @@ public class WaterPumpInstallization : MonoBehaviour
             waterPumpButton.GetComponent<Button>().onClick.RemoveAllListeners();
         }
     }
-
 
     void OnTriggerEnter(Collider other)
     {
@@ -53,14 +49,12 @@ public class WaterPumpInstallization : MonoBehaviour
         }
     }
 
-
     private void ToggleWaterPumpButton(bool enable)
     {
         waterPumpButton.SetActive(enable);
     }
 
-
-    public void InstallWaterPump()
+    private void InstallWaterPump()
     {
         // nếu trong khu vực đã có máy bơm rồi thì không đặt nữa
         if (transform.childCount != 0) { return; }

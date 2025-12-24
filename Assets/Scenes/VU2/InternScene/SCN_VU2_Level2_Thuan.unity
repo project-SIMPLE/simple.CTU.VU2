@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.268005, g: 0.46391496, b: 0.61436117, a: 1}
+  m_IndirectSpecularColor: {r: 0.26813558, g: 0.46406695, b: 0.61441797, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2786,7 +2786,7 @@ GameObject:
   - component: {fileID: 29764006}
   - component: {fileID: 29764005}
   - component: {fileID: 29764004}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4152,7 +4152,7 @@ GameObject:
   - component: {fileID: 44913051}
   - component: {fileID: 44913050}
   - component: {fileID: 44913049}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5423,7 +5423,7 @@ GameObject:
   - component: {fileID: 77103744}
   - component: {fileID: 77103743}
   - component: {fileID: 77103742}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5607,7 +5607,7 @@ GameObject:
   - component: {fileID: 79176999}
   - component: {fileID: 79176998}
   - component: {fileID: 79176997}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5712,7 +5712,7 @@ GameObject:
   - component: {fileID: 80040330}
   - component: {fileID: 80040329}
   - component: {fileID: 80040328}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5892,7 +5892,7 @@ GameObject:
   - component: {fileID: 80902396}
   - component: {fileID: 80902395}
   - component: {fileID: 80902394}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6076,7 +6076,7 @@ GameObject:
   - component: {fileID: 87067501}
   - component: {fileID: 87067500}
   - component: {fileID: 87067499}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7983,7 +7983,7 @@ GameObject:
   - component: {fileID: 127553324}
   - component: {fileID: 127553323}
   - component: {fileID: 127553322}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8505,6 +8505,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8526,7 +8531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 142103322}
   - component: {fileID: 142103323}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_1_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8669,7 +8674,7 @@ GameObject:
   - component: {fileID: 160923856}
   - component: {fileID: 160923855}
   - component: {fileID: 160923854}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9350,7 +9355,7 @@ GameObject:
   - component: {fileID: 166406901}
   - component: {fileID: 166406900}
   - component: {fileID: 166406899}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9702,7 +9707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168592012}
   - component: {fileID: 168592013}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LivestockArea_3_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11033,7 +11038,7 @@ GameObject:
   - component: {fileID: 192279151}
   - component: {fileID: 192279150}
   - component: {fileID: 192279149}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11514,7 +11519,7 @@ GameObject:
   - component: {fileID: 202926568}
   - component: {fileID: 202926567}
   - component: {fileID: 202926566}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11998,7 +12003,7 @@ GameObject:
   - component: {fileID: 212600108}
   - component: {fileID: 212600107}
   - component: {fileID: 212600106}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12559,7 +12564,7 @@ GameObject:
   - component: {fileID: 219628826}
   - component: {fileID: 219628825}
   - component: {fileID: 219628824}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_2_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13142,7 +13147,7 @@ GameObject:
   - component: {fileID: 229541116}
   - component: {fileID: 229541115}
   - component: {fileID: 229541114}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14281,6 +14286,21 @@ PrefabInstance:
       propertyPath: m_CameraYOffset
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9014170783705847993, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_SelectAction.m_Action.m_Id
+      value: 051e27d8-1f69-4484-882a-811eb978ea57
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783705847993, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_SelectAction.m_UseReference
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9014170783705847993, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_SelectAction.m_Action.m_Name
+      value: Select
+      objectReference: {fileID: 0}
     - target: {fileID: 9014170783728641054, guid: 895f6f3c2d334633b5800312285058d2,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -14305,6 +14325,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9032954039820430273, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_RaycastMask.m_Bits
+      value: 2147516449
+      objectReference: {fileID: 0}
+    - target: {fileID: 9146015503685400394, guid: 895f6f3c2d334633b5800312285058d2,
+        type: 3}
+      propertyPath: m_RaycastMask.m_Bits
+      value: 2147516449
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14790,6 +14820,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16268,7 +16303,7 @@ GameObject:
   - component: {fileID: 272327102}
   - component: {fileID: 272327101}
   - component: {fileID: 272327100}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18309,6 +18344,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_chickenCoop (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18618,6 +18673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19439,7 +19499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 348123981}
   - component: {fileID: 348123982}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_1_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19576,7 +19636,7 @@ GameObject:
   - component: {fileID: 351422921}
   - component: {fileID: 351422920}
   - component: {fileID: 351422919}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20242,7 +20302,7 @@ GameObject:
   - component: {fileID: 366054946}
   - component: {fileID: 366054945}
   - component: {fileID: 366054944}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21077,7 +21137,7 @@ GameObject:
   - component: {fileID: 376222644}
   - component: {fileID: 376222643}
   - component: {fileID: 376222642}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_1_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21900,7 +21960,7 @@ GameObject:
   - component: {fileID: 393023731}
   - component: {fileID: 393023733}
   - component: {fileID: 393023730}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Live_Stock_Plane_3_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22019,7 +22079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 393031338}
   - component: {fileID: 393031337}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: AquaticArea_4_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22161,7 +22221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 395889091}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Water Pump Planes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25997,7 +26057,7 @@ GameObject:
   - component: {fileID: 458807700}
   - component: {fileID: 458807699}
   - component: {fileID: 458807698}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26308,7 +26368,7 @@ GameObject:
   - component: {fileID: 464815571}
   - component: {fileID: 464815570}
   - component: {fileID: 464815569}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28077,7 +28137,7 @@ GameObject:
   - component: {fileID: 476109076}
   - component: {fileID: 476109075}
   - component: {fileID: 476109074}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28183,7 +28243,7 @@ GameObject:
   - component: {fileID: 479089324}
   - component: {fileID: 479089326}
   - component: {fileID: 479089323}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Live_Stock_Plane_3_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28304,7 +28364,7 @@ GameObject:
   - component: {fileID: 481601487}
   - component: {fileID: 481601486}
   - component: {fileID: 481601485}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28882,7 +28942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 497631309}
   - component: {fileID: 497631310}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_4_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29458,7 +29518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508328993}
   - component: {fileID: 508328994}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: AquaticArea_1_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29524,7 +29584,7 @@ GameObject:
   - component: {fileID: 508803659}
   - component: {fileID: 508803658}
   - component: {fileID: 508803657}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30123,6 +30183,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_chickenCoop (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31338,7 +31418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 561169287}
   - component: {fileID: 561169288}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_4_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31780,7 +31860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 569253817}
   - component: {fileID: 569253818}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LivestockArea_3_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33643,7 +33723,7 @@ GameObject:
   - component: {fileID: 583492105}
   - component: {fileID: 583492104}
   - component: {fileID: 583492103}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35273,7 +35353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 606081107}
   - component: {fileID: 606081108}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_1_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35850,7 +35930,7 @@ GameObject:
   - component: {fileID: 611233479}
   - component: {fileID: 611233478}
   - component: {fileID: 611233477}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35943,6 +36023,163 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 611233475}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &611702924
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1780131620}
+    m_Modifications:
+    - target: {fileID: 374468105067364612, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 680457982513108663, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: invalidMaterial
+      value: 
+      objectReference: {fileID: 7329803795992348266, guid: ea495f52d9c3ab44290bd164f2e8c912,
+        type: 3}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Name
+      value: PFB_Ghost_Pump
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304356943193108511, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270949366269906297, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439343819071485773, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458995298437912210, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458995298437912210, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628538314598845242, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8250769149705462471, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683347781279375019, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707070727805194482, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765063613765316995, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf87a3b30d27cd648b75f47a47e41f2c, type: 3}
+--- !u!4 &611702925 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 611702924}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &611702926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 680457982513108663, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 611702924}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6804ed8c58080914381e3e44bf2f7bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &612610331 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -36135,7 +36372,7 @@ GameObject:
   - component: {fileID: 615743548}
   - component: {fileID: 615743547}
   - component: {fileID: 615743546}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36431,7 +36668,7 @@ GameObject:
   - component: {fileID: 618799292}
   - component: {fileID: 618799291}
   - component: {fileID: 618799290}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36536,7 +36773,7 @@ GameObject:
   - component: {fileID: 620604226}
   - component: {fileID: 620604225}
   - component: {fileID: 620604224}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37699,7 +37936,7 @@ GameObject:
   - component: {fileID: 658704611}
   - component: {fileID: 658704610}
   - component: {fileID: 658704609}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40480,7 +40717,7 @@ GameObject:
   - component: {fileID: 672296589}
   - component: {fileID: 672296588}
   - component: {fileID: 672296587}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_4_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40599,7 +40836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 676317427}
   - component: {fileID: 676317426}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_2_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40718,7 +40955,7 @@ GameObject:
   - component: {fileID: 686790815}
   - component: {fileID: 686790814}
   - component: {fileID: 686790813}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41275,7 +41512,7 @@ GameObject:
   - component: {fileID: 708126163}
   - component: {fileID: 708126162}
   - component: {fileID: 708126161}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41380,7 +41617,7 @@ GameObject:
   - component: {fileID: 710654181}
   - component: {fileID: 710654180}
   - component: {fileID: 710654179}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41665,7 +41902,7 @@ GameObject:
   - component: {fileID: 723149676}
   - component: {fileID: 723149675}
   - component: {fileID: 723149674}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41770,7 +42007,7 @@ GameObject:
   - component: {fileID: 727133293}
   - component: {fileID: 727133292}
   - component: {fileID: 727133291}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43321,7 +43558,7 @@ GameObject:
   - component: {fileID: 736711371}
   - component: {fileID: 736711370}
   - component: {fileID: 736711369}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43505,7 +43742,7 @@ GameObject:
   - component: {fileID: 740157764}
   - component: {fileID: 740157763}
   - component: {fileID: 740157762}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43690,7 +43927,7 @@ GameObject:
   - component: {fileID: 745108384}
   - component: {fileID: 745108383}
   - component: {fileID: 745108382}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_1_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43886,7 +44123,7 @@ GameObject:
   - component: {fileID: 747978947}
   - component: {fileID: 747978946}
   - component: {fileID: 747978945}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43991,7 +44228,7 @@ GameObject:
   - component: {fileID: 749852242}
   - component: {fileID: 749852241}
   - component: {fileID: 749852240}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44503,7 +44740,7 @@ GameObject:
   - component: {fileID: 763763192}
   - component: {fileID: 763763191}
   - component: {fileID: 763763190}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44783,7 +45020,7 @@ GameObject:
   - component: {fileID: 792052510}
   - component: {fileID: 792052509}
   - component: {fileID: 792052508}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45212,7 +45449,7 @@ GameObject:
   - component: {fileID: 798762404}
   - component: {fileID: 798762403}
   - component: {fileID: 798762402}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45318,7 +45555,9 @@ GameObject:
   - component: {fileID: 798929952}
   - component: {fileID: 798929951}
   - component: {fileID: 798929950}
-  m_Layer: 0
+  - component: {fileID: 798929955}
+  - component: {fileID: 798929954}
+  m_Layer: 15
   m_Name: Water Pump Plane (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45337,7 +45576,8 @@ Transform:
   m_LocalPosition: {x: 42.73, y: 1.6042, z: 26.97}
   m_LocalScale: {x: 1.2575699, y: 1, z: 1.19427}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1217718753}
   m_Father: {fileID: 395889091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &798929950
@@ -45347,7 +45587,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798929948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cdd9c391fdfffe45a2782671691be6c, type: 3}
   m_Name: 
@@ -45371,7 +45611,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -45427,6 +45667,152 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798929948}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &798929954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798929948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders:
+  - {fileID: 798929951}
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &798929955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798929948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37f65c47a16252479bf0a5767ae4524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 798929954}
+  ghostConstructionScript: {fileID: 611702926}
+  leftHandAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 5a17a009-1342-42e1-9476-82ce6ef5dbbd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  rightHandAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 1b7c3421-41e5-42c5-ac62-1547a7e42a20
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  waterPumpPrefab: {fileID: 3660536221127871571, guid: 3beb3769477686d41b070223b0157ef5,
+    type: 3}
+  waterDestinationPoint: {fileID: 1842884330}
 --- !u!1 &801584353
 GameObject:
   m_ObjectHideFlags: 0
@@ -45439,7 +45825,7 @@ GameObject:
   - component: {fileID: 801584357}
   - component: {fileID: 801584356}
   - component: {fileID: 801584355}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45678,6 +46064,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_chickenCoop (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -45695,7 +46101,7 @@ GameObject:
   - component: {fileID: 804051212}
   - component: {fileID: 804051211}
   - component: {fileID: 804051210}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51689,7 +52095,7 @@ GameObject:
   - component: {fileID: 870079854}
   - component: {fileID: 870079853}
   - component: {fileID: 870079852}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51791,7 +52197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 875500719}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlaneUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52743,7 +53149,7 @@ GameObject:
   - component: {fileID: 888530618}
   - component: {fileID: 888530617}
   - component: {fileID: 888530616}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52848,7 +53254,7 @@ GameObject:
   - component: {fileID: 888546946}
   - component: {fileID: 888546945}
   - component: {fileID: 888546944}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53385,6 +53791,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54112,7 +54523,7 @@ GameObject:
   - component: {fileID: 921154036}
   - component: {fileID: 921154034}
   - component: {fileID: 921154035}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Live_Stock_Plane_3_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54661,7 +55072,7 @@ GameObject:
   - component: {fileID: 929845689}
   - component: {fileID: 929845688}
   - component: {fileID: 929845687}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54764,7 +55175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 929982067}
   - component: {fileID: 929982068}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: AquaticArea_3_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56350,7 +56761,7 @@ GameObject:
   - component: {fileID: 939250018}
   - component: {fileID: 939250017}
   - component: {fileID: 939250016}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58166,7 +58577,7 @@ GameObject:
   - component: {fileID: 998827221}
   - component: {fileID: 998827220}
   - component: {fileID: 998827219}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58687,7 +59098,7 @@ GameObject:
   - component: {fileID: 1011623331}
   - component: {fileID: 1011623330}
   - component: {fileID: 1011623329}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Aqua_Plane_2_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58805,7 +59216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1016774010}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: INTERACTABLES
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59701,7 +60112,7 @@ GameObject:
   - component: {fileID: 1029076493}
   - component: {fileID: 1029076492}
   - component: {fileID: 1029076491}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60062,6 +60473,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_chickenCoop (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60173,7 +60604,7 @@ GameObject:
   - component: {fileID: 1039235763}
   - component: {fileID: 1039235762}
   - component: {fileID: 1039235761}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Aqua_Plane_1_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60542,7 +60973,7 @@ GameObject:
   - component: {fileID: 1041963132}
   - component: {fileID: 1041963131}
   - component: {fileID: 1041963130}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Aqua_Plane_3_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60681,7 +61112,7 @@ GameObject:
   - component: {fileID: 1043937495}
   - component: {fileID: 1043937494}
   - component: {fileID: 1043937493}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60892,7 +61323,7 @@ GameObject:
   - component: {fileID: 1051561352}
   - component: {fileID: 1051561351}
   - component: {fileID: 1051561350}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62759,7 +63190,7 @@ GameObject:
   - component: {fileID: 1090087762}
   - component: {fileID: 1090087761}
   - component: {fileID: 1090087760}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63228,6 +63659,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63363,7 +63799,7 @@ GameObject:
   - component: {fileID: 1103514037}
   - component: {fileID: 1103514036}
   - component: {fileID: 1103514035}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63519,6 +63955,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_chickenCoop (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63561,7 +64017,7 @@ GameObject:
   - component: {fileID: 1106435532}
   - component: {fileID: 1106435531}
   - component: {fileID: 1106435530}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63994,7 +64450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1125739624}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Interactive Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64811,7 +65267,7 @@ GameObject:
   - component: {fileID: 1146259088}
   - component: {fileID: 1146259087}
   - component: {fileID: 1146259086}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64923,7 +65379,7 @@ GameObject:
   - component: {fileID: 1152390101}
   - component: {fileID: 1152390100}
   - component: {fileID: 1152390099}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_2_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67564,7 +68020,7 @@ GameObject:
   - component: {fileID: 1183309648}
   - component: {fileID: 1183309647}
   - component: {fileID: 1183309646}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70311,6 +70767,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -70505,6 +70966,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216400658}
   m_CullTransparentMesh: 1
+--- !u!4 &1217718753 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2138525816}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1219174003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70788,7 +71255,7 @@ GameObject:
   - component: {fileID: 1221316490}
   - component: {fileID: 1221316489}
   - component: {fileID: 1221316488}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71300,7 +71767,7 @@ GameObject:
   - component: {fileID: 1226889935}
   - component: {fileID: 1226889934}
   - component: {fileID: 1226889933}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71405,7 +71872,7 @@ GameObject:
   - component: {fileID: 1227279714}
   - component: {fileID: 1227279713}
   - component: {fileID: 1227279712}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71510,7 +71977,7 @@ GameObject:
   - component: {fileID: 1227345638}
   - component: {fileID: 1227345637}
   - component: {fileID: 1227345636}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71615,7 +72082,7 @@ GameObject:
   - component: {fileID: 1228355166}
   - component: {fileID: 1228355165}
   - component: {fileID: 1228355164}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71892,6 +72359,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_chickenCoop (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -72222,7 +72709,7 @@ GameObject:
   - component: {fileID: 1238484074}
   - component: {fileID: 1238484073}
   - component: {fileID: 1238484072}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72953,7 +73440,7 @@ GameObject:
   - component: {fileID: 1260105306}
   - component: {fileID: 1260105305}
   - component: {fileID: 1260105304}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73556,7 +74043,7 @@ GameObject:
   - component: {fileID: 1272243879}
   - component: {fileID: 1272243878}
   - component: {fileID: 1272243877}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Water Pump Plane (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73677,7 +74164,7 @@ GameObject:
   - component: {fileID: 1274821812}
   - component: {fileID: 1274821811}
   - component: {fileID: 1274821810}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73959,7 +74446,7 @@ GameObject:
   - component: {fileID: 1278712812}
   - component: {fileID: 1278712811}
   - component: {fileID: 1278712810}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75200,7 +75687,7 @@ GameObject:
   - component: {fileID: 1282878592}
   - component: {fileID: 1282878591}
   - component: {fileID: 1282878590}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76674,7 +77161,7 @@ GameObject:
   - component: {fileID: 1312395399}
   - component: {fileID: 1312395398}
   - component: {fileID: 1312395397}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76858,7 +77345,7 @@ GameObject:
   - component: {fileID: 1319621178}
   - component: {fileID: 1319621177}
   - component: {fileID: 1319621176}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77046,7 +77533,7 @@ GameObject:
   - component: {fileID: 1325366084}
   - component: {fileID: 1325366083}
   - component: {fileID: 1325366082}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77151,7 +77638,7 @@ GameObject:
   - component: {fileID: 1326643559}
   - component: {fileID: 1326643558}
   - component: {fileID: 1326643557}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77321,7 +77808,7 @@ GameObject:
   - component: {fileID: 1329182048}
   - component: {fileID: 1329182047}
   - component: {fileID: 1329182046}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77424,7 +77911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1329954099}
   - component: {fileID: 1329954100}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_2_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77890,7 +78377,7 @@ GameObject:
   - component: {fileID: 1339466542}
   - component: {fileID: 1339466541}
   - component: {fileID: 1339466540}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80393,7 +80880,7 @@ GameObject:
   - component: {fileID: 1369208426}
   - component: {fileID: 1369208425}
   - component: {fileID: 1369208424}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82002,7 +82489,7 @@ GameObject:
   - component: {fileID: 1403554949}
   - component: {fileID: 1403554948}
   - component: {fileID: 1403554947}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82780,7 +83267,7 @@ GameObject:
   - component: {fileID: 1421611129}
   - component: {fileID: 1421611128}
   - component: {fileID: 1421611127}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83383,7 +83870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1428291649}
   - component: {fileID: 1428291650}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_3_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83844,7 +84331,7 @@ GameObject:
   - component: {fileID: 1432639699}
   - component: {fileID: 1432639698}
   - component: {fileID: 1432639697}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86079,7 +86566,7 @@ GameObject:
   - component: {fileID: 1468394434}
   - component: {fileID: 1468394433}
   - component: {fileID: 1468394432}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86182,7 +86669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1470103149}
   - component: {fileID: 1470103150}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_1_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87501,7 +87988,7 @@ GameObject:
   - component: {fileID: 1490002788}
   - component: {fileID: 1490002787}
   - component: {fileID: 1490002786}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87606,7 +88093,7 @@ GameObject:
   - component: {fileID: 1498857407}
   - component: {fileID: 1498857406}
   - component: {fileID: 1498857405}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87869,7 +88356,7 @@ GameObject:
   - component: {fileID: 1501553762}
   - component: {fileID: 1501553761}
   - component: {fileID: 1501553760}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90579,7 +91066,7 @@ GameObject:
   - component: {fileID: 1558298556}
   - component: {fileID: 1558298555}
   - component: {fileID: 1558298554}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_2_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91069,10 +91556,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1674074273}
     m_Modifications:
+    - target: {fileID: 2329166125904697996, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3549869704707017100, guid: b5fee7649a204174fa1db783a09fec6b,
         type: 3}
       propertyPath: m_Name
       value: WaterPump_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549869704707017100, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3549869704707017100, guid: b5fee7649a204174fa1db783a09fec6b,
         type: 3}
@@ -91128,6 +91625,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6326636418890090967, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373210874370821861, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017354538502678516, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8146980044150843160, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8803621475431117916, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867041418332986228, guid: b5fee7649a204174fa1db783a09fec6b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -91231,7 +91758,7 @@ GameObject:
   - component: {fileID: 1567623338}
   - component: {fileID: 1567623337}
   - component: {fileID: 1567623336}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91494,7 +92021,7 @@ GameObject:
   - component: {fileID: 1576807782}
   - component: {fileID: 1576807781}
   - component: {fileID: 1576807780}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91611,7 +92138,7 @@ GameObject:
   - component: {fileID: 1585486061}
   - component: {fileID: 1585486060}
   - component: {fileID: 1585486059}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92007,7 +92534,7 @@ GameObject:
   - component: {fileID: 1597240228}
   - component: {fileID: 1597240227}
   - component: {fileID: 1597240226}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92606,7 +93133,7 @@ GameObject:
   - component: {fileID: 1606100829}
   - component: {fileID: 1606100828}
   - component: {fileID: 1606100827}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92711,7 +93238,7 @@ GameObject:
   - component: {fileID: 1606765664}
   - component: {fileID: 1606765663}
   - component: {fileID: 1606765662}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94654,7 +95181,7 @@ GameObject:
   - component: {fileID: 1655521435}
   - component: {fileID: 1655521434}
   - component: {fileID: 1655521433}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95125,7 +95652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1666425882}
   - component: {fileID: 1666425883}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: AquaticArea_2_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95457,7 +95984,7 @@ GameObject:
   - component: {fileID: 1674074276}
   - component: {fileID: 1674074274}
   - component: {fileID: 1674074278}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Water Pump Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96922,7 +97449,7 @@ GameObject:
   - component: {fileID: 1688722671}
   - component: {fileID: 1688722670}
   - component: {fileID: 1688722669}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97127,7 +97654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1693111314}
   - component: {fileID: 1693111315}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PlantingArea_2_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97939,7 +98466,7 @@ GameObject:
   - component: {fileID: 1704961071}
   - component: {fileID: 1704961070}
   - component: {fileID: 1704961069}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101868,7 +102395,7 @@ GameObject:
   - component: {fileID: 1742324942}
   - component: {fileID: 1742324941}
   - component: {fileID: 1742324940}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_1_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101989,7 +102516,7 @@ GameObject:
   - component: {fileID: 1743313741}
   - component: {fileID: 1743313740}
   - component: {fileID: 1743313739}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102195,6 +102722,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -102218,7 +102750,7 @@ GameObject:
   - component: {fileID: 1756718500}
   - component: {fileID: 1756718499}
   - component: {fileID: 1756718498}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103602,7 +104134,9 @@ GameObject:
   - component: {fileID: 1780131623}
   - component: {fileID: 1780131622}
   - component: {fileID: 1780131621}
-  m_Layer: 0
+  - component: {fileID: 1780131626}
+  - component: {fileID: 1780131625}
+  m_Layer: 15
   m_Name: Water Pump Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103621,7 +104155,8 @@ Transform:
   m_LocalPosition: {x: 29.35, y: 1.6042, z: 26.97}
   m_LocalScale: {x: 1.2575699, y: 1, z: 1.19427}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 611702925}
   m_Father: {fileID: 395889091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1780131621
@@ -103631,7 +104166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780131619}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cdd9c391fdfffe45a2782671691be6c, type: 3}
   m_Name: 
@@ -103655,7 +104190,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -103711,6 +104246,152 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780131619}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1780131625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780131619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractionManager: {fileID: 0}
+  m_Colliders:
+  - {fileID: 1780131622}
+  m_InteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_InteractionLayers:
+    m_Bits: 1
+  m_DistanceCalculationMode: 1
+  m_SelectMode: 0
+  m_FocusMode: 1
+  m_CustomReticle: {fileID: 0}
+  m_AllowGazeInteraction: 0
+  m_AllowGazeSelect: 0
+  m_OverrideGazeTimeToSelect: 0
+  m_GazeTimeToSelect: 0.5
+  m_OverrideTimeToAutoDeselectGaze: 0
+  m_TimeToAutoDeselectGaze: 3
+  m_AllowGazeAssistance: 0
+  m_FirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FirstFocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_LastFocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FocusExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Activated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Deactivated:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_StartingInteractionStrengthFilters: []
+  m_OnFirstHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnLastHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnHoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelectCanceled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1780131626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780131619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37f65c47a16252479bf0a5767ae4524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactable: {fileID: 1780131625}
+  ghostConstructionScript: {fileID: 611702926}
+  leftHandAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 5a17a009-1342-42e1-9476-82ce6ef5dbbd
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  rightHandAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 1b7c3421-41e5-42c5-ac62-1547a7e42a20
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  waterPumpPrefab: {fileID: 3660536221127871571, guid: 3beb3769477686d41b070223b0157ef5,
+    type: 3}
+  waterDestinationPoint: {fileID: 604973309}
 --- !u!1 &1781603352
 GameObject:
   m_ObjectHideFlags: 0
@@ -105607,7 +106288,7 @@ GameObject:
   - component: {fileID: 1813144624}
   - component: {fileID: 1813144623}
   - component: {fileID: 1813144622}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106357,7 +107038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1826328158}
   - component: {fileID: 1826328159}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LivestockArea_3_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106419,7 +107100,7 @@ GameObject:
   - component: {fileID: 1827985582}
   - component: {fileID: 1827985581}
   - component: {fileID: 1827985580}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106761,7 +107442,7 @@ GameObject:
   - component: {fileID: 1836845866}
   - component: {fileID: 1836845865}
   - component: {fileID: 1836845864}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107297,7 +107978,7 @@ GameObject:
   - component: {fileID: 1847808181}
   - component: {fileID: 1847808180}
   - component: {fileID: 1847808179}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107556,7 +108237,7 @@ GameObject:
   - component: {fileID: 1857622607}
   - component: {fileID: 1857622606}
   - component: {fileID: 1857622605}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107662,7 +108343,7 @@ GameObject:
   - component: {fileID: 1857715316}
   - component: {fileID: 1857715315}
   - component: {fileID: 1857715314}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_4_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108144,7 +108825,7 @@ GameObject:
   - component: {fileID: 1860878586}
   - component: {fileID: 1860878585}
   - component: {fileID: 1860878584}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109996,7 +110677,7 @@ GameObject:
   - component: {fileID: 1903078574}
   - component: {fileID: 1903078573}
   - component: {fileID: 1903078572}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110613,7 +111294,7 @@ GameObject:
   - component: {fileID: 1909658305}
   - component: {fileID: 1909658304}
   - component: {fileID: 1909658303}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plane_3_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111495,7 +112176,7 @@ GameObject:
   - component: {fileID: 1941527266}
   - component: {fileID: 1941527265}
   - component: {fileID: 1941527264}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112869,7 +113550,7 @@ GameObject:
   - component: {fileID: 1962732482}
   - component: {fileID: 1962732481}
   - component: {fileID: 1962732480}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113215,7 +113896,7 @@ GameObject:
   - component: {fileID: 1977462159}
   - component: {fileID: 1977462158}
   - component: {fileID: 1977462157}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113924,7 +114605,7 @@ GameObject:
   - component: {fileID: 1987215555}
   - component: {fileID: 1987215554}
   - component: {fileID: 1987215553}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Water Pump Plane (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114517,7 +115198,7 @@ GameObject:
   - component: {fileID: 2002945599}
   - component: {fileID: 2002945598}
   - component: {fileID: 2002945597}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114672,6 +115353,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_chickenCoop (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -115303,7 +116004,7 @@ GameObject:
   - component: {fileID: 2009860015}
   - component: {fileID: 2009860014}
   - component: {fileID: 2009860013}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115825,7 +116526,7 @@ GameObject:
   - component: {fileID: 2021701033}
   - component: {fileID: 2021701032}
   - component: {fileID: 2021701031}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Aqua_Plane_4_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116403,7 +117104,7 @@ GameObject:
   - component: {fileID: 2037093012}
   - component: {fileID: 2037093011}
   - component: {fileID: 2037093010}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116859,7 +117560,7 @@ GameObject:
   - component: {fileID: 2042502898}
   - component: {fileID: 2042502897}
   - component: {fileID: 2042502896}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117372,7 +118073,7 @@ GameObject:
   - component: {fileID: 2048648415}
   - component: {fileID: 2048648414}
   - component: {fileID: 2048648413}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119036,7 +119737,7 @@ GameObject:
   - component: {fileID: 2065265105}
   - component: {fileID: 2065265104}
   - component: {fileID: 2065265103}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119658,7 +120359,7 @@ GameObject:
   - component: {fileID: 2069812348}
   - component: {fileID: 2069812347}
   - component: {fileID: 2069812346}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119954,7 +120655,7 @@ GameObject:
   - component: {fileID: 2085702330}
   - component: {fileID: 2085702329}
   - component: {fileID: 2085702328}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Cube (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121104,7 +121805,7 @@ GameObject:
   - component: {fileID: 2105832932}
   - component: {fileID: 2105832931}
   - component: {fileID: 2105832930}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree planting 4 (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121594,7 +122295,7 @@ GameObject:
   - component: {fileID: 2126720305}
   - component: {fileID: 2126720304}
   - component: {fileID: 2126720303}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PetShelter 4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121799,6 +122500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708985967341403627, guid: beb4e2871579447497fe41dfb108e2cd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -122088,6 +122794,145 @@ RectTransform:
   m_AnchoredPosition: {x: 29.200035, y: -27.499989}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &2138525816
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 798929949}
+    m_Modifications:
+    - target: {fileID: 374468105067364612, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 680457982513108663, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: invalidMaterial
+      value: 
+      objectReference: {fileID: 7329803795992348266, guid: ea495f52d9c3ab44290bd164f2e8c912,
+        type: 3}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Name
+      value: PFB_Ghost_Pump (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3660536221127871571, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.639567
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145289544942966505, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304356943193108511, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270949366269906297, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439343819071485773, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458995298437912210, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5458995298437912210, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628538314598845242, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8250769149705462471, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683347781279375019, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707070727805194482, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765063613765316995, guid: bf87a3b30d27cd648b75f47a47e41f2c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf87a3b30d27cd648b75f47a47e41f2c, type: 3}
 --- !u!1001 &2140766816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123083,6 +123928,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_chickenCoop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693231610760751980, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5899621236024793161, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7358519192247053778, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8840270327601445174, guid: 32c633f195a07c848a616cc0825efd11,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Thuan_23127_GameManager : MonoBehaviour
@@ -22,6 +23,10 @@ public class Thuan_23127_GameManager : MonoBehaviour
     [Header("SFX")]
     public AudioSource audioSource;
     public AudioClip harvestClip;
+
+    // Send harvest report to server
+    [SerializeField] private string harvestMessageName = "harvest_report";
+    private readonly List<FarmArea> _cachedAreas = new List<FarmArea>();
 
     private void Awake()
     {
@@ -71,6 +76,16 @@ public class Thuan_23127_GameManager : MonoBehaviour
             jsonReader.scoreTextEndGame.text = $"{scoreLabel}: {Score}";
         if (jsonReader.scoreTextDetails)
             jsonReader.scoreTextDetails.text = $"{scoreLabel}: {Score}";
+        // SendHarvestMessageToServer(value); // Bỏ ra để dùng đc gửi mess 
+        
+        // {
+        //     "event": "harvest",
+        //     "total_score": "28",
+        //     "last_gain": "4",
+        //     "season_salinity": "1.50",
+        //     "area_north_salinity": "1.50",
+        //     "area_south_salinity": "0.30"
+        // }
     }
 
     /// <summary>
@@ -97,5 +112,49 @@ public class Thuan_23127_GameManager : MonoBehaviour
         }
 
         OnScoreChanged?.Invoke(Score);
+    }
+
+    // Cach ham dung cho server
+    private void Start()
+    {
+        CacheFarmAreas();
+    }
+
+    public void RefreshFarmAreaCache()
+    {
+        CacheFarmAreas();
+    }
+
+    private void CacheFarmAreas()
+    {
+        _cachedAreas.Clear();
+        _cachedAreas.AddRange(FindObjectsOfType<FarmArea>());
+    }
+
+    private void SendHarvestMessageToServer(int lastGain)
+    {
+        var conn = ConnectionManager.Instance;
+        if (ConnectionManager.Instance == null || !conn.IsConnectionState(ConnectionState.AUTHENTICATED))
+            return;
+
+        if (_cachedAreas.Count == 0)
+            CacheFarmAreas();
+
+        var payload = new Dictionary<string, string>
+        {
+            { "event", "harvest" },
+            { "total_score", Score.ToString() },
+            { "last_gain", lastGain.ToString() },
+            { "season_salinity", GetSeasonSalinity().ToString("F2") }
+        };
+
+        foreach (var area in _cachedAreas)
+        {
+            if (!area) continue;
+            var id = area.GetServerAreaId();
+            payload[$"area_{id}_salinity"] = area.GetCurrentSalinityForServer().ToString("F2");
+        }
+
+        conn.SendExecutableAsk(harvestMessageName, payload);
     }
 }
