@@ -11680,6 +11680,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &153229477
 GameObject:
   m_ObjectHideFlags: 0
@@ -13145,6 +13146,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &173594177
 GameObject:
   m_ObjectHideFlags: 0
@@ -38361,6 +38363,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &349039605
 GameObject:
   m_ObjectHideFlags: 0
@@ -40951,6 +40954,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!4 &393031338
 Transform:
   m_ObjectHideFlags: 0
@@ -50812,6 +50816,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!1001 &500677795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51201,6 +51206,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &508803655
 GameObject:
   m_ObjectHideFlags: 0
@@ -54194,6 +54200,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!1 &564420082
 GameObject:
   m_ObjectHideFlags: 0
@@ -54441,6 +54448,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &569856777
 GameObject:
   m_ObjectHideFlags: 0
@@ -58947,6 +58955,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &608903132
 GameObject:
   m_ObjectHideFlags: 0
@@ -65013,6 +65022,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!4 &676317427
 Transform:
   m_ObjectHideFlags: 0
@@ -104032,6 +104042,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1001 &930135213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144618,6 +144629,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!1 &1331051222
 GameObject:
   m_ObjectHideFlags: 0
@@ -153123,6 +153135,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &1430030253
 GameObject:
   m_ObjectHideFlags: 0
@@ -156607,6 +156620,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1001 &1470971120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159925,6 +159939,7 @@ MonoBehaviour:
   dryFactor: 1.5
   audioSource: {fileID: 1501849109}
   harvestClip: {fileID: 8300000, guid: bccf7ddb76302c74fab675eed66d80c6, type: 3}
+  harvestMessageName: harvest_report
 --- !u!114 &1501849111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162300,7 +162315,7 @@ PrefabInstance:
     - target: {fileID: 1156045187508465652, guid: 6a460881a98f1de499f43df70693775d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.872482
+      value: 8.61
       objectReference: {fileID: 0}
     - target: {fileID: 1156045187508465652, guid: 6a460881a98f1de499f43df70693775d,
         type: 3}
@@ -180853,6 +180868,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!1 &1666674502
 GameObject:
   m_ObjectHideFlags: 0
@@ -183089,6 +183105,7 @@ MonoBehaviour:
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
+  serverAreaId: area_a
 --- !u!1 &1695823562
 GameObject:
   m_ObjectHideFlags: 0
@@ -193874,6 +193891,7 @@ MonoBehaviour:
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
+  serverAreaId: area_a
 --- !u!1 &1827985578
 GameObject:
   m_ObjectHideFlags: 0
@@ -227854,6 +227872,74 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 0
+--- !u!1001 &2195764510764415384
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6135254990227750081, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_Name
+      value: Egg_LowPoly
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.459
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.19999981
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.705
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6804689743101027963, guid: 205d15371990b8e4fbbcd1ede764573c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 205d15371990b8e4fbbcd1ede764573c, type: 3}
 --- !u!33 &2198396244745456516
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -240166,3 +240252,4 @@ SceneRoots:
   - {fileID: 456617226}
   - {fileID: 8108789375289000016}
   - {fileID: 8396443101777839719}
+  - {fileID: 2195764510764415384}
