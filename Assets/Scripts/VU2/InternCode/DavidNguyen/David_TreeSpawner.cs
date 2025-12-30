@@ -4,30 +4,56 @@ using UnityEngine;
 /// <summary>
 /// Script gắn vào cây để quản lý spawn/respawn quả
 /// Quả sẽ respawn khi đổi mùa (nhờ lắng nghe OnPhaseChanged)
-/// Vị trí spawn được set cứng trong Editor thông qua spawnPoints
+/// Hỗ trợ 2 chế độ:
+/// 1. Spawn từ prefab tại các điểm định sẵn (Spawn Points)
+/// 2. Quản lý quả có sẵn (Pre-placed) - chỉ bật/tắt và reset vị trí
 /// </summary>
 public class David_TreeSpawner : MonoBehaviour
 {
-    [Header("Prefab quả")]
+    [Header("Chế độ")]
+    [Tooltip("Nếu true: Sẽ tìm tất cả script David_Fruit con của cây này và quản lý chúng (không spawn mới).")]
+    public bool usePrePlacedFruits = true;
+
+    [Header("Prefab quả (Chỉ dùng khi usePrePlacedFruits = false)")]
     [Tooltip("Kéo prefab quả (có David_Fruit) vào đây")]
     public GameObject fruitPrefab;
     
-    [Header("Vị trí spawn (Set cứng trong Editor)")]
+    [Header("Vị trí spawn (Chỉ dùng khi usePrePlacedFruits = false)")]
     [Tooltip("Tạo Empty GameObjects làm con của cây, kéo vào đây")]
     public Transform[] spawnPoints;
     
-    [Header("Cấu hình")]
-    [Tooltip("Có spawn quả khi game bắt đầu không?")]
+    [Header("Cấu hình chung")]
+    [Tooltip("Có spawn/reset quả khi game bắt đầu không?")]
     public bool spawnOnStart = true;
     
     [Tooltip("Có respawn khi đổi mùa không?")]
     public bool respawnOnSeasonChange = true;
     
-    // Danh sách quả đã spawn để quản lý
-    private readonly List<GameObject> _spawnedFruits = new List<GameObject>();
+    // Danh sách quả đã spawn hoặc tìm thấy để quản lý
+    private List<GameObject> _spawnedFruits = new List<GameObject>();
     
+    // Lưu trữ vị trí/rotation ban đầu để reset (dùng cho Pre-placed)
+    private Dictionary<GameObject, Pose> _initialTransforms = new Dictionary<GameObject, Pose>();
+
     private void Start()
     {
+        // Nếu dùng chế độ Pre-placed, tìm các quả có sẵn
+        if (usePrePlacedFruits)
+        {
+            David_Fruit[] foundFruits = GetComponentsInChildren<David_Fruit>(true); // true để lấy cả object đang tắt
+            foreach (var f in foundFruits)
+            {
+                _spawnedFruits.Add(f.gameObject);
+                
+                // Lưu vị trí ban đầu
+                _initialTransforms[f.gameObject] = new Pose(f.transform.position, f.transform.rotation);
+                
+                // Đảm bảo quả này ko tự hủy
+                f.destroyOnCollect = false; 
+            }
+            Debug.Log($"[David_TreeSpawner] Đã tìm thấy {_spawnedFruits.Count} quả có sẵn trên cây {gameObject.name}");
+        }
+
         if (spawnOnStart)
         {
             RespawnAllFruits();
@@ -58,10 +84,53 @@ public class David_TreeSpawner : MonoBehaviour
     }
     
     /// <summary>
-    /// Xóa tất cả quả cũ và spawn quả mới tại các vị trí đã định
+    /// Respawn hoặc Reset quả
     /// </summary>
     public void RespawnAllFruits()
     {
+        // --- CHẾ ĐỘ 1: PRE-PLACED FRUITS ---
+        if (usePrePlacedFruits)
+        {
+            foreach (var fruitObj in _spawnedFruits)
+            {
+                if (fruitObj == null) continue;
+
+                // 1. Reset vị trí và rotation về ban đầu
+                if (_initialTransforms.ContainsKey(fruitObj))
+                {
+                    Pose initPose = _initialTransforms[fruitObj];
+                    fruitObj.transform.position = initPose.position;
+                    fruitObj.transform.rotation = initPose.rotation;
+                }
+
+                // 2. Reset Physics (quan trọng để nó không bay lung tung do quán tính cũ)
+                Rigidbody rb = fruitObj.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
+                
+                // 3. Reset trạng thái script David_Fruit (như cờ _collected)
+                David_Fruit fruitScript = fruitObj.GetComponent<David_Fruit>();
+                if (fruitScript != null)
+                {
+                    // Cần thêm hàm ResetState public bên David_Fruit nếu muốn reset sạch hơn
+                    // Tạm thời chỉ cần bật lại object là cờ _collected trong Start() sẽ đc reset nếu biến đó ko static
+                    // Nhưng biến _collected private nên ta cần cẩn thận. 
+                    // Tốt nhất nên disable rồi enable lại để nó chạy lại logic (nếu có OnEnable)
+                    fruitObj.SetActive(false); 
+                    fruitObj.SetActive(true);
+                }
+                else
+                {
+                    fruitObj.SetActive(true);
+                }
+            }
+            return;
+        }
+
+        // --- CHẾ ĐỘ 2: SPAWN TỪ PREFAB (CŨ) ---
         if (fruitPrefab == null)
         {
             Debug.LogWarning("[David_TreeSpawner] Chưa gán fruitPrefab!");
@@ -85,10 +154,12 @@ public class David_TreeSpawner : MonoBehaviour
     }
     
     /// <summary>
-    /// Xóa tất cả quả đã spawn
+    /// Xóa tất cả quả đã spawn (Chỉ dùng cho chế độ Spawn Prefab)
     /// </summary>
     public void ClearAllFruits()
     {
+        if (usePrePlacedFruits) return; // Chế độ này ko được destroy
+
         foreach (var fruit in _spawnedFruits)
         {
             if (fruit != null)
@@ -104,9 +175,16 @@ public class David_TreeSpawner : MonoBehaviour
     /// </summary>
     public int GetRemainingFruitCount()
     {
-        // Loại bỏ các quả đã bị destroy
+        // Loại bỏ các quả đã bị destroy (nếu có)
         _spawnedFruits.RemoveAll(f => f == null);
-        return _spawnedFruits.Count;
+        
+        // Đếm số quả đang Active
+        int count = 0;
+        foreach(var f in _spawnedFruits)
+        {
+            if (f.activeSelf) count++;
+        }
+        return count;
     }
     
     /// <summary>
@@ -114,7 +192,7 @@ public class David_TreeSpawner : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        if (spawnPoints == null) return;
+        if (spawnPoints == null || usePrePlacedFruits) return;
         
         Gizmos.color = Color.yellow;
         foreach (var point in spawnPoints)

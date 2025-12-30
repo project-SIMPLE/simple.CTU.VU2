@@ -23,6 +23,7 @@ TagManager:
   - GroupRocks
   - BigPet
   - HUD
+  - Undefined
   - Bag
   layers:
   - Default

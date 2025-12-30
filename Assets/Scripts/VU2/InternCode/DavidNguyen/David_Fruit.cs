@@ -8,7 +8,8 @@ using UnityEngine;
 public enum FruitType 
 { 
     Coconut,  // Dừa - luôn hái được
-    Durian    // Sầu riêng - chỉ hái được mùa khô
+    Durian,
+    Fish    // Sầu riêng - chỉ hái được mùa khô
 }
 
 public class David_Fruit : MonoBehaviour
@@ -23,6 +24,10 @@ public class David_Fruit : MonoBehaviour
     
     [Header("Tag của túi thu hoạch")]
     public string bagTag = "Bag";
+
+    [Header("Cấu hình khác")]
+    [Tooltip("Nếu true: Destroy object khi hái inside (cũ). Nếu false: Chỉ set active false (để respawn lại)")]
+    public bool destroyOnCollect = true;
 
     [Header("Audio (Optional)")]
     public AudioClip collectSound;
@@ -106,8 +111,15 @@ public class David_Fruit : MonoBehaviour
         string fruitName = fruitType == FruitType.Coconut ? "Dừa" : "Sầu riêng";
         Debug.Log($"[David_Fruit] Thu hoạch {fruitName} +{pointValue} điểm!");
         
-        // Hủy quả
-        Destroy(gameObject);
+        // Xử lý sau khi thu hoạch
+        if (destroyOnCollect)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
     
     /// <summary>
@@ -123,5 +135,11 @@ public class David_Fruit : MonoBehaviour
     {
         fruitType = FruitType.Durian;
         pointValue = 5;
+    }
+
+    public void SetupAsFish()
+    {
+        fruitType = FruitType.Fish;
+        pointValue = 4;
     }
 }
