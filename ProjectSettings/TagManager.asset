@@ -23,6 +23,7 @@ TagManager:
   - GroupRocks
   - BigPet
   - HUD
+  - Bag
   layers:
   - Default
   - TransparentFX
