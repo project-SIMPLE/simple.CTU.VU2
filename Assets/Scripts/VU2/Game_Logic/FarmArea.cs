@@ -330,13 +330,13 @@ public class FarmArea : MonoBehaviour
         _growths.Clear();
 
         // 2) Dọn mảnh vườn cho mùa mới
-        // for (int i = 0; i < plotPoints.Length; i++)
-        // {
-        //     var p = plotPoints[i];
-        //     if (!p) continue;
-        //     for (int c = p.childCount - 1; c >= 0; c--) Destroy(p.GetChild(c).gameObject);
-        //     isPlanted[i] = false;
-        // }
+        for (int i = 0; i < plotPoints.Length; i++)
+        {
+            var p = plotPoints[i];
+            if (!p) continue;
+            for (int c = p.childCount - 1; c >= 0; c--) Destroy(p.GetChild(c).gameObject);
+            isPlanted[i] = false;
+        }
 
         // 3) Reset tổng HUD (nếu muốn giữ tổng theo mùa từng ô, bỏ bước reset này)
         _seasonTotals[0] = _seasonTotals[1] = _seasonTotals[2] = 0;
