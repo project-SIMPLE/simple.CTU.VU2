@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6165886708508401598}
   - component: {fileID: 8257688734056838762}
   - component: {fileID: 6787745129700120993}
+  - component: {fileID: 2138152055021753922}
   m_Layer: 0
   m_Name: PFB_Chickens
   m_TagString: Untagged
@@ -291,6 +292,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2138152055021753922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3152114939784239916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eggPrefab: {fileID: 0}
+  spawnInterval: 5
+  spawnOffset: {x: 0, y: 0.1, z: 0}
+  maxEggs: 10
 --- !u!1 &8305515211901576148
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +584,7 @@ PrefabInstance:
     - target: {fileID: 2322523512828246267, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3300848372751210843, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
