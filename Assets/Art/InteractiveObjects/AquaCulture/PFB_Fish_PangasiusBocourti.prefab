@@ -57,9 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3456503926222054916}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000037748947, y: 0.00000004371139, z: 1.7112913e-15,
-    w: 1}
-  m_LocalPosition: {x: -0.47178268, y: -0.0050058435, z: 0.04251922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.38650894, y: -0.0050058365, z: 0.15932274}
   m_LocalScale: {x: 0.9999967, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -212,6 +211,7 @@ MonoBehaviour:
   fruitType: 2
   pointValue: 4
   bagTag: Bag
+  destroyOnCollect: 1
   collectSound: {fileID: 0}
 --- !u!54 &188853679223130896
 Rigidbody:
@@ -437,15 +437,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5801000413955037395}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855696, y: -0.00000004371139, z: 1.0165752e-15,
-    w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0, y: 0.12303916, z: -0.114787124}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7672712873688003061}
   m_Father: {fileID: 3940179239612154375}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7994253062286682185
 GameObject:
   m_ObjectHideFlags: 0
