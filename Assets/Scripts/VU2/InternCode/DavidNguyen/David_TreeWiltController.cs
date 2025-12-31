@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class David_TreeWiltController : MonoBehaviour
 {
-    [Header("Animator (nếu có)")]
+    [Header("Animator ")]
     [Tooltip("Kéo Animator của cây vào đây, hoặc để trống nếu dùng visual only")]
     public Animator treeAnimator;
     public string animGood = "Tree_Good";

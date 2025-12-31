@@ -35,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6075881434585421407}
-  - {fileID: 6075801513769667463}
+  - {fileID: 8715616875140830683}
   - {fileID: 7283892898743082634}
   - {fileID: 5747849055403909209}
   - {fileID: 6168394159722182522}
@@ -567,7 +567,7 @@ PrefabInstance:
     - target: {fileID: 2322523512828246267, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3300848372751210843, guid: b151b1da475a6744aba78f5764bddc18,
         type: 3}
@@ -1026,7 +1026,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3703514097664902412}
   m_SourcePrefab: {fileID: 100100000, guid: 0008dea94b9ebbc43b64adfb640e4cc8, type: 3}
---- !u!1 &6072319668731670215 stripped
+--- !u!1 &8710160172228587675 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1594780121615020, guid: 0008dea94b9ebbc43b64adfb640e4cc8,
     type: 3}
@@ -1038,7 +1038,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6072319668731670215}
+  m_GameObject: {fileID: 8710160172228587675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
---- !u!4 &6075801513769667463 stripped
+--- !u!4 &8715616875140830683 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4795693742895084, guid: 0008dea94b9ebbc43b64adfb640e4cc8,
     type: 3}

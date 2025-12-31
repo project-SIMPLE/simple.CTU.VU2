@@ -11,7 +11,7 @@ using UnityEngine;
 public class David_TreeSpawner : MonoBehaviour
 {
     [Header("Chế độ")]
-    [Tooltip("Nếu true: Sẽ tìm tất cả script David_Fruit con của cây này và quản lý chúng (không spawn mới).")]
+    [Tooltip("Nếu true: Sẽ tìm tất cả script David_Fruit con của cây này và quản lý chúng.")]
     public bool usePrePlacedFruits = true;
 
     [Header("Prefab quả (Chỉ dùng khi usePrePlacedFruits = false)")]
@@ -88,7 +88,6 @@ public class David_TreeSpawner : MonoBehaviour
     /// </summary>
     public void RespawnAllFruits()
     {
-        // --- CHẾ ĐỘ 1: PRE-PLACED FRUITS ---
         if (usePrePlacedFruits)
         {
             foreach (var fruitObj in _spawnedFruits)
@@ -115,10 +114,6 @@ public class David_TreeSpawner : MonoBehaviour
                 David_Fruit fruitScript = fruitObj.GetComponent<David_Fruit>();
                 if (fruitScript != null)
                 {
-                    // Cần thêm hàm ResetState public bên David_Fruit nếu muốn reset sạch hơn
-                    // Tạm thời chỉ cần bật lại object là cờ _collected trong Start() sẽ đc reset nếu biến đó ko static
-                    // Nhưng biến _collected private nên ta cần cẩn thận. 
-                    // Tốt nhất nên disable rồi enable lại để nó chạy lại logic (nếu có OnEnable)
                     fruitObj.SetActive(false); 
                     fruitObj.SetActive(true);
                 }
@@ -130,7 +125,6 @@ public class David_TreeSpawner : MonoBehaviour
             return;
         }
 
-        // --- CHẾ ĐỘ 2: SPAWN TỪ PREFAB (CŨ) ---
         if (fruitPrefab == null)
         {
             Debug.LogWarning("[David_TreeSpawner] Chưa gán fruitPrefab!");
@@ -154,11 +148,11 @@ public class David_TreeSpawner : MonoBehaviour
     }
     
     /// <summary>
-    /// Xóa tất cả quả đã spawn (Chỉ dùng cho chế độ Spawn Prefab)
+    /// Xóa tất cả quả đã spawn
     /// </summary>
     public void ClearAllFruits()
     {
-        if (usePrePlacedFruits) return; // Chế độ này ko được destroy
+        if (usePrePlacedFruits) return;
 
         foreach (var fruit in _spawnedFruits)
         {

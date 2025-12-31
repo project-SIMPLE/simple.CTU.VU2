@@ -6,6 +6,7 @@ using UnityEngine.UI;
 /// Script hiển thị UI mực nước sông và độ mặn
 /// Hỗ trợ đa ngôn ngữ thông qua Thuan_23127_JsonReader
 /// Tự động cập nhật khi mùa thay đổi với hiệu ứng chuyển động mượt mà
+/// Hiển thị độ mặn cả Trong Đê và Ngoài Đê
 /// </summary>
 public class David_SeasonHUD : MonoBehaviour
 {
@@ -15,11 +16,17 @@ public class David_SeasonHUD : MonoBehaviour
     public Slider waterLevelSlider;
     public Image waterLevelFill;
     
-    [Header("Độ mặn")]
-    public Text salinityLabel;
-    public Text salinityValue;
-    public Slider salinitySlider;
-    public Image salinityFill;
+    [Header("Độ mặn Trong Đê")]
+    public Text insideSalinityLabel;
+    public Text insideSalinityValue;
+    public Slider insideSalinitySlider;
+    public Image insideSalinityFill;
+    
+    [Header("Độ mặn Ngoài Đê")]
+    public Text outsideSalinityLabel;
+    public Text outsideSalinityValue;
+    public Slider outsideSalinitySlider;
+    public Image outsideSalinityFill;
     
     [Header("Thời gian / Mùa (Optional)")]
     public Text seasonLabel;
@@ -32,6 +39,16 @@ public class David_SeasonHUD : MonoBehaviour
     [Header("Cấu hình Animation")]
     [Tooltip("Thời gian chuyển đổi (giây)")]
     public float transitionDuration = 10f;
+    
+    [Header("Nguồn độ mặn thực")]
+    [Tooltip("Kéo FarmArea vùng 'Trong Đê' vào đây")]
+    public FarmArea insideDykeArea;
+    
+    [Tooltip("Kéo FarmArea vùng 'Ngoài Đê' vào đây")]
+    public FarmArea outsideDykeArea;
+    
+    [Tooltip("Độ mặn tối đa để tính % cho Slider (đơn vị ‰)")]
+    public float maxSalinity = 5f;
     
     [Header("Đa ngôn ngữ")]
     [Tooltip("Kéo JsonReader từ scene vào đây")]
@@ -49,7 +66,7 @@ public class David_SeasonHUD : MonoBehaviour
             jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
         }
         
-        // Cập nhật UI ban đầu (không cần animation lúc start)
+        // Cập nhật UI ban đầu 
         UpdateUI(_currentPhase, true);
     }
     
@@ -74,48 +91,83 @@ public class David_SeasonHUD : MonoBehaviour
     }
     
     /// <summary>
+    /// Lấy độ mặn Trong Đê
+    /// </summary>
+    private float GetInsideSalinity()
+    {
+        if (insideDykeArea != null)
+            return insideDykeArea.GetAreaSalinity();
+        var gm = Thuan_23127_GameManager.Instance;
+        return gm != null ? gm.GetSeasonSalinity() : 0f;
+    }
+    
+    /// <summary>
+    /// Lấy độ mặn Ngoài Đê
+    /// </summary>
+    private float GetOutsideSalinity()
+    {
+        if (outsideDykeArea != null)
+            return outsideDykeArea.GetAreaSalinity();
+        var gm = Thuan_23127_GameManager.Instance;
+        return gm != null ? gm.GetSeasonSalinity() : 0f;
+    }
+    
+    /// <summary>
     /// Cập nhật toàn bộ UI dựa trên mùa
     /// </summary>
-    /// <param name="instant">Nếu true, cập nhật ngay lập tức không chạy hiệu ứng</param>
     public void UpdateUI(SeasonPhase phase, bool instant = false)
     {
         bool isRainy = (phase == SeasonPhase.Rainy1 || phase == SeasonPhase.Rainy2);
         
         // Target values
-        float targetWaterLevel = isRainy ? 1f : 0.5f;   // Mưa: 100%, Khô: 50%
-        float targetSalinity = isRainy ? 0f : 1f;       // Mưa: 0%, Khô: 100%
+        float targetWaterLevel = isRainy ? 1f : 0.5f;
         
-        // Update Static Texts (Labels, Season Name, etc.)
+        // Lấy độ mặn thực từ cả 2 vùng
+        float insideSalinity = GetInsideSalinity();
+        float outsideSalinity = GetOutsideSalinity();
+        float targetInsideSlider = Mathf.Clamp01(insideSalinity / maxSalinity);
+        float targetOutsideSlider = Mathf.Clamp01(outsideSalinity / maxSalinity);
+        
+        // Update Static Texts
         UpdateStaticLabels(isRainy);
 
         // Update Colors
         Color targetColor = isRainy ? rainyColor : dryColor;
         if (waterLevelFill != null) waterLevelFill.color = targetColor;
-        if (salinityFill != null) salinityFill.color = isRainy ? Color.green : Color.red;
+        if (insideSalinityFill != null) insideSalinityFill.color = isRainy ? Color.green : Color.red;
+        if (outsideSalinityFill != null) outsideSalinityFill.color = isRainy ? Color.green : Color.red;
 
         if (instant)
         {
             if (waterLevelSlider != null) waterLevelSlider.value = targetWaterLevel;
-            if (salinitySlider != null) salinitySlider.value = targetSalinity;
+            if (insideSalinitySlider != null) insideSalinitySlider.value = targetInsideSlider;
+            if (outsideSalinitySlider != null) outsideSalinitySlider.value = targetOutsideSlider;
             
-            // Cập nhật text giá trị ngay lập tức
-            UpdateDynamicValues(targetWaterLevel * 100f, targetSalinity * 100f, isRainy);
+            UpdateDynamicValues(targetWaterLevel * 100f, insideSalinity, outsideSalinity, isRainy);
         }
         else
         {
-            // Stop animation cũ nếu đang chạy
             if (_animationCoroutine != null) StopCoroutine(_animationCoroutine);
-            
-            // Bắt đầu animation mới
-            _animationCoroutine = StartCoroutine(AnimateUIChange(targetWaterLevel, targetSalinity, isRainy));
+            _animationCoroutine = StartCoroutine(AnimateUIChange(
+                targetWaterLevel, 
+                targetInsideSlider, insideSalinity,
+                targetOutsideSlider, outsideSalinity, 
+                isRainy));
         }
     }
 
-    private IEnumerator AnimateUIChange(float targetWater, float targetSalinity, bool isRainy)
+    private IEnumerator AnimateUIChange(
+        float targetWater, 
+        float targetInsideSlider, float targetInsideReal,
+        float targetOutsideSlider, float targetOutsideReal,
+        bool isRainy)
     {
-        // Lấy giá trị khởi điểm từ slider hiện tại
+        // Giá trị khởi điểm
         float startWater = waterLevelSlider != null ? waterLevelSlider.value : 0f;
-        float startSalinity = salinitySlider != null ? salinitySlider.value : 0f;
+        float startInsideSlider = insideSalinitySlider != null ? insideSalinitySlider.value : 0f;
+        float startOutsideSlider = outsideSalinitySlider != null ? outsideSalinitySlider.value : 0f;
+        float startInsideReal = startInsideSlider * maxSalinity;
+        float startOutsideReal = startOutsideSlider * maxSalinity;
         
         float timer = 0f;
         
@@ -126,40 +178,46 @@ public class David_SeasonHUD : MonoBehaviour
             
             // Lerp giá trị
             float currentWater = Mathf.Lerp(startWater, targetWater, t);
-            float currentSalinity = Mathf.Lerp(startSalinity, targetSalinity, t);
+            float currentInsideSlider = Mathf.Lerp(startInsideSlider, targetInsideSlider, t);
+            float currentOutsideSlider = Mathf.Lerp(startOutsideSlider, targetOutsideSlider, t);
+            float currentInsideReal = Mathf.Lerp(startInsideReal, targetInsideReal, t);
+            float currentOutsideReal = Mathf.Lerp(startOutsideReal, targetOutsideReal, t);
             
             // Apply vào Slider
             if (waterLevelSlider != null) waterLevelSlider.value = currentWater;
-            if (salinitySlider != null) salinitySlider.value = currentSalinity;
+            if (insideSalinitySlider != null) insideSalinitySlider.value = currentInsideSlider;
+            if (outsideSalinitySlider != null) outsideSalinitySlider.value = currentOutsideSlider;
             
-            // Cập nhật text số liệu theo thời gian thực
-            UpdateDynamicValues(currentWater * 100f, currentSalinity * 100f, isRainy);
+            UpdateDynamicValues(currentWater * 100f, currentInsideReal, currentOutsideReal, isRainy);
             
             yield return null;
         }
         
         // Đảm bảo giá trị cuối cùng chính xác
         if (waterLevelSlider != null) waterLevelSlider.value = targetWater;
-        if (salinitySlider != null) salinitySlider.value = targetSalinity;
-        UpdateDynamicValues(targetWater * 100f, targetSalinity * 100f, isRainy);
+        if (insideSalinitySlider != null) insideSalinitySlider.value = targetInsideSlider;
+        if (outsideSalinitySlider != null) outsideSalinitySlider.value = targetOutsideSlider;
+        UpdateDynamicValues(targetWater * 100f, targetInsideReal, targetOutsideReal, isRainy);
     }
     
-    private void UpdateDynamicValues(float waterPercent, float salinityPercent, bool isRainy)
+    /// <summary>
+    /// Cập nhật các giá trị động
+    /// </summary>
+    private void UpdateDynamicValues(float waterPercent, float insidePpt, float outsidePpt, bool isRainy)
     {
-        // Lấy data ngôn ngữ để hiển thị text (Full/Low)
         var lang = jsonReader?.GetCurrentLangData();
         var labels = lang?.labels;
         
         var fullText = labels?.full ?? "Đầy";
         var lowText = labels?.low ?? "Thấp";
         
-        // Logic hiển thị Water Value Text (Ví dụ > 75% là Đầy, còn lại là Thấp - hoặc giữ logic cũ theo mùa)
-        // Logic cũ: isRainy ? Full : Low. 
-        // Để khớp với animation, ta có thể đổi text dựa trên ngưỡng
         string currentWaterText = (waterPercent >= 75f) ? fullText : lowText;
         
         if (waterLevelValue != null) waterLevelValue.text = currentWaterText;
-        if (salinityValue != null) salinityValue.text = $"{salinityPercent:0}%";
+        
+        // Hiển thị độ mặn theo đơn vị ‰
+        if (insideSalinityValue != null) insideSalinityValue.text = $"{insidePpt:0.0} ‰";
+        if (outsideSalinityValue != null) outsideSalinityValue.text = $"{outsidePpt:0.0} ‰";
     }
 
     private void UpdateStaticLabels(bool isRainy)
@@ -168,12 +226,12 @@ public class David_SeasonHUD : MonoBehaviour
         var labels = lang?.labels;
         
         var waterLabelText = labels?.water_level ?? "Mực nước sông";
-        var salinityLabelText = labels?.salinity ?? "Độ mặn";
         var rainyText = labels?.season_rainy ?? "Mùa mưa";
         var dryText = labels?.season_dry ?? "Mùa khô";
         
         if (waterLevelLabel != null) waterLevelLabel.text = waterLabelText + ":";
-        if (salinityLabel != null) salinityLabel.text = salinityLabelText + ":";
+        if (insideSalinityLabel != null) insideSalinityLabel.text = "Trong Đê:";
+        if (outsideSalinityLabel != null) outsideSalinityLabel.text = "Ngoài Đê:";
         if (seasonLabel != null) seasonLabel.text = isRainy ? rainyText : dryText;
     }
     
@@ -182,6 +240,6 @@ public class David_SeasonHUD : MonoBehaviour
     /// </summary>
     public void RefreshLanguage()
     {
-        UpdateUI(_currentPhase, true); // Refresh ngay lập tức
+        UpdateUI(_currentPhase, true);
     }
 }

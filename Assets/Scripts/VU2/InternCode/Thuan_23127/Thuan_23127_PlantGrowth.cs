@@ -276,10 +276,19 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     }
 
     /// <summary>
-    /// Điều chỉnh điểm theo ngưỡng mặn T và độ mặn hiện tại S (nếu S>T thì giảm)
+    /// Điều chỉnh điểm theo bảng cố định hoặc theo ngưỡng mặn
+    /// Bảng: Vùng ngọt/lợ × Mùa mưa/khô
     /// </summary>
     private int AdjustBySalinity(int baseValue)
     {
+        // Kiểm tra có dùng bảng điểm cố định không
+        int tableScore = GetTableBasedScore();
+        if (tableScore >= 0)
+        {
+            return tableScore;
+        }
+        
+        // Fallback: Công thức cũ - điều chỉnh theo ngưỡng mặn
         float t = 0f;
         if      (_plantData  != null) t = _plantData.salinity_threshold;
         else if (_animalData != null) t = _animalData.salinity_threshold;
@@ -290,6 +299,59 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         float ratio = Mathf.Clamp01(t / s);
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
+    }
+    
+    /// <summary>
+    /// Tính điểm theo bảng cố định: Vùng × Mùa
+    /// Trả về -1 nếu không có trong bảng (dùng công thức cũ)
+    /// 
+    /// Bảng điểm (từ user):
+    /// | Loại       | Ngọt+Mưa | Ngọt+Khô | Lợ+Mưa | Lợ+Khô |
+    /// |------------|----------|----------|--------|--------|
+    /// | Sầu riêng  | 15       | 10       | 6      | 4      |
+    /// | Dừa        | 12       | 8        | 8      | 5      |
+    /// | Cá         | 1        | 2        | 3      | 4      |
+    /// | Gà         | 85%      | 80%      | 75%    | 60%    |
+    /// </summary>
+    private int GetTableBasedScore()
+    {
+        // Xác định vùng và mùa
+        bool isFresh = (_ownerArea != null && _ownerArea.waterType == WaterType.Fresh);
+        bool isRainy = (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f);
+        
+        // Sầu riêng (Plant ID = 1)
+        if (_plantData != null && _plantData.id == 1)
+        {
+            if (isFresh) return isRainy ? 15 : 10;
+            else         return isRainy ? 6 : 4;
+        }
+        
+        // Dừa (Plant ID = 10)
+        if (_plantData != null && _plantData.id == 10)
+        {
+            if (isFresh) return isRainy ? 12 : 8;
+            else         return isRainy ? 8 : 5;
+        }
+        
+        // Cá (Fish - tất cả loại cá)
+        if (_fishData != null)
+        {
+            if (isFresh) return isRainy ? 1 : 2;
+            else         return isRainy ? 3 : 4;
+        }
+        
+        // Gà (Livestock ID = 3) - tính theo % của điểm gốc
+        if (_animalData != null && _animalData.id == 3)
+        {
+            float percent;
+            if (isFresh) percent = isRainy ? 0.85f : 0.80f;
+            else         percent = isRainy ? 0.75f : 0.60f;
+            
+            return Mathf.RoundToInt(_econ * percent);
+        }
+        
+        // Không có trong bảng → trả -1 để dùng công thức cũ
+        return -1;
     }
 
     /// <summary>

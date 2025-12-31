@@ -45,9 +45,9 @@ public class FarmArea : MonoBehaviour
     [SerializeField] private string serverAreaId = "area_a";
 
     /// <summary>
-    /// Trả về độ mặn của Ô theo mùa
+    /// Trả về độ mặn của Ô theo mùa (Public để HUD có thể truy cập)
     /// </summary>
-    private float GetAreaSalinity()
+    public float GetAreaSalinity()
     {
         if (!useAreaSeasonalSalinity)
             return Thuan_23127_GameManager.Instance
@@ -73,7 +73,7 @@ public class FarmArea : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // isPlanted = new bool[plotPoints.Length];
+        isPlanted = new bool[plotPoints.Length];
         // if (hud)
         // {
         //     hud.Show(true);

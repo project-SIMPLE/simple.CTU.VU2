@@ -264,44 +264,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Khởi động lại ván chơi: reset điểm/tổng kết mùa/plots/HUD, đưa nước & player về vị trí gốc, mở HUD gameplay.
+    /// Khởi động lại ván chơi: Reload scene để trả về trạng thái ban đầu hoàn toàn.
     /// </summary>
     public void RestartGame()
     {
-        Thuan_23127_GameManager.Instance?.ResetScore();
-        var sum = Thuan_23127_SeasonalSummary.Instance;
-        if (sum) sum.ResetAllData();
-
-        foreach (var farm in FindObjectsOfType<FarmArea>()) farm.ResetAllPlots();
-
-        var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
-        foreach (var b in boards) { b.Freeze(false); b.Rebuild(); }
-
-        var huds = FindObjectsOfType<Thuan_23127_AreaHUD>(true);
-        foreach (var h in huds) h.ResetHUDToDefaults();
-
-        StartMenu.SetActive(false);
-        ResultMenu.SetActive(false);
-        Weather_Rain.SetActive(false);
-        Rain_image.SetActive(false);
-        Sun_image.SetActive(true);
-        RenderSettings.skybox = Skybox_Sun; DynamicGI.UpdateEnvironment();
-        PlayMusic(normalMusic);
-
-        if (target) target.transform.position = pointA;
-
-        if (player && _playerStartSaved) player.position = _playerStartPos;
-
-        timeRemaining = 0f;
-        _enteredDry = _enteredRainy2 = false;
-        _moving = false; _applyMoveThisFrame = false;
-        _phaseStartTime = timeRemaining;
-
-        playGame = true;
-        GameActive = true;
-        SetMovementLocked(false);
-        GameplayUIRoot.SetActive(true);
-        GameUIRoot.SetActive(true);
+        // Reload scene để trở về trạng thái ban đầu như khi mới run game
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
     }
 
     /// <summary>
