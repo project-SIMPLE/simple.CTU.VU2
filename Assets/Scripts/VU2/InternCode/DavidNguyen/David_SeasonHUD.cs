@@ -230,8 +230,8 @@ public class David_SeasonHUD : MonoBehaviour
         var dryText = labels?.season_dry ?? "Mùa khô";
         
         if (waterLevelLabel != null) waterLevelLabel.text = waterLabelText + ":";
-        if (insideSalinityLabel != null) insideSalinityLabel.text = "Trong Đê:";
-        if (outsideSalinityLabel != null) outsideSalinityLabel.text = "Ngoài Đê:";
+        if (insideSalinityLabel != null) insideSalinityLabel.text = "Độ Mặn Trong Đê:";
+        if (outsideSalinityLabel != null) outsideSalinityLabel.text = "Độ Mặn Ngoài Đê:";
         if (seasonLabel != null) seasonLabel.text = isRainy ? rainyText : dryText;
     }
     

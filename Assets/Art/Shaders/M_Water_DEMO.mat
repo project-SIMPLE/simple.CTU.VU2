@@ -63,24 +63,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CausticTiling: 3.55
+    - _CausticTiling: 2.46
     - _NoiseTiling: 20
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Salinity: 4.7
-    - _Salinity_Contrast: 10.69
-    - _Speed: -0.26
+    - _Salinity: 1.65
+    - _Salinity_Contrast: 5.87
+    - _Speed: 0.5
     - _Texture: 0
     - _Tiling: 5.15
     - _UV_Noise: 12.38
     m_Colors:
-    - _Caustic_Color: {r: 0.3247597, g: 0.6932397, b: 0.7735849, a: 0}
+    - _Caustic_Color: {r: 0.56910825, g: 0.7788136, b: 0.8207547, a: 0}
     - _Color1: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
     - _Shadow_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 0}
     - _UV_Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _Water_Color: {r: 0.30072978, g: 0.57620126, b: 0.5849056, a: 0}
     - _Water_Color_02: {r: 0.33891064, g: 0.50597805, b: 0.6037736, a: 0}
     - _Water_Color_03: {r: 0.21568629, g: 0.39607847, b: 0.46274513, a: 0}
-    - _Water_Color_Clear: {r: 0.25035602, g: 0.5471698, b: 0.53545344, a: 0.74509805}
-    - _Water_Color_Salty: {r: 0.11764705, g: 0.1448148, b: 0.4745098, a: 0}
+    - _Water_Color_Clear: {r: 0.509434, g: 0.3995791, b: 0.15138839, a: 0.7019608}
+    - _Water_Color_Salty: {r: 0.19037023, g: 0.30528346, b: 0.5849056, a: 0}
   m_BuildTextureStacks: []

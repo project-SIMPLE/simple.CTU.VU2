@@ -7,7 +7,9 @@
     <list default="true" id="7d451beb-edec-4919-a1f9-be8ded99bfc6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Art/Shaders/M_Water_DEMO.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Art/Shaders/M_Water_DEMO.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/VU2/SCN_VU2_Level1_New.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/VU2/SCN_VU2_Level1_New.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
