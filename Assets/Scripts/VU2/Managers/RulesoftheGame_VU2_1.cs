@@ -3,44 +3,159 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public enum ScoreFlow { GrowthTime, Seasonal }
+// =============================================================================
+// ScoreFlow - Determines when scores are calculated.
+// ScoreFlow - Xác định thời điểm tính điểm.
+// =============================================================================
+public enum ScoreFlow 
+{ 
+    GrowthTime,  // Score on each harvest / Tính điểm mỗi lần thu hoạch
+    Seasonal     // Score only when season changes / Tính điểm khi đổi mùa
+}
 
+// =============================================================================
+// RulesoftheGame_VU2_1 - Main game controller for seasons, time, and game state.
+// RulesoftheGame_VU2_1 - Controller chính điều khiển mùa, thời gian, và trạng thái game.
+// 
+// This is the "brain" of the game. It controls:
+// - Season transitions (Rainy → Dry → End)
+// - Time flow and game duration
+// - Weather effects (rain particles, skybox)
+// - Water level movement
+// - VR locomotion locking
+// - Month system (12 months overlay)
+// 
+// Đây là "bộ não" của game. Nó điều khiển:
+// - Chuyển đổi mùa (Mưa → Khô → Kết thúc)
+// - Luồng thời gian và thời lượng game
+// - Hiệu ứng thời tiết (hạt mưa, skybox)
+// - Di chuyển mực nước
+// - Khóa di chuyển VR
+// - Hệ thống tháng (12 tháng overlay)
+// =============================================================================
 public class RulesoftheGame_VU2_1 : MonoBehaviour
 {
+    // =========================================================================
+    // WEATHER & VISUAL REFERENCES
+    // THAM CHIẾU THỜI TIẾT & HÌNH ẢNH
+    // =========================================================================
+    
+    // Rain particle system object.
+    // Object hệ thống hạt mưa.
     public GameObject Weather_Rain;
+    
+    // HUD clock display.
+    // Hiển thị đồng hồ trên HUD.
     public Text clockText;
+    
+    // Current elapsed time (counts up from 0).
+    // Thời gian đã trôi qua (đếm lên từ 0).
     public float timeRemaining = 0;
+    
+    // Is game currently running?
+    // Game có đang chạy không?
     public bool playGame = false;
+    
+    // Season indicator icons on HUD.
+    // Icon chỉ báo mùa trên HUD.
     public GameObject Rain_image;
     public GameObject Sun_image;
 
+    // =========================================================================
+    // UI MENU REFERENCES
+    // THAM CHIẾU MENU UI
+    // =========================================================================
     public GameObject StartMenu;
     public GameObject ResultMenu;
     public GameObject ResultDetailsScore;
     public GameObject UIForVR;
-
     public GameObject NPC_Talk;
+    
+    // Skybox materials for each season.
+    // Vật liệu Skybox cho từng mùa.
     public Material Skybox_Rain;
     public Material Skybox_Sun;
 
+    // =========================================================================
+    // STATIC GAME STATE (accessible from anywhere)
+    // TRẠNG THÁI GAME STATIC (truy cập từ bất kỳ đâu)
+    // =========================================================================
+    
+    // Saltwater intrusion level: 0.0 = rainy (fresh), 1.0 = dry (salty).
+    // Mức xâm nhập mặn: 0.0 = mưa (ngọt), 1.0 = khô (mặn).
     public static float Saltwater_Intrusion = 0.0f;
+    
+    // Current season phase.
+    // Pha mùa hiện tại.
     private static SeasonPhase _currentPhase = SeasonPhase.Rainy1;
+    
+    // Event fired when season changes. UI and game objects subscribe to this.
+    // Sự kiện được bắn khi mùa thay đổi. UI và game objects đăng ký lắng nghe.
     public static event System.Action<SeasonPhase> OnPhaseChanged;
+    
+    // Cached phase to detect changes.
+    // Phase được cache để phát hiện thay đổi.
     private static SeasonPhase _cachedPhase = (SeasonPhase)(-1);
 
+    // =========================================================================
+    // MONTH SYSTEM (12 months overlay on top of seasons)
+    // HỆ THỐNG THÁNG (12 tháng overlay trên hệ thống mùa)
+    // =========================================================================
+    
+    // Current month (1-12).
+    // Tháng hiện tại (1-12).
+    public static int CurrentMonthIndex { get; private set; } = 1;
+    
+    // Water level percentage (0-100) based on month.
+    // Phần trăm mực nước (0-100) dựa trên tháng.
+    public static float CurrentWaterLevelPercent { get; private set; } = 40f;
+    
+    // Multiplier applied to salinity based on water level.
+    // Hệ số áp dụng cho độ mặn dựa trên mực nước.
+    public static float CurrentWaterLevelMultiplier { get; private set; } = 1f;
+    
+    // Events for month and water level changes.
+    // Sự kiện cho thay đổi tháng và mực nước.
+    public static event System.Action<int> OnMonthChanged;
+    public static event System.Action<float> OnWaterLevelChanged;
+
+    // Is game currently active (playing)?
+    // Game có đang hoạt động (đang chơi) không?
     public static bool GameActive { get; private set; } = false;
 
+    // =========================================================================
+    // WATER MOVEMENT (visual water level animation)
+    // DI CHUYỂN NƯỚC (animation mực nước trực quan)
+    // =========================================================================
+    
+    // Water object to animate.
+    // Object nước để animate.
     public GameObject target;
+    
+    // Start and end positions for water animation.
+    // Vị trí bắt đầu và kết thúc cho animation nước.
     public Vector3 pointA;
     public Vector3 pointB;
+    
+    // Duration of water movement animation.
+    // Thời lượng animation di chuyển nước.
     public float moveTime = 3f;
 
+    // =========================================================================
+    // AUDIO
+    // ÂM THANH
+    // =========================================================================
     [Header("Music")]
-    public AudioClip rainMusic;
-    public AudioClip normalMusic;
-    [FormerlySerializedAs("messageSFX")] public AudioClip messageSfx;
+    public AudioClip rainMusic;       // Music during rainy season / Nhạc mùa mưa
+    public AudioClip normalMusic;     // Music during dry season / Nhạc mùa khô
+    [FormerlySerializedAs("messageSFX")] 
+    public AudioClip messageSfx;      // Sound when game ends / Âm thanh khi game kết thúc
     private AudioSource _audioSource;
 
+    // =========================================================================
+    // INTERNAL STATE FLAGS
+    // CỜ TRẠNG THÁI NỘI BỘ
+    // =========================================================================
     private bool _moving, _rainning;
     private bool _enteredDry = false, _enteredRainy2 = false;
     private float _phaseStartTime = 0f;
@@ -48,48 +163,110 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     private bool _applyMoveThisFrame = false;
     private bool _didSnapPointA = false;
 
+    // =========================================================================
+    // VR LOCOMOTION CONTROL
+    // ĐIỀU KHIỂN DI CHUYỂN VR
+    // =========================================================================
     [Header("XR Move Lock (VR)")]
+    // Reference to XR move provider - disabled during menus.
+    // Tham chiếu đến XR move provider - tắt trong menu.
     public ActionBasedContinuousMoveProvider moveProvider;
     public LocomotionSystem locomotionSystem;                 
     public ActionBasedContinuousTurnProvider turnProvider;   
+    
+    // If true, also lock turning when movement is locked.
+    // Nếu true, cũng khóa xoay khi di chuyển bị khóa.
     public bool lockTurningToo = false;
 
+    // =========================================================================
+    // PLAYER POSITION TRACKING
+    // THEO DÕI VỊ TRÍ NGƯỜI CHƠI
+    // =========================================================================
     [Header("Player Start")]
     public Transform player;
     private Vector3 _playerStartPos;
     private bool _playerStartSaved = false;
     
+    // =========================================================================
+    // UI ROOTS
+    // GỐC UI
+    // =========================================================================
     [Header("UI Root (optional)")]
     public GameObject GameplayUIRoot; 
     public GameObject GameUIRoot;
 
+    // =========================================================================
+    // SCORING MODE CONFIGURATION
+    // CẤU HÌNH CHẾ ĐỘ TÍNH ĐIỂM
+    // =========================================================================
     [Header("Scoring Mode")]
+    // GrowthTime = score immediately on harvest.
+    // Seasonal = score when season changes (force harvest all).
+    // GrowthTime = tính điểm ngay khi thu hoạch.
+    // Seasonal = tính điểm khi đổi mùa (ép thu hoạch tất cả).
     public ScoreFlow scoringMode = ScoreFlow.Seasonal;
     
     public static ScoreFlow CurrentScoringMode { get; private set; }
 
-    /// <summary>
-    /// Khởi tạo tham chiếu (move/turn/locomotion, audio) và đồng bộ chế độ chấm điểm ban đầu.
-    /// </summary>
+    // =========================================================================
+    // MONTH SYSTEM CONFIGURATION
+    // CẤU HÌNH HỆ THỐNG THÁNG
+    // =========================================================================
+    [Header("Month System (12 months)")]
+    [Tooltip("Total game duration in seconds (default 180s = 3 minutes).")]
+    public float totalGameDuration = 180f;
+    
+    [Tooltip("Duration of each month in seconds (default 15s = 180s/12).")]
+    public float monthDuration = 15f;
+    
+    [Tooltip("Water level (0-100%) for each month. Index 0 = January.")]
+    // Water level table matching real Mekong Delta seasonal patterns.
+    // Bảng mực nước theo mô hình thực tế của Đồng bằng sông Cửu Long.
+    // Jan-Apr: Low (dry season), May-Oct: Rising (rainy), Nov-Dec: Falling.
+    // Tháng 1-4: Thấp (khô), tháng 5-10: Tăng (mưa), tháng 11-12: Giảm.
+    public float[] monthWaterLevels = new float[12]
+    {
+        40f, 35f, 30f, 25f, 40f, 60f, 80f, 90f, 100f, 85f, 65f, 50f
+    };
+
+    [Tooltip("Salinity multiplier when water level is lowest.")]
+    public float waterLevelMultiplierMin = 0.85f;
+    
+    [Tooltip("Salinity multiplier when water level is highest.")]
+    public float waterLevelMultiplierMax = 1.15f;
+
+    // =========================================================================
+    // Awake - Initialize references and sync scoring mode.
+    // Awake - Khởi tạo tham chiếu và đồng bộ chế độ tính điểm.
+    // =========================================================================
     private void Awake()
     {
+        // Auto-find XR components if not assigned.
+        // Tự động tìm component XR nếu chưa gán.
         if (!moveProvider) moveProvider = FindObjectOfType<ActionBasedContinuousMoveProvider>(true);
         if (!locomotionSystem) locomotionSystem = FindObjectOfType<LocomotionSystem>(true);
         if (!turnProvider) turnProvider = FindObjectOfType<ActionBasedContinuousTurnProvider>(true);
+        
         _audioSource = GetComponent<AudioSource>();
         CurrentScoringMode = scoringMode;
     }
 
-    /// <summary>
-    /// Thiết lập trạng thái UI/FX khi chưa bắt đầu game (khóa di chuyển, bật menu, set sky/music mặc định).
-    /// </summary>
+    // =========================================================================
+    // Start - Set initial UI state before game begins.
+    // Start - Thiết lập trạng thái UI ban đầu trước khi game bắt đầu.
+    // =========================================================================
     public void Start()
     {
         playGame = false;
         GameActive = false;
 
+        // Show start menu, hide result menu.
+        // Hiển thị menu bắt đầu, ẩn menu kết quả.
         ResultMenu.SetActive(false);
         StartMenu.SetActive(true);
+        
+        // Set default weather (sunny).
+        // Đặt thời tiết mặc định (nắng).
         Weather_Rain.SetActive(false);
         Rain_image.SetActive(false);
         Sun_image.SetActive(true);
@@ -100,49 +277,86 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         _enteredDry = _enteredRainy2 = false;
         _applyMoveThisFrame = false;
 
+        // Lock player movement until game starts.
+        // Khóa di chuyển người chơi cho đến khi game bắt đầu.
         SetMovementLocked(true);
         GameplayUIRoot.SetActive(true);
         GameUIRoot.SetActive(true);
     }
 
-    /// <summary>
-    /// Vòng lặp chính: cập nhật thời gian, chuyển pha theo mốc (Mưa 0–120s, Khô 120–240s), 
-    /// điều khiển thời tiết/skybox/nhạc, di chuyển nước và kết thúc game khi quá 240s.
-    /// </summary>
+    // =========================================================================
+    // Update - Main game loop. Runs every frame during gameplay.
+    // Update - Vòng lặp game chính. Chạy mỗi frame trong gameplay.
+    // 
+    // TIMELINE:
+    // 0-90s:   Rainy Season (Saltwater_Intrusion = 0)
+    // 90-180s: Dry Season (Saltwater_Intrusion = 1)
+    // >180s:   Game End
+    // 
+    // DÒNG THỜI GIAN:
+    // 0-90s:   Mùa Mưa (Saltwater_Intrusion = 0)
+    // 90-180s: Mùa Khô (Saltwater_Intrusion = 1)
+    // >180s:   Kết thúc Game
+    // =========================================================================
     public void Update()
     {
         _applyMoveThisFrame = false;
         if (!playGame) return;
 
+        // Increment elapsed time.
+        // Tăng thời gian đã trôi qua.
         timeRemaining += Time.deltaTime;
         DisplayTime(timeRemaining);
 
+        // Update month system (independent of season logic).
+        // Cập nhật hệ thống tháng (độc lập với logic mùa).
+        UpdateMonthAndWaterLevel(timeRemaining);
+
+        // =====================================================================
+        // PHASE 1: RAINY SEASON (0-90 seconds)
+        // PHA 1: MÙA MƯA (0-90 giây)
+        // =====================================================================
         if (timeRemaining <= 90f)
         {
             SetPhase(SeasonPhase.Rainy1);
             _rainning = true;
+            
+            // Enable rain effects and rainy skybox.
+            // Bật hiệu ứng mưa và skybox mưa.
             Weather_Rain.SetActive(true);
             Rain_image.SetActive(true);
             Sun_image.SetActive(false);
-            RenderSettings.skybox = Skybox_Rain; DynamicGI.UpdateEnvironment();
+            RenderSettings.skybox = Skybox_Rain; 
+            DynamicGI.UpdateEnvironment();
             PlayMusic(rainMusic);
 
             _moving = false;
             _enteredDry = false;
         }
+        // =====================================================================
+        // PHASE 2: DRY SEASON (90-180 seconds)
+        // PHA 2: MÙA KHÔ (90-180 giây)
+        // =====================================================================
         else if (timeRemaining > 90f && timeRemaining <= 180f)
         {
             SetPhase(SeasonPhase.Dry);
             _rainning = false;
+            
+            // Disable rain, enable sunny effects.
+            // Tắt mưa, bật hiệu ứng nắng.
             Weather_Rain.SetActive(false);
             Rain_image.SetActive(false);
             Sun_image.SetActive(true);
-            RenderSettings.skybox = Skybox_Sun; DynamicGI.UpdateEnvironment();
+            RenderSettings.skybox = Skybox_Sun; 
+            DynamicGI.UpdateEnvironment();
             PlayMusic(normalMusic);
 
+            // Start water movement animation when entering dry season.
+            // Bắt đầu animation di chuyển nước khi vào mùa khô.
             if (!_enteredDry)
             {
-                _enteredDry = true; _enteredRainy2 = false;
+                _enteredDry = true; 
+                _enteredRainy2 = false;
                 _phaseStartTime = timeRemaining;
                 _fromPos = target ? target.transform.position : pointA;
                 _toPos = pointB;
@@ -150,31 +364,42 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             }
             if (_moving && target) _applyMoveThisFrame = true;
         }
+        // =====================================================================
+        // PHASE 3: GAME END (>180 seconds)
+        // PHA 3: KẾT THÚC GAME (>180 giây)
+        // =====================================================================
         else
         {
             _rainning = false;
             Weather_Rain.SetActive(false);
             Rain_image.SetActive(false);
             Sun_image.SetActive(true);
-            RenderSettings.skybox = Skybox_Sun; DynamicGI.UpdateEnvironment();
+            RenderSettings.skybox = Skybox_Sun; 
+            DynamicGI.UpdateEnvironment();
             PlayMusic(normalMusic);
 
+            // Stop the game.
+            // Dừng game.
             playGame = false;
             GameActive = false;
 
             _moving = false;
             _applyMoveThisFrame = false;
 
-            
-            // can toi uu
+            // Freeze all HUDs and scoreboards.
+            // Đóng băng tất cả HUD và bảng điểm.
             var farms = FindObjectsOfType<FarmArea>(true);
             foreach (var a in farms) a.FreezeHUD();
 
             var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
             foreach (var b in boards) b.Freeze(true);
 
+            // Lock player movement.
+            // Khóa di chuyển người chơi.
             SetMovementLocked(true);
 
+            // Play end game sound and show result menu.
+            // Phát âm thanh kết thúc và hiển thị menu kết quả.
             if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
             ResultMenu.SetActive(true);
             GameplayUIRoot.SetActive(false);
@@ -182,17 +407,99 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Bước cập nhật sau Update: thực hiện bước di chuyển nước nếu frame này được bật cờ.
-    /// </summary>
+    // =========================================================================
+    // UpdateMonthAndWaterLevel - Updates month index and water level from time.
+    // UpdateMonthAndWaterLevel - Cập nhật tháng và mực nước theo thời gian.
+    // 
+    // This runs independently of the season system to provide finer control.
+    // Chạy độc lập với hệ thống mùa để cung cấp kiểm soát chi tiết hơn.
+    // =========================================================================
+    private void UpdateMonthAndWaterLevel(float t)
+    {
+        // Calculate current month (1-12) based on elapsed time.
+        // Tính tháng hiện tại (1-12) dựa trên thời gian đã trôi qua.
+        float safeMonthDuration = Mathf.Max(0.01f, monthDuration);
+        int monthIndex = Mathf.Clamp(Mathf.FloorToInt(t / safeMonthDuration) + 1, 1, 12);
+
+        // Fire event if month changed.
+        // Bắn sự kiện nếu tháng thay đổi.
+        if (monthIndex != CurrentMonthIndex)
+        {
+            CurrentMonthIndex = monthIndex;
+            OnMonthChanged?.Invoke(CurrentMonthIndex);
+        }
+
+        // Update water level from lookup table.
+        // Cập nhật mực nước từ bảng tra cứu.
+        float waterLevel = GetWaterLevelForMonth(CurrentMonthIndex);
+        if (!Mathf.Approximately(waterLevel, CurrentWaterLevelPercent))
+        {
+            CurrentWaterLevelPercent = waterLevel;
+            CurrentWaterLevelMultiplier = GetWaterLevelMultiplier(CurrentWaterLevelPercent);
+            OnWaterLevelChanged?.Invoke(CurrentWaterLevelPercent);
+        }
+        else
+        {
+            CurrentWaterLevelMultiplier = GetWaterLevelMultiplier(CurrentWaterLevelPercent);
+        }
+    }
+
+    // =========================================================================
+    // GetWaterLevelForMonth - Returns water level (0-100) for given month.
+    // GetWaterLevelForMonth - Trả về mực nước (0-100) cho tháng được chỉ định.
+    // =========================================================================
+    public float GetWaterLevelForMonth(int monthIndex)
+    {
+        if (monthWaterLevels == null || monthWaterLevels.Length < 12)
+        {
+            // Fallback to 50% if table is invalid.
+            // Dùng 50% nếu bảng không hợp lệ.
+            return 50f;
+        }
+
+        int idx = Mathf.Clamp(monthIndex, 1, 12) - 1;
+        return monthWaterLevels[idx];
+    }
+
+    // =========================================================================
+    // IsRainyMonth - Checks if month is in rainy season (June-October).
+    // IsRainyMonth - Kiểm tra tháng có trong mùa mưa không (Tháng 6-10).
+    // 
+    // Note: This is for reference. Salinity still follows time-based phases.
+    // Lưu ý: Đây chỉ để tham khảo. Độ mặn vẫn theo pha dựa trên thời gian.
+    // =========================================================================
+    public bool IsRainyMonth(int monthIndex)
+    {
+        int m = Mathf.Clamp(monthIndex, 1, 12);
+        return m >= 6 && m <= 10;
+    }
+
+    // =========================================================================
+    // GetWaterLevelMultiplier - Converts water level % to salinity multiplier.
+    // GetWaterLevelMultiplier - Chuyển đổi % mực nước thành hệ số độ mặn.
+    // 
+    // Higher water = slightly higher salinity multiplier.
+    // Mực nước cao hơn = hệ số độ mặn cao hơn một chút.
+    // =========================================================================
+    public float GetWaterLevelMultiplier(float waterLevelPercent)
+    {
+        float t = Mathf.Clamp01(waterLevelPercent / 100f);
+        return Mathf.Lerp(waterLevelMultiplierMin, waterLevelMultiplierMax, t);
+    }
+
+    // =========================================================================
+    // LateUpdate - Apply water movement after all Update() calls.
+    // LateUpdate - Áp dụng di chuyển nước sau tất cả các Update().
+    // =========================================================================
     private void LateUpdate()
     {
         if (_applyMoveThisFrame) StepMove();
     }
 
-    /// <summary>
-    /// Nội suy vị trí nước từ _fromPos sang _toPos theo moveTime (smooth) trong mỗi pha di chuyển.
-    /// </summary>
+    // =========================================================================
+    // StepMove - Smoothly interpolates water position over time.
+    // StepMove - Nội suy mượt vị trí nước theo thời gian.
+    // =========================================================================
     private void StepMove()
     {
         if (!target) return;
@@ -205,9 +512,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         if (t >= 1f) _moving = false;
     }
 
-    /// <summary>
-    /// Hiển thị thời gian mm:ss lên đồng hồ HUD.
-    /// </summary>
+    // =========================================================================
+    // DisplayTime - Shows elapsed time on HUD clock (MM:SS format).
+    // DisplayTime - Hiển thị thời gian lên đồng hồ HUD (định dạng MM:SS).
+    // =========================================================================
     void DisplayTime(float t)
     {
         float m = Mathf.FloorToInt(t / 60);
@@ -215,9 +523,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         clockText.text = $"{m:00}:{s:00}";
     }
 
-    /// <summary>
-    /// Phát nhạc nền nếu clip hợp lệ và khác clip hiện tại.
-    /// </summary>
+    // =========================================================================
+    // PlayMusic - Plays background music clip if different from current.
+    // PlayMusic - Phát nhạc nền nếu khác với clip hiện tại.
+    // =========================================================================
     void PlayMusic(AudioClip clip)
     {
         if (!clip) return;
@@ -228,9 +537,13 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         _audioSource.Play();
     }
 
-    /// <summary>
-    /// Bắt đầu ván chơi: reset thời gian, mở HUD gameplay, mở di chuyển, lưu vị trí player/điểm A lần đầu.
-    /// </summary>
+    // =========================================================================
+    // StartGame - Called when player clicks "Start" button.
+    // StartGame - Được gọi khi người chơi nhấn nút "Bắt đầu".
+    // 
+    // Resets time, shows gameplay UI, unlocks movement.
+    // Reset thời gian, hiển thị UI gameplay, mở khóa di chuyển.
+    // =========================================================================
     public void StartGame()
     {
         playGame = true;
@@ -242,12 +555,16 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         NPC_Talk.SetActive(true);
         ResultDetailsScore.SetActive(false);
 
+        // Save player start position for potential reset.
+        // Lưu vị trí bắt đầu của người chơi để reset nếu cần.
         if (!_playerStartSaved && player)
         {
             _playerStartPos = player.position;
             _playerStartSaved = true;
         }
 
+        // Save water starting position.
+        // Lưu vị trí nước bắt đầu.
         if (!_didSnapPointA && target)
         {
             pointA = target.transform.position;
@@ -255,28 +572,32 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         }
 
         _enteredDry = _enteredRainy2 = false;
-        _moving = false; _applyMoveThisFrame = false;
+        _moving = false; 
+        _applyMoveThisFrame = false;
         _phaseStartTime = timeRemaining;
 
+        // Unlock player movement.
+        // Mở khóa di chuyển người chơi.
         SetMovementLocked(false);
         GameplayUIRoot.SetActive(true);
         GameUIRoot.SetActive(true);
     }
 
-    /// <summary>
-    /// Khởi động lại ván chơi: Reload scene để trả về trạng thái ban đầu hoàn toàn.
-    /// </summary>
+    // =========================================================================
+    // RestartGame - Reloads scene to reset everything.
+    // RestartGame - Reload scene để reset mọi thứ.
+    // =========================================================================
     public void RestartGame()
     {
-        // Reload scene để trở về trạng thái ban đầu như khi mới run game
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
         );
     }
 
-    /// <summary>
-    /// Mở bảng chi tiết điểm cuối trận, ẩn menu kết quả và UI cho VR.
-    /// </summary>
+    // =========================================================================
+    // ShowResultDetailsScore - Shows detailed score breakdown panel.
+    // ShowResultDetailsScore - Hiển thị bảng chi tiết điểm số.
+    // =========================================================================
     public void ShowResultDetailsScore()
     {
         ResultDetailsScore.SetActive(true);
@@ -284,9 +605,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         UIForVR.SetActive(false);
     }
 
-    /// <summary>
-    /// Đóng bảng chi tiết điểm, quay lại menu kết quả và bật lại UI cho VR.
-    /// </summary>
+    // =========================================================================
+    // CloseResultDetailsScore - Returns to main result menu.
+    // CloseResultDetailsScore - Quay lại menu kết quả chính.
+    // =========================================================================
     public void CloseResultDetailsScore()
     {
         ResultDetailsScore.SetActive(false);
@@ -294,32 +616,62 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         UIForVR.SetActive(true);
     }
 
-    /// <summary>
-    /// Chuyển pha mùa: kết sổ (nếu Seasonal), cập nhật cờ mùa & Saltwater_Intrusion, bắn sự kiện và refresh salinity/UI.
-    /// </summary>
+    // =========================================================================
+    // SetPhase - Changes the current season phase.
+    // SetPhase - Thay đổi pha mùa hiện tại.
+    // 
+    // This is the core season transition logic:
+    // 1. If Seasonal scoring, settle all farms first
+    // 2. Update static Saltwater_Intrusion value
+    // 3. Fire OnPhaseChanged event
+    // 4. Update all plant salinity displays
+    // 
+    // Đây là logic chuyển mùa cốt lõi:
+    // 1. Nếu là chế độ Seasonal, chốt điểm tất cả farm trước
+    // 2. Cập nhật giá trị static Saltwater_Intrusion
+    // 3. Bắn sự kiện OnPhaseChanged
+    // 4. Cập nhật hiển thị độ mặn của tất cả cây
+    // =========================================================================
     private void SetPhase(SeasonPhase phase)
     {
+        // Only process if phase actually changed.
+        // Chỉ xử lý nếu phase thực sự thay đổi.
         if (_cachedPhase == phase) return;
 
+        // In Seasonal mode, settle all farms before changing phase.
+        // Trong chế độ Seasonal, chốt điểm tất cả farm trước khi đổi phase.
         if (InstanceExistsAndSeasonal())
             SettleAllFarmsForNewSeason();
 
         _cachedPhase = phase;
         _currentPhase = phase;
+        
+        // Set salinity: 0 = rainy (fresh), 1 = dry (salty).
+        // Đặt độ mặn: 0 = mưa (ngọt), 1 = khô (mặn).
         Saltwater_Intrusion = (phase == SeasonPhase.Dry) ? 1f : 0f;
         
+        // Notify all listeners about phase change.
+        // Thông báo cho tất cả listener về thay đổi phase.
         OnPhaseChanged?.Invoke(_currentPhase);
 
+        // Update salinity display on all growing plants.
+        // Cập nhật hiển thị độ mặn trên tất cả cây đang phát triển.
         foreach (var t in FindObjectsOfType<Thuan_23127_PlantGrowth>())
             t.UpdateSalinityEvent();
 
+        // Update global salinity UI.
+        // Cập nhật UI độ mặn toàn cục.
         var gm = Thuan_23127_GameManager.Instance;
         if (gm && gm.jsonReader) gm.jsonReader.UpdateSalinityUI(gm.GetSeasonSalinity());
     }
     
-    /// <summary>
-    /// Khóa/Mở khả năng di chuyển (và xoay nếu cấu hình) của người chơi trong XR.
-    /// </summary>
+    // =========================================================================
+    // SetMovementLocked - Enables/disables VR locomotion.
+    // SetMovementLocked - Bật/tắt di chuyển VR.
+    // 
+    // Used to prevent player movement during menus.
+    // Dùng để ngăn di chuyển khi đang ở menu.
+    // =========================================================================
     private void SetMovementLocked(bool locked)
     {
         if (moveProvider) moveProvider.enabled = !locked;
@@ -327,17 +679,25 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         if (locomotionSystem) locomotionSystem.enabled = !locked;
     }
 
-    /// <summary>
-    /// Kiểm tra có đang chạy chế độ chấm điểm theo mùa (Seasonal) hay không.
-    /// </summary>
+    // =========================================================================
+    // InstanceExistsAndSeasonal - Checks if using Seasonal scoring mode.
+    // InstanceExistsAndSeasonal - Kiểm tra có đang dùng chế độ Seasonal không.
+    // =========================================================================
     private bool InstanceExistsAndSeasonal()
     {
         return scoringMode == ScoreFlow.Seasonal;
     }
 
-    /// <summary>
-    /// Yêu cầu tất cả FarmArea chốt điểm đối tượng đang còn và dọn slot để sang mùa mới.
-    /// </summary>
+    // =========================================================================
+    // SettleAllFarmsForNewSeason - Forces harvest all plants in all farms.
+    // SettleAllFarmsForNewSeason - Ép thu hoạch tất cả cây trong tất cả farm.
+    // 
+    // Called when season changes in Seasonal mode.
+    // Each FarmArea will score remaining objects and clear plots.
+    // 
+    // Được gọi khi mùa thay đổi trong chế độ Seasonal.
+    // Mỗi FarmArea sẽ tính điểm các object còn lại và dọn plot.
+    // =========================================================================
     private void SettleAllFarmsForNewSeason()
     {
         var farms = FindObjectsOfType<FarmArea>(true);

@@ -5,75 +5,204 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
+// =============================================================================
+// Thuan_23127_PlantGrowth - Manages the complete lifecycle of plants/animals/fish.
+// Thuan_23127_PlantGrowth - Quản lý toàn bộ vòng đời của cây/động vật/cá.
+// 
+// This is the core component attached to every growing entity in the game.
+// It handles: Growing → Ready → Harvesting → Done states.
+// 
+// Đây là component cốt lõi được gắn vào mọi thực thể đang phát triển trong game.
+// Nó xử lý: Các trạng thái Đang phát triển → Sẵn sàng → Đang thu hoạch → Hoàn thành.
+// 
+// KEY RESPONSIBILITIES:
+// - Growth progress over time
+// - Salinity-based score calculation
+// - Visual feedback (progress bar, warning icons)
+// - Animation control based on salinity stress
+// - Event broadcasting for UI/FarmArea
+// 
+// TRÁCH NHIỆM CHÍNH:
+// - Tiến độ phát triển theo thời gian
+// - Tính điểm dựa trên độ mặn
+// - Phản hồi trực quan (thanh tiến độ, icon cảnh báo)
+// - Điều khiển animation theo stress độ mặn
+// - Phát sự kiện cho UI/FarmArea
+// =============================================================================
 public class Thuan_23127_PlantGrowth : MonoBehaviour
 {
-    [Header("Progress UI (dùng chung cho grow & harvest)")]
+    // =========================================================================
+    // UI REFERENCES
+    // THAM CHIẾU UI
+    // =========================================================================
+    [Header("Progress UI (shared for grow & harvest)")]
+    // Progress bar fill image (0-1 fill amount).
+    // Image fill của thanh tiến độ (fill amount 0-1).
     public Image progressFill;
+    
+    // Text showing percentage (e.g., "75%").
+    // Text hiển thị phần trăm (ví dụ: "75%").
     public TextMeshProUGUI progressPercentText;
 
     [Header("UI (Salinity)")]
-    public TextMeshProUGUI salinityText;  // hiển thị độ mặn cho instance này
+    // Displays current salinity for this plant.
+    // Hiển thị độ mặn hiện tại cho cây này.
+    public TextMeshProUGUI salinityText;
+    
     [Header("Icon warningIcon")]
-    public Image warningIcon; // icon khi vuot ngưỡng mặn;
+    // Warning icon shown when salinity exceeds threshold.
+    // Icon cảnh báo hiển thị khi độ mặn vượt ngưỡng.
+    public Image warningIcon;
+    
+    // Tracks if warning has been evaluated once (for initial snap).
+    // Theo dõi nếu cảnh báo đã được đánh giá lần đầu (cho snap ban đầu).
     private bool _warningEvaluatedOnce = false;
 
+    // =========================================================================
+    // XR INTERACTION
+    // TƯƠNG TÁC XR
+    // =========================================================================
     [Header("XR (Harvest optional)")]
+    // XR interactable for VR harvest interaction.
+    // XR interactable cho tương tác thu hoạch VR.
     public XRSimpleInteractable harvestInteractable;
 
+    // =========================================================================
+    // TIMING CONFIGURATION
+    // CẤU HÌNH THỜI GIAN
+    // =========================================================================
     [Header("Timing")]
+    // Delay before destroying object after harvest (allows visual feedback).
+    // Thời gian chờ trước khi hủy object sau thu hoạch (cho phép phản hồi trực quan).
     [SerializeField] private float destroyDelaySeconds = 30f;
 
-    // ===== Events để FarmArea/HUD nhận =====
+    // =========================================================================
+    // LIFECYCLE EVENTS
+    // CÁC SỰ KIỆN VÒNG ĐỜI
+    // 
+    // These events allow FarmArea, HUD, and other systems to react to changes.
+    // Các sự kiện này cho phép FarmArea, HUD, và các hệ thống khác phản ứng với thay đổi.
+    // =========================================================================
+    
+    // Plant states: Growing → Ready → Harvesting → Done
+    // Các trạng thái cây: Đang phát triển → Sẵn sàng → Đang thu hoạch → Hoàn thành
     public enum State { Growing, Ready, Harvesting, Done }
-    public event Action<float> OnProgressChanged;                  // 0..1
-    public event Action<float, float> OnSalinityChanged;           // current, threshold
-    public event Action<State> OnStateChanged;                     // vòng đời cây
-    public event Action OnAboutToDestroy;                          // trước khi Destroy
-    public event Action<int> OnHarvested;                          // điểm thực tế nhận được sau thu hoạch
+    
+    // Fired when growth/harvest progress changes (0.0 to 1.0).
+    // Bắn khi tiến độ phát triển/thu hoạch thay đổi (0.0 đến 1.0).
+    public event Action<float> OnProgressChanged;
+    
+    // Fired when salinity updates (current value, threshold value).
+    // Bắn khi độ mặn cập nhật (giá trị hiện tại, giá trị ngưỡng).
+    public event Action<float, float> OnSalinityChanged;
+    
+    // Fired when lifecycle state changes.
+    // Bắn khi trạng thái vòng đời thay đổi.
+    public event Action<State> OnStateChanged;
+    
+    // Fired just before object is destroyed (for cleanup).
+    // Bắn ngay trước khi object bị hủy (để dọn dẹp).
+    public event Action OnAboutToDestroy;
+    
+    // Fired when harvested with the actual points earned.
+    // Bắn khi thu hoạch với số điểm thực tế kiếm được.
+    public event Action<int> OnHarvested;
 
-    // dữ liệu nguồn (tuỳ loại)
-    private Plant  _plantData;
-    private Animal _animalData;
-    private Fish   _fishData;
+    // =========================================================================
+    // DATA REFERENCES (only one is set based on entity type)
+    // THAM CHIẾU DỮ LIỆU (chỉ một cái được đặt dựa trên loại thực thể)
+    // =========================================================================
+    private Plant  _plantData;   // For plants (rice, durian, coconut, etc.)
+    private Animal _animalData;  // For livestock (chicken, duck, etc.)
+    private Fish   _fishData;    // For aquatic (fish, shrimp, etc.)
 
-    // tham số chung
+    // =========================================================================
+    // RUNTIME STATE
+    // TRẠNG THÁI RUNTIME
+    // =========================================================================
+    
+    // Total growth time in seconds.
+    // Tổng thời gian phát triển tính bằng giây.
     private float _growTotal;
+    
+    // Elapsed growth time.
+    // Thời gian phát triển đã trôi qua.
     private float _growElapsed;
+    
+    // Time to complete harvest animation.
+    // Thời gian hoàn thành animation thu hoạch.
     private float _harvestTime;
-    private int   _econ;
+    
+    // Base economic value (points before salinity adjustment).
+    // Giá trị kinh tế gốc (điểm trước khi điều chỉnh độ mặn).
+    private int _econ;
 
-    private bool  _growing, _ready;
-    private bool  _harvested;
-    private bool  _harvesting;
+    // State flags.
+    // Các cờ trạng thái.
+    private bool _growing, _ready;
+    private bool _harvested;
+    private bool _harvesting;
     private Coroutine _harvestCo;
 
+    // Owner references.
+    // Tham chiếu đến chủ sở hữu.
     private FarmArea _ownerArea;
     private int _ownerIndex = -1;
     private Thuan_23127_JsonReader _jsonReader;
 
-    // Provider độ mặn theo Ô (được FarmArea tiêm vào)
+    // =========================================================================
+    // SALINITY PROVIDER
+    // PROVIDER ĐỘ MẶN
+    // 
+    // FarmArea injects this function so plant uses area-specific salinity.
+    // FarmArea tiêm hàm này để cây dùng độ mặn riêng của vùng.
+    // =========================================================================
     private Func<float> _salinityProvider;
     
-    
-    //========================= Cấu hình animator cho plant chưa có fish và animal
+    // =========================================================================
+    // ANIMATION CONFIGURATION
+    // CẤU HÌNH ANIMATION
+    // =========================================================================
     [Header("Anim (optional)")]
-    public Animator plantAnimator;              // drag vào nếu có; nếu bỏ trống sẽ tự tìm
+    // Animator component (auto-found if not assigned).
+    // Component Animator (tự động tìm nếu chưa gán).
+    public Animator plantAnimator;
+    
+    // Animation state names for healthy/stressed plants.
+    // Tên các state animation cho cây khỏe mạnh/bị stress.
     public string animGood = "Tree_Good";
     public string animBad  = "Tree_Bad";
-    public float salinityBadDelay = 10f;  
-    // runtime
-    private bool _isOverSalt = false;           // đang vượt ngưỡng?
+    
+    // Delay before playing "bad" animation when salinity exceeds threshold.
+    // Thời gian chờ trước khi phát animation "xấu" khi độ mặn vượt ngưỡng.
+    public float salinityBadDelay = 10f;
+    
+    // Runtime animation state.
+    // Trạng thái animation runtime.
+    private bool _isOverSalt = false;
     private bool _badAnimPlayedThisSaltPeriod = false;
     private Coroutine _salinityBadCo;
 
+    // Event for health description text changes.
+    // Sự kiện cho thay đổi text mô tả sức khỏe.
     public event Action<string> OnHealthTextChanged;
-    /// <summary>
-    /// Cho phép FarmArea tiêm vào hàm trả về độ mặn của Ô theo mùa hiện tại
-    /// </summary>
+
+    // =========================================================================
+    // SetSalinityProvider - Allows FarmArea to inject salinity source.
+    // SetSalinityProvider - Cho phép FarmArea tiêm nguồn độ mặn.
+    // 
+    // This enables each plant to use its zone's specific salinity value.
+    // Điều này cho phép mỗi cây dùng giá trị độ mặn riêng của vùng.
+    // =========================================================================
     public void SetSalinityProvider(Func<float> provider) { _salinityProvider = provider; }
 
-    // === Init cho Plant ===
-    /// <summary>Khởi tạo từ dữ liệu PLANT và bắt đầu vòng đời (grow→ready→harvest)</summary>
+    // =========================================================================
+    // Init (Plant) - Initialize from Plant data and start lifecycle.
+    // Init (Plant) - Khởi tạo từ dữ liệu Plant và bắt đầu vòng đời.
+    // 
+    // Called by: FarmArea.PlantInternal() when planting a crop.
+    // Được gọi bởi: FarmArea.PlantInternal() khi trồng cây.
+    // =========================================================================
     public void Init(Plant data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = data;  _animalData = null; _fishData = null;
@@ -85,11 +214,16 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         Debug.Log($"Plant Init - ID: {data.id}, Growth Time: {data.growth_time}");
 
         CommonInitAndStart();
-        UpdateSalinityEvent();   // đẩy UI độ mặn ban đầu
+        UpdateSalinityEvent();
     }
 
-    // === Init cho Animal ===
-    /// <summary>Khởi tạo từ dữ liệu ANIMAL</summary>
+    // =========================================================================
+    // Init (Animal) - Initialize from Animal data.
+    // Init (Animal) - Khởi tạo từ dữ liệu Animal.
+    // 
+    // Used for livestock like chickens, ducks.
+    // Dùng cho vật nuôi như gà, vịt.
+    // =========================================================================
     public void Init(Animal data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = null;  _animalData = data; _fishData = null;
@@ -98,14 +232,19 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _growTotal   = Mathf.Max(0f, data.growth_time);
         _harvestTime = (data.harvest_time > 0f) ? data.harvest_time : 2f;
         _econ = Mathf.Max(0, data.economic_benefits);
-        Debug.Log($"Ânil Init - ID: {data.id}, Growth Time: {data.growth_time}");
+        Debug.Log($"Animal Init - ID: {data.id}, Growth Time: {data.growth_time}");
 
         CommonInitAndStart();
         UpdateSalinityEvent();
     }
 
-    // === Init cho Fish ===
-    /// <summary>Khởi tạo từ dữ liệu FISH</summary>
+    // =========================================================================
+    // Init (Fish) - Initialize from Fish data.
+    // Init (Fish) - Khởi tạo từ dữ liệu Fish.
+    // 
+    // Used for aquatic animals like fish, shrimp.
+    // Dùng cho động vật thủy sản như cá, tôm.
+    // =========================================================================
     public void Init(Fish data, FarmArea area, int plotIndex, Thuan_23127_JsonReader reader)
     {
         _plantData  = null;  _animalData = null; _fishData = data;
@@ -119,19 +258,27 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         UpdateSalinityEvent();
     }
 
-    /// <summary>
-    /// Lấy độ mặn hiện tại để hiển thị/tính điểm   
-    /// </summary>
+    // =========================================================================
+    // CurrentSalinity - Gets current salinity for scoring/display.
+    // CurrentSalinity - Lấy độ mặn hiện tại để tính điểm/hiển thị.
+    // 
+    // Priority: 1) Injected provider, 2) Global GameManager.
+    // Ưu tiên: 1) Provider được tiêm, 2) GameManager toàn cục.
+    // =========================================================================
     private float CurrentSalinity()
     {
         if (_salinityProvider != null) return Mathf.Max(0f, _salinityProvider());
         var gm = Thuan_23127_GameManager.Instance;
-        return gm ? gm.GetSeasonSalinity() : 0f; // fallback
+        return gm ? gm.GetSeasonSalinity() : 0f;
     }
 
-    /// <summary>
-    /// Bắn event cập nhật độ mặn cho HUD 
-    /// </summary>
+    // =========================================================================
+    // UpdateSalinityEvent - Fires salinity update event for HUD.
+    // UpdateSalinityEvent - Bắn sự kiện cập nhật độ mặn cho HUD.
+    // 
+    // Called by: FarmArea on phase change, internal UI updates.
+    // Được gọi bởi: FarmArea khi đổi phase, cập nhật UI nội bộ.
+    // =========================================================================
     public void UpdateSalinityEvent()
     {
         float current = CurrentSalinity();
@@ -139,17 +286,29 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         if (_plantData  != null) threshold = _plantData.salinity_threshold;
         if (_animalData != null) threshold = _animalData.salinity_threshold;
         if (_fishData   != null) threshold = _fishData.salinity_threshold;
+        
         OnSalinityChanged?.Invoke(current, threshold);
         
-        EvaluateSalinityEffects(current, threshold); //  kiểm tra để đếm giờ anim xấu khi vượt
-        EmitHealthDescription(current, threshold); // thêm dòng này
+        // Check for animation triggers.
+        // Kiểm tra trigger animation.
+        EvaluateSalinityEffects(current, threshold);
+        
+        // Update health description text.
+        // Cập nhật text mô tả sức khỏe.
+        EmitHealthDescription(current, threshold);
     }
 
-    /// <summary>
-    /// Chuẩn bị interaction, reset trạng thái và bắt Coroutine grow
-    /// </summary>
+    // =========================================================================
+    // CommonInitAndStart - Shared initialization logic for all entity types.
+    // CommonInitAndStart - Logic khởi tạo chung cho tất cả loại thực thể.
+    // 
+    // Sets up XR interaction, resets state, and starts growth coroutine.
+    // Thiết lập tương tác XR, reset trạng thái, và bắt đầu coroutine phát triển.
+    // =========================================================================
     private void CommonInitAndStart()
     {
+        // Setup XR harvest interaction.
+        // Thiết lập tương tác thu hoạch XR.
         if (!harvestInteractable) harvestInteractable = GetComponent<XRSimpleInteractable>();
         if (harvestInteractable)
         {
@@ -157,6 +316,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             harvestInteractable.selectEntered.AddListener(_ => { TryStartHarvest(); });
         }
 
+        // Reset all state flags.
+        // Reset tất cả cờ trạng thái.
         _growing = true; _ready = false; _harvested = false; _harvesting = false;
 
         OnProgressChanged?.Invoke(0f);
@@ -164,26 +325,34 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         StartCoroutine(CoGrow());
     }
 
-    /// <summary>
-    /// Vòng lặp tăng trưởng đến khi sẵn sàng thu hoạch
-    /// </summary>
+    // =========================================================================
+    // CoGrow - Coroutine for growth phase.
+    // CoGrow - Coroutine cho pha phát triển.
+    // 
+    // Progress increases from 0 to 1 over _growTotal seconds.
+    // When complete, transitions to Ready state.
+    // 
+    // Tiến độ tăng từ 0 đến 1 trong _growTotal giây.
+    // Khi hoàn thành, chuyển sang trạng thái Ready.
+    // =========================================================================
     private IEnumerator CoGrow()
     {
         _growElapsed = 0f;
 
+        // Instant growth if time is 0.
+        // Phát triển tức thì nếu thời gian là 0.
         if (_growTotal <= 0f)
         {
             OnProgressChanged?.Invoke(1f);
             UpdateUI(1f);
             _growing = false; _ready = true;
             OnStateChanged?.Invoke(State.Ready);
-
-            // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
-                TryStartHarvest();
-
+            TryStartHarvest();
             yield break;
         }
 
+        // Gradual growth over time.
+        // Phát triển dần theo thời gian.
         while (_growElapsed < _growTotal) {
             _growElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(_growElapsed / _growTotal);
@@ -194,18 +363,23 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         _growing = false; _ready = true;
         OnStateChanged?.Invoke(State.Ready);
-
-        // if (RulesoftheGame_VU2_1.CurrentScoringMode == ScoreFlow.GrowthTime)
-            TryStartHarvest();
+        TryStartHarvest();
     }
 
-
+    // =========================================================================
+    // Input handlers for harvest.
+    // Các handler input cho thu hoạch.
+    // =========================================================================
     private void OnMouseDown() { TryStartHarvest(); }
     public  void HarvestNow()  { TryStartHarvest(); }
 
-    /// <summary>
-    /// Kiểm tra điều kiện và bắt đầu coroutine thu hoạch
-    /// </summary>
+    // =========================================================================
+    // TryStartHarvest - Validates conditions and starts harvest.
+    // TryStartHarvest - Kiểm tra điều kiện và bắt đầu thu hoạch.
+    // 
+    // Conditions: Must be ready, not already harvested, not currently harvesting.
+    // Điều kiện: Phải sẵn sàng, chưa thu hoạch, không đang thu hoạch.
+    // =========================================================================
     private void TryStartHarvest()
     {
         if (!_ready || _harvested || _harvesting) return;
@@ -213,82 +387,114 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _harvestCo = StartCoroutine(CoHarvest());
     }
 
-    /// <summary>
-    /// Hiệu ứng thu hoạch (đầy progress trong _harvestTime)
-    /// </summary>
+    // =========================================================================
+    // CoHarvest - Coroutine for harvest animation phase.
+    // CoHarvest - Coroutine cho pha animation thu hoạch.
+    // 
+    // Shows progress bar filling up during harvest time.
+    // Hiển thị thanh tiến độ đầy lên trong thời gian thu hoạch.
+    // =========================================================================
     private System.Collections.IEnumerator CoHarvest()
     {
         _harvesting = true;
         OnStateChanged?.Invoke(State.Harvesting);
+        
+        // Disable interaction during harvest.
+        // Tắt tương tác trong khi thu hoạch.
         if (harvestInteractable) harvestInteractable.enabled = false;
 
         OnProgressChanged?.Invoke(0f);
         float e = 0f, h = (_harvestTime > 0f) ? _harvestTime : 2f;
+        
+        // Progress through harvest time.
+        // Tiến hành qua thời gian thu hoạch.
         while (e < h)
         {
             e += Time.deltaTime;
             var tt = Mathf.Clamp01(e / h);
             OnProgressChanged?.Invoke(tt);
-
-            UpdateUI(tt);   
-
+            UpdateUI(tt);
             yield return null;
         }
 
         FinalizeHarvest();
     }
 
-    /// <summary>
-    /// Chốt điểm, bắn sự kiện, lên lịch tự hủy
-    /// </summary>
+    // =========================================================================
+    // FinalizeHarvest - Calculates score, fires events, schedules destruction.
+    // FinalizeHarvest - Tính điểm, bắn sự kiện, lên lịch hủy.
+    // 
+    // This is where the actual score is calculated and added to GameManager.
+    // Đây là nơi điểm thực tế được tính và cộng vào GameManager.
+    // =========================================================================
     private void FinalizeHarvest()
     {
         if (_harvested) return;
         _harvested = true; _ready = false; _harvesting = false;
 
-        // Tính điểm theo độ mặn khu vực (đã set bằng provider)
+        // Calculate score adjusted by salinity.
+        // Tính điểm được điều chỉnh theo độ mặn.
         int points = AdjustBySalinity(_econ);
 
+        // SPECIAL RULES for specific fish types.
+        // QUY TẮC ĐẶC BIỆT cho các loại cá cụ thể.
+        
+        // Shrimp (ID 5,6): Cannot survive in fresh water.
+        // Tôm (ID 5,6): Không thể sống trong nước ngọt.
         if (_fishData != null && (_fishData.id == 5 || _fishData.id == 6))
         {
             if (_ownerArea && _ownerArea.waterType == WaterType.Fresh)
             {
-                points = -0; // Trừ 5 điểm nếu nuôi sai chỗ tom su'
+                points = 0; // Zero points for wrong placement.
             }
         }
 
+        // Red tilapia (ID 2): Cannot survive in salt water.
+        // Cá điêu hồng (ID 2): Không thể sống trong nước mặn.
         if (_fishData != null && (_fishData.id == 2))
         {
             if (_ownerArea && _ownerArea.waterType == WaterType.Salt)
             {
-                points = -0; // ca dieu hong ko nuoi dc trong nuoc man.
+                points = 0;
             }
         }
 
+        // Add score to GameManager.
+        // Cộng điểm vào GameManager.
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.AddScore(points);
 
-        // Cho FarmArea biết số điểm của lần harvest này
+        // Notify listeners of harvest.
+        // Thông báo cho listener về việc thu hoạch.
         OnHarvested?.Invoke(points);
 
+        // Schedule destruction after delay.
+        // Lên lịch hủy sau thời gian chờ.
         StartCoroutine(CoDestroyAfter(destroyDelaySeconds));
         OnStateChanged?.Invoke(State.Done);
     }
 
-    /// <summary>
-    /// Điều chỉnh điểm theo bảng cố định hoặc theo ngưỡng mặn
-    /// Bảng: Vùng ngọt/lợ × Mùa mưa/khô
-    /// </summary>
+    // =========================================================================
+    // AdjustBySalinity - Adjusts base score based on salinity conditions.
+    // AdjustBySalinity - Điều chỉnh điểm gốc dựa trên điều kiện độ mặn.
+    // 
+    // First tries table-based scoring, then falls back to threshold formula.
+    // Đầu tiên thử tính điểm theo bảng, rồi fallback về công thức ngưỡng.
+    // =========================================================================
     private int AdjustBySalinity(int baseValue)
     {
-        // Kiểm tra có dùng bảng điểm cố định không
+        // Try table-based scoring first.
+        // Thử tính điểm theo bảng trước.
         int tableScore = GetTableBasedScore();
         if (tableScore >= 0)
         {
             return tableScore;
         }
         
-        // Fallback: Công thức cũ - điều chỉnh theo ngưỡng mặn
+        // Fallback: Threshold-based formula.
+        // Fallback: Công thức dựa trên ngưỡng.
+        // If salinity > threshold: score = baseValue * (threshold / salinity)
+        // Nếu độ mặn > ngưỡng: điểm = điểm gốc * (ngưỡng / độ mặn)
         float t = 0f;
         if      (_plantData  != null) t = _plantData.salinity_threshold;
         else if (_animalData != null) t = _animalData.salinity_threshold;
@@ -301,46 +507,54 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         return Mathf.Max(0, Mathf.RoundToInt(baseValue * ratio));
     }
     
-    /// <summary>
-    /// Tính điểm theo bảng cố định: Vùng × Mùa
-    /// Trả về -1 nếu không có trong bảng (dùng công thức cũ)
-    /// 
-    /// Bảng điểm (từ user):
-    /// | Loại       | Ngọt+Mưa | Ngọt+Khô | Lợ+Mưa | Lợ+Khô |
-    /// |------------|----------|----------|--------|--------|
-    /// | Sầu riêng  | 15       | 10       | 6      | 4      |
-    /// | Dừa        | 12       | 8        | 8      | 5      |
-    /// | Cá         | 1        | 2        | 3      | 4      |
-    /// | Gà         | 85%      | 80%      | 75%    | 60%    |
-    /// </summary>
+    // =========================================================================
+    // GetTableBasedScore - Returns score from fixed Zone × Season table.
+    // GetTableBasedScore - Trả về điểm từ bảng cố định Vùng × Mùa.
+    // 
+    // Returns -1 if entity not in table (use threshold formula instead).
+    // Trả về -1 nếu thực thể không có trong bảng (dùng công thức ngưỡng thay thế).
+    // 
+    // SCORE TABLE:
+    // | Type     | Fresh+Rainy | Fresh+Dry | Salt+Rainy | Salt+Dry |
+    // |----------|-------------|-----------|------------|----------|
+    // | Durian   | 15          | 10        | 6          | 4        |
+    // | Coconut  | 12          | 8         | 8          | 5        |
+    // | Fish     | 1           | 2         | 3          | 4        |
+    // | Chicken  | 85%         | 80%       | 75%        | 60%      |
+    // =========================================================================
     private int GetTableBasedScore()
     {
-        // Xác định vùng và mùa
+        // Determine zone and season.
+        // Xác định vùng và mùa.
         bool isFresh = (_ownerArea != null && _ownerArea.waterType == WaterType.Fresh);
         bool isRainy = (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f);
         
-        // Sầu riêng (Plant ID = 1)
+        // Durian (Plant ID = 1).
+        // Sầu riêng (Plant ID = 1).
         if (_plantData != null && _plantData.id == 1)
         {
             if (isFresh) return isRainy ? 15 : 10;
             else         return isRainy ? 6 : 4;
         }
         
-        // Dừa (Plant ID = 10)
+        // Coconut (Plant ID = 10).
+        // Dừa (Plant ID = 10).
         if (_plantData != null && _plantData.id == 10)
         {
             if (isFresh) return isRainy ? 12 : 8;
             else         return isRainy ? 8 : 5;
         }
         
-        // Cá (Fish - tất cả loại cá)
+        // All fish types.
+        // Tất cả loại cá.
         if (_fishData != null)
         {
             if (isFresh) return isRainy ? 1 : 2;
             else         return isRainy ? 3 : 4;
         }
         
-        // Gà (Livestock ID = 3) - tính theo % của điểm gốc
+        // Chicken (Livestock ID = 3) - percentage of base value.
+        // Gà (Livestock ID = 3) - phần trăm của giá trị gốc.
         if (_animalData != null && _animalData.id == 3)
         {
             float percent;
@@ -350,13 +564,15 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             return Mathf.RoundToInt(_econ * percent);
         }
         
-        // Không có trong bảng → trả -1 để dùng công thức cũ
+        // Not in table - return -1 to use threshold formula.
+        // Không có trong bảng - trả về -1 để dùng công thức ngưỡng.
         return -1;
     }
 
-    /// <summary>
-    /// Đợi 1 khoảng rồi báo cho FarmArea giải phóng slot & Destroy
-    /// </summary>
+    // =========================================================================
+    // CoDestroyAfter - Waits, notifies FarmArea, then destroys object.
+    // CoDestroyAfter - Chờ, thông báo FarmArea, rồi hủy object.
+    // =========================================================================
     private System.Collections.IEnumerator CoDestroyAfter(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -365,27 +581,39 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         Destroy(gameObject);
     }
 
-    /// <summary>
-    /// Cập nhật UI tiến độ cục bộ trên prefab 
-    /// </summary>
+    // =========================================================================
+    // UpdateUI - Updates local UI elements on the prefab.
+    // UpdateUI - Cập nhật các UI element cục bộ trên prefab.
+    // 
+    // Called every frame during growth/harvest.
+    // Được gọi mỗi frame trong khi phát triển/thu hoạch.
+    // =========================================================================
     private void UpdateUI(float t)
     {
+        // Update progress bar.
+        // Cập nhật thanh tiến độ.
         if (progressFill) progressFill.fillAmount = t;
         if (progressPercentText) progressPercentText.text = Mathf.RoundToInt(t * 100f) + "%";
 
+        // Update salinity display.
+        // Cập nhật hiển thị độ mặn.
         var currentSalinity = CurrentSalinity();
         if (salinityText) salinityText.text = currentSalinity.ToString("F2") + " ‰";
 
-        // Tính threshold 1 lần
+        // Get threshold for salinity check.
+        // Lấy ngưỡng để kiểm tra độ mặn.
         float threshold = 0f;
         if (_plantData  != null) threshold = _plantData.salinity_threshold;
         if (_animalData != null) threshold = _animalData.salinity_threshold;
         if (_fishData   != null) threshold = _fishData.salinity_threshold;
 
-        //  Luôn đánh giá logic mặn → coroutine anim, KHÔNG phụ thuộc vào warningIcon
+        // Evaluate salinity effects (animation triggers).
+        // Đánh giá hiệu ứng độ mặn (trigger animation).
         EvaluateSalinityEffects(currentSalinity, threshold);
         EmitHealthDescription(currentSalinity, threshold);
-        // Sau đó mới xử lý icon (nếu có)
+        
+        // Update warning icon with fade effect.
+        // Cập nhật icon cảnh báo với hiệu ứng fade.
         if (warningIcon)
         {
             float targetAlpha = currentSalinity > threshold ? 1f : 0f;
@@ -393,7 +621,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             var cg = warningIcon.GetComponent<CanvasGroup>();
             if (!cg) cg = warningIcon.gameObject.AddComponent<CanvasGroup>();
 
-            // SNAP lần đầu
+            // Snap immediately on first evaluation.
+            // Snap ngay lập tức khi đánh giá lần đầu.
             if (!_warningEvaluatedOnce)
             {
                 _warningEvaluatedOnce = true;
@@ -409,10 +638,11 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
                 if (!show && warningIcon.gameObject.activeSelf)
                     warningIcon.gameObject.SetActive(false);
 
-                return; // kết thúc lần đầu
+                return;
             }
 
-            // Fade mượt các lần sau
+            // Smooth fade for subsequent updates.
+            // Fade mượt cho các lần cập nhật sau.
             if (targetAlpha > 0f && !warningIcon.gameObject.activeSelf)
             {
                 warningIcon.gameObject.SetActive(true);
@@ -435,82 +665,107 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Ép tính điểm ngay lập tức và hủy object (bỏ qua harvest animation).
-    /// Dùng cho "kết sổ theo mùa".
-    /// </summary>
+    // =========================================================================
+    // ForceHarvestImmediateAndDestroy - Instant harvest without animation.
+    // ForceHarvestImmediateAndDestroy - Thu hoạch tức thì không có animation.
+    // 
+    // Called by: FarmArea.SettleAndClearForNewSeason() when season changes.
+    // Used in Seasonal scoring mode to settle all plants at phase boundary.
+    // 
+    // Được gọi bởi: FarmArea.SettleAndClearForNewSeason() khi đổi mùa.
+    // Dùng trong chế độ Seasonal để chốt điểm tất cả cây tại ranh giới phase.
+    // =========================================================================
     public void ForceHarvestImmediateAndDestroy()
     {
-        if (_harvested) return;         // đã chốt điểm rồi thì thôi
-        _ready = true;                   // đảm bảo trạng thái coi như đã sẵn sàng
-        _harvesting = false;             // không chạy effect nữa
+        if (_harvested) return;
+        _ready = true;
+        _harvesting = false;
 
-        // Tính & cộng điểm (theo salinity của Ô vì FarmArea đã SetSalinityProvider)
+        // Calculate score using area salinity.
+        // Tính điểm sử dụng độ mặn của vùng.
         int points = AdjustBySalinity(_econ);
 
-        // Ràng buộc đặc thù cho FISH (y như FinalizeHarvest)
-        if (_fishData != null && (_fishData.id == 5 || _fishData.id == 6))    // tôm
+        // Apply special fish rules.
+        // Áp dụng quy tắc đặc biệt cho cá.
+        if (_fishData != null && (_fishData.id == 5 || _fishData.id == 6))
             if (_ownerArea && _ownerArea.waterType == WaterType.Fresh) points = 0;
 
-        if (_fishData != null && (_fishData.id == 2))                          // cá điêu hồng
-            if (_ownerArea && _ownerArea.waterType == WaterType.Salt)  points = 0;
+        if (_fishData != null && (_fishData.id == 2))
+            if (_ownerArea && _ownerArea.waterType == WaterType.Salt) points = 0;
 
         var gm = Thuan_23127_GameManager.Instance;
         if (gm) gm.AddScore(points);
 
-        OnHarvested?.Invoke(points);       // vẫn bắn event để thống kê
+        OnHarvested?.Invoke(points);
         OnStateChanged?.Invoke(State.Done);
 
-        // Báo cho vùng giải phóng slot rồi hủy ngay (không chờ delay)
+        // Cleanup and destroy immediately (no delay).
+        // Dọn dẹp và hủy ngay lập tức (không chờ).
         OnAboutToDestroy?.Invoke();
         if (_ownerArea) _ownerArea.FreePlot(_ownerIndex);
         Destroy(gameObject);
     }
     
-    
-    /// <summary>
-    /// Hàm xu lý animator cho plant 
-    /// </summary>
+    // =========================================================================
+    // EvaluateSalinityEffects - Handles animation based on salinity stress.
+    // EvaluateSalinityEffects - Xử lý animation dựa trên stress độ mặn.
+    // 
+    // If salinity exceeds threshold for 10 seconds, plays "bad" animation.
+    // When salinity returns to safe level, plays "good" animation.
+    // 
+    // Nếu độ mặn vượt ngưỡng trong 10 giây, phát animation "xấu".
+    // Khi độ mặn trở về mức an toàn, phát animation "tốt".
+    // =========================================================================
     private void EvaluateSalinityEffects(float currentSalinity, float threshold)
     {
-        // Chỉ áp cho cây (plant) — nếu muốn áp cho animal/fish thì bỏ điều kiện này
+        // Only applies to plants (not animals/fish).
+        // Chỉ áp dụng cho cây (không phải động vật/cá).
         if (_plantData == null) return;
 
         bool nowOver = currentSalinity > threshold;
 
-        // Khi rơi vào trạng thái "vượt"
+        // Entering stress state.
+        // Vào trạng thái stress.
         if (nowOver && !_isOverSalt)
         {
             _isOverSalt = true;
             _badAnimPlayedThisSaltPeriod = false;
 
-            // Bắt đầu đếm 10s
+            // Start 10-second countdown.
+            // Bắt đầu đếm ngược 10 giây.
             if (_salinityBadCo != null) StopCoroutine(_salinityBadCo);
             _salinityBadCo = StartCoroutine(CoPlayBadAfterDelay());
         }
-        // Khi rời trạng thái "vượt" (quay về an toàn)
+        // Exiting stress state (returning to safe).
+        // Thoát khỏi trạng thái stress (trở về an toàn).
         else if (!nowOver && _isOverSalt)
         {
             _isOverSalt = false;
 
-            // Hủy đếm nếu còn
+            // Cancel countdown.
+            // Hủy đếm ngược.
             if (_salinityBadCo != null) { StopCoroutine(_salinityBadCo); _salinityBadCo = null; }
 
-            // (tuỳ chọn) phát anim tốt lại
+            // Play "good" animation.
+            // Phát animation "tốt".
             if (plantAnimator && !string.IsNullOrEmpty(animGood))
             {
-                // Play lại good nếu bạn muốn reset trạng thái
                 plantAnimator.Play(animGood, -1, 0f);
             }
         }
     }
 
+    // =========================================================================
+    // CoPlayBadAfterDelay - Plays "bad" animation after salinity stress delay.
+    // CoPlayBadAfterDelay - Phát animation "xấu" sau thời gian stress độ mặn.
+    // =========================================================================
     private IEnumerator CoPlayBadAfterDelay()
     {
         float t = 0f;
         while (t < salinityBadDelay)
         {
-            // Nếu trong lúc chờ mà hết vượt ngưỡng → thoát
+            // Exit if no longer over threshold.
+            // Thoát nếu không còn vượt ngưỡng.
             if (!_isOverSalt)
             {
                 _salinityBadCo = null;
@@ -520,7 +775,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             yield return null;
         }
 
-        // Sau 10s vẫn vượt ⇒ play "xấu" 1 lần
+        // Still over threshold after delay - play "bad" animation once.
+        // Vẫn vượt ngưỡng sau thời gian chờ - phát animation "xấu" một lần.
         if (_isOverSalt && !_badAnimPlayedThisSaltPeriod)
         {
             _badAnimPlayedThisSaltPeriod = true;
@@ -532,9 +788,14 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         _salinityBadCo = null;
     }
 
-
+    // =========================================================================
+    // Awake - Initialize warning icon and find animator.
+    // Awake - Khởi tạo icon cảnh báo và tìm animator.
+    // =========================================================================
     private void Awake()
     {
+        // Initialize warning icon as hidden.
+        // Khởi tạo icon cảnh báo ở trạng thái ẩn.
         if (warningIcon)
         {
             var cg = warningIcon.GetComponent<CanvasGroup>();
@@ -545,11 +806,16 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             warningIcon.gameObject.SetActive(false);
         }
 
-        // Tìm animator nếu chưa gán
+        // Auto-find animator if not assigned.
+        // Tự động tìm animator nếu chưa gán.
         if (!plantAnimator)
             plantAnimator = GetComponentInChildren<Animator>();
     }
     
+    // =========================================================================
+    // GetLangStrings - Gets localized strings for health description.
+    // GetLangStrings - Lấy các chuỗi đa ngôn ngữ cho mô tả sức khỏe.
+    // =========================================================================
     private (string unit, string statusHealthy, string statusDiseased,
         string labelThreshold, string labelCurrent,
         string tplHealthy, string tplDiseased)
@@ -557,6 +823,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
     {
         var jr = _jsonReader ?? Thuan_23127_GameManager.Instance?.jsonReader;
 
+        // Default Vietnamese strings.
+        // Chuỗi tiếng Việt mặc định.
         string unit = "‰", sh = "Tốt", sd = "Bệnh",
             thr = "Ngưỡng chịu mặn", cur = "Độ mặn hiện tại",
             thTpl = "{tag} đang {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
@@ -582,10 +850,17 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         return (unit, sh, sd, thr, cur, thTpl, dsTpl);
     }
 
-
+    // =========================================================================
+    // EmitHealthDescription - Broadcasts health status text for HUD.
+    // EmitHealthDescription - Phát text trạng thái sức khỏe cho HUD.
+    // 
+    // Generates localized description like:
+    // "Sầu riêng đang Tốt. Độ mặn hiện tại: 0.30‰ | Ngưỡng chịu mặn: 0.80‰."
+    // =========================================================================
     private void EmitHealthDescription(float currentSalinity, float threshold)
     {
-        // Xác định tagName từ plant, animal hoặc fish
+        // Get entity name.
+        // Lấy tên thực thể.
         string tagName = string.Empty;
         if (_plantData != null)
         {
@@ -601,7 +876,6 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         }
         else
         {
-            // Không có dữ liệu nào, emit empty và return
             OnHealthTextChanged?.Invoke(string.Empty);
             return;
         }
@@ -610,6 +884,8 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
 
         var ls = GetLangStrings();
 
+        // Build description from template.
+        // Xây dựng mô tả từ template.
         string text = !diseased
             ? ls.tplHealthy
                 .Replace("{tag}", tagName)

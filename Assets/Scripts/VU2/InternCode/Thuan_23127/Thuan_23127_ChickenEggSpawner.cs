@@ -1,55 +1,110 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Script đơn giản để con gà đẻ trứng.
-/// Cứ sau mỗi n giây sẽ spawn 1 prefab tại vị trí hiện tại của con gà.
-/// </summary>
+// =============================================================================
+// Thuan_23127_ChickenEggSpawner - Spawns eggs at chicken position over time.
+// Thuan_23127_ChickenEggSpawner - Spawn trứng tại vị trí gà theo thời gian.
+// 
+// This script is attached to chickens to simulate egg laying:
+// - Spawns egg prefab at random intervals
+// - Respects maximum egg count limit
+// - Clears all eggs when season changes
+// 
+// Script này được gắn vào gà để mô phỏng đẻ trứng:
+// - Spawn prefab trứng với khoảng thời gian ngẫu nhiên
+// - Tuân theo giới hạn số trứng tối đa
+// - Xóa tất cả trứng khi đổi mùa
+// =============================================================================
 public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
 {
-    [Header("Cấu hình đẻ trứng")]
-    [Tooltip("Prefab trứng sẽ được spawn")]
+    // =========================================================================
+    // EGG SPAWN CONFIGURATION
+    // CẤU HÌNH SPAWN TRỨNG
+    // =========================================================================
+    [Header("Egg Spawn Config / Cấu hình đẻ trứng")]
+    [Tooltip("Egg prefab to spawn")]
+    // Prefab for the egg to instantiate.
+    // Prefab trứng để instantiate.
     public GameObject eggPrefab;
     
-    [Tooltip("Thời gian tối thiểu giữa mỗi lần đẻ trứng (giây)")]
+    [Tooltip("Minimum time between egg spawns (seconds)")]
+    // Minimum spawn interval in seconds.
+    // Khoảng thời gian spawn tối thiểu tính bằng giây.
     public float minSpawnInterval = 10f;
     
-    [Tooltip("Thời gian tối đa giữa mỗi lần đẻ trứng (giây)")]
+    [Tooltip("Maximum time between egg spawns (seconds)")]
+    // Maximum spawn interval in seconds.
+    // Khoảng thời gian spawn tối đa tính bằng giây.
     public float maxSpawnInterval = 10f;
     
-    [Tooltip("Offset vị trí spawn so với gà (Y = độ cao)")]
+    [Tooltip("Spawn position offset from chicken (Y = height)")]
+    // Offset from chicken position where egg appears.
+    // Độ lệch từ vị trí gà nơi trứng xuất hiện.
     public Vector3 spawnOffset = new Vector3(0f, 0.1f, 0f);
     
-    [Header("Giới hạn")]
-    [Tooltip("Số trứng tối đa có thể tồn tại (0 = không giới hạn)")]
+    // =========================================================================
+    // LIMITS
+    // GIỚI HẠN
+    // =========================================================================
+    [Header("Limits / Giới hạn")]
+    [Tooltip("Maximum eggs that can exist (0 = unlimited)")]
+    // Prevents too many eggs from cluttering the scene.
+    // Ngăn quá nhiều trứng làm lộn xộn scene.
     public int maxEggs = 50;
     
-    [Tooltip("Gán object con gà đang di chuyển vào đây. Nếu để trống sẽ dùng vị trí của script này.")]
+    [Tooltip("Chicken transform for spawn position (uses script transform if empty)")]
+    // Reference to the moving chicken object.
+    // Tham chiếu đến object gà đang di chuyển.
     public Transform chickenTransform;
     
+    // =========================================================================
+    // INTERNAL STATE
+    // TRẠNG THÁI NỘI BỘ
+    // =========================================================================
+    
+    // Countdown timer to next spawn.
+    // Bộ đếm ngược đến lần spawn tiếp theo.
     private float timer;
+    
+    // Current number of eggs in scene.
+    // Số trứng hiện tại trong scene.
     private int currentEggCount = 0;
     
-    // Danh sách trứng đã đẻ để quản lý (xóa khi đổi mùa)
+    // List of spawned eggs for management (cleared on season change).
+    // Danh sách trứng đã spawn để quản lý (xóa khi đổi mùa).
     private List<GameObject> spawnedEggs = new List<GameObject>();
 
+    // =========================================================================
+    // Start - Initialize spawn timer.
+    // Start - Khởi tạo timer spawn.
+    // =========================================================================
     private void Start()
     {
         SetRandomTimer();
     }
     
+    // =========================================================================
+    // OnEnable - Subscribe to season change events.
+    // OnEnable - Đăng ký lắng nghe sự kiện đổi mùa.
+    // =========================================================================
     private void OnEnable()
     {
-        // Đăng ký sự kiện đổi mùa
         RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
     }
 
+    // =========================================================================
+    // OnDisable - Unsubscribe from events.
+    // OnDisable - Hủy đăng ký sự kiện.
+    // =========================================================================
     private void OnDisable()
     {
-        // Hủy đăng ký sự kiện
         RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
     }
 
+    // =========================================================================
+    // Update - Countdown timer and spawn eggs.
+    // Update - Đếm ngược timer và spawn trứng.
+    // =========================================================================
     private void Update()
     {
         if (eggPrefab == null)
@@ -66,14 +121,19 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Xử lý khi mùa thay đổi
-    /// </summary>
+    // =========================================================================
+    // OnSeasonChanged - Clears all eggs when season changes.
+    // OnSeasonChanged - Xóa tất cả trứng khi đổi mùa.
+    // 
+    // This simulates a new breeding cycle each season.
+    // Điều này mô phỏng một chu kỳ sinh sản mới mỗi mùa.
+    // =========================================================================
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        Debug.Log($"[ChickenEggSpawner] Mùa đổi sang {newPhase}. Reset trứng!");
+        Debug.Log($"[ChickenEggSpawner] Season changed to {newPhase}. Resetting eggs!");
         
-        // 1. Xóa tất cả trứng cũ
+        // Destroy all existing eggs.
+        // Hủy tất cả trứng hiện có.
         foreach (var egg in spawnedEggs)
         {
             if (egg != null)
@@ -84,39 +144,48 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
         spawnedEggs.Clear();
         currentEggCount = 0;
         
-        // 2. Reset timer để bắt đầu đẻ lứa mới
+        // Reset timer for new batch.
+        // Reset timer cho lứa mới.
         SetRandomTimer();
     }
 
+    // =========================================================================
+    // SpawnEgg - Creates a new egg at chicken position.
+    // SpawnEgg - Tạo một trứng mới tại vị trí gà.
+    // =========================================================================
     private void SpawnEgg()
     {
-        // Kiểm tra giới hạn
+        // Check max egg limit.
+        // Kiểm tra giới hạn trứng tối đa.
         if (maxEggs > 0 && currentEggCount >= maxEggs)
         {
             return;
         }
         
-        // Tính vị trí spawn
-        // Nếu đã gán chickenTransform thì dùng vị trí của nó, ngược lại dùng vị trí của script này
+        // Calculate spawn position.
+        // Tính vị trí spawn.
         Vector3 basePosition = (chickenTransform != null) ? chickenTransform.position : transform.position;
         Vector3 spawnPosition = basePosition + spawnOffset;
         
-        // Spawn trứng
+        // Instantiate egg.
+        // Instantiate trứng.
         GameObject egg = Instantiate(eggPrefab, spawnPosition, Quaternion.identity);
         
         if (egg != null)
         {
             currentEggCount++;
-            spawnedEggs.Add(egg); // Thêm vào danh sách quản lý
+            spawnedEggs.Add(egg);
             
-            // Đăng ký event khi trứng bị hủy để giảm count
+            // Add notifier component to track destruction.
+            // Thêm component notifier để theo dõi việc hủy.
             egg.AddComponent<EggDestroyNotifier>().Initialize(this);
         }
     }
 
-    /// <summary>
-    /// Gọi khi trứng bị hủy để giảm số lượng và xóa khỏi list
-    /// </summary>
+    // =========================================================================
+    // OnEggDestroyed - Called when an egg is destroyed (collected or expired).
+    // OnEggDestroyed - Được gọi khi một trứng bị hủy (thu hoạch hoặc hết hạn).
+    // =========================================================================
     public void OnEggDestroyed(GameObject egg)
     {
         currentEggCount--;
@@ -128,9 +197,10 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
         }
     }
     
-    /// <summary>
-    /// Reset về trạng thái ban đầu
-    /// </summary>
+    // =========================================================================
+    // ResetSpawner - Resets spawner to initial state.
+    // ResetSpawner - Reset spawner về trạng thái ban đầu.
+    // =========================================================================
     public void ResetSpawner()
     {
         SetRandomTimer();
@@ -138,24 +208,42 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
         spawnedEggs.Clear();
     }
 
+    // =========================================================================
+    // SetRandomTimer - Sets timer to random value within configured range.
+    // SetRandomTimer - Đặt timer thành giá trị ngẫu nhiên trong phạm vi đã cấu hình.
+    // =========================================================================
     private void SetRandomTimer()
     {
         timer = Random.Range(minSpawnInterval, maxSpawnInterval);
     }
 }
 
-/// <summary>
-/// Helper component để thông báo khi trứng bị hủy
-/// </summary>
+// =============================================================================
+// EggDestroyNotifier - Helper component to notify spawner when egg is destroyed.
+// EggDestroyNotifier - Component helper để thông báo spawner khi trứng bị hủy.
+// 
+// Added automatically to each spawned egg.
+// Được thêm tự động vào mỗi trứng đã spawn.
+// =============================================================================
 public class EggDestroyNotifier : MonoBehaviour
 {
+    // Reference to the spawner that created this egg.
+    // Tham chiếu đến spawner đã tạo trứng này.
     private Thuan_23127_ChickenEggSpawner spawner;
     
+    // =========================================================================
+    // Initialize - Sets the parent spawner reference.
+    // Initialize - Đặt tham chiếu spawner cha.
+    // =========================================================================
     public void Initialize(Thuan_23127_ChickenEggSpawner owner)
     {
         spawner = owner;
     }
     
+    // =========================================================================
+    // OnDestroy - Notifies spawner to decrement egg count.
+    // OnDestroy - Thông báo spawner để giảm số đếm trứng.
+    // =========================================================================
     private void OnDestroy()
     {
         if (spawner != null)

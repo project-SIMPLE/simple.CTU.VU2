@@ -3,50 +3,139 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
 
+// =============================================================================
+// WaterType - Classifies farm zones by water salinity level.
+// WaterType - Phân loại vùng nông trại theo mức độ mặn của nước.
+// =============================================================================
 public enum WaterType
 {
-    Fresh,  // Nước ngọt
-    Salt    // Nước mặn
+    Fresh,  // Fresh water (inside dyke) / Nước ngọt (trong đê)
+    Salt    // Brackish/Salt water (outside dyke) / Nước lợ/mặn (ngoài đê)
 }
 
+// =============================================================================
+// FarmArea - Manages a farming zone with multiple planting plots.
+// FarmArea - Quản lý một vùng nông trại với nhiều ô trồng.
+// 
+// Each FarmArea represents a distinct farming zone with:
+// - Multiple plot points for planting
+// - Its own salinity based on water type and season
+// - Tracking of all plants and their scores
+// - HUD display for this zone
+// 
+// Mỗi FarmArea đại diện cho một vùng nông trại riêng biệt với:
+// - Nhiều điểm ô để trồng
+// - Độ mặn riêng dựa trên loại nước và mùa
+// - Theo dõi tất cả cây và điểm của chúng
+// - Hiển thị HUD cho vùng này
+// =============================================================================
 public class FarmArea : MonoBehaviour
 {
+    // =========================================================================
+    // PLOT CONFIGURATION
+    // CẤU HÌNH Ô TRỒNG
+    // =========================================================================
     [Header("Setup")]
+    // Array of positions where plants can be placed.
+    // Mảng các vị trí có thể đặt cây.
     public Transform[] plotPoints;
 
+    // =========================================================================
+    // REFERENCES
+    // THAM CHIẾU
+    // =========================================================================
     [Header("Refs")]
+    // JSON data reader for plant/animal/fish data.
+    // Bộ đọc dữ liệu JSON cho thông tin cây/động vật/cá.
     public Thuan_23127_JsonReader jsonReader;
+    
+    // HUD display for this farm area.
+    // Hiển thị HUD cho vùng nông trại này.
     public Thuan_23127_AreaHUD hud;
 
+    // =========================================================================
+    // INTERNAL STATE
+    // TRẠNG THÁI NỘI BỘ
+    // =========================================================================
+    
+    // Tracks which plots are currently occupied.
+    // Theo dõi ô nào đang có cây.
     private bool[] isPlanted;
 
-    // Theo dõi “1 cây đang xem” cho progress/salinity
+    // -------------------------------------------------------------------------
+    // Currently bound plant for HUD display (progress/salinity).
+    // Cây hiện đang được bind để hiển thị HUD (tiến độ/độ mặn).
+    // -------------------------------------------------------------------------
     private Thuan_23127_PlantGrowth _boundGrowth;
     private Action<float> _onProg;
     private Action<float, float> _onSalt;
     private Action<Thuan_23127_PlantGrowth.State> _onState;
     private Action _onAboutToDestroy;
 
-    // Tổng điểm theo mùa của CẢ Ô (0:Rainy,1:Normal,2:Dry)
+    // -------------------------------------------------------------------------
+    // Season totals for this area: Index 0=Rainy1, 1=Dry, 2=Rainy2
+    // Tổng điểm theo mùa của vùng này: Index 0=Mưa1, 1=Khô, 2=Mưa2
+    // -------------------------------------------------------------------------
     private readonly int[] _seasonTotals = new int[3];
 
-    // Danh sách toàn bộ cây trong ô 
+    // -------------------------------------------------------------------------
+    // List of all active plants in this area.
+    // Danh sách tất cả cây đang hoạt động trong vùng này.
+    // -------------------------------------------------------------------------
     private readonly List<Thuan_23127_PlantGrowth> _growths = new List<Thuan_23127_PlantGrowth>();
 
+    // =========================================================================
+    // SALINITY CONFIGURATION
+    // CẤU HÌNH ĐỘ MẶN
+    // =========================================================================
     [Header("Area Seasonal Salinity")]
-    [Header("Area Seasonal Salinity")]
-    [Range(0, 5)] public float rainySalinity = 0.5f;  // dùng cho Rainy1 & Rainy2
-    [Range(0, 5)] public float drySalinity = 1.5f;
+    [Range(0, 5)] 
+    // Salinity during rainy season (lower = fresher water).
+    // Độ mặn trong mùa mưa (thấp hơn = nước ngọt hơn).
+    public float rainySalinity = 0.5f;
+    
+    [Range(0, 5)] 
+    // Salinity during dry season (higher = saltier water).
+    // Độ mặn trong mùa khô (cao hơn = nước mặn hơn).
+    public float drySalinity = 1.5f;
+    
+    // If true, use area-specific salinity. If false, use global salinity.
+    // Nếu true, dùng độ mặn riêng của vùng. Nếu false, dùng độ mặn toàn cục.
     public bool useAreaSeasonalSalinity = true;
 
+    // =========================================================================
+    // AREA TYPE (Fresh or Salt water zone)
+    // LOẠI VÙNG (Vùng nước ngọt hoặc mặn)
+    // =========================================================================
     [Header("Area Type")]
-    public WaterType waterType = WaterType.Fresh; // default is Fresh
+    // Determines scoring modifiers for plants in this zone.
+    // Xác định hệ số điểm cho cây trong vùng này.
+    public WaterType waterType = WaterType.Fresh;
+    
+    // =========================================================================
+    // SERVER INTEGRATION
+    // TÍCH HỢP SERVER
+    // =========================================================================
     [Header("Server")]
+    // Unique ID for this area when reporting to server.
+    // ID duy nhất cho vùng này khi báo cáo lên server.
     [SerializeField] private string serverAreaId = "area_a";
 
-    /// <summary>
-    /// Trả về độ mặn của Ô theo mùa (Public để HUD có thể truy cập)
-    /// </summary>
+    // =========================================================================
+    // GetAreaSalinity - Returns current salinity for this zone.
+    // GetAreaSalinity - Trả về độ mặn hiện tại cho vùng này.
+    // 
+    // Called by: PlantGrowth to calculate score modifiers.
+    // Được gọi bởi: PlantGrowth để tính hệ số điểm.
+    // 
+    // Returns salinity based on:
+    // - Area-specific values (if useAreaSeasonalSalinity = true)
+    // - Global GameManager value (if useAreaSeasonalSalinity = false)
+    // 
+    // Trả về độ mặn dựa trên:
+    // - Giá trị riêng của vùng (nếu useAreaSeasonalSalinity = true)
+    // - Giá trị toàn cục từ GameManager (nếu useAreaSeasonalSalinity = false)
+    // =========================================================================
     public float GetAreaSalinity()
     {
         if (!useAreaSeasonalSalinity)
@@ -54,12 +143,17 @@ public class FarmArea : MonoBehaviour
                 ? Thuan_23127_GameManager.Instance.GetSeasonSalinity()
                 : 0f;
 
-        // 0=Rainy1, 1=Dry, 2=Rainy2 (tương thích số cũ)
+        // Check current season: Dry (1.0) vs Rainy (0.0)
+        // Kiểm tra mùa hiện tại: Khô (1.0) vs Mưa (0.0)
         var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 1f)) return drySalinity;  // Dry
-        return rainySalinity;                                 // Rainy1 & Rainy2
+        if (Mathf.Approximately(s, 1f)) return drySalinity;  // Dry season
+        return rainySalinity;                                 // Rainy season
     }
 
+    // =========================================================================
+    // CurrentPhase - Determines current season phase from salinity value.
+    // CurrentPhase - Xác định pha mùa hiện tại từ giá trị độ mặn.
+    // =========================================================================
     private SeasonPhase CurrentPhase()
     {
         var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
@@ -68,60 +162,81 @@ public class FarmArea : MonoBehaviour
         return SeasonPhase.Rainy2;
     }
 
-    /// <summary>
-    /// Khởi tạo mảng trạng thái & reset HUD của ô
-    /// </summary>
+    // =========================================================================
+    // Start - Initialize plot tracking array.
+    // Start - Khởi tạo mảng theo dõi ô trồng.
+    // =========================================================================
     private void Start()
     {
         isPlanted = new bool[plotPoints.Length];
-        // if (hud)
-        // {
-        //     hud.Show(true);
-        //     hud.SetSeasonScoresPhase(0, 0); // clear tổng ban đầu
-        //     hud.SetSubject(null);
-        // }
     }
 
-    /// <summary>
-    /// Gỡ bind “cây đang xem” khỏi HUD (tránh leak listener)
-    /// </summary>
+    // =========================================================================
+    // UnbindCurrent - Removes HUD binding from current plant.
+    // UnbindCurrent - Gỡ binding HUD khỏi cây hiện tại.
+    // 
+    // Why: Prevents memory leaks from event listeners when plant is destroyed.
+    // Tại sao: Ngăn rò rỉ bộ nhớ từ event listener khi cây bị hủy.
+    // =========================================================================
     private void UnbindCurrent()
     {
         if (!_boundGrowth || !hud) return;
 
+        // Remove all event subscriptions.
+        // Gỡ tất cả đăng ký sự kiện.
         _boundGrowth.OnProgressChanged -= _onProg;
         _boundGrowth.OnSalinityChanged -= _onSalt;
         _boundGrowth.OnStateChanged -= _onState;
         _boundGrowth.OnAboutToDestroy -= _onAboutToDestroy;
         _boundGrowth.OnHealthTextChanged -= hud.SetDescription;
-        _boundGrowth = null;
-        _onProg = null; _onSalt = null; _onState = null; _onAboutToDestroy = null;
         
+        _boundGrowth = null;
+        _onProg = null; 
+        _onSalt = null; 
+        _onState = null; 
+        _onAboutToDestroy = null;
     }
 
-    /// <summary>
-    /// Đăng ký 1 cây vào bộ **tổng điểm của Ô**.
-    /// - Nhận điểm harvest → cộng vào tổng mùa hiện tại
-    /// - Cập nhật HUD cột mùa tương ứng
-    /// - Tự gỡ lắng nghe khi cây sắp bị huỷ
-    /// </summary>
+    // =========================================================================
+    // WireGrowthForAreaTotals - Registers a plant for area score tracking.
+    // WireGrowthForAreaTotals - Đăng ký một cây để theo dõi điểm của vùng.
+    // 
+    // When this plant is harvested:
+    // 1. Points are added to the current season's total for this area
+    // 2. HUD is updated with new score
+    // 3. Cleanup happens when plant is destroyed
+    // 
+    // Khi cây này được thu hoạch:
+    // 1. Điểm được cộng vào tổng mùa hiện tại của vùng này
+    // 2. HUD được cập nhật với điểm mới
+    // 3. Dọn dẹp khi cây bị hủy
+    // =========================================================================
     private void WireGrowthForAreaTotals(Thuan_23127_PlantGrowth g)
     {
         if (!g) return;
+        
+        // Inject salinity provider so plant knows this area's salinity.
+        // Tiêm provider độ mặn để cây biết độ mặn của vùng này.
         g.SetSalinityProvider(GetAreaSalinity);
 
+        // Subscribe to harvest event - add points to season total.
+        // Đăng ký sự kiện thu hoạch - cộng điểm vào tổng mùa.
         g.OnHarvested += (points) =>
         {
-            if (!RulesoftheGame_VU2_1.GameActive) return; // hết game -> bo qua
+            if (!RulesoftheGame_VU2_1.GameActive) return; // Game ended, ignore.
             if (points <= 0) return;
-            var phase = CurrentPhase();                 // Rainy1/Dry/Rainy2
+            
+            var phase = CurrentPhase();  // Rainy1/Dry/Rainy2
             int idx = (int)phase;
             _seasonTotals[idx] += points;
 
-            // HUD mới theo pha (xem thêm phần HUD bên dưới)
+            // Update HUD with new season score.
+            // Cập nhật HUD với điểm mùa mới.
             if (hud) hud.AddSeasonPointsPhase(phase, points, null);
         };
 
+        // Cleanup when plant is about to be destroyed.
+        // Dọn dẹp khi cây sắp bị hủy.
         g.OnAboutToDestroy += () =>
         {
             g.OnHarvested -= null;
@@ -131,26 +246,37 @@ public class FarmArea : MonoBehaviour
         _growths.Add(g);
     }
 
-
-    /// <summary>
-    /// Bind “cây đang xem” cho HUD: chỉ progress/salinity (tổng điểm đã có WireGrowthForAreaTotals lo)
-    /// </summary>
+    // =========================================================================
+    // BindGrowthToHUD - Binds a plant to HUD for progress/salinity display.
+    // BindGrowthToHUD - Bind một cây vào HUD để hiển thị tiến độ/độ mặn.
+    // 
+    // Note: This is for individual plant display, separate from area totals.
+    // Lưu ý: Đây là để hiển thị cây riêng lẻ, tách biệt khỏi tổng vùng.
+    // =========================================================================
     private void BindGrowthToHUD(Thuan_23127_PlantGrowth growth)
     {
         if (!hud || !growth) return;
+        
+        // Unbind any previously bound plant.
+        // Gỡ bind cây đã bind trước đó.
         UnbindCurrent();
 
-        // progress/salinity theo Ô
+        // Set salinity provider for this plant.
+        // Đặt provider độ mặn cho cây này.
         growth.SetSalinityProvider(GetAreaSalinity);
 
         hud.Show(true);
         hud.SetProgress(0f);
 
+        // Create event handlers.
+        // Tạo các handler sự kiện.
         _onProg = hud.SetProgress;
         _onSalt = hud.SetSalinity;
         _onState = s => { if (s == Thuan_23127_PlantGrowth.State.Done) hud.SetProgress(0f); };
-        _onAboutToDestroy = () => { UnbindCurrent(); /* vẫn để HUD hiển thị tổng của ô */ };
+        _onAboutToDestroy = () => { UnbindCurrent(); };
 
+        // Subscribe to plant events.
+        // Đăng ký các sự kiện của cây.
         growth.OnProgressChanged += _onProg;
         growth.OnSalinityChanged += _onSalt;
         growth.OnStateChanged += _onState;
@@ -158,54 +284,96 @@ public class FarmArea : MonoBehaviour
         growth.OnHealthTextChanged += hud.SetDescription;
 
         _boundGrowth = growth;
-        growth.UpdateSalinityEvent(); // cập nhật số ban đầu
+        
+        // Trigger initial salinity update.
+        // Kích hoạt cập nhật độ mặn ban đầu.
+        growth.UpdateSalinityEvent();
     }
 
-    /// <summary>
-    /// Trồng tất cả các plot rỗng trong ô bằng 1 prefab
-    /// </summary>
+    // =========================================================================
+    // PlantAll - Plants the given prefab in all empty plots.
+    // PlantAll - Trồng prefab được cho vào tất cả ô trống.
+    // 
+    // Called by: UI buttons, game logic when seeding an area.
+    // Được gọi bởi: Nút UI, logic game khi gieo hạt một vùng.
+    // =========================================================================
     public void PlantAll(GameObject plantPrefab)
     {
-        if (!RulesoftheGame_VU2_1.GameActive) return; // khi game chưa hoạt động ko trôồng đuược
+        // Only allow planting when game is active.
+        // Chỉ cho phép trồng khi game đang hoạt động.
+        if (!RulesoftheGame_VU2_1.GameActive) return;
         PlantInternal(plantPrefab, fillAll: true);
     }
 
-    /// <summary>
-    /// Core trồng cây: instantiate, gắn Growth, wire vào tổng & (tuỳ chọn) bind lên HUD
-    /// </summary>
+    // =========================================================================
+    // PlantInternal - Core planting logic: instantiate, setup, wire events.
+    // PlantInternal - Logic trồng cốt lõi: instantiate, setup, wire events.
+    // 
+    // Steps:
+    // 1. Get data from SeedTag (plant/animal/fish ID)
+    // 2. Look up data in JSON
+    // 3. Instantiate prefab at plot position
+    // 4. Setup PlantGrowth component
+    // 5. Wire to area totals and HUD
+    // 6. Initialize with data
+    // 
+    // Các bước:
+    // 1. Lấy dữ liệu từ SeedTag (ID cây/động vật/cá)
+    // 2. Tra cứu dữ liệu trong JSON
+    // 3. Instantiate prefab tại vị trí ô
+    // 4. Setup component PlantGrowth
+    // 5. Wire vào tổng vùng và HUD
+    // 6. Khởi tạo với dữ liệu
+    // =========================================================================
     private void PlantInternal(GameObject plantPrefab, bool fillAll)
     {
         if (plantPrefab == null || jsonReader == null) return;
 
+        // Get SeedTag component to identify plant type.
+        // Lấy component SeedTag để xác định loại cây.
         var tag = plantPrefab.GetComponent<Thuan_23127_SeedTag>();
         if (tag == null) { Debug.LogWarning("Prefab thiếu SeedTag."); return; }
 
+        // Look up data based on tag IDs.
+        // Tra cứu dữ liệu dựa trên ID trong tag.
         var plantData = (tag.plantId > 0) ? jsonReader.GetPlantById(tag.plantId) : null;
         var fishData = (tag.fishId > 0) ? jsonReader.GetFishById(tag.fishId) : null;
         var animalData = (tag.animalId > 0) ? jsonReader.GetLivestockById(tag.animalId) : null;
+        
         if (plantData == null && fishData == null && animalData == null)
-        { Debug.LogWarning("Không tìm thấy dữ liệu phù hợp trong JSON."); return; }
+        { 
+            Debug.LogWarning("Không tìm thấy dữ liệu phù hợp trong JSON."); 
+            return; 
+        }
 
+        // Iterate through all plots.
+        // Duyệt qua tất cả các ô.
         for (var i = 0; i < plotPoints.Length; i++)
         {
+            // Skip if already planted.
+            // Bỏ qua nếu đã trồng.
             if (isPlanted[i]) continue;
 
             var parent = plotPoints[i];
+            
+            // Instantiate prefab as child of plot.
+            // Instantiate prefab làm con của ô.
             var go = Instantiate(plantPrefab, parent);
             go.transform.localPosition = Vector3.zero;
             go.transform.localRotation = Quaternion.identity;
             go.transform.localScale = plantPrefab.transform.localScale;
             
-            // Đảm bảo object được active trước khi lấy component
             go.SetActive(true);
 
+            // Get or add PlantGrowth component.
+            // Lấy hoặc thêm component PlantGrowth.
             var growth = go.GetComponent<Thuan_23127_PlantGrowth>() ?? go.AddComponent<Thuan_23127_PlantGrowth>();
 
-            // Đảm bảo XRSimpleInteractable có collider được setup
+            // Setup XR interactable colliders.
+            // Setup collider cho XR interactable.
             var xrInteractable = go.GetComponent<XRSimpleInteractable>();
             if (xrInteractable != null && xrInteractable.colliders.Count == 0)
             {
-                // Tìm collider trong object hoặc children
                 var colliders = go.GetComponentsInChildren<Collider>();
                 foreach (var col in colliders)
                 {
@@ -214,79 +382,91 @@ public class FarmArea : MonoBehaviour
                 }
             }
 
-            // Đảm bảo HoverHealthXR được enable lại để tìm panel
+            // Re-enable hover health to find panel.
+            // Bật lại hover health để tìm panel.
             var hoverHealth = go.GetComponent<Thuan_23127_HoverHealthXR>();
             if (hoverHealth != null)
             {
-                // Force enable để Awake/OnEnable chạy lại và tìm panel
                 hoverHealth.enabled = false;
                 hoverHealth.enabled = true;
             }
 
-            // 1) Đưa cây này vào bộ tổng của Ô
+            // Wire plant to area score tracking.
+            // Wire cây vào theo dõi điểm vùng.
             WireGrowthForAreaTotals(growth);
 
+            // Track in seasonal summary.
+            // Theo dõi trong tổng kết mùa.
             var summary = Thuan_23127_SeasonalSummary.Instance;
             if (summary) summary.Track(growth, tag);
-            // 2)  cho HUD theo dõi cây vừa trồng/được chọn
+            
+            // Bind to HUD for progress display.
+            // Bind vào HUD để hiển thị tiến độ.
             BindGrowthToHUD(growth);
 
+            // Initialize with correct data type.
+            // Khởi tạo với loại dữ liệu đúng.
             var readerForThis = fillAll ? null : jsonReader;
             if (plantData != null) growth.Init(plantData, this, i, readerForThis);
             else if (animalData != null) growth.Init(animalData, this, i, readerForThis);
             else if (fishData != null) growth.Init(fishData, this, i, readerForThis);
 
-            // Hiển thị icon đối tượng (nếu bạn set trong SeedTag)
+            // Set HUD icon.
+            // Đặt icon HUD.
             if (hud) hud.SetSubject(tag.hudIcon);
 
             isPlanted[i] = true;
-
-            // if (ConnectionManager.Instance != null && ConnectionManager.Instance.IsConnectionState(ConnectionState.AUTHENTICATED))
-            // {
-            //     var args = new Dictionary<string, string>
-            //     {
-            //         { "area_index", i.ToString() },  // index của plot trong ô
-            //         { "area_id", GetServerAreaId() }, // id của ô
-            //         { "plant_id", tag.plantId > 0 ? tag.plantId.ToString() : "0" }, 
-            //         { "animal_id", tag.animalId > 0 ? tag.animalId.ToString() : "0" },
-            //         { "fish_id", tag.fishId > 0 ? tag.fishId.ToString() : "0" },
-            //         { "salinity", GetAreaSalinity().ToString("F2") }
-            //     };
-            //     ConnectionManager.Instance.SendExecutableAsk("plantingData", args);
-            // }
             
-            
+            // If not filling all, stop after first plant.
+            // Nếu không trồng tất cả, dừng sau khi trồng 1 cây.
             if (!fillAll) break;
         }
     }
 
-    /// <summary>
-    /// Khi 1 slot trống trở lại (do cây tự hủy sau delay)
-    /// </summary>
+    // =========================================================================
+    // FreePlot - Marks a plot as available after plant is destroyed.
+    // FreePlot - Đánh dấu ô là trống sau khi cây bị hủy.
+    // 
+    // Called by: PlantGrowth when it destroys itself after harvest delay.
+    // Được gọi bởi: PlantGrowth khi tự hủy sau delay thu hoạch.
+    // =========================================================================
     public void FreePlot(int index)
     {
-        if (index >= 0 && index < isPlanted.Length) isPlanted[index] = false;
+        if (index >= 0 && index < isPlanted.Length) 
+            isPlanted[index] = false;
     }
     
+    // =========================================================================
+    // FreezeHUD - Hides HUD when game ends.
+    // FreezeHUD - Ẩn HUD khi game kết thúc.
+    // =========================================================================
     public void FreezeHUD()
     {
         UnbindCurrent();         
-        if (hud) hud.Show(false);  // ẩn HUD
+        if (hud) hud.Show(false);
     }
 
-    /// <summary>
-    /// Xoá toàn bộ cây trong ô, tháo listener, reset tổng mùa & HUD
-    /// </summary>
+    // =========================================================================
+    // ResetAllPlots - Clears all plants and resets area state.
+    // ResetAllPlots - Xóa tất cả cây và reset trạng thái vùng.
+    // 
+    // Called by: RestartGame, testing, or manual reset.
+    // Được gọi bởi: RestartGame, testing, hoặc reset thủ công.
+    // =========================================================================
     public void ResetAllPlots()
     {
         UnbindCurrent();
 
+        // Remove all event subscriptions.
+        // Gỡ tất cả đăng ký sự kiện.
         foreach (var g in _growths)
         {
-            if (g) g.OnHarvested -= null; // phòng hờ
+            if (g) g.OnHarvested -= null;
         }
         _growths.Clear();
 
+        // Destroy all plants in all plots.
+        // Hủy tất cả cây trong tất cả ô.
         for (int i = 0; i < plotPoints.Length; i++)
         {
             var p = plotPoints[i];
@@ -296,7 +476,10 @@ public class FarmArea : MonoBehaviour
             isPlanted[i] = false;
         }
 
+        // Reset season totals.
+        // Reset tổng mùa.
         _seasonTotals[0] = _seasonTotals[1] = _seasonTotals[2] = 0;
+        
         if (hud)
         {
             hud.SetProgress(0f);
@@ -304,41 +487,54 @@ public class FarmArea : MonoBehaviour
             hud.Show(true);
         }
     }
-    //
     
-    /// <summary>Trả về snapshot danh sách growth hiện có (để thao tác an toàn).</summary>
+    // =========================================================================
+    // GetAllGrowths - Returns a snapshot copy of all active plants.
+    // GetAllGrowths - Trả về bản sao snapshot của tất cả cây đang hoạt động.
+    // 
+    // Why copy: Safe iteration during modifications.
+    // Tại sao copy: Duyệt an toàn trong khi có thay đổi.
+    // =========================================================================
     public List<Thuan_23127_PlantGrowth> GetAllGrowths()
     {
         return new List<Thuan_23127_PlantGrowth>(_growths);
     }
 
-    /// <summary>
-    /// Kết sổ mùa hiện tại: ép thu hoạch tất cả đối tượng đang có để cộng điểm theo Ô,
-    /// sau đó dọn toàn bộ mảnh (clear plots) sẵn sàng cho mùa tiếp theo.
-    /// </summary>
+    // =========================================================================
+    // SettleAndClearForNewSeason - Force harvest all plants for season change.
+    // SettleAndClearForNewSeason - Ép thu hoạch tất cả cây khi đổi mùa.
+    // 
+    // Called by: RulesoftheGame_VU2_1.SetPhase() in Seasonal scoring mode.
+    // Được gọi bởi: RulesoftheGame_VU2_1.SetPhase() trong chế độ Seasonal.
+    // 
+    // Steps:
+    // 1. Force harvest all active plants (calculates remaining score)
+    // 2. Clear plot tracking
+    // 3. Reset HUD
+    // 
+    // Các bước:
+    // 1. Ép thu hoạch tất cả cây đang hoạt động (tính điểm còn lại)
+    // 2. Xóa theo dõi ô
+    // 3. Reset HUD
+    // =========================================================================
     public void SettleAndClearForNewSeason()
     {
-        // 1) Tính điểm ngay & hủy tất cả growth đang còn sống
-        var snapshot = GetAllGrowths(); // tránh sửa khi đang iterate
+        // Get snapshot to avoid modification during iteration.
+        // Lấy snapshot để tránh thay đổi khi đang duyệt.
+        var snapshot = GetAllGrowths();
+        
         foreach (var g in snapshot)
         {
             if (!g) continue;
-            // đảm bảo dùng salinity theo Ô:
+            // Ensure plant uses this area's salinity for final calculation.
+            // Đảm bảo cây dùng độ mặn của vùng này cho tính toán cuối.
             g.SetSalinityProvider(GetAreaSalinity);
             g.ForceHarvestImmediateAndDestroy();
         }
         _growths.Clear();
 
-        // 2) Dọn mảnh vườn cho mùa mới
-        // for (int i = 0; i < plotPoints.Length; i++)
-        // {
-        //     var p = plotPoints[i];
-        //     if (!p) continue;
-        //     for (int c = p.childCount - 1; c >= 0; c--) Destroy(p.GetChild(c).gameObject);
-        //     isPlanted[i] = false;
-        // }
-
-        // 3) Reset tổng HUD (nếu muốn giữ tổng theo mùa từng ô, bỏ bước reset này)
+        // Reset season totals and HUD.
+        // Reset tổng mùa và HUD.
         _seasonTotals[0] = _seasonTotals[1] = _seasonTotals[2] = 0;
         if (hud)
         {
@@ -349,14 +545,21 @@ public class FarmArea : MonoBehaviour
         }
     }
     
+    // =========================================================================
+    // GetCurrentSalinityForServer - Returns salinity for server reporting.
+    // GetCurrentSalinityForServer - Trả về độ mặn để báo cáo server.
+    // =========================================================================
     public float GetCurrentSalinityForServer()
     {
-        return GetAreaSalinity(); // đã tính đúng theo mùa/ô
+        return GetAreaSalinity();
     }
 
+    // =========================================================================
+    // GetServerAreaId - Returns unique ID for this area (for server).
+    // GetServerAreaId - Trả về ID duy nhất cho vùng này (cho server).
+    // =========================================================================
     public string GetServerAreaId()
     {
-        // Ưu tiên giá trị cấu hình, fallback về tên GameObject
         return string.IsNullOrEmpty(serverAreaId) ? name : serverAreaId;
     }
 }
