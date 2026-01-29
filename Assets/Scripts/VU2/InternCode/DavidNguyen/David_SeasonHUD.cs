@@ -248,6 +248,34 @@ public class David_SeasonHUD : MonoBehaviour
     }
     
     // =========================================================================
+    // GetDisplayMonth - Converts game month index (1-12) to calendar month.
+    // GetDisplayMonth - Chuyển đổi chỉ số tháng game (1-12) sang tháng lịch.
+    // 
+    // Game starts at May (5), so gameMonth 1 -> calendar 5, 2 -> 6, ..., 12 -> 4.
+    // Game bắt đầu tháng 5, nên gameMonth 1 -> lịch 5, 2 -> 6, ..., 12 -> 4.
+    // =========================================================================
+    private int GetDisplayMonth(int gameMonth)
+    {
+        // Offset by 4 months (May = 5 is 4 months after January = 1)
+        // gameMonth 1 -> (1-1+4) % 12 + 1 = 5 (May)
+        // gameMonth 12 -> (12-1+4) % 12 + 1 = 4 (April)
+        return ((gameMonth - 1 + 4) % 12) + 1;
+    }
+    
+    // =========================================================================
+    // IsRainySeasonMonth - Returns true if calendar month is in rainy season.
+    // IsRainySeasonMonth - Trả về true nếu tháng lịch trong mùa mưa.
+    // 
+    // Rainy (Wet) Season: May (5) to October (10).
+    // Dry Season: November (11) to April (4).
+    // Mùa mưa: Tháng 5 - 10. Mùa khô: Tháng 11 - 4.
+    // =========================================================================
+    private bool IsRainySeasonMonth(int calendarMonth)
+    {
+        return calendarMonth >= 5 && calendarMonth <= 10;
+    }
+    
+    // =========================================================================
     // UpdateUI - Main method to update all HUD elements.
     // UpdateUI - Method chính để cập nhật tất cả phần tử HUD.
     // 
@@ -261,7 +289,10 @@ public class David_SeasonHUD : MonoBehaviour
     // =========================================================================
     public void UpdateUI(SeasonPhase phase, bool instant = false)
     {
-        bool isRainy = (phase == SeasonPhase.Rainy1 || phase == SeasonPhase.Rainy2);
+        // Determine season based on calendar month (May-Oct = Rainy, Nov-Apr = Dry).
+        // Xác định mùa dựa trên tháng lịch (T5-10 = Mưa, T11-4 = Khô).
+        int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+        bool isRainy = IsRainySeasonMonth(displayMonth);
         
         // Calculate target values.
         // Tính các giá trị đích.
@@ -427,11 +458,11 @@ public class David_SeasonHUD : MonoBehaviour
     {
         if (timeLabel == null) return;
 
-        // Display current month number.
-        // Hiển thị số tháng hiện tại.
-        var monthText = "Month";
-        int monthIndex = RulesoftheGame_VU2_1.CurrentMonthIndex;
-        timeLabel.text = $"{monthText} {monthIndex}";
+        // Display calendar month number (game starts at May).
+        // Hiển thị số tháng lịch (game bắt đầu từ tháng 5).
+        var monthText = "Tháng"; // chưa điều chỉnh thay đổi theo ngôn ngữ
+        int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+        timeLabel.text = $"{monthText} {displayMonth}";
     }
     
     // =========================================================================
