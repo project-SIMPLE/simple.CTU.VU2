@@ -25,6 +25,7 @@ TagManager:
   - HUD
   - Undefined
   - Bag
+  - Rice
   layers:
   - Default
   - TransparentFX

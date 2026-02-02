@@ -1745,8 +1745,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &24825914
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2480,8 +2478,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &30406560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3568,8 +3564,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &34962209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4558,8 +4552,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &48384768 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5849765080480587857, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -10480,8 +10472,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!224 &123228016 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -11280,8 +11270,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &129712184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14039,8 +14027,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &158649147
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26903,8 +26889,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &281165609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27104,8 +27088,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &283197174
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27601,8 +27583,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &290482838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27970,8 +27950,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &294325111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45782,8 +45760,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &357222087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52439,8 +52415,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &435738521
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54632,8 +54606,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &448520976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55566,8 +55538,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &460026717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -62828,8 +62798,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &537082894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68055,8 +68023,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &591188467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69801,8 +69767,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &604692522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1962376703435983918, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -69992,8 +69956,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &609137201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70901,8 +70863,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &611095151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71279,8 +71239,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &611624055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73265,8 +73223,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &626275463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -75636,8 +75592,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &661412387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76211,8 +76165,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &668317785
 GameObject:
   m_ObjectHideFlags: 0
@@ -79641,8 +79593,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &701284492
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -79992,8 +79942,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &707645736
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80778,8 +80726,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &709502528
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -82849,8 +82795,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1001 &725972288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83197,8 +83141,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &725972296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85017,8 +84959,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &734801126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88946,8 +88886,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &766603572
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -98777,8 +98715,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &829188754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125920,8 +125856,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &951209439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -126404,8 +126338,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1001 &957899421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128130,8 +128062,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &975550831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130028,8 +129958,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &988523592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132931,8 +132859,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1018310877
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134791,8 +134717,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &1033293748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -136062,8 +135986,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &1048607089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -138208,8 +138130,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &1076044012
 GameObject:
   m_ObjectHideFlags: 0
@@ -141790,8 +141710,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1128700359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -158661,8 +158579,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1190865812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159066,8 +158982,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1191447845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164076,8 +163990,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &1246123366
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -168286,8 +168198,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1284209682
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -170447,8 +170357,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1305575145
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -170756,8 +170664,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1307374136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171674,8 +171580,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1323581993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171923,8 +171827,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1324336714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175730,8 +175632,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &1362741553
 GameObject:
   m_ObjectHideFlags: 0
@@ -181164,8 +181064,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1425091900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182991,8 +182889,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1434479528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186014,8 +185910,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1462773315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186549,8 +186443,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &1468412422
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -199491,8 +199383,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1619308564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -213245,8 +213135,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1663768811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -214507,8 +214395,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1679768675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216366,8 +216252,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1697448679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -223383,8 +223267,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1 &1718428920 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7294248288144746930, guid: ee0f723af4b4e684ea4dfdabe0e23dff,
@@ -226697,8 +226579,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1751931584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -227245,8 +227125,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1752775126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231339,8 +231217,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1791303430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -232416,8 +232292,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1797847306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236263,8 +236137,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1851877327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236711,8 +236583,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1856204939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247779,8 +247649,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1001 &1887706003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249994,8 +249862,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!65 &1911087684
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -251299,8 +251165,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &1923472669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -257933,8 +257797,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &1988705318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259629,8 +259491,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!54 &2008031764
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -261929,8 +261789,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!1001 &2022747714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272049,8 +271907,6 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
-  enableAutoPull: 1
-  pullDuration: 0.2
 --- !u!114 &2141313914
 MonoBehaviour:
   m_ObjectHideFlags: 0

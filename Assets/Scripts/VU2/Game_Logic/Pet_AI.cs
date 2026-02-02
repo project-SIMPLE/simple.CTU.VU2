@@ -3,186 +3,139 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // =============================================================================
-// Pet_AI - Simple AI behavior for farm animals (chickens, ducks).
-// Pet_AI - Hành vi AI đơn giản cho vật nuôi nông trại (gà, vịt).
+// Pet_AI - Simple AI behavior for farm animals (chickens, ducks, fish, shrimp).
+// Pet_AI - Hành vi AI đơn giản cho vật nuôi nông trại (gà, vịt, cá, tôm).
 // 
 // This script controls autonomous pet behavior:
-// - Random walking in 4 directions
+// - Random walking within a small radius from starting position
+// - Periodically returns to home position
 // - Pecking animation (eating)
-// - Collision avoidance via raycasting
 // 
 // Script này điều khiển hành vi tự động của thú cưng:
-// - Đi bộ ngẫu nhiên theo 4 hướng
+// - Đi bộ ngẫu nhiên trong bán kính nhỏ từ vị trí bắt đầu
+// - Định kỳ quay về vị trí gốc
 // - Animation mổ thóc (ăn)
-// - Tránh va chạm qua raycasting
-// 
-// Behavior loop:
-// 1. Walk for 3-6 seconds in random direction
-// 2. Stop and wait for 5-7 seconds
-// 3. 40% chance to peck, 60% chance to walk again
-// 4. Repeat
 // =============================================================================
 public class Pet_AI : MonoBehaviour
 {
     // =========================================================================
     // REFERENCES
-    // THAM CHIẾU
     // =========================================================================
-    // Animator for controlling pet animations.
-    // Animator để điều khiển animation thú cưng.
     public Animator _animator;
 
     // =========================================================================
     // MOVEMENT CONFIGURATION
-    // CẤU HÌNH DI CHUYỂN
     // =========================================================================
     [Header("Movement / Di chuyển")]
-    // Speed of walking movement.
-    // Tốc độ di chuyển khi đi bộ.
+    [Tooltip("Tốc độ di chuyển")]
     public float moveSpeed = 0.1f;
     
-    // Countdown timer for walking duration.
-    // Bộ đếm thời gian cho thời lượng đi bộ.
+    [Tooltip("Bán kính di chuyển tối đa từ vị trí gốc")]
+    public float wanderRadius = 2f;
+    
+    [Tooltip("Thời gian đi bộ mỗi lần (giây)")]
+    public float walkTime = 2f;
+    
+    [Tooltip("Thời gian chờ giữa các lần đi (giây)")]
+    public float waitTime = 3f;
+    
+    [Tooltip("Cơ hội quay về vị trí gốc (0-1)")]
+    [Range(0f, 1f)]
+    public float returnHomeChance = 0.3f;
+
+    // Countdown timers
     public float walkCounter;
-    
-    // Countdown timer for waiting duration.
-    // Bộ đếm thời gian cho thời lượng chờ.
     public float waitCounter;
-    
-    // True when pet is currently walking.
-    // True khi thú cưng đang đi bộ.
     public bool isWalking;
 
     // =========================================================================
     // INTERNAL STATE
-    // TRẠNG THÁI NỘI BỘ
     // =========================================================================
-    
-    // Current walking direction: 0=forward, 1=right, 2=left, 3=back.
-    // Hướng đi hiện tại: 0=trước, 1=phải, 2=trái, 3=sau.
     private int _walkDirection;
+    private Vector3 _homePosition;  // Starting position
+    private bool _isReturningHome;
     
-    // Base wait time (randomized 5-7 seconds).
-    // Thời gian chờ gốc (ngẫu nhiên 5-7 giây).
-    private float _waitTime;
-    
-    // Base walk time (randomized 3-6 seconds).
-    // Thời gian đi gốc (ngẫu nhiên 3-6 giây).
-    private float _walkTime;
-
-    // =========================================================================
-    // PECKING BEHAVIOR
-    // HÀNH VI MỔ THÓC
-    // =========================================================================
-    [Header("Pecking / Mổ Thóc")]
-    // True when pet is currently pecking.
-    // True khi thú cưng đang mổ thóc.
+    // Pecking state
     private bool _isPecking;
-    
-    // Duration of pecking animation.
-    // Thời lượng animation mổ.
-    private float _peckDuration;
-    
-    // Countdown timer for pecking.
-    // Bộ đếm thời gian cho mổ.
     private float _peckCounter;
 
     // =========================================================================
-    // Start - Initialize AI parameters.
-    // Start - Khởi tạo các tham số AI.
+    // Start
     // =========================================================================
     private void Start()
     {
-        // Auto-find Animator if not assigned.
-        // Tự động tìm Animator nếu chưa gán.
+        // Save home position
+        _homePosition = transform.position;
+        
         if (_animator == null)
         {
             _animator = GetComponent<Animator>();
         }
 
-        // Randomize walk and wait times.
-        // Ngẫu nhiên hóa thời gian đi và chờ.
-        _walkTime = Random.Range(3, 6);
-        _waitTime = Random.Range(5, 7);
-
-        waitCounter = _waitTime;
-        walkCounter = _walkTime;
+        walkCounter = walkTime;
+        waitCounter = waitTime;
 
         ChooseDirection();
     }
 
     // =========================================================================
-    // Update - Main AI loop handling walking, waiting, and pecking.
-    // Update - Vòng lặp chính AI xử lý đi bộ, chờ, và mổ.
+    // Update
     // =========================================================================
     private void Update()
     {
         if (isWalking)
         {
-            // Playing walk animation.
-            // Phát animation đi bộ.
-            _animator.SetBool("isRunning", true);
-            _animator.SetInteger("animation", 2);
-
             walkCounter -= Time.deltaTime;
 
-            // Set rotation based on direction and move.
-            // Đặt rotation dựa trên hướng và di chuyển.
-            switch (_walkDirection)
+            if (_isReturningHome)
             {
-                case 0:  // Forward / Trước
-                    transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                    WalkDirection();
-                    break;
-                case 1:  // Right / Phải
-                    transform.localRotation = Quaternion.Euler(0f, 90, 0f);
-                    WalkDirection();
-                    break;
-                case 2:  // Left / Trái
-                    transform.localRotation = Quaternion.Euler(0f, -90, 0f);
-                    WalkDirection();
-                    break;
-                case 3:  // Back / Sau
-                    transform.localRotation = Quaternion.Euler(0f, 180, 0f);
-                    WalkDirection();
-                    break;
+                // Move towards home
+                MoveTowardsHome();
+            }
+            else
+            {
+                // Normal random walk
+                switch (_walkDirection)
+                {
+                    case 0: transform.localRotation = Quaternion.Euler(0f, 0f, 0f); break;
+                    case 1: transform.localRotation = Quaternion.Euler(0f, 90f, 0f); break;
+                    case 2: transform.localRotation = Quaternion.Euler(0f, -90f, 0f); break;
+                    case 3: transform.localRotation = Quaternion.Euler(0f, 180f, 0f); break;
+                }
+                WalkDirection();
             }
 
-            // Transition to waiting state when walk time expires.
-            // Chuyển sang trạng thái chờ khi hết thời gian đi.
             if (walkCounter <= 0)
             {
                 isWalking = false;
-                _animator.SetBool("isRunning", false);
-                _animator.SetInteger("animation", 0);
-                waitCounter = _waitTime;
+                _isReturningHome = false;
+                waitCounter = Random.Range(waitTime * 0.5f, waitTime * 1.5f);
             }
         }
         else if (_isPecking)
         {
-            // Handle pecking countdown.
-            // Xử lý đếm ngược mổ.
             _peckCounter -= Time.deltaTime;
             if (_peckCounter <= 0)
             {
                 _isPecking = false;
-                _animator.SetInteger("animation", 0);
-                waitCounter = _waitTime;
+                waitCounter = waitTime;
             }
         }
         else
         {
-            // Waiting state - countdown to next action.
-            // Trạng thái chờ - đếm ngược đến hành động tiếp.
             waitCounter -= Time.deltaTime;
 
             if (waitCounter <= 0)
             {
-                // 40% chance to peck, 60% chance to walk.
-                // 40% cơ hội mổ, 60% cơ hội đi bộ.
-                if (Random.value < 0.4f)
+                // 40% peck, 30% return home, 30% random walk
+                float roll = Random.value;
+                if (roll < 0.4f)
                 {
                     StartPecking();
+                }
+                else if (roll < 0.4f + returnHomeChance)
+                {
+                    ReturnHome();
                 }
                 else
                 {
@@ -193,55 +146,105 @@ public class Pet_AI : MonoBehaviour
     }
 
     // =========================================================================
-    // ChooseDirection - Picks a random direction and starts walking.
-    // ChooseDirection - Chọn hướng ngẫu nhiên và bắt đầu đi bộ.
+    // ChooseDirection - Random direction, check if within radius
     // =========================================================================
     private void ChooseDirection()
     {
-        _walkDirection = Random.Range(0, 3);
-
+        _walkDirection = Random.Range(0, 4);
+        _isReturningHome = false;
         isWalking = true;
-        walkCounter = _walkTime;
+        walkCounter = Random.Range(walkTime * 0.5f, walkTime);
     }
 
     // =========================================================================
-    // StartPecking - Starts the pecking animation for 2-3 seconds.
-    // StartPecking - Bắt đầu animation mổ trong 2-3 giây.
+    // ReturnHome - Start moving back to home position
     // =========================================================================
-    private void StartPecking()
+    private void ReturnHome()
     {
-        _isPecking = true;
-        _peckDuration = Random.Range(2f, 3f);
-        _peckCounter = _peckDuration;
-
-        _animator.SetInteger("animation", 4);
+        _isReturningHome = true;
+        isWalking = true;
+        walkCounter = walkTime * 2f;  // More time to get home
     }
 
     // =========================================================================
-    // WalkDirection - Moves forward if no obstacle, else changes direction.
-    // WalkDirection - Di chuyển về phía trước nếu không có chướng ngại, ngược lại đổi hướng.
-    // 
-    // Uses raycast for collision detection.
-    // Dùng raycast để phát hiện va chạm.
+    // MoveTowardsHome - Move towards starting position
+    // =========================================================================
+    private void MoveTowardsHome()
+    {
+        Vector3 dirToHome = (_homePosition - transform.position);
+        dirToHome.y = 0;  // Keep on same Y level
+        
+        float dist = dirToHome.magnitude;
+        
+        if (dist < 0.1f)
+        {
+            // Arrived home
+            isWalking = false;
+            _isReturningHome = false;
+            waitCounter = waitTime;
+            return;
+        }
+        
+        // Face home direction
+        if (dirToHome.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(dirToHome.normalized);
+        }
+        
+        // Move towards home
+        transform.position += dirToHome.normalized * (moveSpeed * Time.deltaTime);
+    }
+
+    // =========================================================================
+    // WalkDirection - Move forward, but stay within wander radius
     // =========================================================================
     private void WalkDirection()
     {
-        // Cast ray 0.15m forward to detect obstacles.
-        // Bắn ray 0.15m về phía trước để phát hiện chướng ngại.
+        // Calculate next position
+        Vector3 nextPos = transform.position + transform.forward * (moveSpeed * Time.deltaTime);
+        
+        // Check distance from home
+        float distFromHome = Vector3.Distance(nextPos, _homePosition);
+        
+        if (distFromHome > wanderRadius)
+        {
+            // Too far - stop and wait, will return home next
+            isWalking = false;
+            waitCounter = 0.5f;  // Short wait then return
+            return;
+        }
+        
+        // Check for obstacles
         if (!Physics.Raycast(transform.position, transform.forward, 0.15f))
         {
-            // No collision - continue moving.
-            // Không va chạm - tiếp tục di chuyển.
-            transform.position += transform.forward * (moveSpeed * Time.deltaTime);
+            transform.position = nextPos;
         }
         else
         {
-            // Collision detected - stop and choose new direction.
-            // Phát hiện va chạm - dừng và chọn hướng mới.
+            // Hit obstacle - change direction
             isWalking = false;
-            waitCounter = _waitTime;
+            waitCounter = 0.5f;
             ChooseDirection();
         }
     }
 
+    // =========================================================================
+    // StartPecking
+    // =========================================================================
+    private void StartPecking()
+    {
+        _isPecking = true;
+        _peckCounter = Random.Range(2f, 3f);
+        // _animator.SetInteger("animation", 4);
+    }
+
+    // =========================================================================
+    // OnDrawGizmosSelected - Visualize wander radius
+    // =========================================================================
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Vector3 center = Application.isPlaying ? _homePosition : transform.position;
+        Gizmos.DrawWireSphere(center, wanderRadius);
+    }
 }

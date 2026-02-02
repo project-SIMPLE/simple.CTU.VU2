@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections;
 
 // =============================================================================
 // FruitType - Types of collectible products in the game.
@@ -25,6 +27,9 @@ public enum FruitType
 // 
 // Score is calculated based on: Zone (Fresh/Salt) × Season (Rainy/Dry)
 // Điểm được tính dựa trên: Vùng (Ngọt/Lợ) × Mùa (Mưa/Khô)
+// 
+// NEW: Auto-pull grab - When grabbed, automatically flies to hand in 0.2s
+// MỚI: Auto-pull grab - Khi grab, tự động bay vào tay trong 0.2s
 // =============================================================================
 public class David_Fruit : MonoBehaviour
 {
@@ -66,6 +71,42 @@ public class David_Fruit : MonoBehaviour
     // Âm thanh phát khi thu hoạch. Để trống nếu không cần âm thanh.
     // -------------------------------------------------------------------------
     public AudioClip collectSound;
+
+    [Header("Tree Harvesting / Thu hoạch trên cây")]
+    // -------------------------------------------------------------------------
+    // For fruits on trees (Coconut, Durian).
+    // Cho trái cây trên cây (Dừa, Sầu riêng).
+    // -------------------------------------------------------------------------
+    [Tooltip("True nếu quả đang trên cây (chưa rụng)")]
+    public bool isOnTree = false;
+    
+    [Tooltip("True nếu quả có thể thu hoạch (đã rụng xuống đất)")]
+    public bool canCollect = true;
+    
+    [Tooltip("Âm thanh khi rơi từ cây")]
+    public AudioClip dropSound;
+    
+    [Header("Auto-Pull Grab / Grab tự động kéo")]
+    [Tooltip("Bật auto-pull khi grab")]
+    public bool enableAutoPull = true;
+    
+    [Tooltip("Thời gian kéo về tay (giây)")]
+    public float pullDuration = 0.2f;
+    
+    // XR Grab reference
+    private XRGrabInteractable _grabInteractable;
+    private Transform _grabTarget;
+    private Coroutine _pullCoroutine;
+    private bool _isBeingPulled = false;
+    
+    // Store original XR settings
+    private float _originalAttachEaseInTime;
+    private XRBaseInteractable.MovementType _originalMovementType;
+    
+    // Store original position for reset
+    private Vector3 _originalPosition;
+    private Quaternion _originalRotation;
+    private Transform _originalParent;
     
     // -------------------------------------------------------------------------
     // Prevents double-collection in same frame.
@@ -85,6 +126,159 @@ public class David_Fruit : MonoBehaviour
         {
             ownerArea = GetComponentInParent<FarmArea>();
         }
+        
+        // Save original transform for ResetToTree
+        _originalPosition = transform.position;
+        _originalRotation = transform.rotation;
+        _originalParent = transform.parent;
+        
+        // Setup XR Grab Interactable for auto-pull
+        SetupAutoPull();
+        
+        // Auto-setup tree fruits
+        if (fruitType == FruitType.Coconut || fruitType == FruitType.Durian)
+        {
+            // If parent has tree script, assume on tree
+            if (GetComponentInParent<David_CoconutTree>() != null || 
+                GetComponentInParent<David_DurianTree>() != null)
+            {
+                isOnTree = true;
+                canCollect = false;
+                
+                // IMPORTANT: Ensure Rigidbody is kinematic so fruit doesn't fall!
+                var rb = GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
+                    Debug.Log($"[David_Fruit] {fruitType} Rigidbody set to kinematic (on tree)");
+                }
+            }
+        }
+    }
+    
+    // =========================================================================
+    // SetupAutoPull - Subscribe to XR Grab events for auto-pull feature.
+    // SetupAutoPull - Đăng ký XR Grab events cho tính năng auto-pull.
+    // =========================================================================
+    private void SetupAutoPull()
+    {
+        if (!enableAutoPull) return;
+        
+        _grabInteractable = GetComponent<XRGrabInteractable>();
+        if (_grabInteractable != null)
+        {
+            _grabInteractable.selectEntered.AddListener(OnGrabbed);
+            _grabInteractable.selectExited.AddListener(OnReleased);
+            Debug.Log($"[David_Fruit] Auto-pull enabled for {gameObject.name}");
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        if (_grabInteractable != null)
+        {
+            _grabInteractable.selectEntered.RemoveListener(OnGrabbed);
+            _grabInteractable.selectExited.RemoveListener(OnReleased);
+        }
+    }
+    
+    // =========================================================================
+    // OnGrabbed - Called when grabbed, TELEPORT to hand immediately!
+    // OnGrabbed - Gọi khi grab, DỊCH CHUYỂN đến tay ngay lập tức!
+    // =========================================================================
+    private void OnGrabbed(SelectEnterEventArgs args)
+    {
+        // Mark as no longer on tree
+        isOnTree = false;
+        canCollect = true;
+        
+        if (!enableAutoPull) return;
+        
+        // Get target position from interactor
+        Transform target = null;
+        if (args.interactorObject is XRBaseInteractor interactor)
+        {
+            target = interactor.attachTransform ?? interactor.transform;
+            _grabTarget = target;
+        }
+        else
+        {
+            target = args.interactorObject.transform;
+            _grabTarget = target;
+        }
+        
+        if (target != null && _grabInteractable != null)
+        {
+            // DISABLE XR TRACKING - We control position!
+            _grabInteractable.trackPosition = false;
+            _grabInteractable.trackRotation = false;
+            _wasTrackingDisabled = true;
+            
+            // DIRECT TELEPORT - Move object to hand immediately!
+            transform.position = target.position;
+            transform.rotation = target.rotation;
+            
+            // Stop any physics movement
+            var rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+            
+            // Start force teleport timer - will override XR in LateUpdate
+            _forceTeleportEndTime = Time.time + pullDuration;
+            
+            Debug.Log($"[David_Fruit] TELEPORTING {gameObject.name} for {pullDuration}s");
+        }
+    }
+    
+    // Timer for force teleport
+    private float _forceTeleportEndTime = 0f;
+    private bool _wasTrackingDisabled = false;
+    
+    // =========================================================================
+    // LateUpdate - Force position to hand AFTER XR Update runs
+    // LateUpdate - Đặt vị trí về tay SAU KHI XR Update chạy
+    // =========================================================================
+    private void LateUpdate()
+    {
+        // Force position during teleport window
+        if (Time.time < _forceTeleportEndTime && _grabTarget != null && enableAutoPull)
+        {
+            transform.position = _grabTarget.position;
+            transform.rotation = _grabTarget.rotation;
+        }
+        // Re-enable tracking when teleport window ends
+        else if (_wasTrackingDisabled && _grabInteractable != null)
+        {
+            _grabInteractable.trackPosition = true;
+            _grabInteractable.trackRotation = true;
+            _wasTrackingDisabled = false;
+            Debug.Log($"[David_Fruit] XR tracking restored for {gameObject.name}");
+        }
+    }
+    
+    // =========================================================================
+    // OnReleased - Called when released, stops pull.
+    // OnReleased - Gọi khi thả, dừng pull.
+    // =========================================================================
+    private void OnReleased(SelectExitEventArgs args)
+    {
+        _grabTarget = null;
+        _forceTeleportEndTime = 0f;  // Stop force teleport
+        
+        // Restore tracking on release
+        if (_grabInteractable != null)
+        {
+            _grabInteractable.trackPosition = true;
+            _grabInteractable.trackRotation = true;
+        }
+        _wasTrackingDisabled = false;
+        
+        Debug.Log($"[David_Fruit] Released {gameObject.name}");
     }
     
     // =========================================================================
@@ -123,6 +317,14 @@ public class David_Fruit : MonoBehaviour
     // =========================================================================
     private void TryCollect()
     {
+        // Check if fruit can be collected (for tree fruits).
+        // Kiểm tra xem quả có thể thu hoạch không (cho quả trên cây).
+        if (!canCollect)
+        {
+            Debug.Log($"[David_Fruit] {fruitType} chưa thể thu hoạch (còn trên cây)");
+            return;
+        }
+        
         // Game must be active to collect.
         // Game phải đang hoạt động mới thu hoạch được.
         if (!RulesoftheGame_VU2_1.GameActive)
@@ -296,5 +498,39 @@ public class David_Fruit : MonoBehaviour
     private void OnEnable()
     {
         _collected = false;
+    }
+
+    // =========================================================================
+    // ResetToTree - Resets fruit back to tree position (for respawning).
+    // ResetToTree - Reset quả về vị trí cây (để respawn).
+    // =========================================================================
+    public void ResetToTree()
+    {
+        // Reset position and parent
+        if (_originalParent != null)
+        {
+            transform.SetParent(_originalParent);
+        }
+        transform.position = _originalPosition;
+        transform.rotation = _originalRotation;
+
+        // Reset physics
+        var rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+
+        // Reset state
+        isOnTree = true;
+        canCollect = false;
+        _collected = false;
+        
+        gameObject.SetActive(true);
+        
+        Debug.Log($"[David_Fruit] {fruitType} reset về cây");
     }
 }
