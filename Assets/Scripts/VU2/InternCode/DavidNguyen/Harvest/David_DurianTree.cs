@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 // =============================================================================
 // David_DurianTree - Durian tree with auto-dropping ripe fruits.
@@ -37,6 +38,9 @@ public class David_DurianTree : MonoBehaviour
     // =========================================================================
     // UNITY LIFECYCLE
     // =========================================================================
+    
+    // Reference to wilt controller to check if tree is healthy
+    private David_TreeWiltController _wiltController;
 
     private void Start()
     {
@@ -45,6 +49,13 @@ public class David_DurianTree : MonoBehaviour
         {
             durians = GetComponentsInChildren<David_Fruit>(true);
             Debug.Log($"[David_DurianTree] Tìm thấy {durians.Length} quả sầu riêng");
+        }
+        
+        // Get wilt controller to check if tree is healthy
+        _wiltController = GetComponent<David_TreeWiltController>();
+        if (_wiltController == null)
+        {
+            _wiltController = GetComponentInParent<David_TreeWiltController>();
         }
 
         // Setup all durians
@@ -75,6 +86,9 @@ public class David_DurianTree : MonoBehaviour
     {
         Debug.Log($"[David_DurianTree] Mùa thay đổi: {newPhase}");
         
+        // CLEANUP: Destroy any dropped fruits from previous season
+        CleanupDroppedFruits();
+        
         // Rainy1 or Rainy2 = rainy season
         if (newPhase == SeasonPhase.Rainy1 || newPhase == SeasonPhase.Rainy2)
         {
@@ -86,6 +100,33 @@ public class David_DurianTree : MonoBehaviour
         {
             // Stop dropping in dry season
             StopAutoDrop();
+        }
+    }
+    
+    /// <summary>
+    /// Cleanup/destroy fruits that have fallen to the ground but not collected.
+    /// Dọn dẹp/xóa trái đã rơi xuống đất nhưng chưa được nhặt.
+    /// </summary>
+    private void CleanupDroppedFruits()
+    {
+        int cleanedCount = 0;
+        
+        foreach (var durian in durians)
+        {
+            if (durian == null) continue;
+            
+            // If fruit is NOT on tree and NOT already collected = dropped on ground
+            if (!durian.isOnTree && durian.gameObject.activeInHierarchy)
+            {
+                // Destroy the dropped fruit
+                Destroy(durian.gameObject);
+                cleanedCount++;
+            }
+        }
+        
+        if (cleanedCount > 0)
+        {
+            Debug.Log($"[David_DurianTree] Đã dọn {cleanedCount} sầu riêng rớt dưới đất");
         }
     }
 
@@ -144,6 +185,15 @@ public class David_DurianTree : MonoBehaviour
             {
                 Debug.Log("[David_DurianTree] Không còn mùa mưa, dừng drop");
                 break;
+            }
+            
+            // CHECK IF TREE IS WILTED - Don't drop if tree is dead!
+            if (_wiltController != null && _wiltController.IsWilted)
+            {
+                Debug.Log("[David_DurianTree] Cây đang héo, không thể rụng sầu riêng");
+                // Wait and check again instead of breaking
+                yield return new WaitForSeconds(2f);
+                continue;
             }
 
             // Drop one random durian
@@ -207,6 +257,14 @@ public class David_DurianTree : MonoBehaviour
 
         // Detach from tree
         durian.transform.SetParent(null);
+        
+        // Enable XR Grab Interactable so player can pick up
+        var grabInteractable = durian.GetComponent<XRGrabInteractable>();
+        if (grabInteractable != null)
+        {
+            grabInteractable.enabled = true;
+            durian.SetupAfterDrop();
+        }
 
         // Play fall sound
         if (fallSound != null)
@@ -214,7 +272,7 @@ public class David_DurianTree : MonoBehaviour
             AudioSource.PlayClipAtPoint(fallSound, durian.transform.position);
         }
 
-        
+        Debug.Log($"[David_DurianTree] Sầu riêng rơi: {durian.name}");
     }
 
     // =========================================================================

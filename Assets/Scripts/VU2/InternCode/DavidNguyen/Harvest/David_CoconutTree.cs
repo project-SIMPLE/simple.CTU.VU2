@@ -59,6 +59,7 @@ public class David_CoconutTree : MonoBehaviour
     private Vector3 _originalPosition;
     private bool _isShaking = false;
     private bool _handInKnockZone = false;
+    private David_TreeWiltController _wiltController;
 
     // =========================================================================
     // UNITY LIFECYCLE
@@ -66,11 +67,18 @@ public class David_CoconutTree : MonoBehaviour
 
     private void Start()
     {
-        // Auto-find coconuts if not assigned
-        if (coconuts == null || coconuts.Length == 0)
+        // ALWAYS auto-find coconuts from children to avoid shared references when copy/pasting!
+        // This ensures each tree only references ITS OWN coconuts, not coconuts from copied tree
+        coconuts = GetComponentsInChildren<David_Fruit>(true);
+        Debug.Log($"[David_CoconutTree] {gameObject.name}: Found {coconuts.Length} coconuts as children");
+        
+        // Log each coconut for debugging
+        foreach (var coconut in coconuts)
         {
-            coconuts = GetComponentsInChildren<David_Fruit>(true);
-            Debug.Log($"[David_CoconutTree] Tìm thấy {coconuts.Length} quả dừa");
+            if (coconut != null)
+            {
+                Debug.Log($"[David_CoconutTree] {gameObject.name} owns coconut: {coconut.gameObject.name}");
+            }
         }
 
         // Cache original position for shake animation
@@ -107,14 +115,66 @@ public class David_CoconutTree : MonoBehaviour
                 }
             }
         }
+        
+        // Get wilt controller to check if tree is healthy
+        _wiltController = GetComponent<David_TreeWiltController>();
+        if (_wiltController == null)
+        {
+            _wiltController = GetComponentInParent<David_TreeWiltController>();
+        }
+        
+        // SETUP XR SIMPLE INTERACTABLE for VR controller support
+        SetupXRInteractable();
+    }
+    
+    // =========================================================================
+    // XR INTERACTABLE SETUP - Allows VR controller to shake tree
+    // =========================================================================
+    private XRSimpleInteractable _xrInteractable;
+    private bool _xrListenerAdded = false;
+    
+    private void SetupXRInteractable()
+    {
+        if (!enableXRKnock) return;
+        
+        // Prevent duplicate listeners
+        if (_xrListenerAdded) return;
+        
+        // Try to get existing or add new XRSimpleInteractable
+        _xrInteractable = GetComponent<XRSimpleInteractable>();
+        if (_xrInteractable == null)
+        {
+            _xrInteractable = gameObject.AddComponent<XRSimpleInteractable>();
+        }
+        
+        // Subscribe to select event (triggered by grip/trigger button)
+        _xrInteractable.selectEntered.AddListener(OnXRSelect);
+        _xrListenerAdded = true;
+        
+        Debug.Log($"[David_CoconutTree] XR setup for {gameObject.name}. Total coconuts in array: {coconuts.Length}");
+    }
+    
+    private void OnDestroy()
+    {
+        if (_xrInteractable != null)
+        {
+            _xrInteractable.selectEntered.RemoveListener(OnXRSelect);
+        }
+    }
+    
+    private void OnXRSelect(SelectEnterEventArgs args)
+    {
+        Debug.Log($"[David_CoconutTree] VR Controller selected tree!");
+        TryKnockTree();
     }
 
     private void Update()
     {
-        // Keyboard testing
-        if (enableKeyboardTesting && Input.GetKeyDown(testKnockKey))
+        // Keyboard testing - Only allow if player is close enough (hand in zone)
+        // Check _handInKnockZone to prevent ALL trees from shaking when E is pressed
+        if (enableKeyboardTesting && _handInKnockZone && Input.GetKeyDown(testKnockKey))
         {
-            Debug.Log($"[David_CoconutTree] Keyboard test: {testKnockKey}");
+            Debug.Log($"[David_CoconutTree] Keyboard test: {testKnockKey} on {gameObject.name}");
             TryKnockTree();
         }
     }
@@ -217,6 +277,13 @@ public class David_CoconutTree : MonoBehaviour
     /// </summary>
     public void TryKnockTree()
     {
+        // CHECK IF TREE IS WILTED - Can't knock wilted tree!
+        if (_wiltController != null && _wiltController.IsWilted)
+        {
+            Debug.Log("[David_CoconutTree] Cây đang héo, không thể gõ!");
+            return;
+        }
+        
         // Check cooldown
         if (Time.time < _nextKnockTime)
         {
@@ -336,6 +403,10 @@ public class David_CoconutTree : MonoBehaviour
         if (grabInteractable != null)
         {
             grabInteractable.enabled = true;
+            
+            // IMPORTANT: Notify David_Fruit to setup instant grab now that XR is enabled
+            coconut.SetupAfterDrop();
+            
             Debug.Log($"[David_CoconutTree] Enabled XRGrabInteractable on {coconut.name}");
         }
 
