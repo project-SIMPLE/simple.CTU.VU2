@@ -9,10 +9,20 @@ using UnityEngine.XR.Interaction.Toolkit;
 // =============================================================================
 public class David_CoconutTree : MonoBehaviour
 {
+    public enum InteractionType
+    {
+        SimpleKnock,   // Gõ bằng tay (Physic Trigger)
+        XR_Click,      // Dùng XR Ray/Direct Interactor bấm (Select)
+        XR_GrabShake   // Dùng XR Grab để nắm và rung
+    }
+
+    [Header("Interaction Mode")]
+    public InteractionType interactionMode = InteractionType.XR_Click;
+
     [Header("Coconut Tree Config / Cấu hình cây dừa")]
     
     [Tooltip("Thời gian cooldown giữa mỗi lần gõ (giây)")]
-    public float knockCooldown = 30f;
+    public float knockCooldown = 1.0f; // Giảm xuống cho dễ test
     
     [Tooltip("Delay ngẫu nhiên min khi dừa rơi")]
     public float minFallDelay = 0.3f;
@@ -37,29 +47,19 @@ public class David_CoconutTree : MonoBehaviour
     [Tooltip("Transform gốc cây để rung")]
     public Transform treeTransform;
     
-    [Tooltip("Collider để detect knock (phải là Trigger, bao phủ thân cây)")]
+    [Tooltip("Collider để detect knock (Optional nếu dùng XR Click/Grab)")]
     public Collider knockZoneCollider;
 
-    [Header("Keyboard Testing / Test bằng bàn phím")]
-    [Tooltip("Phím để test gõ cây")]
+    [Header("Keyboard Testing")]
     public KeyCode testKnockKey = KeyCode.E;
-    
-    [Tooltip("Bật test bằng bàn phím?")]
     public bool enableKeyboardTesting = true;
-
-    [Header("XR Direct Knock (Optional)")]
-    [Tooltip("Cho phép trỏ vào thân cây + bóp trigger để gõ")]
-    public bool enableXRKnock = true;
-    
-    [Tooltip("Tag của player hand/controller")]
-    public string handTag = "Hand";
 
     // Internal state
     private float _nextKnockTime = 0f;
     private Vector3 _originalPosition;
     private bool _isShaking = false;
-    private bool _handInKnockZone = false;
     private David_TreeWiltController _wiltController;
+    private XRBaseInteractable _currentInteractable;
 
     // =========================================================================
     // UNITY LIFECYCLE
@@ -67,177 +67,170 @@ public class David_CoconutTree : MonoBehaviour
 
     private void Start()
     {
-        // ALWAYS auto-find coconuts from children to avoid shared references when copy/pasting!
-        // This ensures each tree only references ITS OWN coconuts, not coconuts from copied tree
+        // 1. AUTO-FIND COCONUTS FROM CHILDREN
         coconuts = GetComponentsInChildren<David_Fruit>(true);
-        Debug.Log($"[David_CoconutTree] {gameObject.name}: Found {coconuts.Length} coconuts as children");
         
-        // Log each coconut for debugging
-        foreach (var coconut in coconuts)
-        {
-            if (coconut != null)
-            {
-                Debug.Log($"[David_CoconutTree] {gameObject.name} owns coconut: {coconut.gameObject.name}");
-            }
-        }
-
-        // Cache original position for shake animation
-        if (treeTransform != null)
-        {
-            _originalPosition = treeTransform.localPosition;
-        }
-        else
+        // 2. SETUP TREE TRANSFORM
+        if (treeTransform == null)
         {
             treeTransform = transform;
-            _originalPosition = transform.localPosition;
         }
+        _originalPosition = treeTransform.localPosition;
 
-        // Setup all coconuts - Disable XR Grab while on tree
+        // 3. SETUP COCONUTS
         foreach (var coconut in coconuts)
         {
-            if (coconut != null)
-            {
-                SetupCoconutOnTree(coconut);
-            }
+            if (coconut != null) SetupCoconutOnTree(coconut);
         }
         
-        // Auto-find knock zone if not assigned
-        if (knockZoneCollider == null)
-        {
-            // Try to find a trigger collider on this object
-            var colliders = GetComponents<Collider>();
-            foreach (var col in colliders)
-            {
-                if (col.isTrigger)
-                {
-                    knockZoneCollider = col;
-                    break;
-                }
-            }
-        }
+        // 4. WILT CONTROLLER
+        _wiltController = GetComponent<David_TreeWiltController>() ?? GetComponentInParent<David_TreeWiltController>();
         
-        // Get wilt controller to check if tree is healthy
-        _wiltController = GetComponent<David_TreeWiltController>();
-        if (_wiltController == null)
-        {
-            _wiltController = GetComponentInParent<David_TreeWiltController>();
-        }
-        
-        // SETUP XR SIMPLE INTERACTABLE for VR controller support
-        SetupXRInteractable();
+        // 5. SETUP INTERACTION BASED ON MODE
+        SetupInteraction();
     }
     
+    private void SetupInteraction()
+    {
+        // Remove old interactables if switching modes (simple cleanup)
+        // Note: In a real project, be careful removing components dynamically.
+        
+        switch (interactionMode)
+        {
+            case InteractionType.SimpleKnock:
+                // Cần KnockZoneCollider (Trigger)
+                if (knockZoneCollider == null)
+                    Debug.LogWarning("[David_CoconutTree] SimpleKnock mode cần KnockZoneCollider!");
+                break;
+
+            case InteractionType.XR_Click:
+                SetupXRSimple();
+                break;
+
+            case InteractionType.XR_GrabShake:
+                SetupXRGrab();
+                break;
+        }
+    }
+
     // =========================================================================
     // XR INTERACTABLE SETUP - Allows VR controller to shake tree
     // =========================================================================
     private XRSimpleInteractable _xrInteractable;
     private bool _xrListenerAdded = false;
-    
-    private void SetupXRInteractable()
+
+    [ContextMenu("Setup XR Components (Click Me)")]
+    public void ManualSetupXR()
     {
-        if (!enableXRKnock) return;
-        
-        // Prevent duplicate listeners
-        if (_xrListenerAdded) return;
-        
-        // Try to get existing or add new XRSimpleInteractable
-        _xrInteractable = GetComponent<XRSimpleInteractable>();
-        if (_xrInteractable == null)
+        // 1. Ensure Collider exists
+        var col = GetComponent<Collider>();
+        if (col == null)
         {
-            _xrInteractable = gameObject.AddComponent<XRSimpleInteractable>();
+            var box = gameObject.AddComponent<BoxCollider>();
+            box.isTrigger = false; // Recommend solid collider for Raycast
+            Debug.Log("[David_CoconutTree] Added BoxCollider (IsTrigger=false).");
         }
+        else if (col.isTrigger && interactionMode != InteractionType.SimpleKnock)
+        {
+            Debug.LogWarning("[David_CoconutTree] Warning: BoxCollider is Trigger. Ray Interactor might ignore it. Consider unchecking IsTrigger.");
+        }
+
+        // 2. Setup based on mode
+        SetupInteraction();
+        Debug.Log($"[David_CoconutTree] Setup complete for mode: {interactionMode}");
+    }
+    
+    private void SetupXRSimple()
+    {
+        var simple = GetComponent<XRSimpleInteractable>();
+        if (simple == null) simple = gameObject.AddComponent<XRSimpleInteractable>();
         
-        // Subscribe to select event (triggered by grip/trigger button)
-        _xrInteractable.selectEntered.AddListener(OnXRSelect);
-        _xrListenerAdded = true;
+        _currentInteractable = simple;
         
-        Debug.Log($"[David_CoconutTree] XR setup for {gameObject.name}. Total coconuts in array: {coconuts.Length}");
+        // Setup Event
+        simple.selectEntered.RemoveListener(OnXRSelect);
+        simple.selectEntered.AddListener(OnXRSelect);
+    }
+
+    private void SetupXRGrab()
+    {
+        var grab = GetComponent<XRGrabInteractable>();
+        if (grab == null) grab = gameObject.AddComponent<XRGrabInteractable>();
+        
+        _currentInteractable = grab;
+        
+        // Cấu hình Grab để KHÔNG di chuyển cây
+        grab.trackPosition = false;
+        grab.trackRotation = false;
+        grab.throwOnDetach = false;
+        
+        // Event
+        grab.selectEntered.RemoveListener(OnXRSelect);
+        grab.selectEntered.AddListener(OnXRSelect);
     }
     
     private void OnDestroy()
     {
-        if (_xrInteractable != null)
+        if (_currentInteractable != null)
         {
-            _xrInteractable.selectEntered.RemoveListener(OnXRSelect);
+            _currentInteractable.selectEntered.RemoveListener(OnXRSelect);
         }
     }
     
     private void OnXRSelect(SelectEnterEventArgs args)
     {
-        Debug.Log($"[David_CoconutTree] VR Controller selected tree!");
         TryKnockTree();
     }
 
     private void Update()
     {
-        // Keyboard testing - Only allow if player is close enough (hand in zone)
-        // Check _handInKnockZone to prevent ALL trees from shaking when E is pressed
-        if (enableKeyboardTesting && _handInKnockZone && Input.GetKeyDown(testKnockKey))
+        // Keyboard testing - Only allow if player is LOOKING AT the tree (Raycast)
+        if (enableKeyboardTesting && Input.GetKeyDown(testKnockKey))
         {
-            Debug.Log($"[David_CoconutTree] Keyboard test: {testKnockKey} on {gameObject.name}");
-            TryKnockTree();
+             if (Camera.main == null) return;
+
+             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+             RaycastHit hit;
+             
+             // Raycast to check if looking at this tree
+             // Note: Tree must have a collider (Mesh or Box) for this to work
+             if (Physics.Raycast(ray, out hit, 20f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide))
+             {
+                 bool isHit = hit.collider.gameObject == gameObject || 
+                              hit.collider.transform.IsChildOf(transform) ||
+                              (knockZoneCollider != null && hit.collider == knockZoneCollider);
+                              
+                 if (isHit)
+                 {
+                     TryKnockTree();
+                 }
+             }
         }
     }
 
     // =========================================================================
-    // TRIGGER DETECTION FOR KNOCK ZONE
+    // TRIGGER DETECTION (ONLY FOR SimpleKnock MODE)
     // ==========================================================================
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if it's a hand/controller entering the knock zone
-        if (IsHandOrPlayer(other))
-        {
-            _handInKnockZone = true;
-            Debug.Log("[David_CoconutTree] Hand entered knock zone");
-        }
-    }
+        if (interactionMode != InteractionType.SimpleKnock) return;
 
-    private void OnTriggerStay(Collider other)
-    {
-        // If hand is in zone and trigger is pressed, knock the tree
-        if (!enableXRKnock) return;
-        
         if (IsHandOrPlayer(other))
         {
-            // Check for grip or trigger input
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                TryKnockTree();
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (IsHandOrPlayer(other))
-        {
-            _handInKnockZone = false;
-            Debug.Log("[David_CoconutTree] Hand exited knock zone");
+            // Auto knock on enter? Or just register?
+            // For now, let's auto-knock to simulate physical hit
+            TryKnockTree();
         }
     }
     
-    /// <summary>
-    /// Checks if collider is hand or player (safe tag check + name fallback).
-    /// </summary>
     private bool IsHandOrPlayer(Collider other)
     {
-        // Try tag check (safely)
-        try
-        {
-            if (other.CompareTag(handTag)) return true;
-            if (other.CompareTag("Player")) return true;
-        }
-        catch (System.Exception)
-        {
-            // Tag not defined - use name fallback
-        }
-        
-        // Fallback: check by name
         string name = other.name.ToLower();
-        return name.Contains("hand") || 
-               name.Contains("controller") || 
-               name.Contains("player");
+        return other.CompareTag("Player") || 
+               other.CompareTag("Hand") || 
+               name.Contains("hand") || 
+               name.Contains("controller");
     }
 
     // =========================================================================
@@ -249,7 +242,6 @@ public class David_CoconutTree : MonoBehaviour
         coconut.isOnTree = true;
         coconut.canCollect = false;
         
-        // Make kinematic while on tree
         var rb = coconut.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -257,95 +249,47 @@ public class David_CoconutTree : MonoBehaviour
             rb.useGravity = false;
         }
         
-        // IMPORTANT: Disable XR Grab while on tree to prevent grab conflicts
+        // Disable XR Grab while on tree
         var grabInteractable = coconut.GetComponent<XRGrabInteractable>();
-        if (grabInteractable != null)
-        {
-            grabInteractable.enabled = false;
-            Debug.Log($"[David_CoconutTree] Disabled XRGrabInteractable on {coconut.name}");
-        }
+        if (grabInteractable != null) grabInteractable.enabled = false;
     }
 
     // =========================================================================
-    // KNOCK TREE - Main harvesting logic
-    // GÕ CÂY - Logic thu hoạch chính
+    // KNOCK TREE
     // =========================================================================
 
-    /// <summary>
-    /// Attempts to knock tree (checks cooldown).
-    /// Cố gắng gõ cây (kiểm tra cooldown).
-    /// </summary>
     public void TryKnockTree()
     {
-        // CHECK IF TREE IS WILTED - Can't knock wilted tree!
-        if (_wiltController != null && _wiltController.IsWilted)
-        {
-            Debug.Log("[David_CoconutTree] Cây đang héo, không thể gõ!");
-            return;
-        }
+        if (_wiltController != null && _wiltController.IsWilted) return;
         
-        // Check cooldown
-        if (Time.time < _nextKnockTime)
-        {
-            float remaining = _nextKnockTime - Time.time;
-            Debug.Log($"[David_CoconutTree] Cooldown còn {remaining:F1}s");
-            return;
-        }
+        if (Time.time < _nextKnockTime) return;
 
-        // Knock the tree!
         KnockTree();
-        
-        // Set cooldown
         _nextKnockTime = Time.time + knockCooldown;
     }
 
-    /// <summary>
-    /// Knocks the tree, causing ONE coconut to fall.
-    /// Gõ cây, làm MỘT quả dừa rơi.
-    /// </summary>
     public void KnockTree()
     {
-        // Play knock sound
-        if (knockSound != null)
-        {
-            AudioSource.PlayClipAtPoint(knockSound, transform.position);
-        }
+        if (knockSound != null) AudioSource.PlayClipAtPoint(knockSound, transform.position);
 
-        // Shake tree animation
-        if (!_isShaking)
-        {
-            StartCoroutine(ShakeTree());
-        }
+        if (!_isShaking) StartCoroutine(ShakeTree());
 
-        // Find coconuts still on tree
+        // Find coconuts
         List<David_Fruit> coconutsOnTree = new List<David_Fruit>();
         foreach (var coconut in coconuts)
         {
-            if (coconut != null && coconut.isOnTree)
-            {
-                coconutsOnTree.Add(coconut);
-            }
+            if (coconut != null && coconut.isOnTree) coconutsOnTree.Add(coconut);
         }
         
-        // Drop only ONE random coconut
         if (coconutsOnTree.Count > 0)
         {
             int randomIndex = Random.Range(0, coconutsOnTree.Count);
-            David_Fruit selectedCoconut = coconutsOnTree[randomIndex];
-            float delay = Random.Range(minFallDelay, maxFallDelay);
-            StartCoroutine(DropCoconutAfterDelay(selectedCoconut, delay));
-            
-            Debug.Log($"[David_CoconutTree] Đã gõ cây! 1 quả dừa rơi (còn {coconutsOnTree.Count - 1} quả)");
-        }
-        else
-        {
-            Debug.Log("[David_CoconutTree] Không còn dừa trên cây!");
+            StartCoroutine(DropCoconutAfterDelay(coconutsOnTree[randomIndex], Random.Range(minFallDelay, maxFallDelay)));
         }
     }
 
     // =========================================================================
     // SHAKE ANIMATION
-    // ANIMATION RUNG CÂY
     // =========================================================================
 
     private IEnumerator ShakeTree()
@@ -357,21 +301,17 @@ public class David_CoconutTree : MonoBehaviour
         {
             float x = Random.Range(-shakeIntensity, shakeIntensity);
             float z = Random.Range(-shakeIntensity, shakeIntensity);
-            
             treeTransform.localPosition = _originalPosition + new Vector3(x, 0, z);
-            
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Reset to original position
         treeTransform.localPosition = _originalPosition;
         _isShaking = false;
     }
 
     // =========================================================================
-    // DROP COCONUT
-    // RƠI DỪA
+    // DROP LOGIC
     // =========================================================================
 
     private IEnumerator DropCoconutAfterDelay(David_Fruit coconut, float delay)
@@ -380,70 +320,33 @@ public class David_CoconutTree : MonoBehaviour
 
         if (coconut == null) yield break;
 
-        // Update fruit state
         coconut.isOnTree = false;
         coconut.canCollect = true;
-
-        // Detach from tree FIRST
-        coconut.transform.SetParent(null);
+        coconut.transform.SetParent(null); // Detach
         
-        // Enable physics
         var rb = coconut.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = false;
             rb.useGravity = true;
-            
-            // Add slight random force
             rb.AddForce(Random.insideUnitSphere * 0.5f, ForceMode.Impulse);
         }
         
-        // NOW enable XR Grab Interactable so player can pick up the fallen coconut
+        // Require XR Grab to pick up
         var grabInteractable = coconut.GetComponent<XRGrabInteractable>();
         if (grabInteractable != null)
         {
             grabInteractable.enabled = true;
-            
-            // IMPORTANT: Notify David_Fruit to setup instant grab now that XR is enabled
             coconut.SetupAfterDrop();
-            
-            Debug.Log($"[David_CoconutTree] Enabled XRGrabInteractable on {coconut.name}");
         }
 
-        // Play fall sound
-        if (fallSound != null)
-        {
-            AudioSource.PlayClipAtPoint(fallSound, coconut.transform.position);
-        }
-
-        Debug.Log($"[David_CoconutTree] Dừa rơi: {coconut.name}");
+        if (fallSound != null) AudioSource.PlayClipAtPoint(fallSound, coconut.transform.position);
     }
-
+    
     // =========================================================================
     // UTILITY
     // =========================================================================
-
-    /// <summary>
-    /// Gets count of coconuts still on tree.
-    /// Lấy số dừa còn trên cây.
-    /// </summary>
-    public int GetCoconutsOnTree()
-    {
-        int count = 0;
-        foreach (var coconut in coconuts)
-        {
-            if (coconut != null && coconut.isOnTree)
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /// <summary>
-    /// Resets all coconuts back to tree (for respawning).
-    /// Reset tất cả dừa về cây (để respawn).
-    /// </summary>
+    
     public void ResetAllCoconuts()
     {
         foreach (var coconut in coconuts)
@@ -454,20 +357,6 @@ public class David_CoconutTree : MonoBehaviour
                 SetupCoconutOnTree(coconut);
             }
         }
-        _nextKnockTime = 0f; // Reset cooldown too
-        Debug.Log("[David_CoconutTree] Đã reset tất cả dừa về cây");
-    }
-
-    // =========================================================================
-    // PUBLIC METHOD FOR EXTERNAL CALLS
-    // ==========================================================================
-    
-    /// <summary>
-    /// Call this from XR Interactable events or UI buttons to knock tree.
-    /// Gọi method này từ XR Interactable events hoặc UI buttons để gõ cây.
-    /// </summary>
-    public void OnKnockTreeInteraction()
-    {
-        TryKnockTree();
+        _nextKnockTime = 0f;
     }
 }
