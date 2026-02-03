@@ -92,22 +92,30 @@ public class David_CoconutTree : MonoBehaviour
     
     private void SetupInteraction()
     {
-        // Remove old interactables if switching modes (simple cleanup)
-        // Note: In a real project, be careful removing components dynamically.
-        
+        // cleanup conflicting components (Fix: SM_Coconut sticking to hand)
+        var existingGrab = GetComponent<XRGrabInteractable>();
+        var existingSimple = GetComponent<XRSimpleInteractable>();
+
         switch (interactionMode)
         {
             case InteractionType.SimpleKnock:
+                if (existingGrab) Destroy(existingGrab);
+                if (existingSimple) Destroy(existingSimple);
+
                 // Cần KnockZoneCollider (Trigger)
                 if (knockZoneCollider == null)
-                    Debug.LogWarning("[David_CoconutTree] SimpleKnock mode cần KnockZoneCollider!");
+                {
+                     // User disabled warning
+                }
                 break;
 
             case InteractionType.XR_Click:
+                if (existingGrab) Destroy(existingGrab); // IMPORTANT: Remove Grab so hand doesn't stick
                 SetupXRSimple();
                 break;
 
             case InteractionType.XR_GrabShake:
+                if (existingSimple) Destroy(existingSimple);
                 SetupXRGrab();
                 break;
         }
@@ -137,7 +145,6 @@ public class David_CoconutTree : MonoBehaviour
 
         // 2. Setup based on mode
         SetupInteraction();
-        Debug.Log($"[David_CoconutTree] Setup complete for mode: {interactionMode}");
     }
     
     private void SetupXRSimple()
