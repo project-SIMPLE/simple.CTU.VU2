@@ -188,6 +188,10 @@ public class David_TreeSpawner : MonoBehaviour
                 {
                     rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
+                    // FIX: Ensure physics is disabled so fruit sticks to tree
+                    // FIX: Đảm bảo tắt vật lý để quả dính trên cây
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
                 }
                 
                 // 3. Reset David_Fruit state by toggling active state.

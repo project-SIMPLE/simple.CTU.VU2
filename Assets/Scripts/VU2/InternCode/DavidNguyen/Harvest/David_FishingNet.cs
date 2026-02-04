@@ -13,11 +13,15 @@ public class David_FishingNet : MonoBehaviour
 {
     [Header("Net Config / Cấu hình vợt")]
     
-    [Tooltip("Tốc độ tối thiểu để bắt được (m/s)")]
-    public float minCatchSpeed = 0.5f;
+    [Header("Magnet Net Config")]
+    [Tooltip("Bán kính hút của vợt (mét)")]
+    public float magnetRadius = 3f;
     
-    [Tooltip("Tags của sinh vật có thể bắt")]
-    public string[] creatureTags = { "Fish", "Shrimp" };
+    [Tooltip("Điểm tôm sẽ bay vào (đầu vợt). Nếu trống sẽ dùng vị trí của vợt.")]
+    public Transform netTipPoint;
+    
+    [Tooltip("Layer của sinh vật (để tối ưu performace)")]
+    public LayerMask creatureLayer = -1; // Default to all
 
     [Header("Audio")]
     public AudioClip catchSound;
@@ -29,10 +33,7 @@ public class David_FishingNet : MonoBehaviour
 
     // References
     private David_FishPond _pond;
-    private Rigidbody _rb;
     private XRGrabInteractable _grabInteractable;
-    private Vector3 _lastPosition;
-    private float _currentSpeed;
 
     // =========================================================================
     // UNITY LIFECYCLE
@@ -40,103 +41,82 @@ public class David_FishingNet : MonoBehaviour
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
         _grabInteractable = GetComponent<XRGrabInteractable>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _lastPosition = transform.position;
-    }
-
-    private void Update()
-    {
-        // Calculate scoop speed
-        _currentSpeed = (transform.position - _lastPosition).magnitude / Time.deltaTime;
-        _lastPosition = transform.position;
-    }
-
-    // =========================================================================
-    // COLLISION DETECTION
-    // =========================================================================
-
-    private void OnTriggerEnter(Collider other)
-    {
-        TryCatchCreature(other.gameObject);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        TryCatchCreature(collision.gameObject);
-    }
-
-    /// <summary>
-    /// Attempts to catch creature if conditions are met.
-    /// Cố gắng bắt sinh vật nếu đủ điều kiện.
-    /// </summary>
-    private void TryCatchCreature(GameObject target)
-    {
-        // Check if target has creature tag
-        bool hasValidTag = false;
-        foreach (var tag in creatureTags)
+        if (_grabInteractable != null)
         {
-            if (target.CompareTag(tag))
+            _grabInteractable.activated.AddListener(OnActivateNet);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_grabInteractable != null)
+        {
+            _grabInteractable.activated.RemoveListener(OnActivateNet);
+        }
+    }
+
+    // =========================================================================
+    // MAGNET LOGIC
+    // =========================================================================
+
+    private void OnActivateNet(ActivateEventArgs args)
+    {
+        Debug.Log("[David_FishingNet] Kích hoạt Vợt Nam Châm!");
+        CatchNearestCreature();
+    }
+
+    private void CatchNearestCreature()
+    {
+        // 1. Find all creatures in range
+        Collider[] hits = Physics.OverlapSphere(transform.position, magnetRadius, creatureLayer);
+        
+        David_WaterCreature nearestCreature = null;
+        float minDist = float.MaxValue;
+
+        foreach (var hit in hits)
+        {
+            // Check if it is a water creature
+            var creature = hit.GetComponentInParent<David_WaterCreature>();
+            if (creature != null && creature.CanCatch())
             {
-                hasValidTag = true;
-                break;
+                float dist = Vector3.Distance(transform.position, creature.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearestCreature = creature;
+                }
             }
         }
 
-        // Also check for component
-        var creature = target.GetComponent<David_WaterCreature>();
-        if (creature == null)
+        // 2. Pull the nearest one
+        if (nearestCreature != null)
         {
-            creature = target.GetComponentInParent<David_WaterCreature>();
-        }
+            Debug.Log($"[David_FishingNet] Found creature: {nearestCreature.name}");
+            Debug.Log("[David_FishingNet] NOTE: Net is now cosmetic - player can grab creatures directly with 'G'.");
+            
+            // Notify pond (optional logic)
+            if (_pond != null) _pond.OnCreatureCaught(nearestCreature);
 
-        if (creature == null && !hasValidTag) return;
-
-        if (creature != null)
-        {
-            CatchCreature(creature);
-        }
-    }
-
-    /// <summary>
-    /// Catches the creature.
-    /// Bắt sinh vật.
-    /// </summary>
-    private void CatchCreature(David_WaterCreature creature)
-    {
-        // Check speed threshold (can be lower than sickle since scooping is gentler)
-        if (_currentSpeed < minCatchSpeed)
-        {
-            Debug.Log($"[David_FishingNet] Vớt quá chậm ({_currentSpeed:F2} < {minCatchSpeed})");
-            return;
-        }
-
-        // Check if creature can be caught
-        if (!creature.CanCatch())
-        {
-            return;
-        }
-
-        // Notify pond if assigned
-        if (_pond != null)
-        {
-            _pond.OnCreatureCaught(creature);
+            // NOTE: MagnetToNet removed - creatures are now grabbed directly by player
+            // The Net tool is optional/cosmetic in the new interaction model
+            
+            // Play Effects
+            PlayCatchEffects(nearestCreature.transform.position);
         }
         else
         {
-            // Direct catch
-            creature.Catch();
+            Debug.Log("[David_FishingNet] Không tìm thấy tôm nào gần đây!");
         }
-
-        // Play effects
-        PlayCatchEffects(creature.transform.position);
-
-        Debug.Log($"[David_FishingNet] Bắt được: {creature.name} (speed: {_currentSpeed:F2})");
     }
+
+    // Old collision logic removed/disabled as requested for redesign
+    private void OnTriggerEnter(Collider other) {}
+    private void OnCollisionEnter(Collision collision) {}
 
     // =========================================================================
     // EFFECTS
@@ -176,14 +156,5 @@ public class David_FishingNet : MonoBehaviour
     public void SetPond(David_FishPond pond)
     {
         _pond = pond;
-    }
-
-    /// <summary>
-    /// Gets current scoop speed.
-    /// Lấy tốc độ vớt hiện tại.
-    /// </summary>
-    public float GetScoopSpeed()
-    {
-        return _currentSpeed;
     }
 }

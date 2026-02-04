@@ -134,33 +134,41 @@ public class David_FishPond : HarvestZone
 
     public void SpawnTools()
     {
-        if (fishingNetPrefab == null)
+        // Check if we have at least one tool to spawn
+        if (fishingNetPrefab == null && bucketPrefab == null)
         {
-            Debug.LogWarning("[David_FishPond] Khong co fishing net prefab!");
+            Debug.LogWarning("[David_FishPond] Khong co tool nao de spawn!");
             return;
         }
 
         if (_hasTools) return;
 
-        // Create configs for each tool
+        // Create configs for each tool (if prefab exists)
         ToolSpawnConfig bucketConfig = null;
         if (bucketPrefab != null)
         {
             bucketConfig = new ToolSpawnConfig(bucketPrefab, bucketPositionOffset, bucketRotationOffset, bucketScale);
         }
         
-        var netConfig = new ToolSpawnConfig(fishingNetPrefab, netPositionOffset, netRotationOffset, netScale);
+        ToolSpawnConfig netConfig = null;
+        if (fishingNetPrefab != null)
+        {
+            netConfig = new ToolSpawnConfig(fishingNetPrefab, netPositionOffset, netRotationOffset, netScale);
+        }
 
-        // Use ToolManager to equip
+        // Use ToolManager to equip (either or both can be null)
         if (David_ToolManager.Instance != null)
         {
             David_ToolManager.Instance.EquipToolsForZone(this, bucketConfig, netConfig, true);
             
-            // Setup net reference to this pond
-            var net = David_ToolManager.Instance.GetRightTool()?.GetComponent<David_FishingNet>();
-            if (net != null)
+            // Setup net reference to this pond (if net exists)
+            if (netConfig != null)
             {
-                net.SetPond(this);
+                var net = David_ToolManager.Instance.GetRightTool()?.GetComponent<David_FishingNet>();
+                if (net != null)
+                {
+                    net.SetPond(this);
+                }
             }
         }
         else
@@ -175,7 +183,7 @@ public class David_FishPond : HarvestZone
             AudioSource.PlayClipAtPoint(toolSpawnSound, transform.position);
         }
 
-        Debug.Log("[David_FishPond] Dung cu da spawn! (Xo trai, Vot phai)");
+        Debug.Log("[David_FishPond] Dung cu da spawn!");
     }
 
     public void DestroyTools()
@@ -208,7 +216,7 @@ public class David_FishPond : HarvestZone
             return;
         }
 
-        creature.Catch();
+        // Note: creature.Catch() removed - now handled by direct grab interaction
         _catchCount++;
         
         Debug.Log($"[David_FishPond] Bat duoc: {creature.name} ({_catchCount}/{maxCatchPerVisit})");
