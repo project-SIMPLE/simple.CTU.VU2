@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4206302818660001773}
   - component: {fileID: 522038368396052196}
-  - component: {fileID: 2047228245915547516}
   - component: {fileID: 4275954723519498735}
   - component: {fileID: 4764664946617820226}
   - component: {fileID: 895852320591346597}
-  - component: {fileID: 5437677547300696674}
+  - component: {fileID: 2790274010520957621}
   m_Layer: 0
-  m_Name: PFB_Shrimp 1
+  m_Name: PFB_Shrimp
   m_TagString: Shrimp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,29 +58,6 @@ MonoBehaviour:
   walkCounter: 0
   waitCounter: 0
   isWalking: 1
---- !u!114 &2047228245915547516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2934467682049763848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e66ba4956c68a6d41ae976255977aa83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fruitType: 3
-  ownerArea: {fileID: 0}
-  bagTag: Bag
-  destroyOnCollect: 1
-  collectSound: {fileID: 0}
-  isOnTree: 0
-  canCollect: 1
-  dropSound: {fileID: 0}
-  grabOffset: {x: 0, y: -0.3, z: 0.3}
-  grabScale: 0.5
-  autoAdjustByFruitType: 1
 --- !u!65 &4275954723519498735
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -283,7 +259,7 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &5437677547300696674
+--- !u!114 &2790274010520957621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,18 +268,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2934467682049763848}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a629a5c512b77744abee6f8735241bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b3f2dee30076014dbedaf2be3abf274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  creatureType: 1
-  baseScore: 15
-  canCatch: 1
-  ownerArea: {fileID: 0}
-  creatureVisual: {fileID: 0}
-  enableMovement: 1
-  swimSpeed: 1
-  swimRange: 2
-  catchSound: {fileID: 0}
+  pointValue: 20
+  collectSound: {fileID: 0}
+  bagTag: Bag
+  grabOffset: {x: 0, y: -0.2, z: 0.1}
+  grabScale: 0.3
 --- !u!1001 &6006689706193571283
 PrefabInstance:
   m_ObjectHideFlags: 0

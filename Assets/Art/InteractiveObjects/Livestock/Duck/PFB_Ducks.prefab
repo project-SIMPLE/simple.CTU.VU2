@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4463223013543426665}
   - component: {fileID: 6895300598538807389}
   - component: {fileID: 8206702275645936838}
-  - component: {fileID: 293950662322473831}
   - component: {fileID: 7364764591329707494}
   - component: {fileID: 4034937431299751648}
   m_Layer: 0
@@ -73,114 +72,12 @@ MonoBehaviour:
   progressPercentText: {fileID: 5033507370783528665}
   salinityText: {fileID: 5643087774168859447}
   warningIcon: {fileID: 2524831333307349545}
-  harvestInteractable: {fileID: 293950662322473831}
+  harvestInteractable: {fileID: 0}
   destroyDelaySeconds: 90
   plantAnimator: {fileID: 0}
   animGood: Tree_Good
   animBad: Tree_Bad
   salinityBadDelay: 10
---- !u!114 &293950662322473831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 570542172198841271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_Colliders: []
-  m_InteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_InteractionLayers:
-    m_Bits: 1
-  m_DistanceCalculationMode: 1
-  m_SelectMode: 0
-  m_FocusMode: 1
-  m_CustomReticle: {fileID: 0}
-  m_AllowGazeInteraction: 0
-  m_AllowGazeSelect: 0
-  m_OverrideGazeTimeToSelect: 0
-  m_GazeTimeToSelect: 0.5
-  m_OverrideTimeToAutoDeselectGaze: 0
-  m_TimeToAutoDeselectGaze: 3
-  m_AllowGazeAssistance: 0
-  m_FirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FirstSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FirstFocusEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastFocusExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FocusEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FocusExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Activated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Deactivated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_StartingHoverFilters: []
-  m_StartingSelectFilters: []
-  m_StartingInteractionStrengthFilters: []
-  m_OnFirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnLastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectCanceled:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnDeactivate:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!82 &7364764591329707494
 AudioSource:
   m_ObjectHideFlags: 0
@@ -735,7 +632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
   moveSpeed: 0.1
+  wanderRadius: 2
+  walkTime: 2
+  waitTime: 3
+  returnHomeChance: 0.3
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
@@ -834,7 +736,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
   moveSpeed: 0.1
+  wanderRadius: 2
+  walkTime: 2
+  waitTime: 3
+  returnHomeChance: 0.3
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
@@ -939,7 +846,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
   moveSpeed: 0.1
+  wanderRadius: 2
+  walkTime: 2
+  waitTime: 3
+  returnHomeChance: 0.3
   walkCounter: 0
   waitCounter: 0
   isWalking: 0
@@ -1044,7 +956,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c56064278b0814cb9e1b571f3ee6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
   moveSpeed: 0.1
+  wanderRadius: 2
+  walkTime: 2
+  waitTime: 3
+  returnHomeChance: 0.3
   walkCounter: 0
   waitCounter: 0
   isWalking: 0

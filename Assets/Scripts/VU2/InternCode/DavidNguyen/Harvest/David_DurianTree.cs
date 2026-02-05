@@ -8,7 +8,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 // David_DurianTree - Cây sầu riêng với quả tự rụng khi chín.
 // 
 // Durians automatically fall during rainy season (no player action needed).
-// Sầu riêng tự động rơi trong mùa mưa (không cần player làm gì).
+// Sầu riêng tự động rơi trong mùa mưa 
 // =============================================================================
 public class David_DurianTree : MonoBehaviour
 {

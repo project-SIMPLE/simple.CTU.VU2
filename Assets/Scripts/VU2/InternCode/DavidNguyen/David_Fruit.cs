@@ -12,7 +12,8 @@ public enum FruitType
     Durian,   // Durian / Sầu riêng
     Fish,     // Fish / Cá
     Shrimp,   // Shrimp / Tôm
-    Rice      // Rice / Lúa
+    Rice,     // Rice / Lúa
+    Egg       // Egg / Trứng
 }
 
 // =============================================================================
@@ -105,11 +106,23 @@ public class David_Fruit : MonoBehaviour
     private Quaternion _originalRotation;
     private Transform _originalParent;
     
-    // -------------------------------------------------------------------------
     // Prevents double-collection in same frame.
     // Ngăn thu hoạch hai lần trong cùng một frame.
     // -------------------------------------------------------------------------
     private bool _collected = false;
+    
+    // =========================================================================
+    // Awake - Setup instant grab IMMEDIATELY for runtime spawned objects (eggs)
+    // Awake - Setup instant grab NGAY LẬP TỨC cho object spawn runtime (trứng)
+    // =========================================================================
+    private void Awake()
+    {
+        // For runtime spawned objects (like eggs), we need to setup ASAP
+        // Đối với object spawn runtime (như trứng), cần setup càng sớm càng tốt
+        SetupInstantGrab();
+        
+        Debug.Log($"[David_Fruit][AWAKE] Setup instant grab for {gameObject.name}, fruitType={fruitType}");
+    }
     
     // =========================================================================
     // Start - Auto-find parent FarmArea if not assigned in Inspector.
@@ -164,11 +177,12 @@ public class David_Fruit : MonoBehaviour
         // Reset collection state when re-enabled (respawn)
         _collected = false;
         
-        // Re-setup when enabled (for coconuts that start disabled on tree)
-        if (!_isInstantGrabSetup)
-        {
-            SetupInstantGrab();
-        }
+        // CRITICAL: Force re-setup EVERY TIME when enabled
+        // This ensures events are subscribed for runtime-spawned objects like eggs
+        _isInstantGrabSetup = false; // Reset flag to allow re-setup
+        SetupInstantGrab();
+        
+        Debug.LogWarning($"🟢 [OnEnable] Force re-setup instant grab for {gameObject.name}");
     }
     
     /// <summary>
@@ -185,6 +199,7 @@ public class David_Fruit : MonoBehaviour
     private void SetupInstantGrab()
     {
         var grabInteractable = GetComponent<XRGrabInteractable>();
+        
         if (grabInteractable != null && grabInteractable.enabled)
         {
             // REMOVE existing listeners first to prevent duplicates!
@@ -192,7 +207,10 @@ public class David_Fruit : MonoBehaviour
             grabInteractable.selectExited.RemoveListener(OnReleased);
             
             // Only setup once to avoid duplicate event subscriptions
-            if (_isInstantGrabSetup) return;
+            if (_isInstantGrabSetup)
+            {
+                return;
+            }
             _isInstantGrabSetup = true;
             
             // INSTANT SNAP TO HAND - Not to ray hit point!
@@ -205,11 +223,27 @@ public class David_Fruit : MonoBehaviour
             // CRITICAL: Don't retain parent! This prevents re-parenting to tree on grab!
             grabInteractable.retainTransformParent = false;
             
+            // FIX: Disable throwOnDetach for kinematic rigidbody
+            grabInteractable.throwOnDetach = false;
+            
+            // CRITICAL FIX: Disable tracking so WE control position, not XR system!
+            grabInteractable.trackPosition = false;
+            grabInteractable.trackRotation = false;
+            
             // Subscribe to grab/release events
             grabInteractable.selectEntered.AddListener(OnGrabbed);
             grabInteractable.selectExited.AddListener(OnReleased);
             
-            Debug.Log($"[David_Fruit] Instant grab configured for {gameObject.name}");
+            // FORCE REMOVE all grab transformers - they interfere with manual teleport!
+            grabInteractable.startingMultipleGrabTransformers.Clear();
+            grabInteractable.startingSingleGrabTransformers.Clear();
+            
+            Debug.LogWarning($"🟢 [SETUP] Event listeners subscribed for {gameObject.name}");
+            Debug.LogWarning($"🟢 [SETUP] trackPosition={grabInteractable.trackPosition}, trackRotation={grabInteractable.trackRotation}");
+            Debug.LogWarning($"🟢 [SETUP] Removed grab transformers (count: single={grabInteractable.startingSingleGrabTransformers.Count}, multi={grabInteractable.startingMultipleGrabTransformers.Count})");
+        }
+        else{
+            Debug.LogWarning($"[David_Fruit][SETUP] ⚠️ Cannot setup! XRGrabInteractable is {(grabInteractable == null ? "NULL" : "disabled")}");
         }
     }
     
@@ -234,7 +268,7 @@ public class David_Fruit : MonoBehaviour
     
     private void OnGrabbed(SelectEnterEventArgs args)
     {
-        Debug.Log($"[David_Fruit] ===== OnGrabbed START for {gameObject.name} =====");
+        Debug.LogWarning($"🔴 [GRAB] OnGrabbed called for {gameObject.name}, fruitType={fruitType}");
         
         // Mark as no longer on tree
         isOnTree = false;
@@ -243,26 +277,15 @@ public class David_Fruit : MonoBehaviour
         // CRITICAL: DETACH FROM ANY PARENT FIRST!
         if (transform.parent != null)
         {
-            Debug.Log($"[David_Fruit] Detaching from parent: {transform.parent.name}");
             transform.SetParent(null);
         }
         
-        // MANUAL TELEPORT TO HAND - Force snap regardless of XR settings!
         if (args.interactorObject is XRBaseInteractor interactor)
         {
-            // USE INTERACTOR.TRANSFORM - This is the CONTROLLER, not ray hit point!
             _currentGrabTarget = interactor.transform;
             _currentGrabInteractable = GetComponent<XRGrabInteractable>();
             
-            // DISABLE ALL XR TRACKING AND CONTROL!
-            if (_currentGrabInteractable != null)
-            {
-                _currentGrabInteractable.trackPosition = false;
-                _currentGrabInteractable.trackRotation = false;
-                _currentGrabInteractable.retainTransformParent = false;
-            }
-            
-            // MAKE RIGIDBODY KINEMATIC - Stop physics from interfering!
+            // Make rigidbody kinematic so XR doesn't fight us
             var rb = GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -271,10 +294,8 @@ public class David_Fruit : MonoBehaviour
                 rb.angularVelocity = Vector3.zero;
             }
             
-            // FORCE DETACH AGAIN after XR might have re-parented!
             transform.SetParent(null);
             
-            // DETERMINE ACTUAL OFFSET AND SCALE based on fruit type
             Vector3 actualOffset = grabOffset;
             float actualScale = grabScale;
             
@@ -290,6 +311,10 @@ public class David_Fruit : MonoBehaviour
                         actualOffset = grabOffset;
                         actualScale = grabScale;
                         break;
+                    case FruitType.Egg:
+                        actualOffset = Vector3.zero;
+                        actualScale = 1f;
+                        break;
                     default:
                         actualOffset = Vector3.zero;
                         actualScale = 1f;
@@ -297,20 +322,21 @@ public class David_Fruit : MonoBehaviour
                 }
             }
             
-            // SAVE ORIGINAL SCALE and apply grab scale
+            // Save original scale
             _originalScale = transform.localScale;
             transform.localScale = _originalScale * actualScale;
             
-            // TELEPORT to CONTROLLER position with OFFSET!
+            // TELEPORT TO HAND IMMEDIATELY!
             Vector3 offsetPosition = _currentGrabTarget.position + _currentGrabTarget.TransformDirection(actualOffset);
             transform.position = offsetPosition;
             transform.rotation = _currentGrabTarget.rotation;
             
-            Debug.Log($"[David_Fruit] Grabbed {fruitType}. Scale: {actualScale}, Offset: {actualOffset}");
+            Debug.LogWarning($"🔴 [GRAB] TELEPORTED {fruitType} to {offsetPosition}");
+            
         }
         else
         {
-            Debug.Log($"[David_Fruit] Grabbed {gameObject.name} (no teleport - unknown interactor)");
+            Debug.LogError($"[David_Fruit][GRAB] ERROR: No XRBaseInteractor found!");
         }
     }
     
@@ -323,7 +349,6 @@ public class David_Fruit : MonoBehaviour
         // Fail-safe: If interactable says NOT selected, but we still have a target -> Clear it to preventing sticking!
         if (_currentGrabTarget != null && _currentGrabInteractable != null && !_currentGrabInteractable.isSelected)
         {
-            Debug.LogWarning($"[David_Fruit] {gameObject.name} STUCK STATE DETECTED! Force releasing.");
             OnReleased(new SelectExitEventArgs()); // Simulate release
             return;
         }
@@ -345,6 +370,7 @@ public class David_Fruit : MonoBehaviour
                 {
                     FruitType.Durian => new Vector3(0f, -0.1f, 0.15f),
                     FruitType.Coconut => grabOffset,
+                    FruitType.Egg => Vector3.zero,
                     _ => Vector3.zero
                 };
             }
@@ -384,7 +410,6 @@ public class David_Fruit : MonoBehaviour
         }
         
         _currentGrabTarget = null;
-        Debug.Log($"[David_Fruit] Released {gameObject.name}");
     }
     
     // =========================================================================
@@ -401,7 +426,6 @@ public class David_Fruit : MonoBehaviour
         // Chỉ phản ứng với object có tag túi.
         if (!other.CompareTag(bagTag)) return;
         
-        Debug.Log($"[David_Fruit] OnTriggerEnter with bag: {other.name} on {gameObject.name}");
         TryCollect();
     }
     
@@ -428,7 +452,6 @@ public class David_Fruit : MonoBehaviour
         // Không thể thu hoạch khi đang cầm - phải thả ra trước!
         if (_currentGrabTarget != null)
         {
-            Debug.Log($"[David_Fruit] {fruitType} đang được cầm, không thể bỏ vào bag");
             return;
         }
         
@@ -436,7 +459,6 @@ public class David_Fruit : MonoBehaviour
         // Kiểm tra xem quả có thể thu hoạch không (cho quả trên cây).
         if (!canCollect)
         {
-            Debug.Log($"[David_Fruit] {fruitType} chưa thể thu hoạch (còn trên cây)");
             return;
         }
         
@@ -444,7 +466,6 @@ public class David_Fruit : MonoBehaviour
         // Game phải đang hoạt động mới thu hoạch được.
         if (!RulesoftheGame_VU2_1.GameActive)
         {
-            Debug.Log("[David_Fruit] Game chưa bắt đầu!");
             return;
         }
         
@@ -456,7 +477,6 @@ public class David_Fruit : MonoBehaviour
         {
             if (RulesoftheGame_VU2_1.Saltwater_Intrusion >= 1f)
             {
-                Debug.Log("[David_Fruit] Sầu riêng bị héo - không thể thu hoạch mùa khô!");
                 return;
             }
         }
@@ -536,6 +556,11 @@ public class David_Fruit : MonoBehaviour
                 if (isFresh) return isRainy ? 60 : -20;
                 else         return isRainy ? 40 : 20;
 
+            case FruitType.Egg:
+                // Egg: Fixed score, no zone/season modifiers.
+                // Trứng: Điểm cố định, không bị ảnh hưởng vùng/mùa.
+                return 3;
+
             default:
                 return 1;
         }
@@ -579,16 +604,11 @@ public class David_Fruit : MonoBehaviour
             FruitType.Fish => "Cá",
             FruitType.Shrimp => "Tôm",
             FruitType.Rice => "Lúa",
+            FruitType.Egg => "Trứng",
             _ => "Unknown"
         };
         bool isFresh = ownerArea != null && ownerArea.waterType == WaterType.Fresh;
         bool isRainy = RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f;
-        
-        // Log harvest result for debugging.
-        // Ghi log kết quả thu hoạch để debug.
-        Debug.Log($"[David_Fruit] Thu hoạch {fruitName} " +
-                  $"[Vùng {(isFresh ? "Ngọt" : "Lợ")} + Mùa {(isRainy ? "Mưa" : "Khô")}] " +
-                  $"+{points} điểm!");
         
         // Remove object from scene.
         // Xóa object khỏi scene.
@@ -636,7 +656,5 @@ public class David_Fruit : MonoBehaviour
         _collected = false;
         
         gameObject.SetActive(true);
-        
-        Debug.Log($"[David_Fruit] {fruitType} reset về cây");
     }
 }

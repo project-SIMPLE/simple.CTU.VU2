@@ -13,7 +13,8 @@ public enum HarvestZoneType
     DurianTree,    // Cây sầu riêng - tự rơi
     RiceField,     // Ruộng lúa - liềm cắt
     FishPond,      // Ao cá - vợt vớt
-    ShrimpPond     // Ao tôm - vợt vớt
+    ShrimpPond,     // Ao tôm - vợt vớt
+    Egg             // Trung
 }
 
 // =============================================================================
@@ -75,7 +76,6 @@ public class HarvestZone : MonoBehaviour
         {
             if (Input.GetKeyDown(testInteractKey))
             {
-                Debug.Log($"[HarvestZone] Keyboard input: {testInteractKey}");
                 PerformInteraction();
             }
         }
@@ -96,7 +96,6 @@ public class HarvestZone : MonoBehaviour
         ShowPrompt();
         OnPlayerEnter?.Invoke();
         
-        Debug.Log($"[HarvestZone] Player vào zone: {zoneType}");
         
         if (autoInteractOnEnter)
         {
@@ -114,7 +113,6 @@ public class HarvestZone : MonoBehaviour
         HidePrompt();
         OnPlayerExit?.Invoke();
         
-        Debug.Log($"[HarvestZone] Player rời zone: {zoneType}");
     }
 
     // =========================================================================
@@ -130,7 +128,6 @@ public class HarvestZone : MonoBehaviour
     protected virtual void PerformInteraction()
     {
         OnInteract?.Invoke();
-        Debug.Log($"[HarvestZone] Tương tác tại zone: {zoneType}");
     }
 
     // =========================================================================
@@ -153,7 +150,6 @@ public class HarvestZone : MonoBehaviour
             if (tmpText != null)
             {
                 tmpText.text = promptText;
-                Debug.Log($"[HarvestZone] Đã set text: {promptText}");
             }
             else
             {
@@ -167,7 +163,6 @@ public class HarvestZone : MonoBehaviour
                 if (uiText != null)
                 {
                     uiText.text = promptText;
-                    Debug.Log($"[HarvestZone] Đã set UI.Text: {promptText}");
                 }
                 else
                 {
