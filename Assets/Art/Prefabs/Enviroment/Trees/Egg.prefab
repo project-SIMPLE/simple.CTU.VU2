@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 3
+  eggIcon: {fileID: 21300000, guid: 3616c0b26f1835246b04f35e598b9a4d, type: 3}
   collectSound: {fileID: 0}
   bagTag: Bag
   grabOffset: {x: 0, y: 0, z: 0.1}

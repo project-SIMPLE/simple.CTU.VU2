@@ -12,6 +12,7 @@ public class David_ShrimpGrab : MonoBehaviour
 {
     [Header("Shrimp Config / Cấu hình tôm")]
     [SerializeField] private int pointValue = 20;
+    [SerializeField] private Sprite shrimpIcon;
     [SerializeField] private AudioClip collectSound;
     [SerializeField] private string bagTag = "Bag";
     
@@ -188,6 +189,13 @@ public class David_ShrimpGrab : MonoBehaviour
     private void CollectShrimp()
     {
         _collected = true;
+        
+        // Track in SimpleScoreTracker
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        if (tracker != null)
+        {
+            tracker.Track("Shrimp", shrimpIcon, pointValue);
+        }
         
         // Add points using GameManager
         var gm = Thuan_23127_GameManager.Instance;

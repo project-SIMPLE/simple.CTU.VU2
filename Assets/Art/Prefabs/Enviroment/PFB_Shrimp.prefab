@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 20
+  shrimpIcon: {fileID: 0}
   collectSound: {fileID: 0}
   bagTag: Bag
   grabOffset: {x: 0, y: -0.2, z: 0.1}

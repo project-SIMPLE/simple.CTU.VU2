@@ -41,6 +41,9 @@ public class David_Fruit : MonoBehaviour
     // -------------------------------------------------------------------------
     public FruitType fruitType = FruitType.Coconut;
     
+    [Tooltip("Icon for this product (for score UI display)")]
+    public Sprite productIcon;
+    
     [Header("Zone Source / Nguồn xác định Vùng")]
     [Tooltip("Drag the FarmArea here to determine Fresh/Salt zone. Auto-finds if empty.")]
     // -------------------------------------------------------------------------
@@ -489,16 +492,6 @@ public class David_Fruit : MonoBehaviour
     // GetTableScore - Trả về điểm dựa trên bảng tra cứu Vùng × Mùa.
     // 
     // SCORE TABLE (updated with production-based values):
-    // BẢNG ĐIỂM (cập nhật với giá trị dựa trên sản lượng):
-    // 
-    // | Type     | Fresh+Rainy | Fresh+Dry | Salt+Rainy | Salt+Dry |
-    // |----------|-------------|-----------|------------|----------|
-    // | Durian   | 100         | 80        | 60         | -40      |
-    // | Coconut  | 100         | 80        | 60         | 50       |
-    // | Fish     | 10          | 20        | 30         | 40       |
-    // | Shrimp   | 20          | 20        | 20         | 20       |
-    // | Rice     | 60          | -20       | 40         | 20       |
-    // 
     // Negative scores = crop failure (plant dies, loss of investment).
     // Điểm âm = thất bại mùa vụ (cây chết, mất vốn đầu tư).
     // =========================================================================
@@ -580,6 +573,13 @@ public class David_Fruit : MonoBehaviour
         // Tính điểm từ bảng tra cứu.
         int points = GetTableScore();
         
+        // Track in SimpleScoreTracker
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        if (tracker != null && productIcon != null)
+        {
+            tracker.Track(fruitType.ToString(), productIcon, points);
+        }
+        
         // Add score to GameManager.
         // Cộng điểm vào GameManager.
         var gm = Thuan_23127_GameManager.Instance;
@@ -621,7 +621,6 @@ public class David_Fruit : MonoBehaviour
         else
         {
             // Temporary hide (for respawn by TreeSpawner).
-            // Ẩn tạm thời (để TreeSpawner respawn).
             gameObject.SetActive(false);
         }
     }

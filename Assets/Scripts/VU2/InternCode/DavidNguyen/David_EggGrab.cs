@@ -12,6 +12,7 @@ public class David_EggGrab : MonoBehaviour
 {
     [Header("Egg Config / Cấu hình trứng")]
     [SerializeField] private int pointValue = 3;
+    [SerializeField] private Sprite eggIcon;
     [SerializeField] private AudioClip collectSound;
     [SerializeField] private string bagTag = "Bag";
     
@@ -158,6 +159,13 @@ public class David_EggGrab : MonoBehaviour
     private void CollectEgg()
     {
         _collected = true;
+        
+        // Track in SimpleScoreTracker
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        if (tracker != null)
+        {
+            tracker.Track("Egg", eggIcon, pointValue);
+        }
         
         // Add points using GameManager
         var gm = Thuan_23127_GameManager.Instance;

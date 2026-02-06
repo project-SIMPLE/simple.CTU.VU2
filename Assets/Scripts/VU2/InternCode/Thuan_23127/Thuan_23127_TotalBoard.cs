@@ -48,8 +48,8 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // =========================================================================
     private void OnEnable()
     {
-        var sum = Thuan_23127_SeasonalSummary.Instance;
-        if (sum) sum.OnChanged += Rebuild;
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        if (tracker) tracker.OnScoresChanged += Rebuild;
         Rebuild();
     }
 
@@ -65,8 +65,8 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // =========================================================================
     private void OnDisable()
     {
-        var sum = Thuan_23127_SeasonalSummary.Instance;
-        if (sum) sum.OnChanged -= Rebuild;
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        if (tracker) tracker.OnScoresChanged -= Rebuild;
     }
 
     // =========================================================================
@@ -88,10 +88,10 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         for (int i = 0; i < _pool.Count; i++) if (_pool[i]) Destroy(_pool[i].gameObject);
         _pool.Clear();
 
-        // Get score data from SeasonalSummary.
-        // Lấy dữ liệu điểm từ SeasonalSummary.
-        var sum = Thuan_23127_SeasonalSummary.Instance;
-        var data = sum ? sum.GetAllScores() : new List<(Sprite, int, int)>();
+        // Get score data from SimpleScoreTracker.
+        // Lấy dữ liệu điểm từ SimpleScoreTracker.
+        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
+        var data = tracker ? tracker.GetAllScores() : new List<(Sprite, int, int)>();
 
         // Create a row for each product type.
         // Tạo một row cho mỗi loại sản phẩm.
