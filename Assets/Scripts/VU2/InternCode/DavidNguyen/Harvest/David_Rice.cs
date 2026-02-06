@@ -12,6 +12,9 @@ public class David_Rice : MonoBehaviour
     [Tooltip("Điểm cơ bản khi thu hoạch")]
     public int baseScore = 10;
     
+    [Tooltip("Icon cho lúa (hiển thị trong bảng điểm)")]
+    public Sprite riceIcon;
+    
     [Tooltip("Có thể thu hoạch không?")]
     public bool canHarvest = true;
 
@@ -74,6 +77,13 @@ public class David_Rice : MonoBehaviour
 
         // Calculate score using game rules
         int score = CalculateScore();
+        
+        // Track in SeasonalSummary
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null && riceIcon != null)
+        {
+            summary.TrackDirect("Rice", riceIcon, score);
+        }
 
         // Add to game score
         if (RulesoftheGame_VU2_1.GameActive)
@@ -83,7 +93,6 @@ public class David_Rice : MonoBehaviour
             {
                 gm.AddScore(score);
             }
-            Debug.Log($"[David_Rice] Thu hoạch! +{score} điểm");
         }
 
         // Play sound
@@ -140,7 +149,5 @@ public class David_Rice : MonoBehaviour
         {
             riceVisual.SetActive(true);
         }
-
-        Debug.Log($"[David_Rice] Respawned: {name}");
     }
 }

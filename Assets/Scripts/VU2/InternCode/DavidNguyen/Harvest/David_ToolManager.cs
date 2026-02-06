@@ -85,7 +85,6 @@ public class David_ToolManager : MonoBehaviour
                     if (leftController == null)
                     {
                         leftController = controller.transform;
-                        Debug.Log($"[ToolManager] Found Left Controller: {leftController.name}");
                     }
                 }
                 else if (name.Contains("right") || parentName.Contains("right"))
@@ -93,7 +92,6 @@ public class David_ToolManager : MonoBehaviour
                     if (rightController == null)
                     {
                         rightController = controller.transform;
-                        Debug.Log($"[ToolManager] Found Right Controller: {rightController.name}");
                     }
                 }
             }
@@ -112,7 +110,6 @@ public class David_ToolManager : MonoBehaviour
                         if (leftController == null)
                         {
                             leftController = interactor.transform.parent ?? interactor.transform;
-                            Debug.Log($"[ToolManager] Found Left Controller (fallback): {leftController.name}");
                         }
                     }
                     else if (name.Contains("right") || parentName.Contains("right"))
@@ -120,7 +117,6 @@ public class David_ToolManager : MonoBehaviour
                         if (rightController == null)
                         {
                             rightController = interactor.transform.parent ?? interactor.transform;
-                            Debug.Log($"[ToolManager] Found Right Controller (fallback): {rightController.name}");
                         }
                     }
                 }
@@ -161,7 +157,6 @@ public class David_ToolManager : MonoBehaviour
                         if (!modelList.Contains(child.gameObject))
                         {
                             modelList.Add(child.gameObject);
-                            Debug.Log($"[ToolManager] Found hand model: {child.name}");
                         }
                     }
                 }
@@ -176,7 +171,6 @@ public class David_ToolManager : MonoBehaviour
         foreach (var interactor in allDirectInteractors)
         {
             _directInteractors.Add(interactor);
-            Debug.Log($"[ToolManager] Found direct interactor: {interactor.name}");
         }
     }
     
@@ -186,14 +180,12 @@ public class David_ToolManager : MonoBehaviour
         {
             _leftRenderers.Clear();
             _leftRenderers.AddRange(leftController.GetComponentsInChildren<Renderer>(true));
-            Debug.Log($"[ToolManager] Cached {_leftRenderers.Count} left renderers");
         }
         
         if (rightController != null)
         {
             _rightRenderers.Clear();
             _rightRenderers.AddRange(rightController.GetComponentsInChildren<Renderer>(true));
-            Debug.Log($"[ToolManager] Cached {_rightRenderers.Count} right renderers");
         }
     }
 
@@ -209,7 +201,6 @@ public class David_ToolManager : MonoBehaviour
     {
         if (_toolsEquipped)
         {
-            Debug.LogWarning("[ToolManager] Tools already equipped, unequip first!");
             return;
         }
 
@@ -234,7 +225,6 @@ public class David_ToolManager : MonoBehaviour
             _rightTool = SpawnToolToHand(rightConfig, rightController);
         }
 
-        Debug.Log($"[ToolManager] Tools equipped for zone: {zone?.name}");
     }
 
     /// <summary>
@@ -268,7 +258,6 @@ public class David_ToolManager : MonoBehaviour
             rb.useGravity = false;
         }
 
-        Debug.Log($"[ToolManager] Spawned: {config.prefab.name} (pos={config.positionOffset}, rot={config.rotationOffset}, scale={config.scale})");
         return tool;
     }
 
@@ -296,7 +285,6 @@ public class David_ToolManager : MonoBehaviour
         _currentZone = null;
         _toolsEquipped = false;
 
-        Debug.Log("[ToolManager] Tools unequipped, hands restored");
     }
 
     // =========================================================================
@@ -327,7 +315,6 @@ public class David_ToolManager : MonoBehaviour
         
         SetDirectInteractorsActive(visible);
 
-        Debug.Log($"[ToolManager] Controllers visible: {visible}");
     }
 
     private void SetDirectInteractorsActive(bool active)
@@ -336,7 +323,6 @@ public class David_ToolManager : MonoBehaviour
         {
             if (interactor != null) interactor.enabled = active;
         }
-        Debug.Log($"[ToolManager] Direct interactors: {active} (Teleport WORKS!)");
     }
 
     // =========================================================================

@@ -1,30 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// =============================================================================
-// David_TreeSpawner - Manages fruit spawning and respawning on trees.
-// David_TreeSpawner - Quản lý việc spawn và respawn quả trên cây.
-// 
-// This script attaches to a tree GameObject and handles:
-// - Initial fruit spawning on game start
-// - Automatic fruit respawning when seasons change
-// - Position reset for pre-placed fruits (prevents physics drift)
-// 
-// Script này gắn vào GameObject cây và xử lý:
-// - Spawn quả ban đầu khi game bắt đầu
-// - Tự động respawn quả khi mùa thay đổi
-// - Reset vị trí cho quả đã đặt sẵn (ngăn trôi do vật lý)
-// 
-// TWO MODES:
-// 1. Pre-placed mode: Fruits are already children of the tree, script just
-//    manages their state (enable/disable, position reset)
-// 2. Spawn mode: Fruits are instantiated from prefab at spawn points
-// 
-// HAI CHẾ ĐỘ:
-// 1. Chế độ đặt sẵn: Quả đã là con của cây, script chỉ quản lý trạng thái
-//    (bật/tắt, reset vị trí)
-// 2. Chế độ spawn: Quả được instantiate từ prefab tại các điểm spawn
-// =============================================================================
 public class David_TreeSpawner : MonoBehaviour
 {
     // =========================================================================
@@ -110,7 +86,6 @@ public class David_TreeSpawner : MonoBehaviour
                 // QUAN TRỌNG: Đặt destroyOnCollect = false để quả có thể respawn.
                 f.destroyOnCollect = false; 
             }
-            Debug.Log($"[David_TreeSpawner] Found {_spawnedFruits.Count} pre-placed fruits on tree {gameObject.name}");
         }
 
         if (spawnOnStart)
@@ -148,7 +123,6 @@ public class David_TreeSpawner : MonoBehaviour
     {
         if (!respawnOnSeasonChange) return;
         
-        Debug.Log($"[David_TreeSpawner] Season changed to {newPhase}, respawning fruits...");
         RespawnAllFruits();
     }
     
@@ -216,7 +190,6 @@ public class David_TreeSpawner : MonoBehaviour
         // CHẾ ĐỘ SPAWN: Instantiate quả mới từ prefab.
         if (fruitPrefab == null)
         {
-            Debug.LogWarning("[David_TreeSpawner] fruitPrefab not assigned!");
             return;
         }
         
@@ -235,7 +208,6 @@ public class David_TreeSpawner : MonoBehaviour
             _spawnedFruits.Add(fruit);
         }
         
-        Debug.Log($"[David_TreeSpawner] Spawned {_spawnedFruits.Count} fruits on tree {gameObject.name}");
     }
     
     // =========================================================================

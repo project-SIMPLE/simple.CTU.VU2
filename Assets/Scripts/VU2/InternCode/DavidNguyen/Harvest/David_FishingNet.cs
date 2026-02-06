@@ -66,7 +66,6 @@ public class David_FishingNet : MonoBehaviour
 
     private void OnActivateNet(ActivateEventArgs args)
     {
-        Debug.Log("[David_FishingNet] Kích hoạt Vợt Nam Châm!");
         CatchNearestCreature();
     }
 
@@ -96,21 +95,9 @@ public class David_FishingNet : MonoBehaviour
         // 2. Pull the nearest one
         if (nearestCreature != null)
         {
-            Debug.Log($"[David_FishingNet] Found creature: {nearestCreature.name}");
-            Debug.Log("[David_FishingNet] NOTE: Net is now cosmetic - player can grab creatures directly with 'G'.");
-            
-            // Notify pond (optional logic)
             if (_pond != null) _pond.OnCreatureCaught(nearestCreature);
 
-            // NOTE: MagnetToNet removed - creatures are now grabbed directly by player
-            // The Net tool is optional/cosmetic in the new interaction model
-            
-            // Play Effects
             PlayCatchEffects(nearestCreature.transform.position);
-        }
-        else
-        {
-            Debug.Log("[David_FishingNet] Không tìm thấy tôm nào gần đây!");
         }
     }
 

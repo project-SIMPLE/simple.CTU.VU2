@@ -59,7 +59,6 @@ public class David_RiceField : HarvestZone
         if (riceStems == null || riceStems.Length == 0)
         {
             riceStems = GetComponentsInChildren<David_Rice>(true);
-            Debug.Log($"[David_RiceField] Tim thay {riceStems.Length} cay lua");
         }
     }
 
@@ -104,7 +103,6 @@ public class David_RiceField : HarvestZone
     {
         if (sicklePrefab == null)
         {
-            Debug.LogWarning("[David_RiceField] Khong co sickle prefab!");
             return;
         }
 
@@ -125,10 +123,6 @@ public class David_RiceField : HarvestZone
                 sickle.SetRiceField(this);
             }
         }
-        else
-        {
-            Debug.LogWarning("[David_RiceField] ToolManager not found!");
-        }
 
         _hasSickle = true;
 
@@ -137,7 +131,6 @@ public class David_RiceField : HarvestZone
             AudioSource.PlayClipAtPoint(sickleSpawnSound, transform.position);
         }
 
-        Debug.Log("[David_RiceField] Liem da spawn!");
     }
 
     public void DestroySickle()
@@ -153,7 +146,6 @@ public class David_RiceField : HarvestZone
         }
 
         _hasSickle = false;
-        Debug.Log("[David_RiceField] Liem da huy!");
     }
 
     // =========================================================================
@@ -164,7 +156,6 @@ public class David_RiceField : HarvestZone
     {
         if (rice == null) return;
         rice.Harvest();
-        Debug.Log($"[David_RiceField] Cat lua: {rice.name}");
     }
 
     public int GetHarvestableRiceCount()
@@ -189,6 +180,5 @@ public class David_RiceField : HarvestZone
         {
             if (rice != null) rice.Respawn();
         }
-        Debug.Log("[David_RiceField] Lua da respawn!");
     }
 }

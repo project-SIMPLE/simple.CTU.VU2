@@ -75,6 +75,8 @@ public class Thuan_23127_SimpleScoreTracker : MonoBehaviour
         // Determine season
         bool isRainy = RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f;
         
+        Debug.Log($"[SimpleScoreTracker] Track: {productName}, Points: {points}, Season: {(isRainy ? "Rainy" : "Dry")}, Icon: {(icon != null ? "✓" : "NULL")}");
+        
         // Get or create product entry
         if (!_scores.ContainsKey(productName))
         {
@@ -83,10 +85,13 @@ public class Thuan_23127_SimpleScoreTracker : MonoBehaviour
                 productName = productName,
                 icon = icon
             };
+            Debug.Log($"[SimpleScoreTracker] Created new entry for {productName}");
         }
         
         // Add points to appropriate season
         _scores[productName].AddPoints(points, isRainy);
+        
+        Debug.Log($"[SimpleScoreTracker] {productName} totals: Rainy={_scores[productName].rainyScore}, Dry={_scores[productName].dryScore}");
         
         // Notify listeners
         OnScoresChanged?.Invoke();
@@ -101,11 +106,14 @@ public class Thuan_23127_SimpleScoreTracker : MonoBehaviour
     // =========================================================================
     public List<(Sprite icon, int rainy, int dry)> GetAllScores()
     {
+        Debug.Log($"[SimpleScoreTracker] GetAllScores() called. Total products: {_scores.Count}");
+        
         var result = new List<(Sprite, int, int)>();
         
         foreach (var score in _scores.Values)
         {
             result.Add((score.icon, score.rainyScore, score.dryScore));
+            Debug.Log($"[SimpleScoreTracker] - {score.productName}: Rainy={score.rainyScore}, Dry={score.dryScore}, Icon={score.icon != null}");
         }
         
         return result;

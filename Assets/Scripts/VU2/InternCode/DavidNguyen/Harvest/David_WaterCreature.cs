@@ -100,8 +100,6 @@ public class David_WaterCreature : MonoBehaviour
             _grab.attachEaseInTime = 0f;
             _grab.useDynamicAttach = false; // Snap to hand, not ray point
             _grab.retainTransformParent = false; // Don't keep parent
-            
-            Debug.Log($"[David_WaterCreature] Instant grab configured for {gameObject.name}");
         }
         
         // Initial State: Swimming
@@ -139,8 +137,6 @@ public class David_WaterCreature : MonoBehaviour
         // If grabbed while swimming (not yet caught), transition to item state
         if (!_caught && canCatch)
         {
-            Debug.Log($"[David_WaterCreature] Grabbed directly! Stopping swimming.");
-            
             _caught = true;
             canCatch = false;
             
@@ -156,8 +152,6 @@ public class David_WaterCreature : MonoBehaviour
         // Return to swimming state
         if (_fruitLogic != null && _fruitLogic.enabled)
         {
-            Debug.Log($"[David_WaterCreature] Released without collecting! Returning to swim.");
-            
             // Return to origin position
             transform.position = _originPosition;
             transform.rotation = Quaternion.identity;
@@ -340,7 +334,5 @@ public class David_WaterCreature : MonoBehaviour
         transform.rotation = Quaternion.identity;
         
         SetupSwimmingState();
-
-        Debug.Log($"[David_WaterCreature] Respawned: {name}");
     }
 }

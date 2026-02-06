@@ -113,7 +113,6 @@ public class David_Sickle : MonoBehaviour
         // Check speed threshold
         if (_currentSpeed < minCutSpeed)
         {
-            Debug.Log($"[David_Sickle] Vung quá chậm ({_currentSpeed:F2} < {minCutSpeed})");
             return;
         }
 
@@ -137,7 +136,6 @@ public class David_Sickle : MonoBehaviour
         // Play effects
         PlayCutEffects(rice.transform.position);
 
-        Debug.Log($"[David_Sickle] Cắt lúa: {rice.name} (speed: {_currentSpeed:F2})");
     }
 
     // =========================================================================

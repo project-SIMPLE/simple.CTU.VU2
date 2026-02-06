@@ -67,32 +67,26 @@ public class David_CoconutTree : MonoBehaviour
 
     private void Start()
     {
-        // 1. AUTO-FIND COCONUTS FROM CHILDREN
         coconuts = GetComponentsInChildren<David_Fruit>(true);
         
-        // 2. SETUP TREE TRANSFORM
         if (treeTransform == null)
         {
             treeTransform = transform;
         }
         _originalPosition = treeTransform.localPosition;
 
-        // 3. SETUP COCONUTS
         foreach (var coconut in coconuts)
         {
             if (coconut != null) SetupCoconutOnTree(coconut);
         }
         
-        // 4. WILT CONTROLLER
         _wiltController = GetComponent<David_TreeWiltController>() ?? GetComponentInParent<David_TreeWiltController>();
         
-        // 5. SETUP INTERACTION BASED ON MODE
         SetupInteraction();
     }
     
     private void SetupInteraction()
     {
-        // cleanup conflicting components (Fix: SM_Coconut sticking to hand)
         var existingGrab = GetComponent<XRGrabInteractable>();
         var existingSimple = GetComponent<XRSimpleInteractable>();
 
@@ -102,15 +96,13 @@ public class David_CoconutTree : MonoBehaviour
                 if (existingGrab) Destroy(existingGrab);
                 if (existingSimple) Destroy(existingSimple);
 
-                // Cần KnockZoneCollider (Trigger)
                 if (knockZoneCollider == null)
                 {
-                     // User disabled warning
                 }
                 break;
 
             case InteractionType.XR_Click:
-                if (existingGrab) Destroy(existingGrab); // IMPORTANT: Remove Grab so hand doesn't stick
+                if (existingGrab) Destroy(existingGrab); 
                 SetupXRSimple();
                 break;
 
@@ -130,12 +122,11 @@ public class David_CoconutTree : MonoBehaviour
     [ContextMenu("Setup XR Components (Click Me)")]
     public void ManualSetupXR()
     {
-        // 1. Ensure Collider exists
         var col = GetComponent<Collider>();
         if (col == null)
         {
             var box = gameObject.AddComponent<BoxCollider>();
-            box.isTrigger = false; // Recommend solid collider for Raycast
+            box.isTrigger = false; 
             Debug.Log("[David_CoconutTree] Added BoxCollider (IsTrigger=false).");
         }
         else if (col.isTrigger && interactionMode != InteractionType.SimpleKnock)
@@ -143,7 +134,6 @@ public class David_CoconutTree : MonoBehaviour
             Debug.LogWarning("[David_CoconutTree] Warning: BoxCollider is Trigger. Ray Interactor might ignore it. Consider unchecking IsTrigger.");
         }
 
-        // 2. Setup based on mode
         SetupInteraction();
     }
     
@@ -154,7 +144,6 @@ public class David_CoconutTree : MonoBehaviour
         
         _currentInteractable = simple;
         
-        // Setup Event
         simple.selectEntered.RemoveListener(OnXRSelect);
         simple.selectEntered.AddListener(OnXRSelect);
     }
@@ -166,12 +155,10 @@ public class David_CoconutTree : MonoBehaviour
         
         _currentInteractable = grab;
         
-        // Cấu hình Grab để KHÔNG di chuyển cây
         grab.trackPosition = false;
         grab.trackRotation = false;
         grab.throwOnDetach = false;
         
-        // Event
         grab.selectEntered.RemoveListener(OnXRSelect);
         grab.selectEntered.AddListener(OnXRSelect);
     }
@@ -191,7 +178,6 @@ public class David_CoconutTree : MonoBehaviour
 
     private void Update()
     {
-        // Keyboard testing - Only allow if player is LOOKING AT the tree (Raycast)
         if (enableKeyboardTesting && Input.GetKeyDown(testKnockKey))
         {
              if (Camera.main == null) return;
@@ -199,8 +185,6 @@ public class David_CoconutTree : MonoBehaviour
              Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
              RaycastHit hit;
              
-             // Raycast to check if looking at this tree
-             // Note: Tree must have a collider (Mesh or Box) for this to work
              if (Physics.Raycast(ray, out hit, 20f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide))
              {
                  bool isHit = hit.collider.gameObject == gameObject || 
@@ -225,8 +209,6 @@ public class David_CoconutTree : MonoBehaviour
 
         if (IsHandOrPlayer(other))
         {
-            // Auto knock on enter? Or just register?
-            // For now, let's auto-knock to simulate physical hit
             TryKnockTree();
         }
     }
@@ -256,7 +238,6 @@ public class David_CoconutTree : MonoBehaviour
             rb.useGravity = false;
         }
         
-        // Disable XR Grab while on tree
         var grabInteractable = coconut.GetComponent<XRGrabInteractable>();
         if (grabInteractable != null) grabInteractable.enabled = false;
     }
@@ -281,7 +262,6 @@ public class David_CoconutTree : MonoBehaviour
 
         if (!_isShaking) StartCoroutine(ShakeTree());
 
-        // Find coconuts
         List<David_Fruit> coconutsOnTree = new List<David_Fruit>();
         foreach (var coconut in coconuts)
         {

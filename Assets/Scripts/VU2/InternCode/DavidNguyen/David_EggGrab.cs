@@ -46,23 +46,15 @@ public class David_EggGrab : MonoBehaviour
     private void SetupInstantGrab()
     {
         if (_grabInteractable == null) return;
-        
-        // CRITICAL: Configure for instant teleport
         _grabInteractable.movementType = XRBaseInteractable.MovementType.Instantaneous;
         _grabInteractable.attachEaseInTime = 0f;
         _grabInteractable.useDynamicAttach = false;
         _grabInteractable.retainTransformParent = false;
         _grabInteractable.throwOnDetach = false;
-        
-        // Disable XR tracking - WE control position manually
         _grabInteractable.trackPosition = false;
         _grabInteractable.trackRotation = false;
-        
-        // Remove any grab transformers
         _grabInteractable.startingSingleGrabTransformers.Clear();
         _grabInteractable.startingMultipleGrabTransformers.Clear();
-        
-        // Subscribe to events
         _grabInteractable.selectEntered.AddListener(OnGrabbed);
         _grabInteractable.selectExited.AddListener(OnReleased);
     }
@@ -88,10 +80,8 @@ public class David_EggGrab : MonoBehaviour
             _currentHandTransform = interactor.transform;
             _isGrabbed = true;
             
-            // Detach from any parent
             transform.SetParent(null);
             
-            // Make kinematic
             if (_rb != null)
             {
                 _rb.isKinematic = true;
@@ -99,10 +89,8 @@ public class David_EggGrab : MonoBehaviour
                 _rb.angularVelocity = Vector3.zero;
             }
             
-            // Apply grab scale (make smaller for natural holding)
             transform.localScale = _originalScale * grabScale;
             
-            // TELEPORT TO HAND with OFFSET
             Vector3 offsetPosition = _currentHandTransform.position + _currentHandTransform.TransformDirection(grabOffset);
             transform.position = offsetPosition;
             transform.rotation = _currentHandTransform.rotation;
@@ -114,10 +102,8 @@ public class David_EggGrab : MonoBehaviour
         _isGrabbed = false;
         _currentHandTransform = null;
         
-        // Restore original scale
         transform.localScale = _originalScale;
         
-        // Re-enable physics
         if (_rb != null)
         {
             _rb.isKinematic = false;
@@ -131,7 +117,6 @@ public class David_EggGrab : MonoBehaviour
     
     private void LateUpdate()
     {
-        // If grabbed, FORCE position to hand with offset (overrides any XR system)
         if (_isGrabbed && _currentHandTransform != null)
         {
             Vector3 offsetPosition = _currentHandTransform.position + _currentHandTransform.TransformDirection(grabOffset);
@@ -158,13 +143,14 @@ public class David_EggGrab : MonoBehaviour
     
     private void CollectEgg()
     {
+        if (_collected) return;
         _collected = true;
         
-        // Track in SimpleScoreTracker
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        if (tracker != null)
+        // Track in SeasonalSummary
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null && eggIcon != null)
         {
-            tracker.Track("Egg", eggIcon, pointValue);
+            summary.TrackDirect("Egg", eggIcon, pointValue);
         }
         
         // Add points using GameManager

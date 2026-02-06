@@ -164,10 +164,6 @@ public class HarvestZone : MonoBehaviour
                 {
                     uiText.text = promptText;
                 }
-                else
-                {
-                    Debug.LogWarning("[HarvestZone] Không tìm thấy TMP_Text hoặc UI.Text trong promptUI!");
-                }
             }
         }
     }

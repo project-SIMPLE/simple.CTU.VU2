@@ -160,6 +160,41 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         // Không cần hủy đăng ký - object sẽ được GC cùng với events của nó.
         growth.OnAboutToDestroy += () => { /* no-op */ };
     }
+    
+    // =========================================================================
+    // TrackDirect - Direct tracking for grab-based items (Egg, Shrimp, Fruit).
+    // TrackDirect - Theo dõi trực tiếp cho items dùng grab (Trứng, Tôm, Quả).
+    // 
+    // Called by: David_EggGrab, David_ShrimpGrab, David_Fruit when collecting.
+    // Được gọi bởi: David_EggGrab, David_ShrimpGrab, David_Fruit khi thu hoạch.
+    // 
+    // This bypasses PlantGrowth and directly records points.
+    // Điều này bỏ qua PlantGrowth và ghi nhận điểm trực tiếp.
+    // =========================================================================
+    public void TrackDirect(string productName, Sprite icon, int points)
+    {
+        // Use product name as unique key (e.g., "Egg", "Shrimp", "Coconut")
+        var key = $"Direct:{productName}";
+        
+        var phase = CurrentPhase(); // 0=Rainy1, 1=Dry
+        var counters = GetOrCreate_Direct(key, icon);
+        
+        counters.score[(int)phase] += points;
+        counters.count[(int)phase] += 1;
+        
+        OnChanged?.Invoke();
+    }
+    
+    private SeasonalCounters GetOrCreate_Direct(string key, Sprite icon)
+    {
+        if (!_map.TryGetValue(key, out var c))
+        {
+            c = new SeasonalCounters { icon = icon };
+            _map[key] = c;
+        }
+        if (c.icon == null && icon != null) c.icon = icon;
+        return c;
+    }
 
     // =========================================================================
     // GetAllCounts - Returns harvest counts for all product types.

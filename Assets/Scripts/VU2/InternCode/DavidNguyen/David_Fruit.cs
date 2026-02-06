@@ -123,8 +123,6 @@ public class David_Fruit : MonoBehaviour
         // For runtime spawned objects (like eggs), we need to setup ASAP
         // Đối với object spawn runtime (như trứng), cần setup càng sớm càng tốt
         SetupInstantGrab();
-        
-        Debug.Log($"[David_Fruit][AWAKE] Setup instant grab for {gameObject.name}, fruitType={fruitType}");
     }
     
     // =========================================================================
@@ -163,7 +161,6 @@ public class David_Fruit : MonoBehaviour
                 {
                     rb.isKinematic = true;
                     rb.useGravity = false;
-                    Debug.Log($"[David_Fruit] {fruitType} Rigidbody set to kinematic (on tree)");
                 }
             }
         }
@@ -184,8 +181,6 @@ public class David_Fruit : MonoBehaviour
         // This ensures events are subscribed for runtime-spawned objects like eggs
         _isInstantGrabSetup = false; // Reset flag to allow re-setup
         SetupInstantGrab();
-        
-        Debug.LogWarning($"🟢 [OnEnable] Force re-setup instant grab for {gameObject.name}");
     }
     
     /// <summary>
@@ -241,12 +236,6 @@ public class David_Fruit : MonoBehaviour
             grabInteractable.startingMultipleGrabTransformers.Clear();
             grabInteractable.startingSingleGrabTransformers.Clear();
             
-            Debug.LogWarning($"🟢 [SETUP] Event listeners subscribed for {gameObject.name}");
-            Debug.LogWarning($"🟢 [SETUP] trackPosition={grabInteractable.trackPosition}, trackRotation={grabInteractable.trackRotation}");
-            Debug.LogWarning($"🟢 [SETUP] Removed grab transformers (count: single={grabInteractable.startingSingleGrabTransformers.Count}, multi={grabInteractable.startingMultipleGrabTransformers.Count})");
-        }
-        else{
-            Debug.LogWarning($"[David_Fruit][SETUP] ⚠️ Cannot setup! XRGrabInteractable is {(grabInteractable == null ? "NULL" : "disabled")}");
         }
     }
     
@@ -271,9 +260,6 @@ public class David_Fruit : MonoBehaviour
     
     private void OnGrabbed(SelectEnterEventArgs args)
     {
-        Debug.LogWarning($"🔴 [GRAB] OnGrabbed called for {gameObject.name}, fruitType={fruitType}");
-        
-        // Mark as no longer on tree
         isOnTree = false;
         canCollect = true;
         
@@ -334,12 +320,7 @@ public class David_Fruit : MonoBehaviour
             transform.position = offsetPosition;
             transform.rotation = _currentGrabTarget.rotation;
             
-            Debug.LogWarning($"🔴 [GRAB] TELEPORTED {fruitType} to {offsetPosition}");
             
-        }
-        else
-        {
-            Debug.LogError($"[David_Fruit][GRAB] ERROR: No XRBaseInteractor found!");
         }
     }
     
@@ -573,11 +554,11 @@ public class David_Fruit : MonoBehaviour
         // Tính điểm từ bảng tra cứu.
         int points = GetTableScore();
         
-        // Track in SimpleScoreTracker
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        if (tracker != null && productIcon != null)
+        // Track in SeasonalSummary
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null && productIcon != null)
         {
-            tracker.Track(fruitType.ToString(), productIcon, points);
+            summary.TrackDirect(fruitType.ToString(), productIcon, points);
         }
         
         // Add score to GameManager.

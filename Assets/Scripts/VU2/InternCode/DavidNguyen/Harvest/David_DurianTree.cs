@@ -51,23 +51,19 @@ public class David_DurianTree : MonoBehaviour
             Debug.Log($"[David_DurianTree] Tìm thấy {durians.Length} quả sầu riêng");
         }
         
-        // Get wilt controller to check if tree is healthy
         _wiltController = GetComponent<David_TreeWiltController>();
         if (_wiltController == null)
         {
             _wiltController = GetComponentInParent<David_TreeWiltController>();
         }
 
-        // Setup all durians
         ResetAllDurians();
     }
 
     private void OnEnable()
     {
-        // Subscribe to season change events
         RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
         
-        // Start auto-drop if in rainy season
         CheckAndStartAutoDrop();
     }
 
@@ -84,9 +80,7 @@ public class David_DurianTree : MonoBehaviour
 
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        Debug.Log($"[David_DurianTree] Mùa thay đổi: {newPhase}");
         
-        // CLEANUP: Destroy any dropped fruits from previous season
         CleanupDroppedFruits();
         
         // Rainy1 or Rainy2 = rainy season
@@ -115,18 +109,11 @@ public class David_DurianTree : MonoBehaviour
         {
             if (durian == null) continue;
             
-            // If fruit is NOT on tree and NOT already collected = dropped on ground
             if (!durian.isOnTree && durian.gameObject.activeInHierarchy)
             {
-                // Destroy the dropped fruit
                 Destroy(durian.gameObject);
                 cleanedCount++;
             }
-        }
-        
-        if (cleanedCount > 0)
-        {
-            Debug.Log($"[David_DurianTree] Đã dọn {cleanedCount} sầu riêng rớt dưới đất");
         }
     }
 
@@ -137,9 +124,6 @@ public class David_DurianTree : MonoBehaviour
             StartAutoDrop();
             return;
         }
-
-        // Check current season via RulesoftheGame
-        // Rainy season when Saltwater_Intrusion < 1
         if (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f)
         {
             StartAutoDrop();
@@ -158,7 +142,6 @@ public class David_DurianTree : MonoBehaviour
 
         _isDropping = true;
         _autoDropCoroutine = StartCoroutine(AutoDropCoroutine());
-        Debug.Log("[David_DurianTree] Bắt đầu auto-drop sầu riêng");
     }
 
     private void StopAutoDrop()
@@ -169,7 +152,6 @@ public class David_DurianTree : MonoBehaviour
             _autoDropCoroutine = null;
         }
         _isDropping = false;
-        Debug.Log("[David_DurianTree] Dừng auto-drop sầu riêng");
     }
 
     private IEnumerator AutoDropCoroutine()
@@ -183,15 +165,12 @@ public class David_DurianTree : MonoBehaviour
             // Check if still in rainy season
             if (onlyDropInRainySeason && !IsRainySeason())
             {
-                Debug.Log("[David_DurianTree] Không còn mùa mưa, dừng drop");
                 break;
             }
             
             // CHECK IF TREE IS WILTED - Don't drop if tree is dead!
             if (_wiltController != null && _wiltController.IsWilted)
             {
-                Debug.Log("[David_DurianTree] Cây đang héo, không thể rụng sầu riêng");
-                // Wait and check again instead of breaking
                 yield return new WaitForSeconds(2f);
                 continue;
             }
@@ -201,7 +180,6 @@ public class David_DurianTree : MonoBehaviour
         }
 
         _isDropping = false;
-        Debug.Log("[David_DurianTree] Đã rụng hết sầu riêng");
     }
 
     // =========================================================================
@@ -217,7 +195,6 @@ public class David_DurianTree : MonoBehaviour
     {
         if (_duriansOnTree.Count == 0)
         {
-            Debug.Log("[David_DurianTree] Không còn sầu riêng trên cây");
             return;
         }
 
@@ -272,7 +249,6 @@ public class David_DurianTree : MonoBehaviour
             AudioSource.PlayClipAtPoint(fallSound, durian.transform.position);
         }
 
-        Debug.Log($"[David_DurianTree] Sầu riêng rơi: {durian.name}");
     }
 
     // =========================================================================
@@ -319,7 +295,6 @@ public class David_DurianTree : MonoBehaviour
             }
         }
 
-        Debug.Log($"[David_DurianTree] Reset {_duriansOnTree.Count} sầu riêng về cây");
     }
 
     /// <summary>

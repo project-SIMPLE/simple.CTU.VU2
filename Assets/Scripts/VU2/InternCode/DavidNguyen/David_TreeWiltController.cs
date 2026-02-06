@@ -90,7 +90,6 @@ public class David_TreeWiltController : MonoBehaviour
     {
         bool isDry = (newPhase == SeasonPhase.Dry);
         
-        Debug.Log($"[David_TreeWiltController] Mùa đổi sang {newPhase}, isDry={isDry}");
         
         if (isDry && !_isWilted)
         {
@@ -110,15 +109,11 @@ public class David_TreeWiltController : MonoBehaviour
         if (_isWilted) return;
         _isWilted = true;
         
-        Debug.Log($"[David_TreeWiltController] Cây {gameObject.name} bắt đầu héo!");
-        
-        // Play animation nếu có
         if (treeAnimator != null && !string.IsNullOrEmpty(animBad))
         {
             treeAnimator.Play(animBad, animatorLayer, 0f);
         }
         
-        // Áp visual effects
         if (useVisualEffects)
         {
             ApplyWiltVisuals();
@@ -133,15 +128,10 @@ public class David_TreeWiltController : MonoBehaviour
         if (!_isWilted) return;
         _isWilted = false;
         
-        Debug.Log($"[David_TreeWiltController] Cây {gameObject.name} tươi trở lại!");
-        
-        // Play animation tốt nếu có
         if (treeAnimator != null && !string.IsNullOrEmpty(animGood))
         {
             treeAnimator.Play(animGood, animatorLayer, 0f);
         }
-        
-        // Clear visual effects
         if (useVisualEffects)
         {
             ClearWiltVisuals();

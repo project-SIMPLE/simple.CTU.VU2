@@ -43,13 +43,16 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     private readonly List<UI_ProductRow> _pool = new();
     
     // =========================================================================
-    // OnEnable - Subscribe to data changes and build initial UI.
-    // OnEnable - Đăng ký lắng nghe thay đổi dữ liệu và xây dựng UI ban đầu.
+    // OnEnable - Subscribe to data change events.
+    // OnEnable - Đăng ký sự kiện thay đổi dữ liệu.
     // =========================================================================
     private void OnEnable()
     {
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        if (tracker) tracker.OnScoresChanged += Rebuild;
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null)
+        {
+            summary.OnChanged += Rebuild;
+        }
         Rebuild();
     }
 
@@ -60,13 +63,16 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     public void Freeze(bool v) { _frozen = v; }
 
     // =========================================================================
-    // OnDisable - Unsubscribe from events to prevent memory leaks.
-    // OnDisable - Hủy đăng ký sự kiện để tránh rò rỉ bộ nhớ.
+    // OnDisable - Unsubscribe from events.
+    // OnDisable - Hủy đăng ký khỏi events.
     // =========================================================================
     private void OnDisable()
     {
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        if (tracker) tracker.OnScoresChanged -= Rebuild;
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null)
+        {
+            summary.OnChanged -= Rebuild;
+        }
     }
 
     // =========================================================================
@@ -76,7 +82,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // Called by: OnEnable, SeasonalSummary.OnChanged event.
     // Được gọi bởi: OnEnable, sự kiện SeasonalSummary.OnChanged.
     // =========================================================================
-    public void Rebuild()
+    private void Rebuild()
     {
         // Don't rebuild if game not active and we already have rows.
         // Không rebuild nếu game chưa active và đã có rows.
@@ -88,10 +94,10 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         for (int i = 0; i < _pool.Count; i++) if (_pool[i]) Destroy(_pool[i].gameObject);
         _pool.Clear();
 
-        // Get score data from SimpleScoreTracker.
-        // Lấy dữ liệu điểm từ SimpleScoreTracker.
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        var data = tracker ? tracker.GetAllScores() : new List<(Sprite, int, int)>();
+        // Get score data from SeasonalSummary.
+        // Lấy dữ liệu điểm từ SeasonalSummary.
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        var data = summary ? summary.GetAllScores() : new List<(Sprite, int, int)>();
 
         // Create a row for each product type.
         // Tạo một row cho mỗi loại sản phẩm.

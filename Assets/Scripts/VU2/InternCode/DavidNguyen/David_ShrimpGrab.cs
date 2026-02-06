@@ -20,9 +20,6 @@ public class David_ShrimpGrab : MonoBehaviour
     [SerializeField] private Vector3 grabOffset = new Vector3(0, -0.3f, 0.2f);
     [SerializeField] private float grabScale = 0.5f;
 
-
-
-    
     private XRGrabInteractable _grabInteractable;
     private Rigidbody _rb;
     private Transform _currentHandTransform;
@@ -43,10 +40,8 @@ public class David_ShrimpGrab : MonoBehaviour
         _grabInteractable = GetComponent<XRGrabInteractable>();
         _rb = GetComponent<Rigidbody>();
         
-        // Save original scale for restoration
         _originalScale = transform.localScale;
         
-        // Try to find swimming AI component (Thuan's shrimp AI)
         _swimmingAI = GetComponent("Thuan_23127_ShrimpAI") as MonoBehaviour;
         
         SetupInstantGrab();
@@ -55,23 +50,15 @@ public class David_ShrimpGrab : MonoBehaviour
     private void SetupInstantGrab()
     {
         if (_grabInteractable == null) return;
-        
-        // CRITICAL: Configure for instant teleport
         _grabInteractable.movementType = XRBaseInteractable.MovementType.Instantaneous;
         _grabInteractable.attachEaseInTime = 0f;
         _grabInteractable.useDynamicAttach = false;
         _grabInteractable.retainTransformParent = false;
         _grabInteractable.throwOnDetach = false;
-        
-        // Disable XR tracking - WE control position manually
         _grabInteractable.trackPosition = false;
         _grabInteractable.trackRotation = false;
-        
-        // Remove any grab transformers
         _grabInteractable.startingSingleGrabTransformers.Clear();
         _grabInteractable.startingMultipleGrabTransformers.Clear();
-        
-        // Subscribe to events
         _grabInteractable.selectEntered.AddListener(OnGrabbed);
         _grabInteractable.selectExited.AddListener(OnReleased);
     }
@@ -91,20 +78,16 @@ public class David_ShrimpGrab : MonoBehaviour
     
     private void OnGrabbed(SelectEnterEventArgs args)
     {
-        
-        // Get controller transform
         if (args.interactorObject is XRBaseInteractor interactor)
         {
             _currentHandTransform = interactor.transform;
             _isGrabbed = true;
             
-            // DISABLE swimming AI when grabbed
             if (_swimmingAI != null)
             {
                 _swimmingAI.enabled = false;
             }
             
-            // Detach from any parent
             transform.SetParent(null);
             
             // Make kinematic
@@ -124,10 +107,6 @@ public class David_ShrimpGrab : MonoBehaviour
             transform.position = offsetPosition;
             transform.rotation = _currentHandTransform.rotation;
         }
-        else
-        {
-            Debug.LogError($"[ShrimpGrab] No XRBaseInteractor found!");
-        }
     }
     
     private void OnReleased(SelectExitEventArgs args)
@@ -135,16 +114,13 @@ public class David_ShrimpGrab : MonoBehaviour
         _isGrabbed = false;
         _currentHandTransform = null;
         
-        // Restore original scale
         transform.localScale = _originalScale;
         
-        // RE-ENABLE swimming AI when released
         if (_swimmingAI != null)
         {
             _swimmingAI.enabled = true;
         }
         
-        // Re-enable physics
         if (_rb != null)
         {
             _rb.isKinematic = false;
@@ -158,10 +134,8 @@ public class David_ShrimpGrab : MonoBehaviour
     
     private void LateUpdate()
     {
-        // If grabbed, FORCE position to hand with offset (overrides any XR system)
         if (_isGrabbed && _currentHandTransform != null)
         {
-            // FORCE scale back to grab size (in case other components try to change it)
             transform.localScale = _originalScale * grabScale;
             
             Vector3 offsetPosition = _currentHandTransform.position + _currentHandTransform.TransformDirection(grabOffset);
@@ -180,7 +154,6 @@ public class David_ShrimpGrab : MonoBehaviour
         if (_collected) return;
         if (!RulesoftheGame_VU2_1.GameActive) return;
         
-        // Don't collect while grabbed - must release first!
         if (_isGrabbed) return;
         
         CollectShrimp();
@@ -188,16 +161,17 @@ public class David_ShrimpGrab : MonoBehaviour
     
     private void CollectShrimp()
     {
+        if (_collected) return;
         _collected = true;
         
-        // Track in SimpleScoreTracker
-        var tracker = Thuan_23127_SimpleScoreTracker.Instance;
-        if (tracker != null)
+        // Track in SeasonalSummary
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        if (summary != null && shrimpIcon != null)
         {
-            tracker.Track("Shrimp", shrimpIcon, pointValue);
+            summary.TrackDirect("Shrimp", shrimpIcon, pointValue);
         }
         
-        // Add points using GameManager
+        // Add score to GameManager
         var gm = Thuan_23127_GameManager.Instance;
         if (gm != null)
         {

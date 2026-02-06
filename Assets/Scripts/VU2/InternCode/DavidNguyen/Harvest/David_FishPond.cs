@@ -84,7 +84,6 @@ public class David_FishPond : HarvestZone
         if (creatures == null || creatures.Length == 0)
         {
             creatures = GetComponentsInChildren<David_WaterCreature>(true);
-            Debug.Log($"[David_FishPond] Tim thay {creatures.Length} sinh vat");
         }
     }
 
@@ -137,7 +136,6 @@ public class David_FishPond : HarvestZone
         // Check if we have at least one tool to spawn
         if (fishingNetPrefab == null && bucketPrefab == null)
         {
-            Debug.LogWarning("[David_FishPond] Khong co tool nao de spawn!");
             return;
         }
 
@@ -171,10 +169,6 @@ public class David_FishPond : HarvestZone
                 }
             }
         }
-        else
-        {
-            Debug.LogWarning("[David_FishPond] ToolManager not found!");
-        }
 
         _hasTools = true;
 
@@ -183,7 +177,6 @@ public class David_FishPond : HarvestZone
             AudioSource.PlayClipAtPoint(toolSpawnSound, transform.position);
         }
 
-        Debug.Log("[David_FishPond] Dung cu da spawn!");
     }
 
     public void DestroyTools()
@@ -199,7 +192,6 @@ public class David_FishPond : HarvestZone
         }
 
         _hasTools = false;
-        Debug.Log("[David_FishPond] Dung cu da huy!");
     }
 
     // =========================================================================
@@ -212,14 +204,12 @@ public class David_FishPond : HarvestZone
         
         if (_catchCount >= maxCatchPerVisit)
         {
-            Debug.Log("[David_FishPond] Da bat du so luong!");
             return;
         }
 
         // Note: creature.Catch() removed - now handled by direct grab interaction
         _catchCount++;
         
-        Debug.Log($"[David_FishPond] Bat duoc: {creature.name} ({_catchCount}/{maxCatchPerVisit})");
     }
 
     public int GetCatchableCreatureCount()
@@ -244,6 +234,5 @@ public class David_FishPond : HarvestZone
         {
             if (creature != null) creature.Respawn();
         }
-        Debug.Log("[David_FishPond] Sinh vat da respawn!");
     }
 }
