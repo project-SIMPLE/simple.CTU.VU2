@@ -68,6 +68,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     public GameObject StartMenu;
     public GameObject ResultMenu;
     public GameObject ResultDetailsScore;
+    public GameObject InteractiveObjects;
     public GameObject UIForVR;
     public GameObject NPC_Talk;
     
@@ -602,6 +603,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     {
         ResultDetailsScore.SetActive(true);
         ResultMenu.SetActive(false);
+        InteractiveObjects.SetActive(false);
         UIForVR.SetActive(false);
     }
 
@@ -613,6 +615,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     {
         ResultDetailsScore.SetActive(false);
         ResultMenu.SetActive(true);
+        InteractiveObjects.SetActive(true);
         UIForVR.SetActive(true);
     }
 
