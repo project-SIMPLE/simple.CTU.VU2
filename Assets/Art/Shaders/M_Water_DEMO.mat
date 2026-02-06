@@ -68,7 +68,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Salinity: 1.65
-    - _Salinity_Contrast: 4.94
+    - _Salinity_Contrast: 5
     - _Speed: -0.5
     - _Texture: 0
     - _Tiling: 5.15

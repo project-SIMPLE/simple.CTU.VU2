@@ -94872,6 +94872,7 @@ GameObject:
   - component: {fileID: 908154789}
   - component: {fileID: 908154788}
   - component: {fileID: 908154793}
+  - component: {fileID: 908154794}
   m_Layer: 0
   m_Name: SF_Water_Sea (1)
   m_TagString: Untagged
@@ -102888,6 +102889,23 @@ MonoBehaviour:
   m_OriginalMeshObject: {fileID: 4300000, guid: 3da23cdf512599b42881988944f3918c,
     type: 2}
   m_Mode: 0
+--- !u!114 &908154794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908154787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71bbb1063c27e6458747546f318d3d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterRenderer: {fileID: 908154790}
+  rainySpeed: -0.5
+  rainySalinityContrast: 5
+  drySpeed: 0.5
+  drySalinityContrast: 7
 --- !u!1 &908340017
 GameObject:
   m_ObjectHideFlags: 0
