@@ -9,8 +9,10 @@ using UnityEngine;
 public enum ProductKind { Plant, Animal, Fish }
 
 // =============================================================================
-// SeasonalCounters - Stores harvest counts and scores per season.
-// SeasonalCounters - Lưu trữ số lần thu hoạch và điểm theo mùa.
+// SeasonalCounters - Stores harvest counts and scores per phase (3 phases).
+// SeasonalCounters - Lưu trữ số lần thu hoạch và điểm theo giai đoạn (3 GĐ).
+//
+// Phase 0 = GĐ1 (T11–T1), Phase 1 = GĐ2 (T2–T3), Phase 2 = GĐ3 (T4)
 // =============================================================================
 [Serializable]
 public class SeasonalCounters
@@ -19,32 +21,28 @@ public class SeasonalCounters
     // Icon cho loại sản phẩm này.
     public Sprite icon;
     
-    // Harvest count per season: [0]=Rainy, [1]=Dry.
-    // Số lần thu hoạch theo mùa: [0]=Mưa, [1]=Khô.
-    public int[] count = new int[2];
+    // Harvest count per phase: [0]=GĐ1, [1]=GĐ2, [2]=GĐ3.
+    // Số lần thu hoạch theo giai đoạn: [0]=GĐ1, [1]=GĐ2, [2]=GĐ3.
+    public int[] count = new int[3];
     
-    // Total score earned per season: [0]=Rainy, [1]=Dry.
-    // Tổng điểm kiếm được theo mùa: [0]=Mưa, [1]=Khô.
-    public int[] score = new int[2];
+    // Total score earned per phase: [0]=GĐ1, [1]=GĐ2, [2]=GĐ3.
+    // Tổng điểm kiếm được theo giai đoạn: [0]=GĐ1, [1]=GĐ2, [2]=GĐ3.
+    public int[] score = new int[3];
 }
 
 // =============================================================================
 // Thuan_23127_SeasonalSummary - Tracks and summarizes all harvests by product type.
-// Thuan_23127_SeasonalSummary - Theo dõi và tổng kết tất cả thu hoạch theo loại sản phẩm.
+// Thuan_23127_SeasonalSummary - Theo dõi và tổng kết tất cả thu hoạch theo loại SP.
 // 
-// This singleton component provides statistics for the end-game summary screen:
-// - How many of each product type was harvested
-// - Total score earned per product type per season
-// 
-// Component singleton này cung cấp thống kê cho màn hình tổng kết cuối game:
-// - Số lượng mỗi loại sản phẩm đã thu hoạch
-// - Tổng điểm kiếm được theo loại sản phẩm theo mùa
-// 
-// Usage:
-// 1. FarmArea.PlantInternal() calls Track() when planting
-// 2. Track() subscribes to OnHarvested event
-// 3. When harvested, counters are updated
-// 4. UI calls GetAllScores() to display summary table
+// 3-phase system:
+//   Phase 0 (GĐ1): T11–T1 (MonthIndex 1–3)
+//   Phase 1 (GĐ2): T2–T3  (MonthIndex 4–5)
+//   Phase 2 (GĐ3): T4     (MonthIndex 6)
+//
+// Hệ thống 3 giai đoạn:
+//   GĐ 0 (GĐ1): T11–T1 (MonthIndex 1–3)
+//   GĐ 1 (GĐ2): T2–T3  (MonthIndex 4–5)
+//   GĐ 2 (GĐ3): T4     (MonthIndex 6)
 // =============================================================================
 public class Thuan_23127_SeasonalSummary : MonoBehaviour
 {
@@ -79,16 +77,25 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     }
     
     // =========================================================================
-    // CurrentPhase - Determines current season from saltwater intrusion value.
-    // CurrentPhase - Xác định mùa hiện tại từ giá trị xâm nhập mặn.
-    // 
-    // Returns: Rainy1 (intrusion=0) or Dry (intrusion=1).
-    // Trả về: Rainy1 (intrusion=0) hoặc Dry (intrusion=1).
+    // CurrentPhaseIndex - Returns current phase index (0, 1, or 2).
+    // CurrentPhaseIndex - Trả về index giai đoạn hiện tại (0, 1, hoặc 2).
+    //
+    // Based on CurrentMonthIndex from RulesoftheGame_VU2_1:
+    //   MonthIndex 1–3 → Phase 0 (GĐ1: T11–T1)
+    //   MonthIndex 4–5 → Phase 1 (GĐ2: T2–T3)
+    //   MonthIndex 6   → Phase 2 (GĐ3: T4)
+    //
+    // Dựa trên CurrentMonthIndex từ RulesoftheGame_VU2_1:
+    //   MonthIndex 1–3 → Phase 0 (GĐ1: T11–T1)
+    //   MonthIndex 4–5 → Phase 1 (GĐ2: T2–T3)
+    //   MonthIndex 6   → Phase 2 (GĐ3: T4)
     // =========================================================================
-    private static SeasonPhase CurrentPhase()
+    private static int CurrentPhaseIndex()
     {
-        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        return Mathf.Approximately(s, 1f) ? SeasonPhase.Dry : SeasonPhase.Rainy1;
+        int month = RulesoftheGame_VU2_1.CurrentMonthIndex;
+        if (month <= 3) return 0;  // GĐ1: T11, T12, T1
+        if (month <= 5) return 1;  // GĐ2: T2, T3
+        return 2;                   // GĐ3: T4
     }
 
     // =========================================================================
@@ -123,13 +130,15 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     // Được gọi bởi: FarmArea.PlantInternal() khi trồng.
     // 
     // When the entity is harvested:
-    // - Increment count for current season
-    // - Add points to season total
+    // - Determine current phase from CurrentMonthIndex
+    // - Increment count for that phase
+    // - Add points to phase total
     // - Fire OnChanged event for UI refresh
     // 
     // Khi thực thể được thu hoạch:
-    // - Tăng số đếm cho mùa hiện tại
-    // - Cộng điểm vào tổng mùa
+    // - Xác định giai đoạn hiện tại từ CurrentMonthIndex
+    // - Tăng số đếm cho giai đoạn đó
+    // - Cộng điểm vào tổng giai đoạn
     // - Bắn sự kiện OnChanged để refresh UI
     // =========================================================================
     public void Track(Thuan_23127_PlantGrowth growth, Thuan_23127_SeedTag tag)
@@ -149,10 +158,10 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         // Đăng ký sự kiện thu hoạch.
         growth.OnHarvested += points =>
         {
-            var p = CurrentPhase();  // 0=Rainy1, 1=Dry
+            int phase = CurrentPhaseIndex();  // 0=GĐ1, 1=GĐ2, 2=GĐ3
             var st = GetOrCreate(kind, id, tag.hudIcon);
-            st.count[(int)p] += 1;
-            st.score[(int)p] += points;
+            st.count[phase] += 1;
+            st.score[phase] += points;
             OnChanged?.Invoke();
         };
 
@@ -176,11 +185,11 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         // Use product name as unique key (e.g., "Egg", "Shrimp", "Coconut")
         var key = $"Direct:{productName}";
         
-        var phase = CurrentPhase(); // 0=Rainy1, 1=Dry
+        int phase = CurrentPhaseIndex(); // 0=GĐ1, 1=GĐ2, 2=GĐ3
         var counters = GetOrCreate_Direct(key, icon);
         
-        counters.score[(int)phase] += points;
-        counters.count[(int)phase] += 1;
+        counters.score[phase] += points;
+        counters.count[phase] += 1;
         
         OnChanged?.Invoke();
     }
@@ -197,32 +206,54 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     }
 
     // =========================================================================
-    // GetAllCounts - Returns harvest counts for all product types.
-    // GetAllCounts - Trả về số lần thu hoạch cho tất cả loại sản phẩm.
+    // GetAllPhaseData - Returns full 3-phase data for all product types.
+    // GetAllPhaseData - Trả về dữ liệu đầy đủ 3 giai đoạn cho tất cả SP.
     // 
-    // Used by: UI to display summary table.
-    // Được dùng bởi: UI để hiển thị bảng tổng kết.
+    // Returns: List of tuples:
+    //   (icon, score[3], count[3])
+    //   - score[i] = total score in phase i
+    //   - count[i] = harvest count in phase i (area = count × 10)
+    // 
+    // Trả về: Danh sách tuple:
+    //   (icon, score[3], count[3])
+    //   - score[i] = tổng điểm ở giai đoạn i
+    //   - count[i] = số lần thu hoạch ở giai đoạn i (diện tích = count × 10)
     // =========================================================================
-    public List<(Sprite icon, int rainy1, int dry, int rainy2)> GetAllCounts()
+    public List<(Sprite icon, int[] scores, int[] counts)> GetAllPhaseData()
     {
-        var list = new List<(Sprite,int,int,int)>();
+        var list = new List<(Sprite, int[], int[])>();
         foreach (var kv in _map.Values)
-            list.Add((kv.icon, kv.count[0], kv.count[1], kv.count[2]));
+        {
+            // Clone arrays to prevent external mutation.
+            // Clone mảng để tránh thay đổi từ bên ngoài.
+            int[] scores = { kv.score[0], kv.score[1], kv.score[2] };
+            int[] counts = { kv.count[0], kv.count[1], kv.count[2] };
+            list.Add((kv.icon, scores, counts));
+        }
         return list;
     }
 
     // =========================================================================
-    // GetAllScores - Returns total scores for all product types.
-    // GetAllScores - Trả về tổng điểm cho tất cả loại sản phẩm.
-    // 
-    // Returns: List of (icon, rainyScore, dryScore) tuples.
-    // Trả về: Danh sách các tuple (icon, điểm mưa, điểm khô).
+    // GetAllScores - LEGACY wrapper, returns 2-season data for compatibility.
+    // GetAllScores - Wrapper CŨ, trả về dữ liệu 2 mùa tương thích.
     // =========================================================================
     public List<(Sprite icon, int rainy, int dry)> GetAllScores()
     {
         var list = new List<(Sprite, int, int)>();
         foreach (var kv in _map.Values)
-            list.Add((kv.icon, kv.score[0], kv.score[1]));
+            list.Add((kv.icon, kv.score[0], kv.score[1] + kv.score[2]));
+        return list;
+    }
+
+    // =========================================================================
+    // GetAllCounts - Returns harvest counts for all product types (3 phases).
+    // GetAllCounts - Trả về số lần thu hoạch (3 giai đoạn).
+    // =========================================================================
+    public List<(Sprite icon, int phase1, int phase2, int phase3)> GetAllCounts()
+    {
+        var list = new List<(Sprite, int, int, int)>();
+        foreach (var kv in _map.Values)
+            list.Add((kv.icon, kv.count[0], kv.count[1], kv.count[2]));
         return list;
     }
     

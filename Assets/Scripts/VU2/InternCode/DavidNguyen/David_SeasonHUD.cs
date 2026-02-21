@@ -84,6 +84,15 @@ public class David_SeasonHUD : MonoBehaviour
     // Hiển thị tháng hiện tại (ví dụ: "Month 6").
     public Text timeLabel;
     
+    // Slider showing overall game time progress (0 → 1 over full game).
+    // Slider hiển thị tiến trình thời gian game (0 → 1 trong suốt game).
+    [Tooltip("Drag the Slider under 'Thang' here / Kéo Slider dưới 'Thang' vào đây")]
+    public Slider timeSlider;
+    
+    // Fill image of the time slider (for color changes per phase).
+    // Image fill của time slider (để đổi màu theo giai đoạn).
+    public Image timeFill;
+    
     // =========================================================================
     // COLOR CONFIGURATION
     // CẤU HÌNH MÀU SẮC
@@ -150,6 +159,10 @@ public class David_SeasonHUD : MonoBehaviour
     // Coroutine animation đang chạy (để hủy).
     private Coroutine _animationCoroutine;
     
+    // Cached reference to access timeRemaining & monthDuration.
+    // Tham chiếu cached để truy cập timeRemaining & monthDuration.
+    private RulesoftheGame_VU2_1 _gameRules;
+    
     // =========================================================================
     // Start - Initialize and display initial UI state.
     // Start - Khởi tạo và hiển thị trạng thái UI ban đầu.
@@ -162,6 +175,14 @@ public class David_SeasonHUD : MonoBehaviour
         {
             jsonReader = FindObjectOfType<Thuan_23127_JsonReader>();
         }
+        
+        // Cache reference to game rules for time slider updates.
+        // Cache tham chiếu đến game rules để cập nhật time slider.
+        _gameRules = FindObjectOfType<RulesoftheGame_VU2_1>();
+        
+        // Initialize time slider to 1 (full = 100%).
+        // Khởi tạo time slider ở 1 (đầy = 100%).
+        if (timeSlider != null) timeSlider.value = 1f;
         
         // Display initial UI instantly (no animation).
         // Hiển thị UI ban đầu ngay lập tức (không animation).
@@ -316,10 +337,9 @@ public class David_SeasonHUD : MonoBehaviour
         UpdateStaticLabels(isRainy);
         UpdateMonthLabel();
 
-        // Update fill colors based on season.
-        // Cập nhật màu fill dựa trên mùa.
-        Color targetColor = isRainy ? rainyColor : dryColor;
-        if (waterLevelFill != null) waterLevelFill.color = targetColor;
+        // Water level fill is always blue (river water color).
+        // Fill mực nước luôn là xanh dương (màu nước sông).
+        if (waterLevelFill != null) waterLevelFill.color = new Color(0.2f, 0.5f, 1f, 1f);
         
         // Green for healthy salinity, red for dangerous.
         // Xanh cho độ mặn an toàn, đỏ cho nguy hiểm.
@@ -443,14 +463,29 @@ public class David_SeasonHUD : MonoBehaviour
         
         // Get localized labels with fallbacks.
         // Lấy nhãn đa ngôn ngữ với fallback.
-        var waterLabelText = labels?.water_level ?? "Mực nước sông";
-        var rainyText = labels?.season_rainy ?? "Mùa mưa";
-        var dryText = labels?.season_dry ?? "Mùa khô";
+        var waterLabelText = labels?.water_level ?? "Mực nước sông:";
+        // OLD: 2-season system (commented out)
+        // var rainyText = labels?.season_rainy ?? "Mùa mưa";
+        // var dryText = labels?.season_dry ?? "Mùa khô";
         
-        if (waterLevelLabel != null) waterLevelLabel.text = waterLabelText + ":";
-        if (insideSalinityLabel != null) insideSalinityLabel.text = "Độ Mặn Trong Đê:";
+        if (waterLevelLabel != null) waterLevelLabel.text = waterLabelText;
+        if (insideSalinityLabel != null) insideSalinityLabel.text = "Độ Mặn:";
         if (outsideSalinityLabel != null) outsideSalinityLabel.text = "Độ Mặn Ngoài Đê:";
-        if (seasonLabel != null) seasonLabel.text = isRainy ? rainyText : dryText;
+        
+        // NEW: 3-phase system based on calendar month
+        // Giai đoạn 1: T11–T1 | Giai đoạn 2: T2–T3 | Giai đoạn 3: T4
+        if (seasonLabel != null)
+        {
+            int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+            string phaseText;
+            if (displayMonth >= 11 || displayMonth <= 1)
+                phaseText = "Giai đoạn 1 (T11–T1)";
+            else if (displayMonth >= 2 && displayMonth <= 3)
+                phaseText = "Giai đoạn 2 (T2–T3)";
+            else
+                phaseText = "Giai đoạn 3 (T4)";
+            seasonLabel.text = phaseText;
+        }
     }
 
     // =========================================================================
@@ -461,11 +496,12 @@ public class David_SeasonHUD : MonoBehaviour
     {
         if (timeLabel == null) return;
 
-        // Display calendar month number (game displays Nov-Apr).
-        // Hiển thị số tháng lịch (game hiển thị T11-T4).
-        var monthText = "Tháng"; // chưa điều chỉnh thay đổi theo ngôn ngữ
+        // Display only the calendar month number.
+        // Label "Tháng:" is already set in the UI hierarchy (textThang).
+        // Chỉ hiển thị số tháng lịch.
+        // Label "Tháng:" đã có sẵn trong UI hierarchy (textThang).
         int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
-        timeLabel.text = $"{monthText} {displayMonth}";
+        timeLabel.text = $"{displayMonth}";
     }
     
     // =========================================================================
@@ -475,5 +511,52 @@ public class David_SeasonHUD : MonoBehaviour
     public void RefreshLanguage()
     {
         UpdateUI(_currentPhase, true);
+    }
+    
+    // =========================================================================
+    // LateUpdate - Updates time slider every frame.
+    // LateUpdate - Cập nhật time slider mỗi frame.
+    //
+    // Runs after Update() to ensure timeRemaining is current.
+    // Chạy sau Update() để đảm bảo timeRemaining đã cập nhật.
+    // =========================================================================
+    private void LateUpdate()
+    {
+        // Force water level fill to blue every frame.
+        // Bắt buộc fill mực nước luôn xanh dương.
+        if (waterLevelFill != null) waterLevelFill.color = new Color(0.2f, 0.5f, 1f, 1f);
+        
+        if (_gameRules == null || timeSlider == null) return;
+        
+        // Calculate total game duration and progress.
+        // Tính tổng thời lượng game và tiến trình.
+        float totalDuration = _gameRules.monthDuration * 6f;
+        if (totalDuration <= 0f) return;
+        
+        // Progress counts DOWN: 1.0 (start) → 0.0 (end).
+        // Tiến trình đếm NGƯỢC: 1.0 (bắt đầu) → 0.0 (kết thúc).
+        float progress = Mathf.Clamp01(1f - _gameRules.timeRemaining / totalDuration);
+        timeSlider.value = progress;
+        
+        // Color the fill based on current phase:
+        //   Phase 1 (0–50%):   Green  = safe, low salinity
+        //   Phase 2 (50–83%):  Yellow = caution, medium salinity
+        //   Phase 3 (83–100%): Red    = danger, high salinity
+        // Đổi màu fill theo giai đoạn:
+        //   GĐ 1 (0–50%):   Xanh  = an toàn, độ mặn thấp
+        //   GĐ 2 (50–83%):  Vàng  = cảnh báo, độ mặn trung bình
+        //   GĐ 3 (83–100%): Đỏ    = nguy hiểm, độ mặn cao
+        if (timeFill != null)
+        {
+            float phase1End = _gameRules.monthDuration * 3f / totalDuration; // ~0.5
+            float phase2End = _gameRules.monthDuration * 5f / totalDuration; // ~0.833
+            
+            if (progress <= phase1End)
+                timeFill.color = Color.green;
+            else if (progress <= phase2End)
+                timeFill.color = Color.yellow;
+            else
+                timeFill.color = Color.red;
+        }
     }
 }

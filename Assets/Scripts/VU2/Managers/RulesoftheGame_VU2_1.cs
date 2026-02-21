@@ -221,13 +221,12 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     public float monthDuration = 30f;
     
     [Tooltip("Water level (0-100%) for each month. Index 0 = November, ..., 5 = April.")]
-    // Water level table matching real Mekong Delta dry season patterns.
-    // Bảng mực nước theo mô hình thực tế mùa khô Đồng bằng sông Cửu Long.
-    // Nov: Falling, Dec-Jan: Low, Feb-Mar: Lowest, Apr: Start rising.
-    // T11: Giảm, T12-T1: Thấp, T2-T3: Thấp nhất, T4: Bắt đầu tăng.
+    // Water level table: high in Nov, declining to 20% by April.
+    // Bảng mực nước: cao vào T11, giảm dần đến 20% vào T4.
+    // T11: 80%, T12: 65%, T1: 50%, T2: 40%, T3: 30%, T4: 20%
     public float[] monthWaterLevels = new float[6]
     {
-        65f, 50f, 40f, 35f, 30f, 25f
+        80f, 65f, 50f, 40f, 30f, 20f
     };
 
     [Tooltip("Salinity multiplier when water level is lowest.")]
@@ -283,21 +282,28 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         SetMovementLocked(true);
         GameplayUIRoot.SetActive(true);
         GameUIRoot.SetActive(true);
+        
+        // Force water level values (override Inspector-serialized values).
+        // Bắt buộc dùng giá trị mực nước trong code (bỏ qua giá trị Inspector).
+        // T11: 80%, T12: 65%, T1: 50%, T2: 40%, T3: 30%, T4: 20%
+        monthWaterLevels = new float[] { 80f, 65f, 50f, 40f, 30f, 20f };
     }
 
     // =========================================================================
     // Update - Main game loop. Runs every frame during gameplay.
     // Update - Vòng lặp game chính. Chạy mỗi frame trong gameplay.
     // 
-    // TIMELINE:
-    // 0-90s:   Rainy Season (Saltwater_Intrusion = 0)
-    // 90-180s: Dry Season (Saltwater_Intrusion = 1)
-    // >180s:   Game End
+    // TIMELINE (3 phases, computed from monthDuration):
+    // Phase 1 (T11–T1): 0 to monthDuration×3  — Saltwater_Intrusion = 0.0
+    // Phase 2 (T2–T3):  monthDuration×3 to ×5 — Saltwater_Intrusion = 0.5
+    // Phase 3 (T4):     monthDuration×5 to ×6 — Saltwater_Intrusion = 1.0
+    // >monthDuration×6: Game End
     // 
-    // DÒNG THỜI GIAN:
-    // 0-90s:   Mùa Mưa (Saltwater_Intrusion = 0)
-    // 90-180s: Mùa Khô (Saltwater_Intrusion = 1)
-    // >180s:   Kết thúc Game
+    // DÒNG THỜI GIAN (3 giai đoạn, tính từ monthDuration):
+    // Giai đoạn 1 (T11–T1): 0 đến monthDuration×3  — Saltwater_Intrusion = 0.0
+    // Giai đoạn 2 (T2–T3):  monthDuration×3 đến ×5 — Saltwater_Intrusion = 0.5
+    // Giai đoạn 3 (T4):     monthDuration×5 đến ×6 — Saltwater_Intrusion = 1.0
+    // >monthDuration×6: Kết thúc Game
     // =========================================================================
     public void Update()
     {
@@ -309,15 +315,22 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         timeRemaining += Time.deltaTime;
         DisplayTime(timeRemaining);
 
-        // Update month system (independent of season logic).
-        // Cập nhật hệ thống tháng (độc lập với logic mùa).
+        // Update month system (independent of phase logic).
+        // Cập nhật hệ thống tháng (độc lập với logic giai đoạn).
         UpdateMonthAndWaterLevel(timeRemaining);
 
+        // Calculate phase boundaries from monthDuration (NOT hardcoded).
+        // Tính mốc giai đoạn từ monthDuration (KHÔNG hardcode).
+        // Phase 1: 3 months (T11,T12,T1), Phase 2: 2 months (T2,T3), Phase 3: 1 month (T4)
+        float phase1End = monthDuration * 3f;   // Default 30×3 = 90s
+        float phase2End = monthDuration * 5f;   // Default 30×5 = 150s
+        float gameEnd   = monthDuration * 6f;   // Default 30×6 = 180s
+
         // =====================================================================
-        // PHASE 1: RAINY SEASON (0-90 seconds)
-        // PHA 1: MÙA MƯA (0-90 giây)
+        // PHASE 1: T11–T1 — Low salinity
+        // GIAI ĐOẠN 1: T11–T1 — Độ mặn thấp
         // =====================================================================
-        if (timeRemaining <= 90f)
+        if (timeRemaining <= phase1End)
         {
             SetPhase(SeasonPhase.Rainy1);
             _rainning = true;
@@ -333,12 +346,13 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
 
             _moving = false;
             _enteredDry = false;
+            _enteredRainy2 = false;
         }
         // =====================================================================
-        // PHASE 2: DRY SEASON (90-180 seconds)
-        // PHA 2: MÙA KHÔ (90-180 giây)
+        // PHASE 2: T2–T3 — Medium salinity
+        // GIAI ĐOẠN 2: T2–T3 — Độ mặn trung bình
         // =====================================================================
-        else if (timeRemaining > 90f && timeRemaining <= 180f)
+        else if (timeRemaining > phase1End && timeRemaining <= phase2End)
         {
             SetPhase(SeasonPhase.Dry);
             _rainning = false;
@@ -352,22 +366,49 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             DynamicGI.UpdateEnvironment();
             PlayMusic(normalMusic);
 
-            // Start water movement animation when entering dry season.
-            // Bắt đầu animation di chuyển nước khi vào mùa khô.
+            // Start water movement animation when entering phase 2.
+            // Bắt đầu animation di chuyển nước khi vào giai đoạn 2.
             if (!_enteredDry)
             {
                 _enteredDry = true; 
-                _enteredRainy2 = false;
                 _phaseStartTime = timeRemaining;
                 _fromPos = target ? target.transform.position : pointA;
+                _toPos = Vector3.Lerp(pointA, pointB, 0.5f); // Move halfway
+                _moving = true;
+            }
+            if (_moving && target) _applyMoveThisFrame = true;
+        }
+        // =====================================================================
+        // PHASE 3: T4 — High salinity
+        // GIAI ĐOẠN 3: T4 — Độ mặn cao
+        // =====================================================================
+        else if (timeRemaining > phase2End && timeRemaining <= gameEnd)
+        {
+            SetPhase(SeasonPhase.Rainy2);
+            _rainning = false;
+            
+            Weather_Rain.SetActive(false);
+            Rain_image.SetActive(false);
+            Sun_image.SetActive(true);
+            RenderSettings.skybox = Skybox_Sun; 
+            DynamicGI.UpdateEnvironment();
+            PlayMusic(normalMusic);
+
+            // Continue water movement to full extent in phase 3.
+            // Tiếp tục di chuyển nước đến mức tối đa trong giai đoạn 3.
+            if (!_enteredRainy2)
+            {
+                _enteredRainy2 = true;
+                _phaseStartTime = timeRemaining;
+                _fromPos = target ? target.transform.position : Vector3.Lerp(pointA, pointB, 0.5f);
                 _toPos = pointB;
                 _moving = true;
             }
             if (_moving && target) _applyMoveThisFrame = true;
         }
         // =====================================================================
-        // PHASE 3: GAME END (>180 seconds)
-        // PHA 3: KẾT THÚC GAME (>180 giây)
+        // GAME END (>gameEnd)
+        // KẾT THÚC GAME (>gameEnd)
         // =====================================================================
         else
         {
@@ -562,6 +603,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         NPC_Talk.SetActive(true);
         ResultDetailsScore.SetActive(false);
 
+        // Log timing configuration for debugging.
+        // Ghi log cấu hình thời gian để debug.
+        Debug.Log($"[GAME START] monthDuration={monthDuration}s | " +
+                  $"Phase1(T11-T1): 0-{monthDuration * 3}s | " +
+                  $"Phase2(T2-T3): {monthDuration * 3}-{monthDuration * 5}s | " +
+                  $"Phase3(T4): {monthDuration * 5}-{monthDuration * 6}s | " +
+                  $"Total: {monthDuration * 6}s = {monthDuration * 6 / 60f}min");
+
         // Save player start position for potential reset.
         // Lưu vị trí bắt đầu của người chơi để reset nếu cần.
         if (!_playerStartSaved && player)
@@ -655,9 +704,20 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         _cachedPhase = phase;
         _currentPhase = phase;
         
-        // Set salinity: 0 = rainy (fresh), 1 = dry (salty).
-        // Đặt độ mặn: 0 = mưa (ngọt), 1 = khô (mặn).
-        Saltwater_Intrusion = (phase == SeasonPhase.Dry) ? 1f : 0f;
+        // Set salinity per phase:
+        //   Rainy1 (Phase 1, T11-T1) = 0.0 (low)
+        //   Dry    (Phase 2, T2-T3)  = 0.5 (medium)
+        //   Rainy2 (Phase 3, T4)     = 1.0 (high)
+        // Đặt độ mặn theo giai đoạn:
+        //   Rainy1 (GĐ 1, T11-T1) = 0.0 (thấp)
+        //   Dry    (GĐ 2, T2-T3)  = 0.5 (trung bình)
+        //   Rainy2 (GĐ 3, T4)     = 1.0 (cao)
+        if (phase == SeasonPhase.Rainy1)
+            Saltwater_Intrusion = 0f;
+        else if (phase == SeasonPhase.Dry)
+            Saltwater_Intrusion = 0.5f;
+        else // Rainy2 = Phase 3
+            Saltwater_Intrusion = 1f;
         
         // Notify all listeners about phase change.
         // Thông báo cho tất cả listener về thay đổi phase.
