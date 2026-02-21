@@ -73,7 +73,7 @@ MonoBehaviour:
   salinityText: {fileID: 5643087774168859447}
   warningIcon: {fileID: 2524831333307349545}
   harvestInteractable: {fileID: 0}
-  destroyDelaySeconds: 90
+  destroyDelaySeconds: 180
   plantAnimator: {fileID: 0}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -85,7 +85,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 570542172198841271}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}

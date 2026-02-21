@@ -276,7 +276,13 @@ MonoBehaviour:
   collectSound: {fileID: 0}
   bagTag: Bag
   grabOffset: {x: 0, y: -0.2, z: 0.1}
-  grabScale: 0.3
+  grabScale: 0.6
+  fishingDuration: 5
+  struggleIntensity: 0.15
+  struggleSpeed: 15
+  fishingStartSound: {fileID: 0}
+  catchSuccessSound: {fileID: 0}
+  hapticAmplitude: 0.6
 --- !u!1001 &6006689706193571283
 PrefabInstance:
   m_ObjectHideFlags: 0

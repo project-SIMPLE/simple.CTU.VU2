@@ -248,30 +248,33 @@ public class David_SeasonHUD : MonoBehaviour
     }
     
     // =========================================================================
-    // GetDisplayMonth - Converts game month index (1-12) to calendar month.
-    // GetDisplayMonth - Chuyển đổi chỉ số tháng game (1-12) sang tháng lịch.
+    // GetDisplayMonth - Converts game month index (1-6) to calendar month.
+    // GetDisplayMonth - Chuyển đổi chỉ số tháng game (1-6) sang tháng lịch.
     // 
-    // Game starts at May (5), so gameMonth 1 -> calendar 5, 2 -> 6, ..., 12 -> 4.
-    // Game bắt đầu tháng 5, nên gameMonth 1 -> lịch 5, 2 -> 6, ..., 12 -> 4.
+    // Game displays Nov-Apr, so gameMonth 1 -> calendar 11, 2 -> 12, 3 -> 1, ..., 6 -> 4.
+    // Game hiển thị T11-T4, nên gameMonth 1 -> lịch 11, 2 -> 12, 3 -> 1, ..., 6 -> 4.
     // =========================================================================
     private int GetDisplayMonth(int gameMonth)
     {
-        // Offset by 4 months (May = 5 is 4 months after January = 1)
-        // gameMonth 1 -> (1-1+4) % 12 + 1 = 5 (May)
-        // gameMonth 12 -> (12-1+4) % 12 + 1 = 4 (April)
-        return ((gameMonth - 1 + 4) % 12) + 1;
+        // Offset by 10 months (November = 11 is 10 months after January = 1)
+        // gameMonth 1 -> (1-1+10) % 12 + 1 = 11 (November)
+        // gameMonth 2 -> (2-1+10) % 12 + 1 = 12 (December)
+        // gameMonth 3 -> (3-1+10) % 12 + 1 = 1  (January)
+        // gameMonth 6 -> (6-1+10) % 12 + 1 = 4  (April)
+        return ((gameMonth - 1 + 10) % 12) + 1;
     }
     
     // =========================================================================
     // IsRainySeasonMonth - Returns true if calendar month is in rainy season.
     // IsRainySeasonMonth - Trả về true nếu tháng lịch trong mùa mưa.
     // 
-    // Rainy (Wet) Season: May (5) to October (10).
-    // Dry Season: November (11) to April (4).
-    // Mùa mưa: Tháng 5 - 10. Mùa khô: Tháng 11 - 4.
+    // All displayed months (Nov-Apr) are dry season, so always false.
+    // Tất cả tháng hiển thị (T11-T4) đều là mùa khô, luôn trả về false.
     // =========================================================================
     private bool IsRainySeasonMonth(int calendarMonth)
     {
+        // Nov-Apr are all dry season months.
+        // T11-T4 đều là tháng mùa khô.
         return calendarMonth >= 5 && calendarMonth <= 10;
     }
     
@@ -458,8 +461,8 @@ public class David_SeasonHUD : MonoBehaviour
     {
         if (timeLabel == null) return;
 
-        // Display calendar month number (game starts at May).
-        // Hiển thị số tháng lịch (game bắt đầu từ tháng 5).
+        // Display calendar month number (game displays Nov-Apr).
+        // Hiển thị số tháng lịch (game hiển thị T11-T4).
         var monthText = "Tháng"; // chưa điều chỉnh thay đổi theo ngôn ngữ
         int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
         timeLabel.text = $"{monthText} {displayMonth}";

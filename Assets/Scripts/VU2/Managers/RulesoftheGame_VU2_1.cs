@@ -23,7 +23,7 @@ public enum ScoreFlow
 // - Weather effects (rain particles, skybox)
 // - Water level movement
 // - VR locomotion locking
-// - Month system (12 months overlay)
+// - Month system (6 months overlay: Nov-Apr)
 // 
 // Đây là "bộ não" của game. Nó điều khiển:
 // - Chuyển đổi mùa (Mưa → Khô → Kết thúc)
@@ -31,7 +31,7 @@ public enum ScoreFlow
 // - Hiệu ứng thời tiết (hạt mưa, skybox)
 // - Di chuyển mực nước
 // - Khóa di chuyển VR
-// - Hệ thống tháng (12 tháng overlay)
+// - Hệ thống tháng (6 tháng overlay: T11-T4)
 // =============================================================================
 public class RulesoftheGame_VU2_1 : MonoBehaviour
 {
@@ -99,12 +99,12 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     private static SeasonPhase _cachedPhase = (SeasonPhase)(-1);
 
     // =========================================================================
-    // MONTH SYSTEM (12 months overlay on top of seasons)
-    // HỆ THỐNG THÁNG (12 tháng overlay trên hệ thống mùa)
+    // MONTH SYSTEM (6 months overlay: November - April)
+    // HỆ THỐNG THÁNG (6 tháng overlay: Tháng 11 - Tháng 4)
     // =========================================================================
     
-    // Current month (1-12).
-    // Tháng hiện tại (1-12).
+    // Current month (1-6, maps to calendar Nov-Apr).
+    // Tháng hiện tại (1-6, map sang lịch T11-T4).
     public static int CurrentMonthIndex { get; private set; } = 1;
     
     // Water level percentage (0-100) based on month.
@@ -213,21 +213,21 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     // MONTH SYSTEM CONFIGURATION
     // CẤU HÌNH HỆ THỐNG THÁNG
     // =========================================================================
-    [Header("Month System (12 months)")]
+    [Header("Month System (6 months: Nov-Apr)")]
     [Tooltip("Total game duration in seconds (default 180s = 3 minutes).")]
     public float totalGameDuration = 180f;
     
-    [Tooltip("Duration of each month in seconds (default 15s = 180s/12).")]
-    public float monthDuration = 15f;
+    [Tooltip("Duration of each month in seconds (default 30s = 180s/6).")]
+    public float monthDuration = 30f;
     
-    [Tooltip("Water level (0-100%) for each month. Index 0 = January.")]
-    // Water level table matching real Mekong Delta seasonal patterns.
-    // Bảng mực nước theo mô hình thực tế của Đồng bằng sông Cửu Long.
-    // Jan-Apr: Low (dry season), May-Oct: Rising (rainy), Nov-Dec: Falling.
-    // Tháng 1-4: Thấp (khô), tháng 5-10: Tăng (mưa), tháng 11-12: Giảm.
-    public float[] monthWaterLevels = new float[12]
+    [Tooltip("Water level (0-100%) for each month. Index 0 = November, ..., 5 = April.")]
+    // Water level table matching real Mekong Delta dry season patterns.
+    // Bảng mực nước theo mô hình thực tế mùa khô Đồng bằng sông Cửu Long.
+    // Nov: Falling, Dec-Jan: Low, Feb-Mar: Lowest, Apr: Start rising.
+    // T11: Giảm, T12-T1: Thấp, T2-T3: Thấp nhất, T4: Bắt đầu tăng.
+    public float[] monthWaterLevels = new float[6]
     {
-        40f, 35f, 30f, 25f, 40f, 60f, 80f, 90f, 100f, 85f, 65f, 50f
+        65f, 50f, 40f, 35f, 30f, 25f
     };
 
     [Tooltip("Salinity multiplier when water level is lowest.")]
@@ -417,10 +417,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     // =========================================================================
     private void UpdateMonthAndWaterLevel(float t)
     {
-        // Calculate current month (1-12) based on elapsed time.
-        // Tính tháng hiện tại (1-12) dựa trên thời gian đã trôi qua.
+        // Calculate current month (1-6) based on elapsed time.
+        // Tính tháng hiện tại (1-6) dựa trên thời gian đã trôi qua.
         float safeMonthDuration = Mathf.Max(0.01f, monthDuration);
-        int monthIndex = Mathf.Clamp(Mathf.FloorToInt(t / safeMonthDuration) + 1, 1, 12);
+        int monthIndex = Mathf.Clamp(Mathf.FloorToInt(t / safeMonthDuration) + 1, 1, 6);
 
         // Fire event if month changed.
         // Bắn sự kiện nếu tháng thay đổi.
@@ -430,9 +430,14 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             OnMonthChanged?.Invoke(CurrentMonthIndex);
         }
 
-        // Update water level from lookup table.
-        // Cập nhật mực nước từ bảng tra cứu.
-        float waterLevel = GetWaterLevelForMonth(CurrentMonthIndex);
+        // Smoothly interpolate water level between months for gradual decrease.
+        // Nội suy mượt mực nước giữa các tháng để giảm dần theo thời gian.
+        float progressInMonth = (t / safeMonthDuration) - (monthIndex - 1);  // 0.0 → 1.0 within current month
+        int nextMonthIndex = Mathf.Min(monthIndex + 1, 6);
+        float currentMonthWater = GetWaterLevelForMonth(monthIndex);
+        float nextMonthWater = GetWaterLevelForMonth(nextMonthIndex);
+        float waterLevel = Mathf.Lerp(currentMonthWater, nextMonthWater, progressInMonth);
+
         if (!Mathf.Approximately(waterLevel, CurrentWaterLevelPercent))
         {
             CurrentWaterLevelPercent = waterLevel;
@@ -451,28 +456,29 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
     // =========================================================================
     public float GetWaterLevelForMonth(int monthIndex)
     {
-        if (monthWaterLevels == null || monthWaterLevels.Length < 12)
+        if (monthWaterLevels == null || monthWaterLevels.Length < 6)
         {
             // Fallback to 50% if table is invalid.
             // Dùng 50% nếu bảng không hợp lệ.
             return 50f;
         }
 
-        int idx = Mathf.Clamp(monthIndex, 1, 12) - 1;
+        int idx = Mathf.Clamp(monthIndex, 1, 6) - 1;
         return monthWaterLevels[idx];
     }
 
     // =========================================================================
-    // IsRainyMonth - Checks if month is in rainy season (June-October).
-    // IsRainyMonth - Kiểm tra tháng có trong mùa mưa không (Tháng 6-10).
+    // IsRainyMonth - All 6 months (Nov-Apr) are in dry season, so always false.
+    // IsRainyMonth - Cả 6 tháng (T11-T4) đều trong mùa khô, luôn trả về false.
     // 
     // Note: This is for reference. Salinity still follows time-based phases.
     // Lưu ý: Đây chỉ để tham khảo. Độ mặn vẫn theo pha dựa trên thời gian.
     // =========================================================================
     public bool IsRainyMonth(int monthIndex)
     {
-        int m = Mathf.Clamp(monthIndex, 1, 12);
-        return m >= 6 && m <= 10;
+        // Nov-Apr are all dry season months.
+        // T11-T4 đều là tháng mùa khô.
+        return false;
     }
 
     // =========================================================================

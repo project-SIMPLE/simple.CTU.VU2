@@ -4,13 +4,17 @@
       "info": "THÔNG TIN",
       "name": "Tên",
       "level": "Cấp độ",
-      "score": "Năng suất",
+      "score": "Sản lượng",
       "language": "Ngôn ngữ",
       "playagain": "Chơi lại",
       "setting": "Cài đặt",
       "salinity": "Độ mặn"
     },
-    "gameplay": { "name": "SIMPLE VU2", "level": 1, "score": 0 },
+    "gameplay": {
+      "name": "SIMPLE VU2",
+      "level": 1,
+      "score": 0
+    },
     "interpretation": {
       "fields": {
         "id": "Mã",
@@ -23,16 +27,26 @@
         "status_good": "Tốt",
         "status_sick": "Bệnh",
         "status_dead": "Chết",
-        "productivity": "Năng suất",
+        "productivity": "Sản lượng",
         "base_yield": "Chuẩn",
         "adjusted_yield": "Sau mặn",
         "threshold_label": "Ngưỡng chịu mặn",
         "current_salinity_label": "Độ mặn hiện tại",
         "unit_ppt": "‰"
       },
-      "units": { "growth_time": "ngày" },
-      "status_values": ["Tốt", "Bệnh", "Chết"],
-      "status_text": { "healthy": "Tốt", "diseased": "Bệnh", "dead": "Chết" },
+      "units": {
+        "growth_time": "ngày"
+      },
+      "status_values": [
+        "Tốt",
+        "Bệnh",
+        "Chết"
+      ],
+      "status_text": {
+        "healthy": "Tốt",
+        "diseased": "Bệnh",
+        "dead": "Chết"
+      },
       "templates": {
         "healthy_desc": "{tag} đang {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
         "diseased_desc": "{tag} đang {status} do mặn vượt ngưỡng. {currentLabel}: {current}{unit} > {thresholdLabel}: {threshold}{unit}."
@@ -43,7 +57,11 @@
         "id": 1,
         "tag_name": "Cây sầu riêng",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 4,
         "information": "Thông tin của sầu riêng",
         "salinity_threshold": 0.8,
@@ -53,7 +71,11 @@
         "id": 2,
         "tag_name": "Chuối",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 5,
         "information": "Thông tin của chuối",
         "salinity_threshold": 0.8,
@@ -63,7 +85,11 @@
         "id": 3,
         "tag_name": "Bắp cải",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của bắp cải",
         "salinity_threshold": 1.15,
@@ -73,7 +99,11 @@
         "id": 4,
         "tag_name": "Bắp",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của bắp",
         "salinity_threshold": 1.09,
@@ -83,7 +113,11 @@
         "id": 5,
         "tag_name": "Thanh long",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của thanh long",
         "salinity_threshold": 2,
@@ -93,7 +127,11 @@
         "id": 6,
         "tag_name": "Ổi",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
         "salinity_threshold": 3.01,
@@ -103,7 +141,11 @@
         "id": 7,
         "tag_name": "Lúa",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 4,
         "information": "Thông tin của lúa",
         "salinity_threshold": 1.92,
@@ -113,7 +155,11 @@
         "id": 8,
         "tag_name": "Mía",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của mía",
         "salinity_threshold": 12,
@@ -123,7 +169,11 @@
         "id": 9,
         "tag_name": "Cam",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của cam",
         "salinity_threshold": 0.83,
@@ -133,7 +183,11 @@
         "id": 10,
         "tag_name": "Dừa",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của dừa",
         "salinity_threshold": 0.8,
@@ -143,7 +197,11 @@
         "id": 11,
         "tag_name": "Chuối",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của chuối",
         "salinity_threshold": 12,
@@ -153,7 +211,11 @@
         "id": 12,
         "tag_name": "Ổi",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của ổi",
         "salinity_threshold": 12,
@@ -163,7 +225,11 @@
         "id": 13,
         "tag_name": "Xoài",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của xoài",
         "salinity_threshold": 12,
@@ -175,7 +241,11 @@
         "id": 1,
         "tag_name": "Bò",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của bò",
         "salinity_threshold": 0.5,
@@ -185,7 +255,11 @@
         "id": 2,
         "tag_name": "Heo",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 4,
         "information": "Thông tin của heo",
         "salinity_threshold": 0.5,
@@ -195,7 +269,11 @@
         "id": 3,
         "tag_name": "Gà",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của gà",
         "salinity_threshold": 0.5,
@@ -205,7 +283,11 @@
         "id": 4,
         "tag_name": "Vịt",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của vịt",
         "salinity_threshold": 1,
@@ -215,7 +297,11 @@
         "id": 5,
         "tag_name": "Thỏ",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của thỏ",
         "salinity_threshold": 12,
@@ -225,7 +311,11 @@
         "id": 6,
         "tag_name": "Dê",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của dê",
         "salinity_threshold": 12,
@@ -237,7 +327,11 @@
         "id": 1,
         "tag_name": "Cá lóc",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 4,
         "information": "Thông tin của cá lóc",
         "salinity_threshold": 3,
@@ -247,7 +341,11 @@
         "id": 2,
         "tag_name": "Cá điêu hồng",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của cá điêu hồng",
         "salinity_threshold": 2.5,
@@ -257,7 +355,11 @@
         "id": 3,
         "tag_name": "Cá rô phi",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của cá rô phi",
         "salinity_threshold": 0.5,
@@ -267,7 +369,11 @@
         "id": 4,
         "tag_name": "Cá chép",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 2,
         "information": "Thông tin của cá chép",
         "salinity_threshold": 2,
@@ -277,7 +383,11 @@
         "id": 5,
         "tag_name": "Tôm sú",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 5,
         "information": "Thông tin của tôm sú",
         "salinity_threshold": 15,
@@ -287,7 +397,11 @@
         "id": 6,
         "tag_name": "Tôm càng xanh",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của tôm càng xanh",
         "salinity_threshold": 2,
@@ -297,7 +411,11 @@
         "id": 7,
         "tag_name": "Nghêu",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của nghêu",
         "salinity_threshold": 2,
@@ -307,7 +425,11 @@
         "id": 6,
         "tag_name": "Cua biển",
         "growth_time": 0,
-        "status": ["Tốt", "Bệnh", "Chết"],
+        "status": [
+          "Tốt",
+          "Bệnh",
+          "Chết"
+        ],
         "economic_benefits": 3,
         "information": "Thông tin của cua biển",
         "salinity_threshold": 2,
@@ -409,8 +531,16 @@
       "units": {
         "growth_time": "days"
       },
-      "status_values": ["Good", "Sick", "Dead"],
-      "status_text": { "healthy": "Good", "diseased": "Sick", "dead": "Dead" },
+      "status_values": [
+        "Good",
+        "Sick",
+        "Dead"
+      ],
+      "status_text": {
+        "healthy": "Good",
+        "diseased": "Sick",
+        "dead": "Dead"
+      },
       "templates": {
         "healthy_desc": "{tag} is {status}. {currentLabel}: {current}{unit} | {thresholdLabel}: {threshold}{unit}.",
         "diseased_desc": "{tag} is {status} due to salinity exceeding the threshold. {currentLabel}: {current}{unit} > {thresholdLabel}: {threshold}{unit}."
@@ -421,7 +551,11 @@
         "id": 1,
         "tag_name": "Durian",
         "growth_time": 100,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 4,
         "information": "Information about durian",
         "salinity_threshold": 0.8,
@@ -431,7 +565,11 @@
         "id": 2,
         "tag_name": "Banana",
         "growth_time": 40,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about banana",
         "salinity_threshold": 0.8,
@@ -441,7 +579,11 @@
         "id": 3,
         "tag_name": "Cabbage",
         "growth_time": 60,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about cabbage",
         "salinity_threshold": 1.15,
@@ -451,7 +593,11 @@
         "id": 4,
         "tag_name": "Corn",
         "growth_time": 70,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about corn",
         "salinity_threshold": 1.09,
@@ -461,7 +607,11 @@
         "id": 5,
         "tag_name": "Dragon fruit",
         "growth_time": 180,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about dragon fruit",
         "salinity_threshold": 2,
@@ -471,7 +621,11 @@
         "id": 6,
         "tag_name": "Guava",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about guava",
         "salinity_threshold": 12,
@@ -481,7 +635,11 @@
         "id": 7,
         "tag_name": "Rice",
         "growth_time": 80,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 4,
         "information": "Information about rice",
         "salinity_threshold": 1.92,
@@ -491,7 +649,11 @@
         "id": 8,
         "tag_name": "Sugarcane",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about sugarcane",
         "salinity_threshold": 12,
@@ -501,7 +663,11 @@
         "id": 9,
         "tag_name": "Orange",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about orange",
         "salinity_threshold": 12,
@@ -511,7 +677,11 @@
         "id": 10,
         "tag_name": "Coconut",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about coconut",
         "salinity_threshold": 12,
@@ -521,7 +691,11 @@
         "id": 11,
         "tag_name": "Banana",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about banana",
         "salinity_threshold": 12,
@@ -531,7 +705,11 @@
         "id": 12,
         "tag_name": "Guava",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about Guava",
         "salinity_threshold": 12,
@@ -541,7 +719,11 @@
         "id": 13,
         "tag_name": "Mango",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about Mango",
         "salinity_threshold": 12,
@@ -553,7 +735,11 @@
         "id": 1,
         "tag_name": "Cow",
         "growth_time": 180,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about cow",
         "salinity_threshold": 0.5,
@@ -563,7 +749,11 @@
         "id": 2,
         "tag_name": "Pig",
         "growth_time": 140,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 4,
         "information": "Information about pig",
         "salinity_threshold": 0.5,
@@ -573,7 +763,11 @@
         "id": 3,
         "tag_name": "Chicken",
         "growth_time": 120,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about chicken",
         "salinity_threshold": 0.5,
@@ -583,7 +777,11 @@
         "id": 4,
         "tag_name": "Duck",
         "growth_time": 110,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about duck",
         "salinity_threshold": 1,
@@ -593,7 +791,11 @@
         "id": 5,
         "tag_name": "Rabbit",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about rabbit",
         "salinity_threshold": 12,
@@ -603,7 +805,11 @@
         "id": 6,
         "tag_name": "Goat",
         "growth_time": 160,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about goat",
         "salinity_threshold": 12,
@@ -615,7 +821,11 @@
         "id": 1,
         "tag_name": "Snake head fish",
         "growth_time": 100,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 4,
         "information": "Information about snake head fish",
         "salinity_threshold": 3,
@@ -625,7 +835,11 @@
         "id": 2,
         "tag_name": "Red tilapia",
         "growth_time": 110,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about red tilapia",
         "salinity_threshold": 2.5,
@@ -635,7 +849,11 @@
         "id": 3,
         "tag_name": "Tilapia",
         "growth_time": 80,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about tilapia",
         "salinity_threshold": 0.5,
@@ -645,7 +863,11 @@
         "id": 4,
         "tag_name": "Carp",
         "growth_time": 120,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 2,
         "information": "Information about carp",
         "salinity_threshold": 2,
@@ -655,7 +877,11 @@
         "id": 5,
         "tag_name": "Giant tiger prawn",
         "growth_time": 110,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 5,
         "information": "Information about giant tiger prawn",
         "salinity_threshold": 15,
@@ -665,7 +891,11 @@
         "id": 6,
         "tag_name": "Freshwater prawn",
         "growth_time": 100,
-        "status": ["Good", "Sick", "Dead"],
+        "status": [
+          "Good",
+          "Sick",
+          "Dead"
+        ],
         "economic_benefits": 3,
         "information": "Information about freshwater prawn",
         "salinity_threshold": 2,
@@ -691,8 +921,7 @@
       }
     ]
   },
-
-  "fr":{
+  "fr": {
     "labels": {
       "info": "INFO",
       "name": "Nom",
@@ -754,7 +983,11 @@
         "id": 1,
         "tag_name": "Durian",
         "growth_time": 20,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 4,
         "information": "Informations sur le durian",
         "salinity_threshold": 0.8,
@@ -764,7 +997,11 @@
         "id": 2,
         "tag_name": "Banane",
         "growth_time": 40,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 2,
         "information": "Informations sur la banane",
         "salinity_threshold": 0.8,
@@ -774,7 +1011,11 @@
         "id": 3,
         "tag_name": "Chou",
         "growth_time": 60,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 2,
         "information": "Informations sur le chou",
         "salinity_threshold": 1.15,
@@ -784,7 +1025,11 @@
         "id": 4,
         "tag_name": "Maïs",
         "growth_time": 70,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur le maïs",
         "salinity_threshold": 1.09,
@@ -794,7 +1039,11 @@
         "id": 5,
         "tag_name": "Fruit du dragon",
         "growth_time": 180,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 2,
         "information": "Informations sur le fruit du dragon",
         "salinity_threshold": 2,
@@ -804,7 +1053,11 @@
         "id": 6,
         "tag_name": "Goyave",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la goyave",
         "salinity_threshold": 12,
@@ -814,7 +1067,11 @@
         "id": 7,
         "tag_name": "Riz",
         "growth_time": 80,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 4,
         "information": "Informations sur le riz",
         "salinity_threshold": 1.92,
@@ -824,7 +1081,11 @@
         "id": 8,
         "tag_name": "Canne à sucre",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la canne à sucre",
         "salinity_threshold": 12,
@@ -834,7 +1095,11 @@
         "id": 9,
         "tag_name": "Orange",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur l'orange",
         "salinity_threshold": 12,
@@ -844,7 +1109,11 @@
         "id": 10,
         "tag_name": "Noix de coco",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la noix de coco",
         "salinity_threshold": 12,
@@ -854,7 +1123,11 @@
         "id": 11,
         "tag_name": "Banane",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la banane",
         "salinity_threshold": 12,
@@ -864,7 +1137,11 @@
         "id": 12,
         "tag_name": "Goyave",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la goyave",
         "salinity_threshold": 12,
@@ -874,7 +1151,11 @@
         "id": 13,
         "tag_name": "Mangue",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la mangue",
         "salinity_threshold": 12,
@@ -886,7 +1167,11 @@
         "id": 1,
         "tag_name": "Vache",
         "growth_time": 180,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la vache",
         "salinity_threshold": 0.5,
@@ -896,7 +1181,11 @@
         "id": 2,
         "tag_name": "Cochon",
         "growth_time": 140,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 4,
         "information": "Informations sur le cochon",
         "salinity_threshold": 0.5,
@@ -906,7 +1195,11 @@
         "id": 3,
         "tag_name": "Poulet",
         "growth_time": 120,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 2,
         "information": "Informations sur le poulet",
         "salinity_threshold": 0.5,
@@ -916,7 +1209,11 @@
         "id": 4,
         "tag_name": "Canard",
         "growth_time": 110,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur le canard",
         "salinity_threshold": 1,
@@ -926,7 +1223,11 @@
         "id": 5,
         "tag_name": "Lapin",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur le lapin",
         "salinity_threshold": 12,
@@ -936,7 +1237,11 @@
         "id": 6,
         "tag_name": "Chèvre",
         "growth_time": 160,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la chèvre",
         "salinity_threshold": 12,
@@ -948,7 +1253,11 @@
         "id": 1,
         "tag_name": "Poisson tête de serpent",
         "growth_time": 100,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 4,
         "information": "Informations sur le poisson tête de serpent",
         "salinity_threshold": 3,
@@ -958,7 +1267,11 @@
         "id": 2,
         "tag_name": "Tilapia rouge",
         "growth_time": 110,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur le tilapia rouge",
         "salinity_threshold": 2.5,
@@ -968,7 +1281,11 @@
         "id": 3,
         "tag_name": "Tilapia",
         "growth_time": 80,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur le tilapia",
         "salinity_threshold": 0.5,
@@ -978,7 +1295,11 @@
         "id": 4,
         "tag_name": "Carpe",
         "growth_time": 120,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 2,
         "information": "Informations sur la carpe",
         "salinity_threshold": 2,
@@ -988,7 +1309,11 @@
         "id": 5,
         "tag_name": "Crevette géante",
         "growth_time": 110,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 5,
         "information": "Informations sur la crevette géante",
         "salinity_threshold": 15,
@@ -998,7 +1323,11 @@
         "id": 6,
         "tag_name": "Crevette d'eau douce",
         "growth_time": 100,
-        "status": ["Bon", "Malade", "Mort"],
+        "status": [
+          "Bon",
+          "Malade",
+          "Mort"
+        ],
         "economic_benefits": 3,
         "information": "Informations sur la crevette d'eau douce",
         "salinity_threshold": 2,
@@ -1047,9 +1376,8 @@
         ]
       }
     ]
-      
   },
-  "th":{
+  "th": {
     "labels": {
       "info": "ข้อมูล",
       "name": "ชื่อ",
@@ -1107,11 +1435,15 @@
       ]
     },
     "plants": [
-     { 
-      "id": 1,
+      {
+        "id": 1,
         "tag_name": "ทุเรียน",
         "growth_time": 20,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 4,
         "information": "ข้อมูลเกี่ยวกับทุเรียน",
         "salinity_threshold": 0.8,
@@ -1121,7 +1453,11 @@
         "id": 2,
         "tag_name": "กล้วย",
         "growth_time": 40,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 2,
         "information": "ข้อมูลเกี่ยวกับกล้วย",
         "salinity_threshold": 0.8,
@@ -1131,7 +1467,11 @@
         "id": 3,
         "tag_name": "กะหล่ำปลี",
         "growth_time": 60,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 2,
         "information": "ข้อมูลเกี่ยวกับกะหล่ำปลี",
         "salinity_threshold": 1.15,
@@ -1141,7 +1481,11 @@
         "id": 4,
         "tag_name": "ข้าวโพด",
         "growth_time": 70,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับข้าวโพด",
         "salinity_threshold": 1.09,
@@ -1151,7 +1495,11 @@
         "id": 5,
         "tag_name": "แก้วมังกร",
         "growth_time": 180,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 2,
         "information": "ข้อมูลเกี่ยวกับแก้วมังกร",
         "salinity_threshold": 2,
@@ -1161,7 +1509,11 @@
         "id": 6,
         "tag_name": "ฝรั่ง",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับฝรั่ง",
         "salinity_threshold": 12,
@@ -1171,7 +1523,11 @@
         "id": 7,
         "tag_name": "ข้าว",
         "growth_time": 80,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 4,
         "information": "ข้อมูลเกี่ยวกับข้าว",
         "salinity_threshold": 1.92,
@@ -1181,7 +1537,11 @@
         "id": 8,
         "tag_name": "อ้อย",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับอ้อย",
         "salinity_threshold": 12,
@@ -1191,7 +1551,11 @@
         "id": 9,
         "tag_name": "ส้ม",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับส้ม",
         "salinity_threshold": 12,
@@ -1201,7 +1565,11 @@
         "id": 10,
         "tag_name": "มะพร้าว",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับมะพร้าว",
         "salinity_threshold": 12,
@@ -1211,7 +1579,11 @@
         "id": 11,
         "tag_name": "กล้วย",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับกล้วย",
         "salinity_threshold": 12,
@@ -1221,7 +1593,11 @@
         "id": 12,
         "tag_name": "ฝรั่ง",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับฝรั่ง",
         "salinity_threshold": 12,
@@ -1231,7 +1607,11 @@
         "id": 13,
         "tag_name": "มะม่วง",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับมะม่วง",
         "salinity_threshold": 12,
@@ -1243,7 +1623,11 @@
         "id": 1,
         "tag_name": "วัว",
         "growth_time": 180,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับวัว",
         "salinity_threshold": 0.5,
@@ -1253,7 +1637,11 @@
         "id": 2,
         "tag_name": "หมู",
         "growth_time": 140,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 4,
         "information": "ข้อมูลเกี่ยวกับหมู",
         "salinity_threshold": 0.5,
@@ -1263,7 +1651,11 @@
         "id": 3,
         "tag_name": "ไก่",
         "growth_time": 120,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 2,
         "information": "ข้อมูลเกี่ยวกับไก่",
         "salinity_threshold": 0.5,
@@ -1273,7 +1665,11 @@
         "id": 4,
         "tag_name": "เป็ด",
         "growth_time": 110,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับเป็ด",
         "salinity_threshold": 1,
@@ -1283,7 +1679,11 @@
         "id": 5,
         "tag_name": "กระต่าย",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับกระต่าย",
         "salinity_threshold": 12,
@@ -1293,7 +1693,11 @@
         "id": 6,
         "tag_name": "แพะ",
         "growth_time": 160,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับแพะ",
         "salinity_threshold": 12,
@@ -1305,7 +1709,11 @@
         "id": 1,
         "tag_name": "ปลาช่อน",
         "growth_time": 100,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 4,
         "information": "ข้อมูลเกี่ยวกับปลาช่อน",
         "salinity_threshold": 3,
@@ -1315,7 +1723,11 @@
         "id": 2,
         "tag_name": "ปลาทับทิม",
         "growth_time": 110,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับปลาทับทิม",
         "salinity_threshold": 2.5,
@@ -1325,7 +1737,11 @@
         "id": 3,
         "tag_name": "ปลาร็อปี้",
         "growth_time": 80,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับปลาร็อปี้",
         "salinity_threshold": 0.5,
@@ -1335,7 +1751,11 @@
         "id": 4,
         "tag_name": "ปลาคาร์พ",
         "growth_time": 120,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 2,
         "information": "ข้อมูลเกี่ยวกับปลาคาร์พ",
         "salinity_threshold": 2,
@@ -1345,7 +1765,11 @@
         "id": 5,
         "tag_name": "กุ้งก้ามกราม",
         "growth_time": 110,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 5,
         "information": "ข้อมูลเกี่ยวกับกุ้งก้ามกราม",
         "salinity_threshold": 15,
@@ -1355,7 +1779,11 @@
         "id": 6,
         "tag_name": "กุ้งฝอย",
         "growth_time": 100,
-        "status": ["ดี", "ป่วย", "ตาย"],
+        "status": [
+          "ดี",
+          "ป่วย",
+          "ตาย"
+        ],
         "economic_benefits": 3,
         "information": "ข้อมูลเกี่ยวกับกุ้งฝอย",
         "salinity_threshold": 2,
@@ -1392,9 +1820,5 @@
         ]
       }
     ]
-
-
-
-
   }
 }

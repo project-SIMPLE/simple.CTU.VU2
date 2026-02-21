@@ -78,6 +78,16 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5017003387094958026, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4322830128924939523, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4034609936193187201, guid: 5723878903d793644bdfc0853b75d7c9,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -112,6 +122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PFB_DurianTree (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5258269959519111622, guid: 5723878903d793644bdfc0853b75d7c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7253492200660984818, guid: 5723878903d793644bdfc0853b75d7c9,
         type: 3}
@@ -208,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -570,6 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -951,6 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
