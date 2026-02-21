@@ -118038,7 +118038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &939097966
 RectTransform:
   m_ObjectHideFlags: 0
@@ -126187,6 +126187,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 1573405099}
   rowPrefab: {fileID: 1026360658}
+  tableFont: {fileID: 0}
+  bodyFontSize: 20
+  headerFontSize: 22
+  headerBgColor: {r: 0.15, g: 0.35, b: 0.65, a: 1}
+  headerTextColor: {r: 1, g: 1, b: 1, a: 1}
+  bodyTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  evenRowColor: {r: 0.92, g: 0.95, b: 1, a: 1}
+  oddRowColor: {r: 1, g: 1, b: 1, a: 1}
+  gridLineColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  dataRowHeight: 70
+  headerRowHeight: 45
 --- !u!114 &1032823387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179256,7 +179267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1513679938
 RectTransform:
   m_ObjectHideFlags: 0

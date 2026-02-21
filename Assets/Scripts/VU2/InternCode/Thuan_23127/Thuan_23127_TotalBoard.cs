@@ -127,8 +127,15 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // =========================================================================
     private void Rebuild()
     {
-        if (!RulesoftheGame_VU2_1.GameActive && _createdObjects.Count > 0) return;
-        if (!content) return;
+        // Allow rebuild when game ends (for final summary display).
+        // Cho phép rebuild khi game kết thúc (để hiển thị tổng kết).
+        if (!content)
+        {
+            Debug.LogWarning("[TotalBoard] Rebuild() skipped: content is null!");
+            return;
+        }
+
+        Debug.Log($"[TotalBoard] Rebuild() STARTED. content={content.name}, GameActive={RulesoftheGame_VU2_1.GameActive}");
 
         // Clear all previously created objects.
         // Xóa tất cả objects đã tạo trước đó.
@@ -154,9 +161,13 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         // Get 3-phase data.
         // Lấy dữ liệu 3 giai đoạn.
         var summary = Thuan_23127_SeasonalSummary.Instance;
+        Debug.Log($"[TotalBoard] SeasonalSummary.Instance = {(summary != null ? "EXISTS" : "NULL")}");
+
         var data = summary
             ? summary.GetAllPhaseData()
             : new List<(Sprite, int[], int[])>();
+
+        Debug.Log($"[TotalBoard] Data rows count = {data.Count}");
 
         // ── Build header row ──
         // ── Xây dựng hàng tiêu đề ──
@@ -167,9 +178,14 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         int rowIdx = 0;
         foreach (var (icon, scores, counts) in data)
         {
+            Debug.Log($"[TotalBoard] Row {rowIdx}: icon={(icon != null ? icon.name : "null")}, " +
+                      $"scores=[{scores[0]},{scores[1]},{scores[2]}], " +
+                      $"counts=[{counts[0]},{counts[1]},{counts[2]}]");
             BuildDataRow(icon, scores, counts, rowIdx);
             rowIdx++;
         }
+
+        Debug.Log($"[TotalBoard] Rebuild() COMPLETED. Total created objects = {_createdObjects.Count}");
     }
 
     // =========================================================================
@@ -305,9 +321,28 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         var le = cell.AddComponent<LayoutElement>();
         le.flexibleWidth = flexibleWidth;
 
+        // Add outline for readability (on cell Image).
+        // Thêm outline để dễ đọc (trên Image ô).
+        var outline = cell.AddComponent<Outline>();
+        outline.effectColor = gridLineColor;
+        outline.effectDistance = new Vector2(0.5f, 0.5f);
+
+        // Text on a child object (Unity only allows one Graphic per GameObject).
+        // Text trên object con (Unity chỉ cho phép 1 Graphic mỗi GameObject).
+        var textGo = new GameObject("Text", typeof(RectTransform));
+        textGo.transform.SetParent(cell.transform, false);
+
+        // Stretch text to fill entire cell.
+        // Kéo giãn text để lấp đầy toàn bộ ô.
+        var textRT = textGo.GetComponent<RectTransform>();
+        textRT.anchorMin = Vector2.zero;
+        textRT.anchorMax = Vector2.one;
+        textRT.offsetMin = Vector2.zero;
+        textRT.offsetMax = Vector2.zero;
+
         // Text component.
         // Component text.
-        var txt = cell.AddComponent<Text>();
+        var txt = textGo.AddComponent<Text>();
         txt.text = text;
         txt.font = tableFont;
         txt.fontSize = size;
@@ -317,12 +352,6 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         txt.horizontalOverflow = HorizontalWrapMode.Wrap;
         txt.verticalOverflow = VerticalWrapMode.Overflow;
         txt.resizeTextForBestFit = false;
-
-        // Add outline for readability.
-        // Thêm outline để dễ đọc.
-        var outline = cell.AddComponent<Outline>();
-        outline.effectColor = gridLineColor;
-        outline.effectDistance = new Vector2(0.5f, 0.5f);
 
         return cell;
     }
