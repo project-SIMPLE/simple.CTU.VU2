@@ -12804,6 +12804,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -51989,6 +51994,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -57338,6 +57348,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Coconut (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
@@ -66647,6 +66662,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -74117,6 +74137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -78975,6 +79000,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Coconut (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
@@ -91774,6 +91804,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -91894,6 +91929,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Coconut (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
@@ -128910,6 +128950,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
       propertyPath: m_InteractionManager
@@ -158380,6 +158425,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Coconut (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -185815,6 +185865,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Coconut (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762401236380198163, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9097025977022423434, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
         type: 3}
