@@ -34,28 +34,68 @@
 
 | Phase / Pha | Time / Thời gian | Salinity / Độ mặn | Description / Mô tả |
 |-------------|-------------------|--------------------|----------------------|
-| 🌧 Rainy / Mùa Mưa | 0 – 90s | Low / Thấp (0.3‰) | Best for freshwater crops / Tốt nhất cho cây nước ngọt |
-| ☀️ Dry / Mùa Khô | 90 – 180s | High / Cao (1.5‰) | Saltwater fish thrive / Cá nước lợ phát triển tốt |
+| 🌧 Rainy / Mùa Mưa | 0 – 90s | Low / Thấp (`salinityBase × 0.3`) | Best for freshwater crops / Tốt nhất cho cây nước ngọt |
+| ☀️ Dry / Mùa Khô | 90 – 180s | High / Cao (`salinityBase × 1.5`) | Saltwater fish thrive / Cá nước lợ phát triển tốt |
 | 🏁 End / Kết thúc | >180s | — | Score summary / Tổng kết điểm |
+
+> **EN:** Default `salinityBase = 1.0`, giving Rainy = 0.3‰ and Dry = 1.5‰ (configurable in `Thuan_23127_GameManager`).  
+> **VI:** Mặc định `salinityBase = 1.0`, cho Mưa = 0.3‰ và Khô = 1.5‰ (có thể chỉnh trong `Thuan_23127_GameManager`).
 
 ### Score Table / Bảng điểm
 
-| Product / Sản phẩm | Fresh+Rainy | Fresh+Dry | Salt+Rainy | Salt+Dry |
-|---------------------|-------------|-----------|------------|----------|
+> Source / Nguồn: `David_Fruit.cs → GetTableScore()`
+
+| Product / Sản phẩm | 🌧 Fresh+Rainy | ☀️ Fresh+Dry | 🌧 Salt+Rainy | ☀️ Salt+Dry |
+|---------------------|:--------------:|:------------:|:-------------:|:-----------:|
 | 🌳 Durian / Sầu riêng | **100** | 80 | 60 | **-40** |
 | 🥥 Coconut / Dừa | **100** | 80 | 60 | 50 |
 | 🐟 Fish / Cá | 10 | 20 | 30 | **40** |
 | 🦐 Shrimp / Tôm | 20 | 20 | 20 | 20 |
 | 🌾 Rice / Lúa | 60 | **-20** | 40 | 20 |
+| 🥚 Egg / Trứng | **3** (fixed / cố định, no zone modifier) | | | |
 
 > **EN:** Negative scores mean crop failure — the plant dies due to excessive salinity.  
 > **VI:** Điểm âm nghĩa là thất bại mùa vụ — cây chết do độ mặn quá cao.
 
+### Special Rules / Luật đặc biệt
+
+| Rule / Luật | Detail / Chi tiết |
+|-------------|-------------------|
+| 🌳 Durian — Dry Season Lock | **Cannot be harvested** in Dry season (`Saltwater_Intrusion ≥ 1`). Fruit disappears from tree. / **Không thể thu hoạch** vào mùa Khô. Quả sẽ biến mất trên cây. |
+| 🦐 Shrimp (Fish ID 5,6) — Zone Lock | 0 points if placed in **Fresh** water zone / 0 điểm nếu đặt trong vùng **nước Ngọt** |
+| 🐟 Red Tilapia (Fish ID 2) — Zone Lock | 0 points if placed in **Salt** water zone / 0 điểm nếu đặt trong vùng **nước Mặn** |
+| 🐓 Chicken (Animal ID 3) — Scaled Score | Score = `base × percent` (Fresh+Rainy: 85%, Fresh+Dry: 80%, Salt+Rainy: 75%, Salt+Dry: 60%) |
+| 🐟 All Fish via PlantGrowth | Fish scored through `PlantGrowth`: Fresh+Rainy: 1pt, Fresh+Dry: 2pt, Salt+Rainy: 3pt, Salt+Dry: 4pt |
+
+### Scoring Mechanics / Cơ chế tính điểm
+
+**Primary path (tree fruits, shrimp, rice):** `David_Fruit.CollectFruit()` → `GetTableScore()` → fixed table above.
+
+**Secondary path (planted crops/animals/fish via FarmArea):** `Thuan_23127_PlantGrowth.FinalizeHarvest()` → `GetTableBasedScore()`.  
+If entity is not in the table, falls back to threshold formula:
+```
+score = baseValue × Clamp01(salinity_threshold / current_salinity)
+```
+*(score is reduced proportionally when salinity exceeds entity's threshold)*
+
+### VR Harvest Mechanics / Cơ chế thu hoạch VR
+
+| Item / Vật phẩm | Method / Cách thu hoạch |
+|-----------------|-------------------------|
+| 🌳 Durian / Sầu riêng | Shake tree → fruit falls → grab → put in bag |
+| 🥥 Coconut / Dừa | Shake tree → fruit falls → grab → put in bag |
+| 🌾 Rice / Lúa | Use Sickle tool → cut rice → collect stalks |
+| 🐟 Fish / Cá | Use Fishing Net → swing into pond |
+| 🦐 Shrimp / Tôm | Grab shrimp pole → hold 5s (struggle animation) → release to catch |
+| 🥚 Egg / Trứng | Grab egg from nest → put in bag (3 pts fixed) |
+| 🐓 Chicken / Gà | Auto-harvest via PlantGrowth lifecycle |
+
 ### Strategy / Chiến lược
 
-- **Rainy / Mưa:** Plant Durian & Coconut in freshwater zones → 100 pts
-- **Dry / Khô:** Farm Fish in saltwater zones → 40 pts
-- **Avoid / Tránh:** Durian in Salt+Dry (-40), Rice in Fresh+Dry (-20)
+- **Rainy / Mưa:** Plant Durian & Coconut in freshwater zones → **100 pts each**
+- **Dry / Khô:** Farm Fish/Crab in saltwater zones → **40 pts each**
+- **Avoid / Tránh:** Durian in Salt+Dry (−40), Rice in Fresh+Dry (−20)
+- **Tip / Mẹo:** Shrimp is zone-free (always 20 pts) — safe baseline investment
 
 ---
 

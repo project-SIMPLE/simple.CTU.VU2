@@ -13024,6 +13024,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 615013728}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -14706,6 +14707,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1400608622}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -42904,6 +42906,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1071587356}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -45765,6 +45768,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2093222869}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -57268,6 +57272,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 425256548}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -57913,6 +57918,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 193966110}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -61993,6 +61999,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1511998616}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -62241,6 +62248,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 517610664}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -67442,6 +67450,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1958852141}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -74680,6 +74689,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1251532286}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -116377,6 +116387,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 127750554}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -154097,6 +154108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1228847212}
+  - component: {fileID: 1228847213}
   m_Layer: 5
   m_Name: salinty
   m_TagString: Untagged
@@ -154126,6 +154138,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1228847213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228847211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffaab4ff39538648a6f6870135516c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  salinitySlider: {fileID: 0}
+  labelText: {fileID: 0}
+  valueText: {fileID: 0}
+  salinityFill: {fileID: 0}
+  maxSalinityPpt: 4
+  label: "\u0110\u1ED9 m\u1EB7n"
 --- !u!1001 &1229621378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162156,6 +162186,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1085519446}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -171008,6 +171039,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1940317955}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -174707,6 +174739,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2046061857}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -178066,7 +178099,7 @@ MonoBehaviour:
   GameUIRoot: {fileID: 387794043}
   scoringMode: 1
   totalGameDuration: 180
-  monthDuration: 10
+  monthDuration: 30
   monthWaterLevels:
   - 40
   - 35
@@ -178419,7 +178452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonReader: {fileID: 1501849108}
-  salinityBase: 1
+  salinityBase: 4
   rainyFactor: 0.3
   dryFactor: 1.5
   audioSource: {fileID: 1501849109}
@@ -201746,6 +201779,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2095703763}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -204506,6 +204540,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 239248855}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -221624,6 +221659,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1089442106}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0

@@ -134,7 +134,7 @@ public class David_SeasonHUD : MonoBehaviour
     [Tooltip("Maximum salinity for slider calculation (unit: ‰)")]
     // Used to convert salinity value to slider percentage.
     // Dùng để chuyển đổi giá trị độ mặn thành phần trăm slider.
-    public float maxSalinity = 5f;
+    public float maxSalinity = 4f;
     
     // =========================================================================
     // LOCALIZATION
@@ -424,6 +424,10 @@ public class David_SeasonHUD : MonoBehaviour
         if (insideSalinitySlider != null) insideSalinitySlider.value = targetInsideSlider;
         if (outsideSalinitySlider != null) outsideSalinitySlider.value = targetOutsideSlider;
         UpdateDynamicValues(targetWater * 100f, targetInsideReal, targetOutsideReal, isRainy);
+
+        // BUG FIX: Clear coroutine reference so LateUpdate live-update can resume.
+        // Xóa tham chiếu coroutine để live-update trong LateUpdate có thể chạy lại.
+        _animationCoroutine = null;
     }
     
     // =========================================================================
@@ -514,8 +518,8 @@ public class David_SeasonHUD : MonoBehaviour
     }
     
     // =========================================================================
-    // LateUpdate - Updates time slider every frame.
-    // LateUpdate - Cập nhật time slider mỗi frame.
+    // LateUpdate - Updates time slider and salinity sliders every frame.
+    // LateUpdate - Cập nhật time slider và salinity slider mỗi frame.
     //
     // Runs after Update() to ensure timeRemaining is current.
     // Chạy sau Update() để đảm bảo timeRemaining đã cập nhật.
@@ -525,38 +529,59 @@ public class David_SeasonHUD : MonoBehaviour
         // Force water level fill to blue every frame.
         // Bắt buộc fill mực nước luôn xanh dương.
         if (waterLevelFill != null) waterLevelFill.color = new Color(0.2f, 0.5f, 1f, 1f);
-        
+
+        // =====================================================================
+        // LIVE SALINITY UPDATE — always runs every frame, independent of timeSlider.
+        // CẬP NHẬT ĐỘ MẶN TRỰC TIẾP — luôn chạy mỗi frame, độc lập với timeSlider.
+        //
+        // BUG FIX: Moved OUT of the timeSlider null-guard so it always executes.
+        // Phase 1 (Intrusion=0.0) → 0.0‰ | Phase 2 (0.5) → ~2‰ | Phase 3 (1.0) → ~4‰
+        // =====================================================================
+        if (_animationCoroutine == null)
+        {
+            float safeMax = Mathf.Max(0.01f, maxSalinity);
+
+            float liveSalinityInside  = GetInsideSalinity();
+            float liveSalinityOutside = GetOutsideSalinity();
+            float insideSliderVal  = Mathf.Clamp01(liveSalinityInside  / safeMax);
+            float outsideSliderVal = Mathf.Clamp01(liveSalinityOutside / safeMax);
+
+            if (insideSalinitySlider  != null) insideSalinitySlider.value  = insideSliderVal;
+            if (outsideSalinitySlider != null) outsideSalinitySlider.value = outsideSliderVal;
+
+            if (insideSalinityValue  != null) insideSalinityValue.text  = $"{liveSalinityInside:0.0} ‰";
+            if (outsideSalinityValue != null) outsideSalinityValue.text = $"{liveSalinityOutside:0.0} ‰";
+
+            // Color: green < 2‰ | orange 2–3‰ | red > 3‰
+            if (insideSalinityFill != null)
+                insideSalinityFill.color = liveSalinityInside < 2f ? Color.green
+                                         : liveSalinityInside < 3f ? new Color(1f, 0.6f, 0f)
+                                         : Color.red;
+            if (outsideSalinityFill != null)
+                outsideSalinityFill.color = liveSalinityOutside < 2f ? Color.green
+                                          : liveSalinityOutside < 3f ? new Color(1f, 0.6f, 0f)
+                                          : Color.red;
+        }
+
+        // Time slider — requires _gameRules to be valid.
+        // Time slider — cần _gameRules hợp lệ.
         if (_gameRules == null || timeSlider == null) return;
-        
-        // Calculate total game duration and progress.
-        // Tính tổng thời lượng game và tiến trình.
+
         float totalDuration = _gameRules.monthDuration * 6f;
         if (totalDuration <= 0f) return;
-        
-        // Progress counts DOWN: 1.0 (start) → 0.0 (end).
-        // Tiến trình đếm NGƯỢC: 1.0 (bắt đầu) → 0.0 (kết thúc).
+
+        // Progress 0.0 (start) → 1.0 (end).
         float progress = Mathf.Clamp01(1f - _gameRules.timeRemaining / totalDuration);
         timeSlider.value = progress;
-        
-        // Color the fill based on current phase:
-        //   Phase 1 (0–50%):   Green  = safe, low salinity
-        //   Phase 2 (50–83%):  Yellow = caution, medium salinity
-        //   Phase 3 (83–100%): Red    = danger, high salinity
-        // Đổi màu fill theo giai đoạn:
-        //   GĐ 1 (0–50%):   Xanh  = an toàn, độ mặn thấp
-        //   GĐ 2 (50–83%):  Vàng  = cảnh báo, độ mặn trung bình
-        //   GĐ 3 (83–100%): Đỏ    = nguy hiểm, độ mặn cao
+
+        // Color fill: green (Phase1) → yellow (Phase2) → red (Phase3).
         if (timeFill != null)
         {
-            float phase1End = _gameRules.monthDuration * 3f / totalDuration; // ~0.5
-            float phase2End = _gameRules.monthDuration * 5f / totalDuration; // ~0.833
-            
-            if (progress <= phase1End)
-                timeFill.color = Color.green;
-            else if (progress <= phase2End)
-                timeFill.color = Color.yellow;
-            else
-                timeFill.color = Color.red;
+            float phase1End = _gameRules.monthDuration * 3f / totalDuration;
+            float phase2End = _gameRules.monthDuration * 5f / totalDuration;
+            timeFill.color = progress <= phase1End ? Color.green
+                           : progress <= phase2End ? Color.yellow
+                           : Color.red;
         }
     }
 }

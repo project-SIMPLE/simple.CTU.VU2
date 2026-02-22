@@ -99,26 +99,33 @@ public class Thuan_23127_GameManager : MonoBehaviour
     }
 
     // =========================================================================
-    // GetSeasonSalinity - Calculates current salinity based on season and water level.
-    // GetSeasonSalinity - Tính độ mặn hiện tại dựa trên mùa và mực nước.
-    // 
+    // GetSeasonSalinity - Calculates current salinity based on season phase and water level.
+    // GetSeasonSalinity - Tính độ mặn hiện tại dựa trên giai đoạn mùa và mực nước.
+    //
+    // Linear mapping: Saltwater_Intrusion (0.0 → 0.5 → 1.0) × salinityBase → display (0 → 2 → 4‰).
+    // Ánh xạ tuyến tính: Saltwater_Intrusion × salinityBase → hiển thị (0 → 2 → 4‰).
+    //
+    //   Phase 1 (T11–T1, Intrusion=0.0) →  0.0‰  (nước ngọt)
+    //   Phase 2 (T2–T3,  Intrusion=0.5) →  2.0‰  (xâm nhập nhẹ)
+    //   Phase 3 (T4,     Intrusion=1.0) →  4.0‰  (xâm nhập nặng)
+    //
+    // Set salinityBase = 4 in Inspector to get range 0–4‰.
+    // Đặt salinityBase = 4 trong Inspector để có dải 0–4‰.
+    //
     // Called by: PlantGrowth, FarmArea, UI components.
     // Được gọi bởi: PlantGrowth, FarmArea, các component UI.
-    // 
-    // Returns: Salinity value in ‰ (parts per thousand).
-    // Trả về: Giá trị độ mặn tính bằng ‰ (phần nghìn).
     // =========================================================================
     public float GetSeasonSalinity()
     {
-        // Choose multiplier based on current season (dry = 1.0, rainy < 1.0).
-        // Chọn hệ số dựa trên mùa hiện tại (khô = 1.0, mưa < 1.0).
-        var k = (Mathf.Approximately(RulesoftheGame_VU2_1.Saltwater_Intrusion, 1f)) ? dryFactor : rainyFactor;
-        
-        // Apply water level multiplier (keeps season logic intact).
-        // Áp dụng hệ số mực nước (không thay đổi logic mùa).
+        // Linear: Intrusion × salinityBase gives 0‰ / 2‰ / 4‰ for the 3 phases.
+        // Tuyến tính: Intrusion × salinityBase cho 0‰ / 2‰ / 4‰ theo 3 giai đoạn.
+        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+
+        // Apply water level multiplier for fine-grained monthly variation (0.85–1.15×).
+        // Áp dụng hệ số mực nước cho biến thiên tháng chi tiết (0.85–1.15×).
         var waterMultiplier = Mathf.Max(0.01f, RulesoftheGame_VU2_1.CurrentWaterLevelMultiplier);
-        
-        return Mathf.Max(0f, salinityBase * k * waterMultiplier);
+
+        return Mathf.Max(0f, intrusion * salinityBase * waterMultiplier);
     }
 
     // =========================================================================

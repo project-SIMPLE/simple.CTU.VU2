@@ -94,10 +94,16 @@ public class FarmArea : MonoBehaviour
     // Độ mặn trong mùa mưa (thấp hơn = nước ngọt hơn).
     public float rainySalinity = 0.5f;
     
+    [Range(0, 5)]
+    // Salinity during transition phase 2 (T2–T3, medium salinity).
+    // Độ mặn trong giai đoạn chuyển tiếp 2 (T2–T3, độ mặn trung bình).
+    public float midSalinity = 1.0f;
+    
     [Range(0, 5)] 
     // Salinity during dry season (higher = saltier water).
     // Độ mặn trong mùa khô (cao hơn = nước mặn hơn).
     public float drySalinity = 1.5f;
+
     
     // If true, use area-specific salinity. If false, use global salinity.
     // Nếu true, dùng độ mặn riêng của vùng. Nếu false, dùng độ mặn toàn cục.
@@ -122,19 +128,15 @@ public class FarmArea : MonoBehaviour
     [SerializeField] private string serverAreaId = "area_a";
 
     // =========================================================================
-    // GetAreaSalinity - Returns current salinity for this zone.
-    // GetAreaSalinity - Trả về độ mặn hiện tại cho vùng này.
+    // GetAreaSalinity - Returns current salinity for this zone (3-phase).
+    // GetAreaSalinity - Trả về độ mặn hiện tại cho vùng này (3 giai đoạn).
     // 
-    // Called by: PlantGrowth to calculate score modifiers.
-    // Được gọi bởi: PlantGrowth để tính hệ số điểm.
-    // 
-    // Returns salinity based on:
-    // - Area-specific values (if useAreaSeasonalSalinity = true)
-    // - Global GameManager value (if useAreaSeasonalSalinity = false)
-    // 
-    // Trả về độ mặn dựa trên:
-    // - Giá trị riêng của vùng (nếu useAreaSeasonalSalinity = true)
-    // - Giá trị toàn cục từ GameManager (nếu useAreaSeasonalSalinity = false)
+    // Phase 1 (T11–T1, Intrusion=0.0) → rainySalinity   (nước ngọt)
+    // Phase 2 (T2–T3,  Intrusion=0.5) → midSalinity     (xâm nhập nhẹ)
+    // Phase 3 (T4,     Intrusion=1.0) → drySalinity     (xâm nhập nặng)
+    //
+    // Called by: PlantGrowth, David_SeasonHUD, server reporting.
+    // Được gọi bởi: PlantGrowth, David_SeasonHUD, báo cáo server.
     // =========================================================================
     public float GetAreaSalinity()
     {
@@ -143,11 +145,12 @@ public class FarmArea : MonoBehaviour
                 ? Thuan_23127_GameManager.Instance.GetSeasonSalinity()
                 : 0f;
 
-        // Check current season: Dry (1.0) vs Rainy (0.0)
-        // Kiểm tra mùa hiện tại: Khô (1.0) vs Mưa (0.0)
-        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
-        if (Mathf.Approximately(s, 1f)) return drySalinity;  // Dry season
-        return rainySalinity;                                 // Rainy season
+        // Map Saltwater_Intrusion → 3 specific salinity values.
+        // Ánh xạ Saltwater_Intrusion → 3 giá trị độ mặn cụ thể.
+        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        if (intrusion < 0.1f) return rainySalinity;   // Phase 1 — nước ngọt
+        if (intrusion < 1f)   return midSalinity;     // Phase 2 — xâm nhập nhẹ
+        return drySalinity;                            // Phase 3 — xâm nhập nặng
     }
 
     // =========================================================================

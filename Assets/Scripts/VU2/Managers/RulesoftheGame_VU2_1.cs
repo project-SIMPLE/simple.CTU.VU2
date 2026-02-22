@@ -337,7 +337,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             
             // Enable rain effects and rainy skybox.
             // Bật hiệu ứng mưa và skybox mưa.
-            Weather_Rain.SetActive(true);
+            //Weather_Rain.SetActive(true); // DISABLED — tắt hiệu ứng mưa tạm thời
             Rain_image.SetActive(true);
             Sun_image.SetActive(false);
             RenderSettings.skybox = Skybox_Rain; 
@@ -359,7 +359,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
             
             // Disable rain, enable sunny effects.
             // Tắt mưa, bật hiệu ứng nắng.
-            Weather_Rain.SetActive(false);
+            //Weather_Rain.SetActive(false);
             Rain_image.SetActive(false);
             Sun_image.SetActive(true);
             RenderSettings.skybox = Skybox_Sun; 

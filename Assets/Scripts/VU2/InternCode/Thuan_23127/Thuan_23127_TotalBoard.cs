@@ -41,7 +41,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     public Font tableFont;
 
     [Tooltip("Font size for table body text.")]
-    public int bodyFontSize = 20;
+    public int bodyFontSize = 16;
 
     [Tooltip("Font size for header text.")]
     public int headerFontSize = 22;
@@ -65,7 +65,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     public Color gridLineColor = new Color(0.7f, 0.7f, 0.7f, 1f);
 
     [Tooltip("Row height for data rows.")]
-    public float dataRowHeight = 70f;
+    public float dataRowHeight = 80f;
 
     [Tooltip("Row height for header.")]
     public float headerRowHeight = 45f;
@@ -224,14 +224,14 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
         // Empty first cell (icon column).
         // Ô trống đầu tiên (cột icon).
-        CreateTextCell(row.transform, "", headerFontSize, headerTextColor, 0.2f);
+        CreateTextCell(row.transform, "", headerFontSize, headerTextColor, 0.15f);
 
         // Phase header cells.
         // Các ô tiêu đề giai đoạn.
         for (int i = 0; i < 3; i++)
         {
             CreateTextCell(row.transform, PhaseHeaders[i], headerFontSize,
-                           headerTextColor, 0.267f, FontStyle.Bold);
+                           headerTextColor, 0.283f, FontStyle.Bold);
         }
     }
 
@@ -250,16 +250,17 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
         // Icon cell (first column).
         // Ô icon (cột đầu tiên).
-        CreateIconCell(row.transform, icon, 0.2f);
+        CreateIconCell(row.transform, icon, 0.15f);
 
         // 3 phase cells with area + score.
         // 3 ô giai đoạn với diện tích + sản lượng.
         for (int i = 0; i < 3; i++)
         {
             int area = counts[i] * AREA_MULTIPLIER;
-            string cellText = $"Diện tích: {area}\nSản lượng: {scores[i]}";
+            string cellText = $"DT:  {area,4}\nSL:  {scores[i],4}";
             CreateTextCell(row.transform, cellText, bodyFontSize,
-                           bodyTextColor, 0.267f, FontStyle.Normal);
+                           bodyTextColor, 0.283f, FontStyle.Normal,
+                           TextAnchor.MiddleLeft);
         }
     }
 
@@ -306,7 +307,8 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // =========================================================================
     private GameObject CreateTextCell(Transform parent, string text, int size,
                                       Color color, float flexibleWidth,
-                                      FontStyle style = FontStyle.Normal)
+                                      FontStyle style = FontStyle.Normal,
+                                      TextAnchor align = TextAnchor.MiddleCenter)
     {
         var cell = new GameObject("Cell", typeof(RectTransform));
         cell.transform.SetParent(parent, false);
@@ -348,7 +350,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         txt.fontSize = size;
         txt.fontStyle = style;
         txt.color = color;
-        txt.alignment = TextAnchor.MiddleCenter;
+        txt.alignment = align;
         txt.horizontalOverflow = HorizontalWrapMode.Wrap;
         txt.verticalOverflow = VerticalWrapMode.Overflow;
         txt.resizeTextForBestFit = false;

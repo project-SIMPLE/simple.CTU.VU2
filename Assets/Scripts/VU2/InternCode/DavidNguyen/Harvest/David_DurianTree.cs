@@ -23,6 +23,9 @@ public class David_DurianTree : MonoBehaviour
     [Tooltip("Chỉ rụng trong mùa mưa?")]
     public bool onlyDropInRainySeason = true;
 
+    [Tooltip("Số trái tối đa rụng mỗi mùa (1 = mỗi cây chỉ rụng 1 trái)")]
+    public int maxFruitsPerSeason = 1;
+
     [Header("Audio")]
     public AudioClip fallSound;
 
@@ -34,6 +37,7 @@ public class David_DurianTree : MonoBehaviour
     private List<David_Fruit> _duriansOnTree = new List<David_Fruit>();
     private Coroutine _autoDropCoroutine;
     private bool _isDropping = false;
+    private int _droppedThisSeason = 0;
 
     // =========================================================================
     // UNITY LIFECYCLE
@@ -86,7 +90,8 @@ public class David_DurianTree : MonoBehaviour
         // Rainy1 or Rainy2 = rainy season
         if (newPhase == SeasonPhase.Rainy1 || newPhase == SeasonPhase.Rainy2)
         {
-            // Reset durians at start of rainy season
+            // Reset durians and counter at start of rainy season
+            _droppedThisSeason = 0;
             ResetAllDurians();
             StartAutoDrop();
         }
@@ -158,6 +163,11 @@ public class David_DurianTree : MonoBehaviour
     {
         while (_duriansOnTree.Count > 0)
         {
+            // Stop if already dropped enough fruits this season.
+            // Dừng nếu đã rụng đủ số trái trong mùa này.
+            if (_droppedThisSeason >= maxFruitsPerSeason)
+                break;
+
             // Wait random interval
             float waitTime = Random.Range(minDropInterval, maxDropInterval);
             yield return new WaitForSeconds(waitTime);
@@ -177,6 +187,7 @@ public class David_DurianTree : MonoBehaviour
 
             // Drop one random durian
             DropRandomDurian();
+            _droppedThisSeason++;
         }
 
         _isDropping = false;

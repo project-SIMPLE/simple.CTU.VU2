@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections;
+using System.Collections;
 
 // =============================================================================
 // FruitType - Types of collectible products in the game.
@@ -257,11 +258,35 @@ public class David_Fruit : MonoBehaviour
     // Track grab state for LateUpdate
     private Transform _currentGrabTarget;
     private XRGrabInteractable _currentGrabInteractable;
+
+    // =========================================================================
+    // DURIAN HAPTIC HARVEST — controller vibration for 1.5s before collect.
+    // THU HOẠCH SẦU RIÊNG RUNG TAY — rung tay cầm 1.5s trước khi thu hoạch.
+    // =========================================================================
+    [Header("Durian Harvest Haptic / Rung tay thu hoạch sầu riêng")]
+    [Tooltip("Thời gian rung tay khi nhặt sầu riêng (giây)")]
+    [SerializeField] private float durianHarvestDuration = 1.5f;
+    [Tooltip("Cường độ rung tay (0-1)")]
+    [SerializeField, Range(0f, 1f)] private float durianHapticAmplitude = 0.5f;
+    [Tooltip("Tốc độ lắc quả sầu riêng khi đang nhặt")]
+    [SerializeField] private float durianStruggleSpeed = 12f;
+    [Tooltip("Cường độ lắc quả sầu riêng")]
+    [SerializeField] private float durianStruggleIntensity = 0.02f;
+
+    private Coroutine _durianHarvestCoroutine;
+    private XRBaseController _durianController;
+    private bool _durianHarvestComplete = false;
     
     private void OnGrabbed(SelectEnterEventArgs args)
     {
         isOnTree = false;
-        canCollect = true;
+
+        // Durian: delay canCollect until haptic harvest completes.
+        // Sầu riêng: trì hoãn canCollect cho đến khi rung tay xong.
+        if (fruitType == FruitType.Durian)
+            canCollect = false;
+        else
+            canCollect = true;
         
         // CRITICAL: DETACH FROM ANY PARENT FIRST!
         if (transform.parent != null)
@@ -319,8 +344,16 @@ public class David_Fruit : MonoBehaviour
             Vector3 offsetPosition = _currentGrabTarget.position + _currentGrabTarget.TransformDirection(actualOffset);
             transform.position = offsetPosition;
             transform.rotation = _currentGrabTarget.rotation;
-            
-            
+
+            // START DURIAN HAPTIC HARVEST if this is a durian.
+            // BẮt đầu rung tay nếu đây là sầu riêng.
+            if (fruitType == FruitType.Durian)
+            {
+                _durianController = interactor.GetComponentInParent<XRBaseController>();
+                _durianHarvestComplete = false;
+                if (_durianHarvestCoroutine != null) StopCoroutine(_durianHarvestCoroutine);
+                _durianHarvestCoroutine = StartCoroutine(HarvestDurianRoutine());
+            }
         }
     }
     
@@ -493,12 +526,17 @@ public class David_Fruit : MonoBehaviour
         switch (fruitType)
         {
             case FruitType.Durian:
-                // Durian: Best in fresh water, fails badly in salt + dry.
-                // Sầu riêng: Tốt nhất ở nước ngọt, thất bại nặng ở lợ + khô.
-                // Production: 20 tons/ha, each tree = 5 ha.
-                // Sản lượng: 20 tấn/ha, mỗi cây = 5 ha.
-                if (isFresh) return isRainy ? 100 : 80;
-                else         return isRainy ? 60 : -40;
+                // Durian: Score depends on salinity phase (3 phases).
+                // Sầu riêng: Điểm phụ thuộc giai đoạn độ mặn (3 giai đoạn).
+                // Phase 1 (T11-T1, Intrusion=0.0): 150 pts — peak harvest season
+                // Phase 2 (T2-T3,  Intrusion=0.5):  75 pts — transitional
+                // Phase 3 (T4,     Intrusion=1.0):   0 pts  — blocked by TryCollect
+                {
+                    float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+                    if (intrusion < 0.1f) return 150;   // Phase 1 — mùa mưa đỉnh điểm
+                    if (intrusion < 1f)   return 75;    // Phase 2 — chuyển tiếp
+                    return 0;                           // Phase 3 — không thể thu hoạch
+                }
                 
             case FruitType.Coconut:
                 // Coconut: Tolerates salt better than durian.
@@ -523,12 +561,17 @@ public class David_Fruit : MonoBehaviour
                 else         return isRainy ? 20 : 20;
 
             case FruitType.Rice:
-                // Rice: Needs fresh water, fails in fresh + dry (drought).
-                // Lúa: Cần nước ngọt, thất bại ở ngọt + khô (hạn hán).
-                // Production: 6 tons/ha, each plant = 10 ha.
-                // Sản lượng: 6 tấn/ha, mỗi cây = 10 ha.
-                if (isFresh) return isRainy ? 60 : -20;
-                else         return isRainy ? 40 : 20;
+                // Rice: Score depends on salinity phase (3 phases).
+                // Lúa: Điểm phụ thuộc giai đoạn độ mặn (3 giai đoạn).
+                // Phase 1 (T11-T1, Intrusion=0.0): 60 pts — mùa mưa, nước ngọt dồi dào
+                // Phase 2 (T2-T3,  Intrusion=0.5): 30 pts — bắt đầu xâm nhập mặn
+                // Phase 3 (T4,     Intrusion=1.0):  0 pts — mặn quá cao, mất trắng
+                {
+                    float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+                    if (intrusion < 0.1f) return 60;  // Phase 1 — lúa tốt
+                    if (intrusion < 1f)   return 30;  // Phase 2 — giảm năng suất
+                    return 0;                         // Phase 3 — thất thu
+                }
 
             case FruitType.Egg:
                 // Egg: Fixed score, no zone/season modifiers.
