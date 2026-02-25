@@ -597,6 +597,10 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         playGame = true;
         GameActive = true;
 
+        // Reset harvest limits for new game.
+        // Reset giới hạn thu hoạch cho game mới.
+        David_Fruit.ResetAllHarvestCounts();
+
         StartMenu.SetActive(false);
         ResultMenu.SetActive(false);
         timeRemaining = 0f;

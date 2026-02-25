@@ -545,6 +545,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &9220346
 PrefabInstance:
@@ -3724,6 +3725,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &38307568
 GameObject:
@@ -24929,6 +24931,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &282170926
 PrefabInstance:
@@ -25099,6 +25102,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &285831642
 GameObject:
@@ -26699,6 +26703,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &312094967
 PrefabInstance:
@@ -41361,6 +41366,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &343405942
 PrefabInstance:
@@ -49100,6 +49106,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &412304620
 PrefabInstance:
@@ -49923,6 +49930,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &426838347
 GameObject:
@@ -50737,6 +50745,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &439383989
 GameObject:
@@ -56187,6 +56196,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &476109072
 GameObject:
@@ -57786,6 +57796,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!4 &503830286 stripped
 Transform:
@@ -58324,6 +58335,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &515571513
 PrefabInstance:
@@ -58889,7 +58901,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517553342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -59481,6 +59493,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PFB_Ducks (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 4034937431299751648, guid: c448fff81fe89fd41be5922afba85d64,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4463223013543426665, guid: c448fff81fe89fd41be5922afba85d64,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -59588,7 +59605,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520828713}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -60865,6 +60882,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &554304619
 PrefabInstance:
@@ -64912,7 +64930,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582526685}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -65272,6 +65290,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &583492101
 GameObject:
@@ -71150,6 +71169,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &652174150
 PrefabInstance:
@@ -82275,7 +82295,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765046350}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -119263,6 +119283,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &972137262
 PrefabInstance:
@@ -123667,6 +123688,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PFB_Ducks (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4034937431299751648, guid: c448fff81fe89fd41be5922afba85d64,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4463223013543426665, guid: c448fff81fe89fd41be5922afba85d64,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -123774,7 +123800,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998976122}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -127182,6 +127208,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!114 &1057648424 stripped
 MonoBehaviour:
@@ -127600,6 +127627,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &1062585711
 GameObject:
@@ -127912,6 +127940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PFB_Ducks (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034937431299751648, guid: c448fff81fe89fd41be5922afba85d64,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4463223013543426665, guid: c448fff81fe89fd41be5922afba85d64,
         type: 3}
@@ -129116,7 +129149,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073093385}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -130072,6 +130105,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!4 &1083754417 stripped
 Transform:
@@ -132575,6 +132609,7 @@ MonoBehaviour:
   riceRespawnTime: 30
   sickleSpawnSound: {fileID: 0}
   sickleDestroySound: {fileID: 0}
+  sickleDestroyDelay: 3
 --- !u!1 &1111117808
 GameObject:
   m_ObjectHideFlags: 0
@@ -133099,6 +133134,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &1120685873
 PrefabInstance:
@@ -133884,6 +133920,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &1133008409
 GameObject:
@@ -144269,6 +144306,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!224 &1137114898 stripped
 RectTransform:
@@ -144764,6 +144802,7 @@ MonoBehaviour:
   riceRespawnTime: 30
   sickleSpawnSound: {fileID: 0}
   sickleDestroySound: {fileID: 0}
+  sickleDestroyDelay: 3
 --- !u!1 &1143221024
 GameObject:
   m_ObjectHideFlags: 0
@@ -145673,6 +145712,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &1163645069
 PrefabInstance:
@@ -176214,6 +176254,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &1485934197
 PrefabInstance:
@@ -181306,7 +181347,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554873628}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -181990,7 +182031,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565229853}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -188210,6 +188251,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1001 &1626955840
 PrefabInstance:
@@ -188380,6 +188422,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!1 &1628380236
 GameObject:
@@ -202077,7 +202120,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670148474}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -217432,6 +217475,7 @@ MonoBehaviour:
   riceRespawnTime: 30
   sickleSpawnSound: {fileID: 0}
   sickleDestroySound: {fileID: 0}
+  sickleDestroyDelay: 3
 --- !u!1 &1772359426
 GameObject:
   m_ObjectHideFlags: 0
@@ -218957,7 +219001,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1790535421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -242188,7 +242232,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968390894}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21474249e470c144691b4de50e24a085, type: 3}
   m_Name: 
@@ -252170,6 +252214,7 @@ MonoBehaviour:
   harvestSound: {fileID: 0}
   wiltScale: 0.6
   wiltTiltAngle: 45
+  fallTiltAngle: 90
   wiltTransitionSpeed: 2
 --- !u!43 &2075962485
 Mesh:

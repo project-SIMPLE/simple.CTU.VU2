@@ -74,12 +74,28 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
     // Danh sách trứng đã spawn để quản lý (xóa khi đổi mùa).
     private List<GameObject> spawnedEggs = new List<GameObject>();
 
+    // True if this spawner is on a duck → egg laying DISABLED for ducks.
+    // True nếu spawner này trên vịt → đẻ trứng BỊ TẮT cho vịt.
+    private bool _isDuck = false;
+
     // =========================================================================
     // Start - Initialize spawn timer.
     // Start - Khởi tạo timer spawn.
     // =========================================================================
     private void Start()
     {
+        // Detect if this spawner is on a duck → disable egg laying.
+        // Phát hiện nếu spawner này trên vịt → tắt đẻ trứng.
+        _isDuck = GetComponent<Thuan_23127_DuckAiAction>() != null
+              || GetComponentInParent<Thuan_23127_DuckAiAction>() != null
+              || GetComponentInChildren<Thuan_23127_DuckAiAction>() != null;
+        
+        if (_isDuck)
+        {
+            Debug.Log($"[ChickenEggSpawner] VỊT phát hiện trên {gameObject.name} → TẮT đẻ trứng.");
+            return;
+        }
+        
         SetRandomTimer();
     }
     
@@ -107,6 +123,10 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
     // =========================================================================
     private void Update()
     {
+        // DUCK: egg laying disabled.
+        // VỊT: đẻ trứng đã tắt.
+        if (_isDuck) return;
+        
         if (eggPrefab == null)
         {
             return;

@@ -548,6 +548,17 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
             else         return isRainy ? 8 : 5;
         }
         
+        // Rice (Plant ID = 11) — 3-phase scoring, zone-independent.
+        // Lúa (Plant ID = 11) — tính điểm 3 giai đoạn, không phụ thuộc vùng.
+        // Phase 1 (Intrusion=0.0): 60 pts | Phase 2 (Intrusion=0.5): 30 pts | Phase 3 (Intrusion=1.0): 0 pts
+        if (_plantData != null && _plantData.id == 11)
+        {
+            float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+            if (intrusion < 0.1f) return 60;   // Phase 1 — mùa mưa
+            if (intrusion < 1f)   return 30;   // Phase 2 — chuyển tiếp
+            return 0;                          // Phase 3 — mất trắng
+        }
+        
         // All fish types.
         // Tất cả loại cá.
         if (_fishData != null)

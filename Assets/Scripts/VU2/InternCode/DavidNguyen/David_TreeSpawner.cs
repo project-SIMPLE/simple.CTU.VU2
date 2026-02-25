@@ -122,6 +122,10 @@ public class David_TreeSpawner : MonoBehaviour
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
         if (!respawnOnSeasonChange) return;
+
+        // DON'T respawn in Phase 3 (Rainy2 = T4, high salinity) — keep current state.
+        // KHÔNG respawn trong Giai đoạn 3 (Rainy2 = T4, mặn cao) — giữ nguyên trạng thái.
+        if (newPhase == SeasonPhase.Rainy2) return;
         
         RespawnAllFruits();
     }

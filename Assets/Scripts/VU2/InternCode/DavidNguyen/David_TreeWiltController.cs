@@ -88,14 +88,16 @@ public class David_TreeWiltController : MonoBehaviour
     /// </summary>
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        bool isDry = (newPhase == SeasonPhase.Dry);
+        // Phase 3 (Rainy2 = T4) has high salinity → wilt tree.
+        // Giai đoạn 3 (Rainy2 = T4) mặn cao → cây héo.
+        bool isPhase3 = (newPhase == SeasonPhase.Rainy2);
         
         
-        if (isDry && !_isWilted)
+        if (isPhase3 && !_isWilted)
         {
             ApplyWilt();
         }
-        else if (!isDry && _isWilted)
+        else if (!isPhase3 && _isWilted)
         {
             ClearWilt();
         }

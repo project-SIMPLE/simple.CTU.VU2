@@ -40,8 +40,15 @@ public class David_RiceField : HarvestZone
     public AudioClip sickleSpawnSound;
     public AudioClip sickleDestroySound;
 
+    [Header("Sickle Destroy Delay / Huy liem co do tre")]
+    [Tooltip("Thời gian chờ (giây) trước khi hủy liềm khi rời zone.\n" +
+             "Delay (seconds) before destroying sickle after leaving zone.\n" +
+             "Prevents sickle from disappearing mid-swing.")]
+    public float sickleDestroyDelay = 3f;
+
     // Runtime state
     private bool _hasSickle = false;
+    private Coroutine _destroySickleCoroutine = null;
 
     // =========================================================================
     // UNITY LIFECYCLE
@@ -78,7 +85,15 @@ public class David_RiceField : HarvestZone
     protected override void ShowPrompt()
     {
         base.ShowPrompt();
-        
+
+        // Cancel any pending sickle destruction (player re-entered zone).
+        // Hủy lệnh hủy liềm đang chờ (player quay lại zone).
+        if (_destroySickleCoroutine != null)
+        {
+            StopCoroutine(_destroySickleCoroutine);
+            _destroySickleCoroutine = null;
+        }
+
         if (autoSpawnSickle && !_hasSickle)
         {
             SpawnSickle();
@@ -89,10 +104,19 @@ public class David_RiceField : HarvestZone
     {
         base.HidePrompt();
         
-        if (_hasSickle)
+        // Delay sickle destruction so it doesn't vanish mid-swing.
+        // Trì hoãn hủy liềm để không biến mất giữa lúc thu hoạch.
+        if (_hasSickle && _destroySickleCoroutine == null)
         {
-            DestroySickle();
+            _destroySickleCoroutine = StartCoroutine(DestroyDelayedSickleCoroutine());
         }
+    }
+
+    private IEnumerator DestroyDelayedSickleCoroutine()
+    {
+        yield return new WaitForSeconds(sickleDestroyDelay);
+        DestroySickle();
+        _destroySickleCoroutine = null;
     }
 
     // =========================================================================

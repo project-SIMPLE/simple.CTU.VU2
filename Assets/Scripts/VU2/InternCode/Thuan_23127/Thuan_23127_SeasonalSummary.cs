@@ -210,25 +210,28 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     // GetAllPhaseData - Trả về dữ liệu đầy đủ 3 giai đoạn cho tất cả SP.
     // 
     // Returns: List of tuples:
-    //   (icon, score[3], count[3])
+    //   (key, icon, score[3], count[3])
+    //   - key    = product identifier (e.g., "Direct:Durian", "Plant:1")
     //   - score[i] = total score in phase i
     //   - count[i] = harvest count in phase i (area = count × 10)
     // 
     // Trả về: Danh sách tuple:
-    //   (icon, score[3], count[3])
+    //   (key, icon, score[3], count[3])
+    //   - key    = định danh sản phẩm (ví dụ: "Direct:Durian", "Plant:1")
     //   - score[i] = tổng điểm ở giai đoạn i
     //   - count[i] = số lần thu hoạch ở giai đoạn i (diện tích = count × 10)
     // =========================================================================
-    public List<(Sprite icon, int[] scores, int[] counts)> GetAllPhaseData()
+    public List<(string key, Sprite icon, int[] scores, int[] counts)> GetAllPhaseData()
     {
-        var list = new List<(Sprite, int[], int[])>();
-        foreach (var kv in _map.Values)
+        var list = new List<(string, Sprite, int[], int[])>();
+        foreach (var kv in _map)
         {
+            var c = kv.Value;
             // Clone arrays to prevent external mutation.
             // Clone mảng để tránh thay đổi từ bên ngoài.
-            int[] scores = { kv.score[0], kv.score[1], kv.score[2] };
-            int[] counts = { kv.count[0], kv.count[1], kv.count[2] };
-            list.Add((kv.icon, scores, counts));
+            int[] scores = { c.score[0], c.score[1], c.score[2] };
+            int[] counts = { c.count[0], c.count[1], c.count[2] };
+            list.Add((kv.Key, c.icon, scores, counts));
         }
         return list;
     }

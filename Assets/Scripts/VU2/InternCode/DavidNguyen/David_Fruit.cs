@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using System.Collections;
-using System.Collections;
+using System.Collections.Generic;
 
 // =============================================================================
 // FruitType - Types of collectible products in the game.
@@ -114,6 +114,60 @@ public class David_Fruit : MonoBehaviour
     // Ngăn thu hoạch hai lần trong cùng một frame.
     // -------------------------------------------------------------------------
     private bool _collected = false;
+
+    // =========================================================================
+    // HARVEST LIMITS — Giới hạn số lượng thu hoạch mỗi game (static, toàn cục).
+    // Durian: 15, Rice: 25, Shrimp: 5. Others: unlimited.
+    // =========================================================================
+    private static readonly Dictionary<FruitType, int> HarvestLimits = new Dictionary<FruitType, int>
+    {
+        { FruitType.Durian, 15 },
+        { FruitType.Rice,   25 },
+        { FruitType.Shrimp,  5 },
+    };
+
+    // Tracks how many of each type have been collected this game.
+    // Theo dõi đã thu hoạch bao nhiêu mỗi loại trong game này.
+    private static Dictionary<FruitType, int> _harvestCounts = new Dictionary<FruitType, int>();
+
+    /// <summary>
+    /// Returns how many of this type have been harvested so far.
+    /// Trả về đã thu hoạch bao nhiêu loại này.
+    /// </summary>
+    public static int GetHarvestCount(FruitType type)
+    {
+        return _harvestCounts.TryGetValue(type, out int count) ? count : 0;
+    }
+
+    /// <summary>
+    /// Returns the max harvest allowed (-1 = unlimited).
+    /// Trả về giới hạn thu hoạch (-1 = không giới hạn).
+    /// </summary>
+    public static int GetHarvestLimit(FruitType type)
+    {
+        return HarvestLimits.TryGetValue(type, out int limit) ? limit : -1;
+    }
+
+    /// <summary>
+    /// Checks if this fruit type has reached its harvest limit.
+    /// Kiểm tra loại trái này đã đạt giới hạn thu hoạch chưa.
+    /// </summary>
+    public static bool IsHarvestLimitReached(FruitType type)
+    {
+        if (!HarvestLimits.TryGetValue(type, out int limit)) return false; // no limit
+        int current = GetHarvestCount(type);
+        return current >= limit;
+    }
+
+    /// <summary>
+    /// Resets all harvest counts (call when game restarts or new round).
+    /// Reset tất cả bộ đếm thu hoạch (gọi khi game restart hoặc vòng mới).
+    /// </summary>
+    public static void ResetAllHarvestCounts()
+    {
+        _harvestCounts.Clear();
+        Debug.Log("[David_Fruit] Đã reset tất cả bộ đếm thu hoạch.");
+    }
     
     // =========================================================================
     // Awake - Setup instant grab IMMEDIATELY for runtime spawned objects (eggs)
@@ -281,12 +335,9 @@ public class David_Fruit : MonoBehaviour
     {
         isOnTree = false;
 
-        // Durian: delay canCollect until haptic harvest completes.
-        // Sầu riêng: trì hoãn canCollect cho đến khi rung tay xong.
-        if (fruitType == FruitType.Durian)
-            canCollect = false;
-        else
-            canCollect = true;
+        // All fruits (including Durian) can be collected immediately on grab.
+        // Tất cả trái (kể cả Sầu riêng) có thể thu hoạch ngay khi grab.
+        canCollect = true;
         
         // CRITICAL: DETACH FROM ANY PARENT FIRST!
         if (transform.parent != null)
@@ -345,15 +396,8 @@ public class David_Fruit : MonoBehaviour
             transform.position = offsetPosition;
             transform.rotation = _currentGrabTarget.rotation;
 
-            // START DURIAN HAPTIC HARVEST if this is a durian.
-            // BẮt đầu rung tay nếu đây là sầu riêng.
-            if (fruitType == FruitType.Durian)
-            {
-                _durianController = interactor.GetComponentInParent<XRBaseController>();
-                _durianHarvestComplete = false;
-                if (_durianHarvestCoroutine != null) StopCoroutine(_durianHarvestCoroutine);
-                _durianHarvestCoroutine = StartCoroutine(HarvestDurianRoutine());
-            }
+            // Durian haptic harvest DISABLED — no shake/delay.
+            // Rung tay sầu riêng ĐÃ TẮT — không rung/delay.
         }
     }
     
@@ -400,11 +444,21 @@ public class David_Fruit : MonoBehaviour
     }
     
     // =========================================================================
+    // HarvestDurianRoutine — DISABLED (shake + delay removed).
+    // Thu hoạch sầu riêng — ĐÃ TẮT (bỏ rung + delay).
+    // =========================================================================
+    // Durian now collects instantly like other fruits.
+    // Sầu riêng giờ thu hoạch ngay lập tức như các trái khác.
+
+    // =========================================================================
     // OnReleased - Called when released, restore XR tracking.
     // OnReleased - Gọi khi thả, khôi phục XR tracking.
     // =========================================================================
     private void OnReleased(SelectExitEventArgs args)
     {
+        // Durian haptic cancel DISABLED — no shake/delay to cancel.
+        // Hủy rung tay sầu riêng ĐÃ TẮT — không có rung/delay để hủy.
+
         // Restore XR tracking
         if (_currentGrabInteractable != null)
         {
@@ -496,6 +550,15 @@ public class David_Fruit : MonoBehaviour
             {
                 return;
             }
+        }
+        
+        // HARVEST LIMIT CHECK — block if this type is at max.
+        // KIỂM TRA GIỚI HẠN THU HOẠCH — chặn nếu loại này đã đạt tối đa.
+        if (IsHarvestLimitReached(fruitType))
+        {
+            int limit = GetHarvestLimit(fruitType);
+            Debug.Log($"[David_Fruit] {fruitType} đã đạt giới hạn thu hoạch ({limit}). Không thể thu thêm!");
+            return;
         }
         
         CollectFruit();
@@ -592,6 +655,16 @@ public class David_Fruit : MonoBehaviour
         // Mark as collected to prevent double-collection.
         // Đánh dấu đã thu hoạch để tránh thu hoạch hai lần.
         _collected = true;
+        
+        // INCREMENT HARVEST COUNTER for this fruit type.
+        // TĂNG BỘ ĐẾM THU HOẠCH cho loại trái này.
+        if (!_harvestCounts.ContainsKey(fruitType))
+            _harvestCounts[fruitType] = 0;
+        _harvestCounts[fruitType]++;
+        
+        int harvestLimit = GetHarvestLimit(fruitType);
+        string limitStr = harvestLimit > 0 ? $"/{harvestLimit}" : "";
+        Debug.Log($"[David_Fruit] Thu hoạch {fruitType}: {_harvestCounts[fruitType]}{limitStr}");
         
         // Calculate score from lookup table.
         // Tính điểm từ bảng tra cứu.

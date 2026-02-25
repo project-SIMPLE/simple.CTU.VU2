@@ -505,7 +505,7 @@ public class David_SeasonHUD : MonoBehaviour
         // Chỉ hiển thị số tháng lịch.
         // Label "Tháng:" đã có sẵn trong UI hierarchy (textThang).
         int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
-        timeLabel.text = $"{displayMonth}";
+        timeLabel.text = $"Tháng {displayMonth}";
     }
     
     // =========================================================================

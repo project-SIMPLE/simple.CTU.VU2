@@ -76,6 +76,14 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // =========================================================================
     private const int AREA_MULTIPLIER = 10;
 
+    // Maximum total durian area (maxHarvest × AREA_MULTIPLIER = 15 × 10 = 150).
+    // Diện tích tối đa của sầu riêng (maxHarvest × AREA_MULTIPLIER = 15 × 10 = 150).
+    private const int DURIAN_MAX_AREA = 150;
+
+    // Maximum total rice area (maxHarvest × AREA_MULTIPLIER = 25 × 10 = 250).
+    // Diện tích tối đa của lúa (maxHarvest × AREA_MULTIPLIER = 25 × 10 = 250).
+    private const int RICE_MAX_AREA = 250;
+
     // =========================================================================
     // INTERNAL STATE
     // TRẠNG THÁI NỘI BỘ
@@ -165,7 +173,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
         var data = summary
             ? summary.GetAllPhaseData()
-            : new List<(Sprite, int[], int[])>();
+            : new List<(string, Sprite, int[], int[])>();
 
         Debug.Log($"[TotalBoard] Data rows count = {data.Count}");
 
@@ -176,12 +184,12 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         // ── Build data rows ──
         // ── Xây dựng các hàng dữ liệu ──
         int rowIdx = 0;
-        foreach (var (icon, scores, counts) in data)
+        foreach (var (key, icon, scores, counts) in data)
         {
-            Debug.Log($"[TotalBoard] Row {rowIdx}: icon={(icon != null ? icon.name : "null")}, " +
+            Debug.Log($"[TotalBoard] Row {rowIdx}: key={key}, icon={(icon != null ? icon.name : "null")}, " +
                       $"scores=[{scores[0]},{scores[1]},{scores[2]}], " +
                       $"counts=[{counts[0]},{counts[1]},{counts[2]}]");
-            BuildDataRow(icon, scores, counts, rowIdx);
+            BuildDataRow(key, icon, scores, counts, rowIdx);
             rowIdx++;
         }
 
@@ -242,8 +250,16 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     // Each phase cell shows:
     //   Diện tích: {count × 10}
     //   Sản lượng: {score}
+    //
+    // SPECIAL: Durian Phase 3 (T4) shows:
+    //   Sản lượng: 0
+    //   Diện tích mất: 150 - tổng diện tích đã thu hoạch (đại diện vùng mất trắng)
+    //
+    // SPECIAL: Rice Phase 3 (T4) shows:
+    //   Sản lượng: 0
+    //   Diện tích mất: 250 - tổng diện tích đã thu hoạch
     // =========================================================================
-    private void BuildDataRow(Sprite icon, int[] scores, int[] counts, int rowIdx)
+    private void BuildDataRow(string key, Sprite icon, int[] scores, int[] counts, int rowIdx)
     {
         Color bgColor = (rowIdx % 2 == 0) ? evenRowColor : oddRowColor;
         var row = CreateRowContainer($"Row_{rowIdx}", dataRowHeight, bgColor);
@@ -252,12 +268,57 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         // Ô icon (cột đầu tiên).
         CreateIconCell(row.transform, icon, 0.15f);
 
+        // Check if this row is Durian, Rice, or Shrimp.
+        // Kiểm tra hàng này có phải Sầu riêng, Lúa, hoặc Tôm không.
+        bool isDurian = key.Contains("Durian") || key == "Plant:1";
+        bool isRice   = key.Contains("Rice")   || key == "Plant:11";
+        bool isShrimp = key.Contains("Shrimp");
+
+        // Total harvested area across phase 1 + phase 2 (for phase 3 lost-area calc).
+        // Tổng diện tích thu hoạch được qua giai đoạn 1 + 2 (cho tính DT mất trắng GĐ3).
+        int totalHarvestedArea = (counts[0] + counts[1]) * AREA_MULTIPLIER;
+
         // 3 phase cells with area + score.
         // 3 ô giai đoạn với diện tích + sản lượng.
         for (int i = 0; i < 3; i++)
         {
-            int area = counts[i] * AREA_MULTIPLIER;
-            string cellText = $"DT:  {area,4}\nSL:  {scores[i],4}";
+            string cellText;
+
+            if (isDurian && i == 2)
+            {
+                // DURIAN PHASE 3 (T4): SL = 0, DTMT = 150 - harvested.
+                // SẦU RIÊNG GĐ3 (T4): SL = 0, DTMT (diện tích mất trắng).
+                int lostArea = DURIAN_MAX_AREA - totalHarvestedArea;
+                if (lostArea < 0) lostArea = 0;
+                cellText = $"DTMT: {lostArea,4}\nSL:   {0,4}";
+            }
+            else if (isRice && i == 2)
+            {
+                // RICE PHASE 3 (T4): SL = 0, DTMT = 250 - harvested.
+                // LÚA GĐ3 (T4): SL = 0, DTMT (diện tích mất trắng).
+                int lostArea = RICE_MAX_AREA - totalHarvestedArea;
+                if (lostArea < 0) lostArea = 0;
+                cellText = $"DTMT: {lostArea,4}\nSL:   {0,4}";
+            }
+            else if (isShrimp && i == 2)
+            {
+                // SHRIMP PHASE 3 (T4): DTMT = 0, SL = accumulated score.
+                // TÔM GĐ3 (T4): DTMT (diện tích mất trắng) = 0, SL = điểm tích lũy.
+                cellText = $"DTMT: {0,4}\nSL:   {scores[i],4}";
+            }
+            else if (i == 2)
+            {
+                // OTHER PRODUCTS PHASE 3: also show DTMT label.
+                // SẢN PHẨM KHÁC GĐ3: cũng hiển thị DTMT.
+                int area = counts[i] * AREA_MULTIPLIER;
+                cellText = $"DTMT: {area,4}\nSL:   {scores[i],4}";
+            }
+            else
+            {
+                int area = counts[i] * AREA_MULTIPLIER;
+                cellText = $"DT:   {area,4}\nSL:   {scores[i],4}";
+            }
+
             CreateTextCell(row.transform, cellText, bodyFontSize,
                            bodyTextColor, 0.283f, FontStyle.Normal,
                            TextAnchor.MiddleLeft);

@@ -84,21 +84,28 @@ public class David_DurianTree : MonoBehaviour
 
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        
-        CleanupDroppedFruits();
-        
-        // Rainy1 or Rainy2 = rainy season
-        if (newPhase == SeasonPhase.Rainy1 || newPhase == SeasonPhase.Rainy2)
+        // Phase 1 (Rainy1 = T11-T1): reset and start dropping
+        if (newPhase == SeasonPhase.Rainy1)
         {
-            // Reset durians and counter at start of rainy season
+            CleanupDroppedFruits();
             _droppedThisSeason = 0;
             ResetAllDurians();
+            ShowAllDurians();
             StartAutoDrop();
         }
-        else
+        // Phase 2 (Dry = T2-T3): continue dropping if durians remain
+        else if (newPhase == SeasonPhase.Dry)
         {
-            // Stop dropping in dry season
+            // Allow continued auto-drop in Phase 2
+            if (!_isDropping && _duriansOnTree.Count > 0 && _droppedThisSeason < maxFruitsPerSeason)
+                StartAutoDrop();
+        }
+        // Phase 3 (Rainy2 = T4): stop everything, hide all durians
+        // Giai đoạn 3 (Rainy2 = T4): dừng mọi thứ, ẩn tất cả sầu riêng
+        else if (newPhase == SeasonPhase.Rainy2)
+        {
             StopAutoDrop();
+            HideAllDurians();
         }
     }
     
@@ -191,6 +198,41 @@ public class David_DurianTree : MonoBehaviour
         }
 
         _isDropping = false;
+    }
+
+    // =========================================================================
+    // VISIBILITY — Phase 3 hides all durians on the tree.
+    // ẨN/HIỆN — Giai đoạn 3 ẩn tất cả sầu riêng trên cây.
+    // =========================================================================
+
+    /// <summary>
+    /// Hides all durians (on tree + uncollected fallen).
+    /// Ẩn tất cả sầu riêng (trên cây + đã rơi nhưng chưa nhặt).
+    /// </summary>
+    private void HideAllDurians()
+    {
+        foreach (var durian in durians)
+        {
+            if (durian != null && durian.gameObject.activeInHierarchy)
+            {
+                durian.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Shows all durians that are still on the tree (not yet dropped).
+    /// Hiện lại sầu riêng còn trên cây (chưa rơi).
+    /// </summary>
+    private void ShowAllDurians()
+    {
+        foreach (var durian in durians)
+        {
+            if (durian != null && durian.isOnTree)
+            {
+                durian.gameObject.SetActive(true);
+            }
+        }
     }
 
     // =========================================================================

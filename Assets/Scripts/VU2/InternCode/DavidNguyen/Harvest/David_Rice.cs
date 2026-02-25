@@ -42,10 +42,15 @@ public class David_Rice : MonoBehaviour
     [Range(0.3f, 1f)]
     public float wiltScale = 0.6f;
 
-    [Tooltip("Góc nghiêng (độ) khi chịu mặn\n" +
-             "Tilt angle (degrees) when affected by salinity")]
+    [Tooltip("Góc nghiêng (độ) khi chịu mặn giai đoạn 2 (T2-T3)\n" +
+             "Tilt angle (degrees) for Phase 2 salinity stress")]
     [Range(0f, 90f)]
     public float wiltTiltAngle = 45f;
+
+    [Tooltip("Góc ngã (độ) khi mặn cao giai đoạn 3 (T4) — lúa ngã hẳn\n" +
+             "Fall angle (degrees) for Phase 3 — rice falls flat")]
+    [Range(0f, 90f)]
+    public float fallTiltAngle = 90f;
 
     [Tooltip("Tốc độ chuyển đổi hiệu ứng (cao = nhanh hơn)\n" +
              "Transition speed for wilt effect (higher = faster)")]
@@ -57,6 +62,7 @@ public class David_Rice : MonoBehaviour
     
     // Salinity state / Trạng thái mặn
     private bool _isWilted = false;
+    private bool _isFallen = false;   // Phase 3: rice has fallen completely
     private Vector3 _initialScale;
     private Quaternion _initialRotation;
     private Vector3 _targetScale;
@@ -140,17 +146,31 @@ public class David_Rice : MonoBehaviour
     // =========================================================================
 
     /// <summary>
-    /// Check current season and apply wilt if needed.
-    /// Kiểm tra mùa hiện tại và áp hiệu ứng héo nếu cần.
+    /// Check current season and apply wilt/fall if needed.
+    /// Kiểm tra mùa hiện tại và áp hiệu ứng héo/ngã nếu cần.
     /// </summary>
     private void CheckCurrentSeason()
     {
-        bool isDry = RulesoftheGame_VU2_1.Saltwater_Intrusion >= 1f;
+        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
 
-        if (isDry && !_isWilted)
+        if (intrusion >= 1f)
+        {
+            // Phase 3 (T4): rice falls completely
+            // Giai đoạn 3 (T4): lúa ngã hẳn
+            ApplyFall();
+        }
+        else if (intrusion >= 0.5f)
+        {
+            // Phase 2 (T2-T3): rice tilts 45°
+            // Giai đoạn 2 (T2-T3): lúa nghiêng 45°
             ApplyWilt();
-        else if (!isDry && _isWilted)
+        }
+        else
+        {
+            // Phase 1 (T11-T1): rice stands normally
+            // Giai đoạn 1 (T11-T1): lúa đứng bình thường
             ClearWilt();
+        }
     }
 
     /// <summary>
@@ -159,31 +179,57 @@ public class David_Rice : MonoBehaviour
     /// </summary>
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        bool isDry = (newPhase == SeasonPhase.Dry);
+        switch (newPhase)
+        {
+            case SeasonPhase.Rainy1:
+                // Phase 1 (T11-T1): lúa khỏe mạnh, đứng thẳng
+                ClearWilt();
+                canHarvest = true;
+                break;
 
-        if (isDry && !_isWilted)
-        {
-            ApplyWilt();
-        }
-        else if (!isDry && _isWilted)
-        {
-            ClearWilt();
+            case SeasonPhase.Dry:
+                // Phase 2 (T2-T3): lúa nghiêng 45°, vẫn thu hoạch được
+                ApplyWilt();
+                canHarvest = true;
+                break;
+
+            case SeasonPhase.Rainy2:
+                // Phase 3 (T4): lúa ngã hẳn 90°, KHÔNG thu hoạch được
+                ApplyFall();
+                canHarvest = false;
+                break;
         }
     }
 
     /// <summary>
-    /// Apply wilt effect: shrink + tilt 45° to simulate salinity stress.
-    /// Áp hiệu ứng héo: thu nhỏ + nghiêng 45° mô phỏng cây chịu mặn.
+    /// Apply wilt effect: shrink + tilt 45° (Phase 2, T2-T3).
+    /// Áp hiệu ứng héo: thu nhỏ + nghiêng 45° (Giai đoạn 2, T2-T3).
     /// </summary>
     public void ApplyWilt()
     {
-        if (_isWilted) return;
         _isWilted = true;
+        _isFallen = false;
 
-        // Target: shrink to wiltScale and tilt by wiltTiltAngle degrees on Z axis
-        // Mục tiêu: thu nhỏ theo wiltScale và nghiêng wiltTiltAngle độ trên trục Z
+        // Target: shrink to wiltScale and tilt by wiltTiltAngle (45°) on Z axis
+        // Mục tiêu: thu nhỏ theo wiltScale và nghiêng wiltTiltAngle (45°) trên trục Z
         _targetScale = _initialScale * wiltScale;
         _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, wiltTiltAngle);
+        _isTransitioning = true;
+    }
+
+    /// <summary>
+    /// Apply fall effect: rice falls completely (Phase 3, T4).
+    /// Áp hiệu ứng ngã: lúa ngã hẳn (Giai đoạn 3, T4).
+    /// </summary>
+    public void ApplyFall()
+    {
+        _isWilted = true;
+        _isFallen = true;
+
+        // Target: shrink more and tilt by fallTiltAngle (90°) — rice lies flat
+        // Mục tiêu: thu nhỏ thêm và nghiêng fallTiltAngle (90°) — lúa nằm rạp
+        _targetScale = _initialScale * wiltScale * 0.8f;
+        _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, fallTiltAngle);
         _isTransitioning = true;
     }
 
@@ -193,8 +239,9 @@ public class David_Rice : MonoBehaviour
     /// </summary>
     public void ClearWilt()
     {
-        if (!_isWilted) return;
+        if (!_isWilted && !_isFallen) return;
         _isWilted = false;
+        _isFallen = false;
 
         // Restore original transform values
         // Khôi phục giá trị transform gốc
@@ -208,6 +255,12 @@ public class David_Rice : MonoBehaviour
     /// Lúa có đang bị héo do mặn không.
     /// </summary>
     public bool IsWilted => _isWilted;
+
+    /// <summary>
+    /// Whether the rice has completely fallen (Phase 3).
+    /// Lúa đã ngã hẳn chưa (Giai đoạn 3).
+    /// </summary>
+    public bool IsFallen => _isFallen;
 
     // =========================================================================
     // HARVESTING
@@ -267,31 +320,24 @@ public class David_Rice : MonoBehaviour
     }
 
     /// <summary>
-    /// Calculates harvest score based on zone and season.
-    /// Tính điểm thu hoạch dựa trên vùng và mùa.
+    /// Calculates harvest score based on salinity phase (3 phases).
+    /// Tính điểm thu hoạch dựa trên giai đoạn mặn (3 giai đoạn).
+    /// Phase 1 (T11-T1, Intrusion=0.0): 60 pts
+    /// Phase 2 (T2-T3,  Intrusion=0.5): 30 pts
+    /// Phase 3 (T4,     Intrusion=1.0):  0 pts (blocked by canHarvest)
     /// </summary>
     private int CalculateScore()
     {
-        int score = baseScore;
+        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
         
-        // Apply zone multiplier
-        if (ownerArea != null)
-        {
-            bool isFresh = (ownerArea.waterType == WaterType.Fresh);
-            
-            // Fresh water zone bonus in rainy season
-            if (isFresh && RulesoftheGame_VU2_1.Saltwater_Intrusion < 0.5f)
-            {
-                score = (int)(score * 1.5f);
-            }
-            // Salt water zone bonus in dry season
-            else if (!isFresh && RulesoftheGame_VU2_1.Saltwater_Intrusion >= 0.5f)
-            {
-                score = (int)(score * 1.3f);
-            }
-        }
-
-        return score;
+        // Phase 1 (T11-T1): mùa mưa, nước ngọt dồi dào → 60 điểm
+        if (intrusion < 0.1f) return 60;
+        
+        // Phase 2 (T2-T3): bắt đầu xâm nhập mặn → 30 điểm
+        if (intrusion < 1f) return 30;
+        
+        // Phase 3 (T4): mặn quá cao → 0 điểm (không thể thu hoạch)
+        return 0;
     }
 
     /// <summary>
