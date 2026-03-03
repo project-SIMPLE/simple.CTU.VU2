@@ -466,6 +466,11 @@ public class SimulationManager : MonoBehaviour
 
     public void createEnemySpawner()
     {
+        if (ConnectionManager.Instance == null)
+        {
+            Debug.LogWarning("[SimulationManager] createEnemySpawner skipped — no GAMA connection.");
+            return;
+        }
         List<EnemySpawner> spawns = levelManager.Spawns;
         string idTs = ",";
         string xs = "";
@@ -566,6 +571,11 @@ public class SimulationManager : MonoBehaviour
 
     public void sendTrees()
     {
+        if (ConnectionManager.Instance == null)
+        {
+            Debug.LogWarning("[SimulationManager] sendTrees skipped — no GAMA connection.");
+            return;
+        }
         Debug.Log("SEND TREES TO GAMA");
 
 

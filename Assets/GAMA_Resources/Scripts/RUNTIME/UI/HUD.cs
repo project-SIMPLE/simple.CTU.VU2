@@ -32,26 +32,35 @@ public class HUD : MonoBehaviour
 
         if (levelManager.Finished)
         {
-            time.text = "FINISHED";
+            if (time) time.text = "FINISHED";
         }
         else
         {
-            timeBar.fillAmount = (levelManager.CurrentWaveStepTime - levelManager.CurrentTime) / levelManager.CurrentWaveStepTime;
+            if (timeBar)
+                timeBar.fillAmount = (levelManager.CurrentWaveStepTime - levelManager.CurrentTime) / levelManager.CurrentWaveStepTime;
 
             int minutes = Mathf.FloorToInt(levelManager.CurrentTime / 60F);
             int seconds = Mathf.FloorToInt(levelManager.CurrentTime - minutes * 60);
             string niceTime = string.Format("{0:0}:{1:00}", minutes, seconds);
-            time.text = niceTime;
+            if (time) time.text = niceTime;
         }
-        wave.text = waveText + levelManager.CurrentWave + "/" + levelManager.MaxWave;
-        switch (levelManager.CurrentWaveStep)
+        if (wave) wave.text = waveText + levelManager.CurrentWave + "/" + levelManager.MaxWave;
+
+        string connId = ConnectionManager.Instance != null
+            ? ConnectionManager.Instance.GetConnectionId()
+            : "";
+
+        if (step)
         {
-            case WaveStep.Preparation:
-                step.text = ConnectionManager.Instance.GetConnectionId()+" "+waveStepTexts[0];
-                break;
-            case WaveStep.Defense:
-                step.text = ConnectionManager.Instance.GetConnectionId()+" "+waveStepTexts[1];
-                break;
+            switch (levelManager.CurrentWaveStep)
+            {
+                case WaveStep.Preparation:
+                    step.text = connId + " " + waveStepTexts[0];
+                    break;
+                case WaveStep.Defense:
+                    step.text = connId + " " + waveStepTexts[1];
+                    break;
+            }
         }
     }
 

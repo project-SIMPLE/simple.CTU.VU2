@@ -277,10 +277,10 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
 
         // Set default weather (sunny — beginning of rainy season, still dry).
         // Đặt thời tiết mặc định (nắng — đầu mùa mưa, vẫn còn khô).
-        Weather_Rain.SetActive(false);
-        Rain_image.SetActive(false);
-        Sun_image.SetActive(true);
-        NPC_Talk.SetActive(false);
+        if (Weather_Rain) Weather_Rain.SetActive(false);
+        if (Rain_image) Rain_image.SetActive(false);
+        if (Sun_image) Sun_image.SetActive(true);
+        if (NPC_Talk) NPC_Talk.SetActive(false);
         PlayMusic(normalMusic);
 
         _moving = false;
@@ -290,8 +290,8 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
         // Lock player movement until game starts.
         // Khóa di chuyển người chơi cho đến khi game bắt đầu.
         SetMovementLocked(true);
-        GameplayUIRoot.SetActive(true);
-        GameUIRoot.SetActive(true);
+        if (GameplayUIRoot) GameplayUIRoot.SetActive(true);
+        if (GameUIRoot) GameUIRoot.SetActive(true);
 
         // Force water level values (override Inspector-serialized values).
         // Bắt buộc dùng giá trị mực nước trong code (bỏ qua giá trị Inspector).
@@ -464,8 +464,8 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
             // Phát âm thanh kết thúc và hiển thị menu kết quả.
             if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
             ResultMenu.SetActive(true);
-            GameplayUIRoot.SetActive(false);
-            GameUIRoot.SetActive(false);
+            if (GameplayUIRoot) GameplayUIRoot.SetActive(false);
+            if (GameUIRoot) GameUIRoot.SetActive(false);
         }
     }
 
@@ -628,7 +628,7 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
         StartMenu.SetActive(false);
         ResultMenu.SetActive(false);
         timeRemaining = 0f;
-        NPC_Talk.SetActive(true);
+        if (NPC_Talk) NPC_Talk.SetActive(true);
         ResultDetailsScore.SetActive(false);
 
         // Log timing configuration for debugging.
@@ -663,8 +663,8 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
         // Unlock player movement.
         // Mở khóa di chuyển người chơi.
         SetMovementLocked(false);
-        GameplayUIRoot.SetActive(true);
-        GameUIRoot.SetActive(true);
+        if (GameplayUIRoot) GameplayUIRoot.SetActive(true);
+        if (GameUIRoot) GameUIRoot.SetActive(true);
     }
 
     // =========================================================================
@@ -686,8 +686,8 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
     {
         ResultDetailsScore.SetActive(true);
         ResultMenu.SetActive(false);
-        InteractiveObjects.SetActive(false);
-        UIForVR.SetActive(false);
+        if (InteractiveObjects) InteractiveObjects.SetActive(false);
+        if (UIForVR) UIForVR.SetActive(false);
     }
 
     // =========================================================================
@@ -698,8 +698,8 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
     {
         ResultDetailsScore.SetActive(false);
         ResultMenu.SetActive(true);
-        InteractiveObjects.SetActive(true);
-        UIForVR.SetActive(true);
+        if (InteractiveObjects) InteractiveObjects.SetActive(true);
+        if (UIForVR) UIForVR.SetActive(true);
     }
 
     // =========================================================================

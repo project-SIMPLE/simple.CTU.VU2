@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     private float agentStoppingDistance = .3f;
 
     private bool wayPointsSet = false;
+    private bool hasStartedMoving = false;
 
     NavMeshAgent agent;
 
@@ -27,9 +28,28 @@ public class EnemyController : MonoBehaviour
         {
             return;
         }
+
+        // Dừng di chuyển nếu enemy đã chết
+        if (enemy != null && enemy.IsDead()) return;
+
+        // Chờ agent được đặt lên NavMesh
+        if (!agent.isOnNavMesh) return;
+
+        // Lần đầu: đặt destination rõ ràng, tránh bị skip do remainingDistance == 0 khi khởi tạo
+        if (!hasStartedMoving)
+        {
+            if (currentWayPointIndex < wayPoints.Count)
+            {
+                agent.SetDestination(wayPoints[currentWayPointIndex].position);
+                currentWayPointIndex++;
+                hasStartedMoving = true;
+            }
+            return;
+        }
+
         if (!agent.pathPending && agent.remainingDistance <= agentStoppingDistance)
         {
-            if (currentWayPointIndex == wayPoints.Count)
+            if (currentWayPointIndex >= wayPoints.Count)
             {
                 Destroy(this.gameObject, .1f);
             }
@@ -45,7 +65,7 @@ public class EnemyController : MonoBehaviour
     {
         this.wayPoints = wayPoints;
         wayPointsSet = true;
+        hasStartedMoving = false;
+        currentWayPointIndex = 0;
     }
-    
- 
 }
