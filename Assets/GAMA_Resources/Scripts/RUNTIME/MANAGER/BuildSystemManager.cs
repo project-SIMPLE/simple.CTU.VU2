@@ -9,8 +9,8 @@ public class BuildSystemManager : MonoBehaviour
     [SerializeField] Transform constructionAnchor;
     [SerializeField] private BuildUI buildIU;
     
-    private bool isBuilding = true; //false --> NhSon cho phep xay dung khong can menu 
-    private int currentBuildingIndex = 1; // co dinh xay dung may bom
+    private bool isBuilding = false;
+    private int currentBuildingIndex = 0;
     private GameObject ghostConstruction;
 
     [SerializeField] private SubsidenceManager subsidenceManager;
@@ -47,7 +47,7 @@ public class BuildSystemManager : MonoBehaviour
         if (!IsBuildable(constructionIndex)) return;
 
         isBuilding = true;
-        //currentBuildingIndex = constructionIndex;
+        currentBuildingIndex = constructionIndex;
     }
 
     private void UpdateCooldowns(float deltaTime)
@@ -70,7 +70,6 @@ public class BuildSystemManager : MonoBehaviour
         Destroy(ghostConstruction.gameObject);
         isBuilding = false;
         StartCoroutine(DoSomethingWithDelay());
-        isBuilding = true;// false;
 
     }
     

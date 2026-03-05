@@ -20,7 +20,7 @@ public class BuildUI : MonoBehaviour
     }
     void Start()
     {
-        content.SetActive(false);
+        //content.SetActive(false);
     }
 
     private void Update()
@@ -48,7 +48,7 @@ public class BuildUI : MonoBehaviour
 
     public void ToggleMenu()
     {
-        content.SetActive(!content.activeSelf);
+        //content.SetActive(!content.activeSelf);
     }
 
     public void OnHover(int constructionIndex)
