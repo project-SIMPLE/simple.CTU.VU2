@@ -27,6 +27,12 @@ public class Tree : MonoBehaviour, IDamageable
     private bool hasFallen = false;
     // private int condition = 0;
 
+    [Header("Shadow Color (Bad State)")]
+    private static readonly int ShadowColorID = Shader.PropertyToID("_Shadow_Color");
+    private Renderer[] treeRenderers;
+    private Dictionary<Material, Color> originalShadowColors = new Dictionary<Material, Color>();
+    private bool hasSwitchedToBad = false;
+
     // Getters
     public int Health
     {
@@ -52,6 +58,19 @@ public class Tree : MonoBehaviour, IDamageable
         if (crackSound == null)
         {
             Debug.LogWarning("Không tìm thấy AudioSource trên " + gameObject.name);
+        }
+
+        // Cache tất cả Renderer và lưu Shadow_Color gốc
+        treeRenderers = GetComponentsInChildren<Renderer>();
+        foreach (var rend in treeRenderers)
+        {
+            foreach (var mat in rend.materials)
+            {
+                if (mat.HasProperty(ShadowColorID) && !originalShadowColors.ContainsKey(mat))
+                {
+                    originalShadowColors[mat] = mat.GetColor(ShadowColorID);
+                }
+            }
         }
     }
     // private bool created = false;
@@ -122,6 +141,13 @@ public class Tree : MonoBehaviour, IDamageable
                 Debug.Log("Active Animation Tree_Bad");
                 StartCoroutine(PlayPartOfAudio(0f, 2.0f));
             }
+
+            // Đổi Shadow_Color sang #C67301 khi vào trạng thái bad
+            if (!hasSwitchedToBad)
+            {
+                SetShadowColor(new Color(0.776f, 0.451f, 0.004f, 0f)); // #C67301
+                hasSwitchedToBad = true;
+            }
             //anim.Play("Tree_Bad");
         }
         if (count < 1 && count > -20)
@@ -164,6 +190,25 @@ public class Tree : MonoBehaviour, IDamageable
     }
 
    
+    /// <summary>
+    /// Đổi thuộc tính _Shadow_Color trên tất cả material của cây.
+    /// </summary>
+    private void SetShadowColor(Color color)
+    {
+        if (treeRenderers == null) return;
+        foreach (var rend in treeRenderers)
+        {
+            if (rend == null) continue;
+            foreach (var mat in rend.materials)
+            {
+                if (mat.HasProperty(ShadowColorID))
+                {
+                    mat.SetColor(ShadowColorID, color);
+                }
+            }
+        }
+    }
+
     public void Die()
     {
         // Debug.Log("Xoa Cay: ");

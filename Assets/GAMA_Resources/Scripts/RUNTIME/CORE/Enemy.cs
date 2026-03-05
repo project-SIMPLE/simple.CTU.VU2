@@ -85,7 +85,8 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
     {
         gameObject.tag = "Water";
         gameObject.layer = LayerMask.NameToLayer("Water");
-        StatisticsManager.Instance.IncreaseEnemyKillCount();
+        if (StatisticsManager.Instance != null)
+            StatisticsManager.Instance.IncreaseEnemyKillCount();
     }
 
     public bool IsDead()
