@@ -31,7 +31,7 @@ public class Thuan_23127_WaterDropBehavior : MonoBehaviour
         {
             // Đã đến nơi -> Gọi hàm nổ nước rồi hủy
             SpawnSplashEffect();
-            // Destroy(gameObject);
+            Destroy(gameObject);
             return;
         }
 
