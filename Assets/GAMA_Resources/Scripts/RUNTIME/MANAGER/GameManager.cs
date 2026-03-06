@@ -36,10 +36,19 @@ public class GameManager : MonoBehaviour
         get { return score; }
     }
 
+    void Awake()
+    {
+        // Deactivate game systems until player presses Start
+        buildSystemManager.gameObject.SetActive(false);
+        playerResourcesManager.gameObject.SetActive(false);
+        levelManager.gameObject.SetActive(false);
+        buildUI.gameObject.SetActive(false);
+        hud.gameObject.SetActive(false);
+    }
+
     void Start()
     {
         gameStatus = GameStatus.Wait;
-
     }
 
     void Update()

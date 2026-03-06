@@ -41,6 +41,7 @@ public class MoonOrbitController : MonoBehaviour
     private float _elapsed;
     private bool _ready;
     private RectTransform _moonIconParent; // MoonOrbit — cha của MoonIcon
+    private GameManager _gameManager;
 
     /// <summary>
     /// Marker zone hiện tại: 1, 2, 3, hoặc 4 (tương ứng PositionMarker_1..4).
@@ -62,6 +63,7 @@ public class MoonOrbitController : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(this); return; }
         Instance = this;
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     void Start()
@@ -113,6 +115,9 @@ public class MoonOrbitController : MonoBehaviour
     void Update()
     {
         if (!_ready) return;
+
+        // Only orbit when game is in progress
+        if (_gameManager != null && _gameManager.CurrentGameStatus() != GameStatus.InProgress) return;
 
         _elapsed += Time.deltaTime;
 
