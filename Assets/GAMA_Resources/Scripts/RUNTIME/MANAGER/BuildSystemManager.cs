@@ -27,10 +27,6 @@ public class BuildSystemManager : MonoBehaviour
     [Tooltip("Bán kính tìm kiếm Connector xung quanh điểm raycast để dễ thao tác hơn")]
     [SerializeField] private float connectorDetectionRadius = 1.5f;
 
-    [Header("UI Canvases (tự tắt blocksRaycasts khi build)")]
-    [Tooltip("Kéo các Canvas UI vào đây để ray không bị UI chặn khi đang build")]
-    [SerializeField] private CanvasGroup[] uiCanvasGroups;
-
     [SerializeField] private SubsidenceManager subsidenceManager;
 
     private bool isBuilding = false;
@@ -85,9 +81,6 @@ public class BuildSystemManager : MonoBehaviour
         if (buildModeIndicator != null)
             buildModeIndicator.SetActive(true);
 
-        // Tắt UI chặn raycast để ray xuyên qua UI đến SurfaceConnector
-        SetUIBlocksRaycasts(false);
-
         Debug.Log($"[BuildSystem] Build mode ON - construction: {constructions[constructionIndex].name}");
     }
 
@@ -102,8 +95,6 @@ public class BuildSystemManager : MonoBehaviour
 
         if (buildModeIndicator != null)
             buildModeIndicator.SetActive(false);
-
-        SetUIBlocksRaycasts(true);
     }
 
     public bool IsBuildable(int constructionIndex)
@@ -254,11 +245,6 @@ public class BuildSystemManager : MonoBehaviour
 
         if (buildModeIndicator != null)
             buildModeIndicator.SetActive(false);
-
-        // Bật lại UI raycast rồi mở lại Build UI
-        SetUIBlocksRaycasts(true);
-        if (buildIU != null)
-            buildIU.ToggleMenu();
     }
 
     private void DestroyGhost()
@@ -285,21 +271,6 @@ public class BuildSystemManager : MonoBehaviour
         foreach (var construction in constructions)
         {
             construction.DecreaseCooldown(deltaTime);
-        }
-    }
-
-    /// <summary>
-    /// Bật/tắt blocksRaycasts trên tất cả UI CanvasGroup.
-    /// Khi build mode ON → tắt để XR ray xuyên qua UI đến SurfaceConnector.
-    /// Khi build mode OFF → bật lại để UI hoạt động bình thường.
-    /// </summary>
-    private void SetUIBlocksRaycasts(bool value)
-    {
-        if (uiCanvasGroups == null) return;
-        foreach (var cg in uiCanvasGroups)
-        {
-            if (cg != null)
-                cg.blocksRaycasts = value;
         }
     }
 }
