@@ -48,7 +48,7 @@ public class BuildUI : MonoBehaviour
 
     public void ToggleMenu()
     {
-        //content.SetActive(!content.activeSelf);
+        content.SetActive(!content.activeSelf);
     }
 
     public void OnHover(int constructionIndex)

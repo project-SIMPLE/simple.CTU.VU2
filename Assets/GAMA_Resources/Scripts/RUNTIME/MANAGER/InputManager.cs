@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
         // build system interaction
         if (buildActive.action.triggered)
         {
-            if (buildManager.IsBuilding) buildManager.FinishBuilding();
+            if (buildManager.IsBuilding) buildManager.CancelBuilding();
             else
             {
                 buildUI.ToggleMenu();
@@ -33,7 +33,9 @@ public class InputManager : MonoBehaviour
             }
             
         }
-        //buildRay.SetActive(buildManager.IsBuilding);
+        
+        bool shouldShowBuildRay = buildManager.IsBuilding;
+        buildRay.SetActive(shouldShowBuildRay);
 
         if (buildAction.action.ReadValue<float>() >= 0.5f)
         {
