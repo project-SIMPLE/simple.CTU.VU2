@@ -8,6 +8,7 @@ public class Thuan_23127_WaterDropBehavior : MonoBehaviour
     private float journeyLength;
     private float startTime;
     private float arcHeight = 2.0f; // Độ cao của vòng cung nước
+    private bool isSetup = false;   // Guard: true after Setup() called / Cờ: true sau khi Setup() được gọi
 
     public void Setup(Vector3 target, float speed)
     {
@@ -16,6 +17,7 @@ public class Thuan_23127_WaterDropBehavior : MonoBehaviour
         moveSpeed = speed;
         journeyLength = Vector3.Distance(startPoint, endPoint);
         startTime = Time.time;
+        isSetup = true;
         
         // Xoay đầu hạt nước hướng về đích
         transform.LookAt(endPoint);
@@ -23,6 +25,10 @@ public class Thuan_23127_WaterDropBehavior : MonoBehaviour
 
     private  void Update()
     {
+        // Don't move if Setup() hasn't been called (prevents NaN).
+        // Không di chuyển nếu Setup() chưa được gọi (tránh NaN).
+        if (!isSetup) return;
+
         // Tính toán quãng đường đã đi được (từ 0 đến 1)
         var distCovered = (Time.time - startTime) * moveSpeed;
         var fractionOfJourney = distCovered / journeyLength;
