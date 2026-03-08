@@ -148,6 +148,7 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
         gameObject.layer = LayerMask.NameToLayer("Water");
         if (StatisticsManager.Instance != null)
             StatisticsManager.Instance.IncreaseEnemyKillCount();
+        Destroy(gameObject, 3f);
     }
 
     /// <summary>
