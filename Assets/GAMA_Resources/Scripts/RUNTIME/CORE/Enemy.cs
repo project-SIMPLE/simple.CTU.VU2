@@ -41,11 +41,19 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
     [SerializeField] LayerMask targetLayerMask;  // Which layers to attack / Layer nào bị tấn công
 
     // =========================================================================
+    // SHADER PROPERTY IDs
+    // =========================================================================
+    private static readonly int ShadowColorID = Shader.PropertyToID("_Shadow_Color");
+    private static readonly Color SaltyColor  = new Color(0.106f, 0.184f, 0.878f, 1f);  // #1B2FE0
+    private static readonly Color NeutralColor = new Color(0.298f, 0.867f, 0.824f, 1f);  // #4CDDD2
+
+    // =========================================================================
     // RUNTIME STATE
     // TRẠNG THÁI RUNTIME
     // =========================================================================
     private int currentHealh;       // Current HP / Máu hiện tại
     private float currentInterval;  // Countdown to next attack / Đếm ngược đến đợt tấn công kế
+    private Renderer[] bodyRenderers; // Cached renderers for _Shadow_Color / Renderer đã cache cho _Shadow_Color
 
     // =========================================================================
     // PUBLIC PROPERTIES
@@ -79,6 +87,11 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
         currentInterval = attackInterval;
         var navAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (navAgent) navAgent.speed = moveSpeed;
+
+        // Set SaltyWater shadow color on spawn.
+        // Đặt màu bóng Nước Mặn khi sinh ra.
+        bodyRenderers = GetComponentsInChildren<Renderer>();
+        SetShadowColor(SaltyColor);
     }
 
     /// <summary>
@@ -121,6 +134,13 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
         // Phát animation cảm xúc bị tấn công.
         if (emotionAnimator) emotionAnimator.Play("Attacked");
         currentHealh -= damage;
+
+        // Gradually transition shadow color based on remaining HP.
+        // Chuyển màu bóng dần dần theo HP còn lại.
+        float hpRatio = Mathf.Clamp01((float)currentHealh / health);
+        Color targetColor = Color.Lerp(NeutralColor, SaltyColor, hpRatio);
+        StartCoroutine(LerpShadowColor(targetColor, 0.5f));
+
         if (currentHealh <= 0)
         {
             // Remove HUD marker.
@@ -148,6 +168,11 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
         gameObject.layer = LayerMask.NameToLayer("Water");
         if (StatisticsManager.Instance != null)
             StatisticsManager.Instance.IncreaseEnemyKillCount();
+
+        // Revert to neutral color when neutralized.
+        // Chuyển về màu trung hòa khi bị trung hòa.
+        SetShadowColor(NeutralColor);
+
         Destroy(gameObject, 3f);
     }
 
@@ -213,6 +238,45 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
             tick = 0;
             target.TakeDamage(attackDamage);
         }
+    }
+
+    // =========================================================================
+    // EDITOR GIZMOS
+    // GIZMOS TRONG EDITOR
+    // =========================================================================
+    // =========================================================================
+    // SHADOW COLOR
+    // MÀU BÓNG
+    // =========================================================================
+
+    private Color currentShadowColor;
+
+    private void SetShadowColor(Color color)
+    {
+        currentShadowColor = color;
+        if (bodyRenderers == null) return;
+        foreach (var rend in bodyRenderers)
+        {
+            if (rend == null) continue;
+            foreach (var mat in rend.materials)
+            {
+                if (mat.HasProperty(ShadowColorID))
+                    mat.SetColor(ShadowColorID, color);
+            }
+        }
+    }
+
+    private IEnumerator LerpShadowColor(Color target, float duration)
+    {
+        Color start = currentShadowColor;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            SetShadowColor(Color.Lerp(start, target, elapsed / duration));
+            yield return null;
+        }
+        SetShadowColor(target);
     }
 
     // =========================================================================

@@ -176,13 +176,13 @@ public class SubsidenceManager : MonoBehaviour
 
     void ActivateSubsidenceLevel(int level)
     {
-        for (int i = 0; i < subsidenceLevels.Count; i++)
-        {
-            if (i == level - 1)
-            {
-                subsidenceLevels[i].SetActive(true);
-            }
-        }
+        // for (int i = 0; i < subsidenceLevels.Count; i++)
+        // {
+        //     if (i == level - 1)
+        //     {
+        //         subsidenceLevels[i].SetActive(true);
+        //     }
+        // }
     }
 
     public void Flooded(float level)

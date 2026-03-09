@@ -55,6 +55,9 @@ public class Ally : MonoBehaviour, IDamageable, IDamage
     private float timeLife = 5.0f;   // Self-destruct timer when idle / Bộ đếm tự hủy khi rảnh
     private bool useNavMesh = true;  // Whether NavMesh pathfinding is available / NavMesh có khả dụng không
 
+    private static readonly int ShadowColorID = Shader.PropertyToID("_Shadow_Color");
+    private static readonly Color FreshColor = new Color(0.298f, 0.867f, 0.824f, 1f);  // #4CDDD2
+
     // =========================================================================
     // PUBLIC PROPERTIES
     // THUỘC TÍNH CÔNG KHAI
@@ -108,6 +111,17 @@ public class Ally : MonoBehaviour, IDamageable, IDamage
         else
         {
             useNavMesh = false;
+        }
+
+        // Set FreshWater shadow color.
+        // Đặt màu bóng Nước Ngọt.
+        foreach (var rend in GetComponentsInChildren<Renderer>())
+        {
+            foreach (var mat in rend.materials)
+            {
+                if (mat.HasProperty(ShadowColorID))
+                    mat.SetColor(ShadowColorID, FreshColor);
+            }
         }
 
         // Scan for enemies every 0.5 seconds.
