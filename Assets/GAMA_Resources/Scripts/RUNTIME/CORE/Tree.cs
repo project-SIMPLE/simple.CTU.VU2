@@ -131,7 +131,7 @@ public class Tree : MonoBehaviour, IDamageable
 
 
         // Check Condition Tree
-        if (count < 350 && count > 320)
+        if (count < 150 && count > 120)
         {
             //condition = 1; 
             // Debug.Log("khoi dong animation Tree Bad: ");
@@ -142,10 +142,10 @@ public class Tree : MonoBehaviour, IDamageable
                 StartCoroutine(PlayPartOfAudio(0f, 2.0f));
             }
 
-            // Đổi Shadow_Color sang #C67301 khi vào trạng thái bad
+            // Đổi Shadow_Color sang #744A4A khi vào trạng thái bad
             if (!hasSwitchedToBad)
             {
-                SetShadowColor(new Color(0.776f, 0.451f, 0.004f, 0f)); // #C67301
+                SetShadowColor(new Color(0.455f, 0.290f, 0.290f, 0f)); // #744A4A
                 hasSwitchedToBad = true;
             }
             //anim.Play("Tree_Bad");

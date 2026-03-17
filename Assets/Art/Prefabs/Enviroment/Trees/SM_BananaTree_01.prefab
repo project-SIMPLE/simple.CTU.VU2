@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1156045187508465652}
   - component: {fileID: 2506325518353346562}
   - component: {fileID: 4467126552107789123}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: SM_BananaTree_01
-  m_TagString: Tree
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
