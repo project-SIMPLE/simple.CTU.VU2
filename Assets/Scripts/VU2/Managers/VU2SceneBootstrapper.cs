@@ -198,7 +198,17 @@ public class VU2SceneBootstrapper : MonoBehaviour
         Canvas canvas = _tidalClockRoot.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
         _tidalClockRoot.AddComponent<CanvasScaler>();
-        _tidalClockRoot.AddComponent<GraphicRaycaster>();
+
+        // GraphicRaycaster tắt vì panel này chỉ hiển thị, không cần tương tác.
+        // GraphicRaycaster disabled — display-only panel, no interaction needed.
+        var gr = _tidalClockRoot.AddComponent<GraphicRaycaster>();
+        gr.enabled = false;
+
+        // Ngăn Canvas chặn XR ray (panel này chỉ hiển thị, không tương tác).
+        // Prevent Canvas from blocking XR rays (display-only panel).
+        CanvasGroup tidalCg = _tidalClockRoot.AddComponent<CanvasGroup>();
+        tidalCg.blocksRaycasts = false;
+        tidalCg.interactable = false;
 
         RectTransform canvasRect = _tidalClockRoot.GetComponent<RectTransform>();
         canvasRect.position = panelPos;
@@ -356,7 +366,14 @@ public class VU2SceneBootstrapper : MonoBehaviour
         );
         tidalUI.tidalIntensityGradient = grad;
 
-        Debug.Log("[VU2Bootstrapper] Created TidalClock UI panel");
+        // Tắt raycastTarget trên toàn bộ Graphic con để XR ray xuyên qua.
+        // Disable raycastTarget on all child Graphics so XR rays pass through.
+        foreach (var g in _tidalClockRoot.GetComponentsInChildren<Graphic>(true))
+        {
+            g.raycastTarget = false;
+        }
+
+        Debug.Log("[VU2Bootstrapper] Created TidalClock UI panel (non-blocking)");
     }
 
     // =========================================================================

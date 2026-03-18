@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class UICamera : MonoBehaviour
@@ -14,6 +15,16 @@ public class UICamera : MonoBehaviour
 
     private bool rightSecondaryPrev = false;
     private bool leftPrimaryPrev = false;
+
+    // Cache NonBlockingCanvas trên Canvas cha (nếu có)
+    private NonBlockingCanvas _nonBlockingCanvas;
+
+    private void Start()
+    {
+        _nonBlockingCanvas = GetComponentInParent<NonBlockingCanvas>();
+        if (_nonBlockingCanvas == null)
+            _nonBlockingCanvas = GetComponentInChildren<NonBlockingCanvas>();
+    }
 
     private void Update()
     {
@@ -47,7 +58,8 @@ public class UICamera : MonoBehaviour
 
         isUISettingOpen = !isUISettingOpen;
         UISetting.SetActive(isUISettingOpen);
-            Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
+        UpdateRaycasterState();
+        Debug.Log((isUISettingOpen ? "Show" : "Hide") + " UISetting");
     }
 
     public void ToggleStartGameMenu()
@@ -56,6 +68,23 @@ public class UICamera : MonoBehaviour
 
         isStartGameMenuOpen = !isStartGameMenuOpen;
         startGameMenuUI.SetActive(isStartGameMenuOpen);
+        UpdateRaycasterState();
         Debug.Log((isStartGameMenuOpen ? "Show" : "Hide") + " StartGameMenuUI");
+    }
+
+    /// <summary>
+    /// Bật GraphicRaycaster khi có panel tương tác đang mở, tắt khi tất cả panel đóng.
+    /// Enable GraphicRaycaster when any interactive panel is open, disable when all closed.
+    /// </summary>
+    private void UpdateRaycasterState()
+    {
+        bool anyOpen = isUISettingOpen || isStartGameMenuOpen;
+        if (_nonBlockingCanvas != null)
+        {
+            if (anyOpen)
+                _nonBlockingCanvas.EnableRaycasters();
+            else
+                _nonBlockingCanvas.DisableRaycasters();
+        }
     }
 }

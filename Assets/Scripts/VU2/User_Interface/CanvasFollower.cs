@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasFollower : MonoBehaviour
 {
@@ -8,15 +9,14 @@ public class CanvasFollower : MonoBehaviour
     [Tooltip("Kéo camera của XR rig vào đây. Nếu để trống sẽ tự tìm trong parent hierarchy.")]
     [SerializeField] Camera targetCamera;
 
-    [Tooltip("Tắt blocksRaycasts trên tất cả Canvas con để XR ray không bị chặn.")]
+    [Tooltip("Tắt blocksRaycasts trên Canvas chỉ hiển thị (KHÔNG chứa Button).\n"
+           + "Canvas có Button sẽ chỉ dọn Graphic trang trí, giữ raycaster.")]
     [SerializeField] bool disableBlocksRaycasts = true;
 
     Transform cameraTransform;
 
     void OnEnable()
     {
-        // Ưu tiên camera được gán thủ công, sau đó tìm trong parent hierarchy,
-        // cuối cùng mới dùng Camera.main (tránh lấy nhầm camera của XR rig khác)
         if (targetCamera != null)
         {
             cameraTransform = targetCamera.transform;
@@ -31,7 +31,7 @@ public class CanvasFollower : MonoBehaviour
         if (cameraTransform == null) return;
 
         if (disableBlocksRaycasts)
-            DisableRaycastBlockingOnAllCanvases();
+            DisableRaycastBlockingOnDisplayCanvases();
 
         Vector3 targetPosition = cameraTransform.position + (cameraTransform.forward * distanceFromCamera.z)
          + (cameraTransform.up * distanceFromCamera.y) + (cameraTransform.right * distanceFromCamera.x);
@@ -57,10 +57,6 @@ public class CanvasFollower : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * smoothSpeed);
     }
 
-    /// <summary>
-    /// Tìm Camera trong cây cha (parent hierarchy) thay vì dùng Camera.main.
-    /// Đi từ parent lên root, tìm Camera trong children của từng cấp.
-    /// </summary>
     private Transform FindCameraInParentHierarchy()
     {
         Transform current = transform.parent;
@@ -74,20 +70,45 @@ public class CanvasFollower : MonoBehaviour
     }
 
     /// <summary>
-    /// Tắt blocksRaycasts trên chính object này VÀ tất cả Canvas con.
-    /// Mỗi Canvas tạo scope raycast riêng, nên CanvasGroup cha không ảnh hưởng con.
-    /// Phải thêm CanvasGroup cho từng Canvas con để XR ray xuyên qua.
+    /// Xử lý raycasting thông minh:
+    /// - Canvas KHÔNG có Selectable → tắt hoàn toàn raycaster + raycastTarget
+    /// - Canvas CÓ Selectable (Button) → giữ raycaster, chỉ tắt Graphic trang trí
     /// </summary>
-    private void DisableRaycastBlockingOnAllCanvases()
+    private void DisableRaycastBlockingOnDisplayCanvases()
     {
-        // Tắt trên chính object này
-        SetBlocksRaycasts(gameObject, false);
-
-        // Tắt trên tất cả Canvas con (mỗi Canvas có scope raycast riêng)
+        // Duyệt từng Canvas con
         foreach (var canvas in GetComponentsInChildren<Canvas>(true))
         {
-            SetBlocksRaycasts(canvas.gameObject, false);
+            bool hasSelectable = canvas.GetComponentInChildren<Selectable>(true) != null;
+
+            if (!hasSelectable)
+            {
+                // Canvas chỉ hiển thị → tắt hoàn toàn
+                SetBlocksRaycasts(canvas.gameObject, false);
+
+                foreach (var gr in canvas.GetComponents<GraphicRaycaster>())
+                    gr.enabled = false;
+
+                foreach (var g in canvas.GetComponentsInChildren<Graphic>(true))
+                    g.raycastTarget = false;
+            }
+            else
+            {
+                // Canvas tương tác → chỉ tắt Graphic trang trí
+                foreach (var g in canvas.GetComponentsInChildren<Graphic>(true))
+                {
+                    if (IsPartOfSelectable(g)) continue;
+                    g.raycastTarget = false;
+                }
+            }
         }
+    }
+
+    private bool IsPartOfSelectable(Graphic g)
+    {
+        if (g.GetComponent<Selectable>() != null) return true;
+        var parent = g.GetComponentInParent<Selectable>();
+        return parent != null && g.transform.IsChildOf(parent.transform);
     }
 
     private void SetBlocksRaycasts(GameObject target, bool value)

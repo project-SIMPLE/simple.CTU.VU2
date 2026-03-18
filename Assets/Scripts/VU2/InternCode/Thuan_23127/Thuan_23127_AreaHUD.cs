@@ -212,6 +212,7 @@ public class Thuan_23127_AreaHUD : MonoBehaviour
         if (_popupCg != null)
         {
             _popupCg.alpha = 1f;
+            _popupCg.blocksRaycasts = false; // Không chặn XR ray
         }
 
         // Mark this HUD as popup owner.
