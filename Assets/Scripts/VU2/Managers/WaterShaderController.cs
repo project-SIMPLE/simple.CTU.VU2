@@ -40,22 +40,24 @@ public class WaterShaderController : MonoBehaviour
         {
             return;
         }
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
-        OnSeasonChanged(SeasonPhase.Rainy1);
+        LevelManager.OnWaveStepChanged += OnWaveStepChanged;
+        // Start with rainy season settings (Preparation phase is first)
+        ApplySeasonSettings(isRainy: true);
     }
     
     private void OnDestroy()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        LevelManager.OnWaveStepChanged -= OnWaveStepChanged;
     }
     
-    private void OnSeasonChanged(SeasonPhase phase)
+    private void OnWaveStepChanged(WaveStep step)
     {
-        if (_waterMaterial == null)
-        {
-            return;
-        }
-        
+        if (_waterMaterial == null) return;
+        ApplySeasonSettings(isRainy: step == WaveStep.Preparation);
+    }
+
+    private void ApplySeasonSettings(bool isRainy)
+    {
         if (_transitionCoroutine != null)
         {
             StopCoroutine(_transitionCoroutine);
@@ -64,19 +66,9 @@ public class WaterShaderController : MonoBehaviour
         float currentSpeed = _waterMaterial.GetFloat("_Speed");
         float currentSalinityContrast = _waterMaterial.GetFloat("_Salinity_Contrast");
 
-        float targetSpeed;
-        float targetSalinityContrast;
-        
-        if (phase == SeasonPhase.Dry)
-        {
-            targetSpeed = drySpeed;
-            targetSalinityContrast = drySalinityContrast;
-        }
-        else
-        {
-            targetSpeed = rainySpeed;
-            targetSalinityContrast = rainySalinityContrast;
-        }
+        float targetSpeed = isRainy ? rainySpeed : drySpeed;
+        float targetSalinityContrast = isRainy ? rainySalinityContrast : drySalinityContrast;
+
         _transitionCoroutine = StartCoroutine(TransitionShaderValues(
             currentSpeed, targetSpeed,
             currentSalinityContrast, targetSalinityContrast
@@ -90,7 +82,6 @@ public class WaterShaderController : MonoBehaviour
         _waterMaterial.SetFloat("_Speed", endSpeed);
         
         float elapsed = 0f;
-        float lastLogTime = 0f;
         
         while (elapsed < transitionDuration)
         {
@@ -102,11 +93,6 @@ public class WaterShaderController : MonoBehaviour
             float currentSalinity = Mathf.Lerp(startSalinity, endSalinity, smoothT);
             
             _waterMaterial.SetFloat("_Salinity_Contrast", currentSalinity);
-            
-            if (elapsed - lastLogTime >= 2f)
-            {
-                lastLogTime = elapsed;
-            }
             
             yield return null;
         }

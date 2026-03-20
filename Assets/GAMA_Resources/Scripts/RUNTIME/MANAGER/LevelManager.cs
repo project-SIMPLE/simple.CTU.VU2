@@ -14,12 +14,20 @@ public class LevelManager : MonoBehaviour
     /*
     Managing game levels
     Currently has 2 stages on the same level
-    - Preparation: 30s  
-    - Defense: 270s
+    - Preparation (Rainy Season): 60s - rain effects active, no saltwater intrusion
+    - Defense: enemies spawn, saltwater intrusion begins
      */
     [SerializeField] private bool loop = false;
     [SerializeField] private List<WaveSO> waves;
     [SerializeField] private List<EnemySpawner> spawns;
+
+    [Header("Rainy Season (Preparation Phase)")]
+    [SerializeField] private GameObject rainEffect;
+    [SerializeField] private GameObject rainIcon;
+    [SerializeField] private GameObject sunIcon;
+
+    // Static event: fired when wave step changes (Preparation ↔ Defense)
+    public static event System.Action<WaveStep> OnWaveStepChanged;
 
     // runtime privates
     private bool finished = false;
@@ -109,6 +117,14 @@ public class LevelManager : MonoBehaviour
             }
         }
         currentTime -= Time.deltaTime;
+
+        // Rainy season phase: activate rain effects, no saltwater intrusion
+        if (currentWaveStep == WaveStep.Preparation)
+        {
+            SetRainActive(true);
+            RulesOfTheGame_VU2_2.Saltwater_Intrusion = 0f;
+        }
+
         if (currentTime <= 0)
         {
             if (!MoveToDefenseStep())
@@ -126,6 +142,7 @@ public class LevelManager : MonoBehaviour
         currentWave = 0;
         currentTime = waves[0].preparationTime;
         currentWaveSpawnIndex = 0;
+        OnWaveStepChanged?.Invoke(WaveStep.Preparation);
     }
 
     bool MoveToDefenseStep()
@@ -134,6 +151,11 @@ public class LevelManager : MonoBehaviour
         {
             currentTime = waves[currentWave].waveTime;
             currentWaveStep = WaveStep.Defense;
+
+            // End rainy season: deactivate rain, saltwater intrusion begins
+            SetRainActive(false);
+            OnWaveStepChanged?.Invoke(WaveStep.Defense);
+
             return true;
         }
         return false;
@@ -159,6 +181,7 @@ public class LevelManager : MonoBehaviour
                 currentWaveStep = WaveStep.Preparation;
                 currentTime = waves[currentWave].preparationTime;
                 currentWaveSpawnIndex = 0;
+                OnWaveStepChanged?.Invoke(WaveStep.Preparation);
             }
             return true;
         }
@@ -187,5 +210,15 @@ public class LevelManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Activates/deactivates rain effects and UI icons for the rainy season (Preparation phase).
+    /// </summary>
+    void SetRainActive(bool active)
+    {
+        if (rainEffect) rainEffect.SetActive(active);
+        if (rainIcon) rainIcon.SetActive(active);
+        if (sunIcon) sunIcon.SetActive(!active);
     }
 }
