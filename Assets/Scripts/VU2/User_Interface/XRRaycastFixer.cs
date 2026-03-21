@@ -100,12 +100,9 @@ public class XRRaycastFixer : MonoBehaviour
     /// </summary>
     private bool HasActiveSelectable(GameObject obj)
     {
-        foreach (var s in obj.GetComponentsInChildren<Selectable>(true))
-        {
-            if (s.gameObject.activeInHierarchy && s.interactable)
-                return true;
-        }
-        return false;
+        // Bao gồm cả Selectable trên object inactive (có thể được bật sau).
+        // Include Selectables on inactive objects (may be activated later).
+        return obj.GetComponentsInChildren<Selectable>(true).Length > 0;
     }
 
     /// <summary>

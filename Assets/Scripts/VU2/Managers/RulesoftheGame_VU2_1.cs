@@ -604,7 +604,7 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         StartMenu.SetActive(false);
         ResultMenu.SetActive(false);
         timeRemaining = 0f;
-        NPC_Talk.SetActive(true);
+        // NPC_Talk.SetActive(true);
         ResultDetailsScore.SetActive(false);
 
         // Log timing configuration for debugging.
