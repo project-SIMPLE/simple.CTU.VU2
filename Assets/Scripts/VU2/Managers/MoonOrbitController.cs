@@ -20,8 +20,8 @@ using UnityEngine;
 public class MoonOrbitController : MonoBehaviour
 {
     [Header("Cấu hình")]
-    [Tooltip("Thời gian 1 vòng quay (giây). Mặc định = 60s = 1 phút.")]
-    public float cycleDuration = 60f;
+    [Tooltip("Thời gian 1 vòng quay (giây). Mặc định = 120s = 2 phút.")]
+    public float cycleDuration = 120f;
 
     [Tooltip("Quay theo chiều kim đồng hồ?")]
     public bool clockwise = false;

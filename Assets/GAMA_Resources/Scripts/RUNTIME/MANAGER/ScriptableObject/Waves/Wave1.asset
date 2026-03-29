@@ -239,4 +239,4 @@ MonoBehaviour:
     spawnAmount: 8
     spawnPoint: 3
   waveTime: 150
-  preparationTime: 60
+  preparationTime: 120

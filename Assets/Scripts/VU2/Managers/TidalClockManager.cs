@@ -63,8 +63,8 @@ public class TidalClockManager : MonoBehaviour
     
     [Tooltip("Duration of one full tidal cycle (moon orbit) in seconds.\n"
            + "Thời gian 1 chu kỳ triều đầy đủ (1 vòng trăng) tính bằng giây.\n"
-           + "Default: 30s = 1 cycle per game-month (with monthDuration=30).")]
-    public float tidalCycleDuration = 30f;
+           + "Default: 120s = 2 phút mỗi chu kỳ.")]
+    public float tidalCycleDuration = 120f;
 
     [Tooltip("Number of tidal cycles per game month.\n"
            + "Số chu kỳ triều mỗi tháng game.\n"

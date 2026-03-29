@@ -664,6 +664,8 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour
         ResultMenu.SetActive(false);
         InteractiveObjects.SetActive(false);
         UIForVR.SetActive(false);
+        if (InteractiveObjects) InteractiveObjects.SetActive(false);
+        if (UIForVR) UIForVR.SetActive(false);
     }
 
     // =========================================================================

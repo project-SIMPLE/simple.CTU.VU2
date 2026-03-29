@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class CanvasFollower : MonoBehaviour
 {
-    [SerializeField] Vector3 distanceFromCamera = new Vector3(0, 0, 6);
+    [SerializeField] Vector3 distanceFromCamera = new Vector3(0, 0, 2);
     [SerializeField] float smoothSpeed = 8.0f;
 
     [Tooltip("Kéo camera của XR rig vào đây. Nếu để trống sẽ tự tìm trong parent hierarchy.")]

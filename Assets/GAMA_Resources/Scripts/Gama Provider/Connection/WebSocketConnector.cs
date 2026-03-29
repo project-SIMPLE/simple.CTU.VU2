@@ -17,7 +17,7 @@ public abstract class WebSocketConnector : MonoBehaviour
     protected bool UseHeartbeat = true; //only for middleware mode
     protected bool DesktopMode = false;
     protected bool fixedProperties = true;
-    protected string DefaultIP = "192.168.0.50"; //"localhost";//"192.168.1.68"; 10.16.14.40 (test)"192.168.0.50"
+    protected string DefaultIP = "localhost"; //"localhost";//"192.168.1.68"; 10.16.14.40 (test)"192.168.0.50"// "192.168.0.50"
     protected string DefaultPort = "8080";
     protected bool UseMiddlewareDM = true;
 
@@ -65,8 +65,15 @@ public abstract class WebSocketConnector : MonoBehaviour
         */
         socket = new WebSocket("ws://" + host + ":" + port + "/");
         socket.OnOpen += HandleConnectionOpen;
-        socket.OnMessage += HandleReceivedMessage;
+        //socket.OnMessage += HandleReceivedMessage;
+        socket.OnMessage += (sender, e) =>
+        {
+            if (e.IsText)
+                Debug.Log("[WebSocket Received] " + e.Data);
+            HandleReceivedMessage(sender, e);
+        };
         socket.OnClose += HandleConnectionClosed;
+        
     }
 
    void OnDestroy() {
