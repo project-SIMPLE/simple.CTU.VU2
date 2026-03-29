@@ -20,6 +20,10 @@ public class EnemyController : MonoBehaviour
     private bool wayPointsSet = false;
     private bool hasStartedMoving = false;
 
+    // TreeBarrier trap: khi bị cây giữ, enemy dừng di chuyển.
+    // TreeBarrier trap: when trapped by a tree, enemy stops moving.
+    private bool _isTrapped = false;
+
     // NavMesh fallback: use simple movement if NavMesh is not available.
     // Fallback NavMesh: dùng di chuyển đơn giản nếu NavMesh không khả dụng.
     private bool _useNavMesh = true;
@@ -80,6 +84,9 @@ public class EnemyController : MonoBehaviour
 
         // Dừng di chuyển nếu enemy đã chết
         if (enemy != null && enemy.IsDead()) return;
+
+        // Dừng di chuyển nếu bị cây giữ
+        if (_isTrapped) return;
 
         if (_useNavMesh)
         {
@@ -176,4 +183,22 @@ public class EnemyController : MonoBehaviour
         hasStartedMoving = false;
         currentWayPointIndex = 0;
     }
+
+    /// <summary>
+    /// Bật/tắt trạng thái bị cây giữ. Khi trapped=true, enemy dừng di chuyển.
+    /// Toggle trapped state. When trapped=true, enemy stops moving.
+    /// </summary>
+    public void SetTrapped(bool trapped)
+    {
+        _isTrapped = trapped;
+        if (_useNavMesh && agent != null && agent.isOnNavMesh)
+        {
+            if (trapped)
+                agent.isStopped = true;
+            else
+                agent.isStopped = false;
+        }
+    }
+
+    public bool IsTrapped => _isTrapped;
 }

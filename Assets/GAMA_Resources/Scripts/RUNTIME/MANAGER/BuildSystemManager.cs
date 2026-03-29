@@ -277,6 +277,7 @@ public class BuildSystemManager : MonoBehaviour
             case 0: StatisticsManager.Instance.IncreateSluiceGateCount(); break;
             case 1: StatisticsManager.Instance.IncreateWaterPumpCount(); break;
             case 2: StatisticsManager.Instance.IncreateLakeCount(); break;
+            case 3: StatisticsManager.Instance.IncreateTreeBarrierCount(); break;
         }
     }
 

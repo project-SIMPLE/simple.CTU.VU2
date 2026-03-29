@@ -35,6 +35,7 @@ public class StatisticsManager : MonoBehaviour
     private int currentLakeCount = 0;
     private int currentWaterPumpCount = 0;
     private int currentSluiceGateCount = 0;
+    private int currentTreeBarrierCount = 0;
     private int currentEnemyCount = 0;
     
     [HideInInspector] public List<ActionHistory> histories;
@@ -61,6 +62,11 @@ public class StatisticsManager : MonoBehaviour
     public void IncreateSluiceGateCount()
     {
         currentSluiceGateCount += 1;
+    }
+
+    public void IncreateTreeBarrierCount()
+    {
+        currentTreeBarrierCount += 1;
     }
 
     public void IncreaseEnemyKillCount()
@@ -94,6 +100,11 @@ public class StatisticsManager : MonoBehaviour
     public int SluiceGateCount
     {
         get { return currentSluiceGateCount; }
+    }
+
+    public int TreeBarrierCount
+    {
+        get { return currentTreeBarrierCount; }
     }
 
     /*
