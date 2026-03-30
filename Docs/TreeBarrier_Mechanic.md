@@ -122,16 +122,35 @@ PFB_TreeBarrier                     ← Empty root (Tag: Construction)
 
 ### Bước 4: Thêm vào BuildSystemManager
 
-1. Chọn object **BuildUI** (hoặc object chứa `BuildSystemManager`) trong Hierarchy
-2. Tìm field **Constructions** (List):
+1. Trong Hierarchy, tìm object có component **BuildSystemManager** (Script)
+   - Đường dẫn trong scene: `ManagersMulti → Game Manager`
+2. Tìm field **Constructions** (List) và thêm Tree SO:
 
 ```
-Constructions:
+Constructions (List<ConstructionSO>):
   [0] Gate       ← đã có
   [1] Pump       ← đã có
   [2] Lake       ← đã có
   [3]            ← Nhấn "+" → Kéo ScriptableObject "Tree" vào đây
 ```
+
+3. Kiểm tra các field khác đã được cấu hình:
+
+| Field | Giá trị | Ghi chú |
+|---|---|---|
+| Build IU | Kéo object có `BuildUI` script | Đã có sẵn |
+| Build Ray Interactor | XR Ray tay phải | Đã có sẵn |
+| Build Mode Indicator | Icon "!" trên ray | Đã có sẵn |
+| Connector Layer Mask | `BuildConnector` | Đã có sẵn |
+| Connector Detection Radius | `1.5` | Đã có sẵn |
+| Subsidence Manager | Kéo object có `SubsidenceManager` | Đã có sẵn |
+
+> **Lưu ý:** Khi xây TreeBarrier, `Build()` sẽ tự động:
+> - Gán `buildSystemManager` vào `ConstructionRemover` trên prefab cây
+> - Reset cooldown + giảm số lượng theo ConstructionSO "Tree"
+> - Disable SurfaceConnector đã dùng (qua `Connector.UpdateConnector(false)`)
+> - Gọi `SubsidenceManager.IncreaseSubsidenceLevel()` + `DecreaseWaterLevel()`
+> - Cập nhật thống kê qua `StatisticsManager.IncreateTreeBarrierCount()` (case 3)
 
 ### Bước 5: Tạo Button_Tree trong UI
 

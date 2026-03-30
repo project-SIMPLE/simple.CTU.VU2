@@ -124,10 +124,14 @@ public class BuildSystemManager : MonoBehaviour
         if (ghost == null || !ghost.IsBuildable) return;
 
         // Tạo construction thật tại vị trí ghost
+        // UseIdentityRotation → dùng rotation gốc của prefab (vd: cây đứng thẳng)
+        Quaternion buildRotation = ghost.UseIdentityRotation
+            ? constructions[currentBuildingIndex].finalPrefab.transform.rotation
+            : ghostConstruction.transform.rotation;
         GameObject construction = Instantiate(
             constructions[currentBuildingIndex].finalPrefab,
             ghostConstruction.transform.position,
-            ghost.UseIdentityRotation ? Quaternion.identity : ghostConstruction.transform.rotation
+            buildRotation
         );
 
         var remover = construction.GetComponent<ConstructionRemover>();
@@ -137,7 +141,9 @@ public class BuildSystemManager : MonoBehaviour
         // Cập nhật cooldown và số lượng
         constructions[currentBuildingIndex].ResetCooldown();
         constructions[currentBuildingIndex].DecreaseQuantity();
-        buildIU.ImageCooldownList[currentBuildingIndex].fillAmount = 1;
+        if (currentBuildingIndex < buildIU.ImageCooldownList.Count
+            && buildIU.ImageCooldownList[currentBuildingIndex] != null)
+            buildIU.ImageCooldownList[currentBuildingIndex].fillAmount = 1;
 
         // Disable connectors đã sử dụng
         Connector[] connectors = ghostConstruction.GetComponentsInChildren<Connector>();
@@ -226,13 +232,17 @@ public class BuildSystemManager : MonoBehaviour
         {
             ghostConstruction = Instantiate(constructions[currentBuildingIndex].modelBuildPrefab);
             ghostConstruction.transform.position = connector.transform.position;
-            ghostConstruction.transform.rotation = connector.transform.rotation;
+            var ghost = ghostConstruction.GetComponent<GhostConstruction>();
+            if (ghost == null || !ghost.UseIdentityRotation)
+                ghostConstruction.transform.rotation = connector.transform.rotation;
         }
         else if (connectorChanged)
         {
             // Di chuyển ghost đến connector mới, GhostConstruction sẽ snap chính xác
             ghostConstruction.transform.position = connector.transform.position;
-            ghostConstruction.transform.rotation = connector.transform.rotation;
+            var ghost = ghostConstruction.GetComponent<GhostConstruction>();
+            if (ghost == null || !ghost.UseIdentityRotation)
+                ghostConstruction.transform.rotation = connector.transform.rotation;
         }
 
         if (!ghostConstruction.activeSelf)

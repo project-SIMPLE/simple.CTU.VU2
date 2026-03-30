@@ -95,8 +95,9 @@ public class GhostConstruction : MonoBehaviour
         if (surfaceConnector.Type == constructionConnector.Type)
         {
             transform.position = surfaceConnector.transform.position - (constructionConnector.transform.position - transform.position);
-            transform.rotation = useIdentityRotation ? Quaternion.identity : surfaceConnector.transform.rotation;
-            //buildable = collidingObjects==0 ? true : false;
+            // useIdentityRotation → giữ nguyên rotation gốc của prefab (vd: cây đứng thẳng)
+            if (!useIdentityRotation)
+                transform.rotation = surfaceConnector.transform.rotation;
             buildable = !collide;
         }
     }

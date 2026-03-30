@@ -25,8 +25,10 @@ public class BuildUI : MonoBehaviour
 
     private void Update()
     {
-        for(int i = 0; i < currentQuantities.Count; i++)
+        int count = Mathf.Min(currentQuantities.Count, buildManager.Constructions.Count);
+        for(int i = 0; i < count; i++)
         {
+            if (currentQuantities[i] == null || imageCooldownList[i] == null) continue;
             currentQuantities[i].text = buildManager.Constructions[i].CurrentQuantity.ToString();
             if(imageCooldownList[i].fillAmount != 0)
             {

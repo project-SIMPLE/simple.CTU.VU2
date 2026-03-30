@@ -62,17 +62,18 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     {
         currentHealth = maxHealth;
 
-        // Tự tạo trigger collider nếu chưa có
+        // Tự tạo / cấu hình trigger collider
         SphereCollider trigger = GetComponent<SphereCollider>();
         if (trigger == null)
         {
             trigger = gameObject.AddComponent<SphereCollider>();
-            trigger.isTrigger = true;
-            trigger.radius = trapRadius;
         }
+        trigger.isTrigger = true;
+        trigger.radius = trapRadius;
+        trigger.center = Vector3.zero;
 
         if (animator == null)
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -191,6 +192,11 @@ public class TreeBarrier : MonoBehaviour, IDamageable
 
         if (animator != null)
             animator.Play("Tree_Die");
+
+        // Hoàn trả số lượng cây cho BuildSystem (index 3)
+        var remover = GetComponent<ConstructionRemover>();
+        if (remover != null && remover.buildSystemManager != null)
+            remover.buildSystemManager.Constructions[3].IncreaseQuantity();
 
         // Xóa HUD
         if (GameUI.Instance != null)
