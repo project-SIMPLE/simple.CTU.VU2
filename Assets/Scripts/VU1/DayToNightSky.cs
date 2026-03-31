@@ -4,77 +4,110 @@ using UnityEngine;
 
 public class DayToNightSky : MonoBehaviour
 {
-    private float SubsidenceScore = 0.0f;
+    [Header("Skybox")]
     public Light directionalLight;
-    public Material skyboxMaterial; // Gán skybox hiện tại (phải là dạng Procedural Skybox)
-    public float transitionDuration = 5f;
-    public Color dayTint = Color.cyan;
-    public Color nightTint = Color.gray;
+    public Material skyboxMaterial; // Procedural Skybox material
 
-    private float timer = 0f;
-    private bool isTransitioning = false;
-    private Color startTint;
-    
+    [Header("Mùa mưa (Rainy) — 2 phút đầu")]
+    public Color rainyTint = new Color(0.35f, 0.4f, 0.5f, 1f);   // xám xanh, u ám
+    public float rainyLightIntensity = 0.6f;
+    public float rainyExposure = 0.8f;
+
+    [Header("Mùa khô (Dry) — sau 2 phút")]
+    public Color dryTint = new Color(0.5f, 0.75f, 1f, 1f);       // xanh da trời, trong sáng
+    public float dryLightIntensity = 1.8f;
+    public float dryExposure = 1.3f;
+
+    [Header("Thời gian")]
+    [Tooltip("Thời gian mùa mưa (giây). Mặc định 120 = 2 phút.")]
+    public float rainyDuration = 120f;
+    [Tooltip("Thời gian chuyển đổi mượt giữa 2 mùa (giây).")]
+    public float transitionDuration = 10f;
+
+    [Header("Âm thanh")]
     public AudioSource audioSound;
-    public AudioClip newClip;
+    public AudioClip rainyClip;   // Nhạc / tiếng mưa cho mùa mưa
+    public AudioClip dryClip;     // Nhạc cho mùa khô
+
+    private float elapsed = 0f;
+    private bool switchedToDry = false;
 
     void Start()
     {
         RenderSettings.skybox = skyboxMaterial;
-        audioSound = GetComponent<AudioSource>();
-        skyboxMaterial.SetColor("_Tint", dayTint);
+        if (audioSound == null)
+            audioSound = GetComponent<AudioSource>();
 
+        // Bắt đầu với bầu trời mùa mưa
+        ApplySky(rainyTint, rainyLightIntensity, rainyExposure);
+
+        if (rainyClip != null)
+            ChangeAudioClip(rainyClip);
     }
 
     void Update()
     {
-        // if (Input.GetKeyDown("5")) // Trigger
-        // {
-        //     if (!isTransitioning)
-        //     {
-        //         //audioSound.Play();
-        //         ChangeAudioClip(newClip);
-        //         timer = 0f;
-        //         startTint = skyboxMaterial.GetColor("_Tint");
-        //         isTransitioning = true;
-        //     }
-        // }
+        elapsed += Time.deltaTime;
 
-        SubsidenceScore = SubsidenceManager.currentSubsidenceLevel;
-
-        if (SubsidenceScore > 1.7f)
+        // Giai đoạn 1: Mùa mưa (0 → rainyDuration)
+        if (elapsed <= rainyDuration)
         {
-            if (!isTransitioning)
+            // Giữ nguyên bầu trời mùa mưa, không cần làm gì thêm
+            return;
+        }
+
+        // Giai đoạn chuyển tiếp: rainyDuration → rainyDuration + transitionDuration
+        float transitionStart = rainyDuration;
+        float transitionEnd = rainyDuration + transitionDuration;
+
+        if (elapsed < transitionEnd)
+        {
+            float t = Mathf.Clamp01((elapsed - transitionStart) / transitionDuration);
+
+            Color currentTint = Color.Lerp(rainyTint, dryTint, t);
+            float currentIntensity = Mathf.Lerp(rainyLightIntensity, dryLightIntensity, t);
+            float currentExposure = Mathf.Lerp(rainyExposure, dryExposure, t);
+
+            ApplySky(currentTint, currentIntensity, currentExposure);
+
+            // Chuyển nhạc khi bắt đầu chuyển mùa
+            if (!switchedToDry)
             {
-                //audioSound.Play();
-                ChangeAudioClip(newClip);
-                timer = 0f;
-                startTint = skyboxMaterial.GetColor("_Tint");
-                isTransitioning = true;
+                switchedToDry = true;
+                if (dryClip != null)
+                    ChangeAudioClip(dryClip);
             }
+            return;
         }
 
-        if (isTransitioning)
+        // Giai đoạn 2: Mùa khô (sau chuyển tiếp)
+        if (!switchedToDry)
         {
-            timer += Time.deltaTime;
-            float t = Mathf.Clamp01(timer / transitionDuration);
-
-            // Lerp SkyTint
-            Color currentTint = Color.Lerp(startTint, nightTint, t);
-            skyboxMaterial.SetColor("_Tint", currentTint);
-
-            // Lerp ánh sáng
-            directionalLight.intensity = Mathf.Lerp(2.0f, 0.2f, t);
-
-            // if (t >= 1f)
-            //     isTransitioning = false;
+            switchedToDry = true;
+            if (dryClip != null)
+                ChangeAudioClip(dryClip);
         }
+        ApplySky(dryTint, dryLightIntensity, dryExposure);
     }
 
-    void ChangeAudioClip(AudioClip newClip)
+    void ApplySky(Color tint, float lightIntensity, float exposure)
     {
-        audioSound.Stop(); // Dừng clip hiện tại
-        audioSound.clip = newClip; // Gán clip mới
-        audioSound.Play(); // Phát clip mới
+        skyboxMaterial.SetColor("_Tint", tint);
+
+        if (skyboxMaterial.HasProperty("_Exposure"))
+            skyboxMaterial.SetFloat("_Exposure", exposure);
+
+        if (directionalLight != null)
+            directionalLight.intensity = lightIntensity;
+
+        DynamicGI.UpdateEnvironment();
+    }
+
+    void ChangeAudioClip(AudioClip clip)
+    {
+        if (audioSound == null || clip == null) return;
+        audioSound.Stop();
+        audioSound.clip = clip;
+        audioSound.Play();
     }
 }

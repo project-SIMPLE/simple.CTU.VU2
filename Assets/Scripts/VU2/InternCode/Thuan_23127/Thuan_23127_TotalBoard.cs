@@ -41,7 +41,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     public Font tableFont;
 
     [Tooltip("Font size for table body text.")]
-    public int bodyFontSize = 16;
+    public int bodyFontSize = 22;
 
     [Tooltip("Font size for header text.")]
     public int headerFontSize = 22;
@@ -428,9 +428,19 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         var cell = new GameObject("IconCell", typeof(RectTransform));
         cell.transform.SetParent(parent, false);
 
-        // Layout sizing.
+        // Layout sizing — MUST set preferredWidth = 0 so the Image's native
+        // sprite size does not influence HorizontalLayoutGroup column widths.
+        // Without this, sprites with different native sizes (e.g., shrimp 200px
+        // vs durian 64px) cause the icon cell to be wider/narrower per row,
+        // shifting all data columns out of alignment.
+        // Layout sizing — PHẢI set preferredWidth = 0 để kích thước gốc của
+        // sprite không ảnh hưởng đến chiều rộng cột trong HorizontalLayoutGroup.
+        // Nếu không, các sprite có kích thước gốc khác nhau (ví dụ tôm 200px
+        // vs sầu riêng 64px) sẽ làm ô icon rộng/hẹp khác nhau mỗi hàng,
+        // khiến tất cả cột dữ liệu bị lệch.
         var le = cell.AddComponent<LayoutElement>();
         le.flexibleWidth = flexibleWidth;
+        le.preferredWidth = 0;
 
         // Icon image.
         // Hình icon.

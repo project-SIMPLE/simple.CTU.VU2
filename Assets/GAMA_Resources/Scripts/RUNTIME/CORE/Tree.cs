@@ -42,7 +42,7 @@ public class Tree : MonoBehaviour, IDamageable
     void Start()
     {
         //currentHealh = health;
-        currentHealh = 300;
+        currentHealh = 200;
         anim = GetComponent<Animator>();
         stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         // Debug.Log("Tree_currentHealh"+ currentHealh);

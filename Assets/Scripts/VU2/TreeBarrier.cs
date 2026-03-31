@@ -86,6 +86,14 @@ public class TreeBarrier : MonoBehaviour, IDamageable
         trigger.radius = trapRadius;
         trigger.center = Vector3.zero;
 
+        // Cần Rigidbody (kinematic) để OnTriggerEnter hoạt động.
+        // Unity yêu cầu ít nhất 1 trong 2 object phải có Rigidbody.
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb == null)
+            rb = gameObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
 
@@ -105,6 +113,13 @@ public class TreeBarrier : MonoBehaviour, IDamageable
         // Cập nhật HUD
         if (GameUI.Instance != null)
             GameUI.Instance.UpdateConstructionPosition(gameObject);
+
+        // Fallback: quét OverlapSphere để bắt enemy đi qua mà trigger không phát hiện.
+        // (Transform.MoveTowards không đi qua physics engine → có thể skip trigger)
+        if (trappedEnemy == null)
+        {
+            ScanForEnemyInRange();
+        }
 
         // Nếu đang giữ enemy → kéo về gốc cây + ăn mòn
         if (trappedEnemy != null)
@@ -143,6 +158,28 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     // =========================================================================
     // TRAP LOGIC — Bắt enemy
     // =========================================================================
+
+    /// <summary>
+    /// Fallback scan: dùng OverlapSphere mỗi frame để phát hiện enemy trong vùng.
+    /// Cần thiết vì Transform.MoveTowards (fallback movement) không trigger physics.
+    /// </summary>
+    private void ScanForEnemyInRange()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, trapRadius);
+        foreach (var hit in hits)
+        {
+            if (!hit.CompareTag("Enemy")) continue;
+
+            var enemy = hit.GetComponent<Enemy>();
+            if (enemy == null || enemy.IsDead()) continue;
+
+            var controller = hit.GetComponent<EnemyController>();
+            if (controller == null || controller.IsTrapped) continue;
+
+            TrapEnemy(hit.gameObject, controller);
+            return; // Chỉ bắt 1 con
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
