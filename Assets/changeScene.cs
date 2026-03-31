@@ -21,12 +21,12 @@ public class changeScene : MonoBehaviour
         }
     }
 
-    private void OnStartGame1Clicked()
+    public void OnStartGame1Clicked()
     {
         SceneManager.LoadScene("SCN_VU2_Level1_New"); // Thay "YourSceneName" bằng tên scene bạn muốn chuyển đến
     }
 
-    private void OnStartGame2Clicked()
+    public void OnStartGame2Clicked()
     {
         SceneManager.LoadScene("SCN_VU2_Level2_New"); // Thay "YourSceneName" bằng tên scene bạn muốn chuyển đến
     }

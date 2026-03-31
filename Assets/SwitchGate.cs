@@ -3,55 +3,95 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 /// <summary>
 /// Điều khiển cổng bằng tay cầm VR: nhấn Grab vào Toggle → đổi trạng thái cổng (đóng/mở).
-/// Control gate via VR hand: press Grab on Toggle → toggle gate state (close/open).
+/// Chỉ đặt script này trên PFB_Switch (object chứa Toggle). KHÔNG cần đặt trên PFB_Gate_G2.
+/// Script tự tìm PFB_Gate_G2 trong scene để điều khiển animation cổng.
 ///
 /// Setup trong Unity Inspector:
-///   1. Thêm XRGrabInteractable + Rigidbody (isKinematic=true) vào object Toggle
-///   2. Thêm Collider (Box/Sphere) vào Toggle để tay có thể grab
-///   3. Kéo XRGrabInteractable của Toggle vào trường "Toggle Grab"
-///   4. Kéo Animator (chứa animation Switch/Gate) vào trường "Anim"
-///   5. (Tuỳ chọn) Kéo Collider trên cánh cổng vào "Gate Blocker" để chặn quái
+///   1. Toggle cần có Collider (Box/Sphere) để tay detect được
+///   2. Kéo Animator của Switch vào trường "Switch Anim" (tự tìm nếu bỏ trống)
+///   3. (Tuỳ chọn) Kéo Animator của Gate vào "Gate Anim" (tự tìm PFB_Gate_G2 trong scene)
+///   4. (Tuỳ chọn) Kéo Collider trên cánh cổng vào "Gate Blocker" để chặn quái
 /// </summary>
 public class SwitchGate : MonoBehaviour
 {
     [Header("Animator")]
-    public Animator anim;
+    [Tooltip("Animator của Switch (chứa Switch_ON / Switch_OFF) - tự lấy trên object này nếu bỏ trống")]
+    public Animator switchAnim;
 
-    [Header("XR Toggle - Kéo XRGrabInteractable của Toggle vào đây")]
-    public XRGrabInteractable toggleGrab;
+    [Tooltip("Animator của Gate (chứa PFB_Gate2_ON / PFB_Gate2_OFF) - tự tìm PFB_Gate_G2 trong scene nếu bỏ trống")]
+    public Animator gateAnim;
+
+    [Header("Toggle Object (tự tìm child 'Toggle' nếu bỏ trống)")]
+    public Transform toggleObject;
 
     [Header("Collider chặn quái khi cổng đóng (tuỳ chọn)")]
     [Tooltip("Collider trên cánh cổng - bật khi đóng để chặn nước mặn đi qua")]
     public Collider gateBlocker;
 
     private bool isClosed = false;
-    private Vector3 toggleFixedLocalPos;
-    private Quaternion toggleFixedLocalRot;
+    private XRBaseInteractable interactable;
 
     void Start()
     {
-        if (anim == null)
-            anim = GetComponent<Animator>();
+        // Tìm Switch Animator trên chính object này
+        if (switchAnim == null)
+            switchAnim = GetComponent<Animator>();
 
-        if (toggleGrab != null)
+        // Tìm Gate Animator - ưu tiên theo tên PFB_Gate_G2 trong scene
+        if (gateAnim == null)
         {
-            // Lưu vị trí gốc để cố định Toggle
-            toggleFixedLocalPos = toggleGrab.transform.localPosition;
-            toggleFixedLocalRot = toggleGrab.transform.localRotation;
+            GameObject gateObj = GameObject.Find("PFB_Gate_G2");
+            if (gateObj != null)
+                gateAnim = gateObj.GetComponent<Animator>();
+        }
 
-            // Không cho XR tự di chuyển Toggle - tránh bị lấy model lên tay
-            toggleGrab.trackPosition = false;
-            toggleGrab.trackRotation = false;
+        if (switchAnim != null)
+            Debug.Log($"[SwitchGate] Switch Animator: {switchAnim.gameObject.name}", this);
+        if (gateAnim != null)
+            Debug.Log($"[SwitchGate] Gate Animator: {gateAnim.gameObject.name}", this);
+        else
+            Debug.LogWarning("[SwitchGate] Không tìm thấy Gate Animator (PFB_Gate_G2)!", this);
+
+        // Tự tìm Toggle nếu chưa gán
+        if (toggleObject == null)
+            toggleObject = transform.Find("Toggle");
+        if (toggleObject == null)
+            toggleObject = FindChildRecursive(transform, "Toggle");
+
+        if (toggleObject != null)
+        {
+            // Ưu tiên dùng XRGrabInteractable có sẵn nhưng tắt di chuyển
+            XRGrabInteractable grab = toggleObject.GetComponent<XRGrabInteractable>();
+            if (grab != null)
+            {
+                grab.trackPosition = false;
+                grab.trackRotation = false;
+                grab.throwOnDetach = false;
+                grab.movementType = XRGrabInteractable.MovementType.Instantaneous;
+                interactable = grab;
+            }
+            else
+            {
+                // Fallback: dùng XRSimpleInteractable
+                XRSimpleInteractable simple = toggleObject.GetComponent<XRSimpleInteractable>();
+                if (simple == null)
+                    simple = toggleObject.gameObject.AddComponent<XRSimpleInteractable>();
+                interactable = simple;
+            }
+
+            interactable.selectEntered.AddListener(OnGrab);
 
             // Khoá Rigidbody hoàn toàn
-            Rigidbody rb = toggleGrab.GetComponent<Rigidbody>();
+            Rigidbody rb = toggleObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.isKinematic = true;
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
-
-            toggleGrab.selectEntered.AddListener(OnGrab);
+        }
+        else
+        {
+            Debug.LogWarning($"[SwitchGate] Không tìm thấy Toggle trên {gameObject.name}!", this);
         }
 
         // Khởi tạo cổng mở
@@ -60,51 +100,38 @@ public class SwitchGate : MonoBehaviour
 
     void OnDestroy()
     {
-        if (toggleGrab != null)
-        {
-            toggleGrab.selectEntered.RemoveListener(OnGrab);
-        }
+        if (interactable != null)
+            interactable.selectEntered.RemoveListener(OnGrab);
     }
 
     private void OnGrab(SelectEnterEventArgs args)
     {
         // Nhấn Grab → đổi trạng thái cổng
         SetGateState(!isClosed);
-
-        // Ép Toggle về đúng vị trí gốc (phòng trường hợp bị trượt)
-        toggleGrab.transform.localPosition = toggleFixedLocalPos;
-        toggleGrab.transform.localRotation = toggleFixedLocalRot;
-    }
-
-    void LateUpdate()
-    {
-        // Luôn cố định Toggle tại vị trí gốc mỗi frame
-        if (toggleGrab != null)
-        {
-            toggleGrab.transform.localPosition = toggleFixedLocalPos;
-            toggleGrab.transform.localRotation = toggleFixedLocalRot;
-        }
     }
 
     private void SetGateState(bool closed)
     {
         isClosed = closed;
 
-        if (anim != null)
-        {
-            if (closed)
-            {
-                anim.Play("Switch_ON", -1, 0f);
-                anim.Play("PFB_Gate2_OFF", -1, 0f);
-            }
-            else
-            {
-                anim.Play("Switch_OFF", -1, 0f);
-                anim.Play("PFB_Gate2_ON", -1, 0f);
-            }
-        }
+        if (switchAnim != null)
+            switchAnim.Play(closed ? "Switch_ON" : "Switch_OFF", -1, 0f);
+
+        if (gateAnim != null)
+            gateAnim.Play(closed ? "PFB_Gate2_OFF" : "PFB_Gate2_ON", -1, 0f);
 
         if (gateBlocker != null)
             gateBlocker.enabled = closed;
+    }
+
+    private static Transform FindChildRecursive(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName) return child;
+            Transform found = FindChildRecursive(child, childName);
+            if (found != null) return found;
+        }
+        return null;
     }
 }
