@@ -476,6 +476,8 @@ public class David_Fruit : MonoBehaviour
         var rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             rb.isKinematic = false;
             rb.useGravity = true;
         }
