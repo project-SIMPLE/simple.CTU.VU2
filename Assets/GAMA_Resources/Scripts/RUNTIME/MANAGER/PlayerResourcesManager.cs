@@ -66,7 +66,18 @@ public class PlayerResourcesManager : MonoBehaviour, ISupply
     void CheckRefillSources()
     {
         Collider[] nearbyTargets = Physics.OverlapSphere(transform.position, workRadius, targetLayerMask);
-        currentRefillSources = nearbyTargets.Length;
+        int count = 0;
+        foreach (var col in nearbyTargets)
+        {
+            // Only count trees that implement IDamageable (Tree.cs, TreeBarrier, etc.)
+            // This excludes David fruit trees (coconut, durian, rice) which don't implement IDamageable
+            var damageable = col.GetComponent<IDamageable>();
+            if (damageable == null) continue;
+            if (damageable.IsDead()) continue;
+
+            count++;
+        }
+        currentRefillSources = count;
     }
 
 

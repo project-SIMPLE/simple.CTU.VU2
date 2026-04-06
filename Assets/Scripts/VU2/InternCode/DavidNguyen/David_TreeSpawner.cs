@@ -100,7 +100,7 @@ public class David_TreeSpawner : MonoBehaviour
     // =========================================================================
     private void OnEnable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
     }
     
     // =========================================================================
@@ -109,7 +109,7 @@ public class David_TreeSpawner : MonoBehaviour
     // =========================================================================
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
     }
     
     // =========================================================================

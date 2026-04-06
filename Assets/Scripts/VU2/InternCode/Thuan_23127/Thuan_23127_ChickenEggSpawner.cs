@@ -105,7 +105,7 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
     // =========================================================================
     private void OnEnable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
     }
 
     // =========================================================================
@@ -114,7 +114,7 @@ public class Thuan_23127_ChickenEggSpawner : MonoBehaviour
     // =========================================================================
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
     }
 
     // =========================================================================

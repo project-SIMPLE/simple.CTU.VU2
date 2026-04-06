@@ -527,14 +527,14 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         // Determine zone and season.
         // Xác định vùng và mùa.
         bool isFresh = (_ownerArea != null && _ownerArea.waterType == WaterType.Fresh);
-        bool isRainy = (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f);
+        bool isRainy = (GameRulesProvider.Saltwater_Intrusion < 1f);
         
         // Durian (Plant ID = 1) — 3-phase scoring, zone-independent.
         // Sầu riêng (Plant ID = 1) — tính điểm 3 giai đoạn, không phụ thuộc vùng.
         // Phase 1 (Intrusion=0.0): 150 pts | Phase 2 (Intrusion=0.5): 75 pts | Phase 3 (Intrusion=1.0): 0 pts
         if (_plantData != null && _plantData.id == 1)
         {
-            float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+            float intrusion = GameRulesProvider.Saltwater_Intrusion;
             if (intrusion < 0.1f) return 150;  // Phase 1 — mùa mưa
             if (intrusion < 1f)   return 75;   // Phase 2 — chuyển tiếp
             return 0;                          // Phase 3 — mùa khô hoàn toàn
@@ -553,7 +553,7 @@ public class Thuan_23127_PlantGrowth : MonoBehaviour
         // Phase 1 (Intrusion=0.0): 60 pts | Phase 2 (Intrusion=0.5): 30 pts | Phase 3 (Intrusion=1.0): 0 pts
         if (_plantData != null && _plantData.id == 11)
         {
-            float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+            float intrusion = GameRulesProvider.Saltwater_Intrusion;
             if (intrusion < 0.1f) return 60;   // Phase 1 — mùa mưa
             if (intrusion < 1f)   return 30;   // Phase 2 — chuyển tiếp
             return 0;                          // Phase 3 — mất trắng

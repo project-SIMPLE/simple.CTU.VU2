@@ -59,7 +59,7 @@ public class David_TreeWiltController : MonoBehaviour
     private void OnEnable()
     {
         // Đăng ký lắng nghe event đổi mùa
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
         
         // Áp trạng thái hiện tại
         CheckCurrentSeason();
@@ -67,7 +67,7 @@ public class David_TreeWiltController : MonoBehaviour
     
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
     }
     
     /// <summary>
@@ -75,7 +75,7 @@ public class David_TreeWiltController : MonoBehaviour
     /// </summary>
     private void CheckCurrentSeason()
     {
-        bool isDry = RulesoftheGame_VU2_1.Saltwater_Intrusion >= 1f;
+        bool isDry = GameRulesProvider.Saltwater_Intrusion >= 1f;
         
         if (isDry && !_isWilted)
             ApplyWilt();

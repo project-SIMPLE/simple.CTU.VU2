@@ -147,7 +147,7 @@ public class FarmArea : MonoBehaviour
 
         // Map Saltwater_Intrusion → 3 specific salinity values.
         // Ánh xạ Saltwater_Intrusion → 3 giá trị độ mặn cụ thể.
-        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        float intrusion = GameRulesProvider.Saltwater_Intrusion;
         if (intrusion < 0.1f) return rainySalinity;   // Phase 1 — nước ngọt
         if (intrusion < 1f)   return midSalinity;     // Phase 2 — xâm nhập nhẹ
         return drySalinity;                            // Phase 3 — xâm nhập nặng
@@ -159,7 +159,7 @@ public class FarmArea : MonoBehaviour
     // =========================================================================
     private SeasonPhase CurrentPhase()
     {
-        var s = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        var s = GameRulesProvider.Saltwater_Intrusion;
         if (Mathf.Approximately(s, 0f)) return SeasonPhase.Rainy1;
         if (Mathf.Approximately(s, 1f)) return SeasonPhase.Dry;
         return SeasonPhase.Rainy2;
@@ -226,7 +226,7 @@ public class FarmArea : MonoBehaviour
         // Đăng ký sự kiện thu hoạch - cộng điểm vào tổng mùa.
         g.OnHarvested += (points) =>
         {
-            if (!RulesoftheGame_VU2_1.GameActive) return; // Game ended, ignore.
+            if (!GameRulesProvider.GameActive) return; // Game ended, ignore.
             if (points <= 0) return;
             
             var phase = CurrentPhase();  // Rainy1/Dry/Rainy2
@@ -304,7 +304,7 @@ public class FarmArea : MonoBehaviour
     {
         // Only allow planting when game is active.
         // Chỉ cho phép trồng khi game đang hoạt động.
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
         PlantInternal(plantPrefab, fillAll: true);
     }
 
@@ -507,8 +507,8 @@ public class FarmArea : MonoBehaviour
     // SettleAndClearForNewSeason - Force harvest all plants for season change.
     // SettleAndClearForNewSeason - Ép thu hoạch tất cả cây khi đổi mùa.
     // 
-    // Called by: RulesoftheGame_VU2_1.SetPhase() in Seasonal scoring mode.
-    // Được gọi bởi: RulesoftheGame_VU2_1.SetPhase() trong chế độ Seasonal.
+    // Called by: GameRulesProvider.SetPhase() in Seasonal scoring mode.
+    // Được gọi bởi: GameRulesProvider.SetPhase() trong chế độ Seasonal.
     // 
     // Steps:
     // 1. Force harvest all active plants (calculates remaining score)

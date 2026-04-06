@@ -106,14 +106,14 @@ public class David_Rice : MonoBehaviour
     {
         // Subscribe to season change event
         // Đăng ký lắng nghe sự kiện đổi mùa
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
     }
 
     private void OnDisable()
     {
         // Unsubscribe to prevent memory leaks
         // Hủy đăng ký để tránh rò rỉ bộ nhớ
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
     }
 
     private void Update()
@@ -151,7 +151,7 @@ public class David_Rice : MonoBehaviour
     /// </summary>
     private void CheckCurrentSeason()
     {
-        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        float intrusion = GameRulesProvider.Saltwater_Intrusion;
 
         if (intrusion >= 1f)
         {
@@ -297,7 +297,7 @@ public class David_Rice : MonoBehaviour
         }
 
         // Add to game score
-        if (RulesoftheGame_VU2_1.GameActive)
+        if (GameRulesProvider.GameActive)
         {
             var gm = Thuan_23127_GameManager.Instance;
             if (gm != null)
@@ -328,7 +328,7 @@ public class David_Rice : MonoBehaviour
     /// </summary>
     private int CalculateScore()
     {
-        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        float intrusion = GameRulesProvider.Saltwater_Intrusion;
         
         // Phase 1 (T11-T1): mùa mưa, nước ngọt dồi dào → 60 điểm
         if (intrusion < 0.1f) return 60;

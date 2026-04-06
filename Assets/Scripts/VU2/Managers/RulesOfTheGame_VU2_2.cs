@@ -31,7 +31,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 // VU2_1 (Màn 1): T11-T4, mùa khô, độ mặn TĂNG (0→0.5→1.0)
 // VU2_2 (Màn 2): T5-T10, mùa mưa, độ mặn GIẢM (1.0→0.5→0)
 // =============================================================================
-public class RulesOfTheGame_VU2_2 : MonoBehaviour
+public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
 {
     // =========================================================================
     // WEATHER & VISUAL REFERENCES
@@ -244,6 +244,33 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
 
     [Tooltip("Salinity multiplier when water level is highest.")]
     public float waterLevelMultiplierMax = 1.15f;
+
+    // =========================================================================
+    // IGameRules IMPLEMENTATION
+    // ==========================================================================
+    public event System.Action<SeasonPhase> PhaseChanged;
+    public event System.Action<int> MonthChanged;
+    public event System.Action<float> WaterLevelChanged;
+
+    float IGameRules.SaltwaterIntrusion => Saltwater_Intrusion;
+    SeasonPhase IGameRules.GetCurrentPhase() => _currentPhase;
+    int IGameRules.GetCurrentMonthIndex() => CurrentMonthIndex;
+    float IGameRules.GetCurrentWaterLevelPercent() => CurrentWaterLevelPercent;
+    float IGameRules.GetCurrentWaterLevelMultiplier() => CurrentWaterLevelMultiplier;
+    bool IGameRules.IsGameActive() => GameActive;
+    bool IGameRules.IsPlaying() => playGame;
+    ScoreFlow IGameRules.GetScoringMode() => CurrentScoringMode;
+    float IGameRules.MonthDuration => monthDuration;
+    float IGameRules.TimeRemaining => timeRemaining;
+    Transform IGameRules.Player => player;
+    GameObject IGameRules.Target => target;
+
+    private void OnEnable() => GameRulesProvider.Register(this);
+    private void OnDisable() => GameRulesProvider.Unregister(this);
+
+    private void FirePhaseChanged(SeasonPhase p) => PhaseChanged?.Invoke(p);
+    private void FireMonthChanged(int m) => MonthChanged?.Invoke(m);
+    private void FireWaterLevelChanged(float w) => WaterLevelChanged?.Invoke(w);
 
     // =========================================================================
     // Awake - Initialize references and sync scoring mode.
@@ -491,6 +518,7 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
         {
             CurrentMonthIndex = monthIndex;
             OnMonthChanged?.Invoke(CurrentMonthIndex);
+            FireMonthChanged(CurrentMonthIndex);
         }
 
         // Smoothly interpolate water level between months for gradual increase.
@@ -506,6 +534,7 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
             CurrentWaterLevelPercent = waterLevel;
             CurrentWaterLevelMultiplier = GetWaterLevelMultiplier(CurrentWaterLevelPercent);
             OnWaterLevelChanged?.Invoke(CurrentWaterLevelPercent);
+            FireWaterLevelChanged(CurrentWaterLevelPercent);
         }
         else
         {
@@ -750,6 +779,7 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour
         // Notify all listeners about phase change.
         // Thông báo cho tất cả listener về thay đổi phase.
         OnPhaseChanged?.Invoke(_currentPhase);
+        FirePhaseChanged(_currentPhase);
 
         // Update salinity display on all growing plants.
         // Cập nhật hiển thị độ mặn trên tất cả cây đang phát triển.

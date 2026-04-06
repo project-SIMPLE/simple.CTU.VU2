@@ -52,7 +52,6 @@ public class David_SalinitySliderLive : MonoBehaviour
     // =========================================================================
     // INTERNAL
     // =========================================================================
-    private RulesoftheGame_VU2_1 _gameRules;
 
     private void Awake()
     {
@@ -63,8 +62,6 @@ public class David_SalinitySliderLive : MonoBehaviour
 
     private void Start()
     {
-        _gameRules = FindObjectOfType<RulesoftheGame_VU2_1>();
-
         // Set static label once — never changes.
         // Đặt nhãn tĩnh 1 lần — không bao giờ thay đổi.
         if (labelText != null) labelText.text = label;
@@ -89,15 +86,15 @@ public class David_SalinitySliderLive : MonoBehaviour
     // =========================================================================
     private void Update()
     {
-        if (_gameRules == null) return;
+        if (!GameRulesProvider.GameActive) return;
 
         // Total game = monthDuration × 6 (T11, T12, T1, T2, T3, T4).
-        float totalDuration = _gameRules.monthDuration * 6f;
+        float totalDuration = GameRulesProvider.MonthDuration * 6f;
         if (totalDuration <= 0f) return;
 
         // timeRemaining counts UP: 0 (start) → totalDuration (end).
         // timeRemaining đếm TIẾN: 0 (bắt đầu) → totalDuration (kết thúc).
-        float progress = Mathf.Clamp01(_gameRules.timeRemaining / totalDuration);
+        float progress = Mathf.Clamp01(GameRulesProvider.TimeRemaining / totalDuration);
 
         // Salinity scales linearly: 0 ‰ at T11 → 4 ‰ at end of T4.
         // Độ mặn tăng tuyến tính: 0 ‰ tại T11 → 4 ‰ cuối T4.

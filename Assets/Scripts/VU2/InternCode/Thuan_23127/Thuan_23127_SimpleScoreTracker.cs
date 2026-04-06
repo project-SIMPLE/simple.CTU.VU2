@@ -73,7 +73,7 @@ public class Thuan_23127_SimpleScoreTracker : MonoBehaviour
     public void Track(string productName, Sprite icon, int points)
     {
         // Determine season
-        bool isRainy = RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f;
+        bool isRainy = GameRulesProvider.Saltwater_Intrusion < 1f;
         
         Debug.Log($"[SimpleScoreTracker] Track: {productName}, Points: {points}, Season: {(isRainy ? "Rainy" : "Dry")}, Icon: {(icon != null ? "✓" : "NULL")}");
         

@@ -60,9 +60,8 @@ public class Thuan_23127_GameManager : MonoBehaviour
     // -------------------------------------------------------------------------
     public float dryFactor = 1.5f;
     
-    // Cached reference to game rules controller.
-    // Tham chiếu được cache đến controller luật chơi.
-    private RulesoftheGame_VU2_1 _rules;
+    // (Removed cached _rules field — now using GameRulesProvider.)
+    // (Đã xóa trường _rules — giờ dùng GameRulesProvider.)
     
     [Header("SFX")]
     // -------------------------------------------------------------------------
@@ -119,11 +118,11 @@ public class Thuan_23127_GameManager : MonoBehaviour
     {
         // Linear: Intrusion × salinityBase gives 0‰ / 2‰ / 4‰ for the 3 phases.
         // Tuyến tính: Intrusion × salinityBase cho 0‰ / 2‰ / 4‰ theo 3 giai đoạn.
-        float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        float intrusion = GameRulesProvider.Saltwater_Intrusion;
 
         // Apply water level multiplier for fine-grained monthly variation (0.85–1.15×).
         // Áp dụng hệ số mực nước cho biến thiên tháng chi tiết (0.85–1.15×).
-        var waterMultiplier = Mathf.Max(0.01f, RulesoftheGame_VU2_1.CurrentWaterLevelMultiplier);
+        var waterMultiplier = Mathf.Max(0.01f, GameRulesProvider.CurrentWaterLevelMultiplier);
 
         return Mathf.Max(0f, intrusion * salinityBase * waterMultiplier);
     }
@@ -147,14 +146,11 @@ public class Thuan_23127_GameManager : MonoBehaviour
     {
         // Only allow scoring when game is active.
         // Chỉ cho phép ghi điểm khi game đang hoạt động.
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
         
-        // Double-check with rules controller.
-        // Kiểm tra lại với controller luật chơi.
-        if (!_rules)
-            _rules = FindObjectOfType<RulesoftheGame_VU2_1>();
-
-        if (_rules && !_rules.playGame)
+        // Double-check with rules controller via provider.
+        // Kiểm tra lại với controller luật chơi qua provider.
+        if (!GameRulesProvider.IsPlaying)
         {
             return;
         }

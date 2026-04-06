@@ -384,7 +384,7 @@ public class David_ShrimpGrab : MonoBehaviour
     {
         if (!other.CompareTag(bagTag)) return;
         if (_state == FishingState.Collected) return;
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
 
         // Can only collect if NOT currently grabbed/being fished
         // Chỉ thu hoạch được nếu KHÔNG đang bị cầm/đang câu

@@ -1,42 +1,42 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 // =============================================================================
 // Thuan_23127_TotalBoard - Builds an Excel-style summary table (3 phases).
-// Thuan_23127_TotalBoard - Xây dựng bảng tổng kết dạng Excel (3 giai đoạn).
+// Thuan_23127_TotalBoard - X�y d?ng b?ng t?ng k?t d?ng Excel (3 giai do?n).
 //
 // Layout (Excel-like grid):
-// ┌──────────┬──────────────┬──────────────┬──────────────┐
-// │          │   T11–T1     │    T2–T3     │     T4       │
-// ├──────────┼──────────────┼──────────────┼──────────────┤
-// │ [Icon]   │ DT: X        │ DT: X        │ DT: X        │
-// │ Tôm      │ SL: Y        │ SL: Y        │ SL: Y        │
-// ├──────────┼──────────────┼──────────────┼──────────────┤
-// │ [Icon]   │ DT: X        │ DT: X        │ DT: X        │
-// │ Lúa      │ SL: Y        │ SL: Y        │ SL: Y        │
-// └──────────┴──────────────┴──────────────┴──────────────┘
+// +-------------------------------------------------------+
+// �          �   T11�T1     �    T2�T3     �     T4       �
+// +----------+--------------+--------------+--------------�
+// � [Icon]   � DT: X        � DT: X        � DT: X        �
+// � T�m      � SL: Y        � SL: Y        � SL: Y        �
+// +----------+--------------+--------------+--------------�
+// � [Icon]   � DT: X        � DT: X        � DT: X        �
+// � L�a      � SL: Y        � SL: Y        � SL: Y        �
+// +-------------------------------------------------------+
 //
-// DT = Diện tích (Area) = harvest count × 10
-// SL = Sản lượng (Production/Score)
+// DT = Di?n t�ch (Area) = harvest count � 10
+// SL = S?n lu?ng (Production/Score)
 // =============================================================================
 public class Thuan_23127_TotalBoard : MonoBehaviour
 {
     // =========================================================================
     // UI REFERENCES
-    // THAM CHIẾU UI
+    // THAM CHI?U UI
     // =========================================================================
-    [Header("Scroll content parent / Parent chứa bảng")]
+    [Header("Scroll content parent / Parent ch?a b?ng")]
     public Transform content;
 
-    [Header("Row prefab (legacy, optional) / Prefab hàng (cũ, tùy chọn)")]
+    [Header("Row prefab (legacy, optional) / Prefab h�ng (cu, t�y ch?n)")]
     public UI_ProductRow rowPrefab;
 
     // =========================================================================
     // TABLE STYLE SETTINGS
-    // CÀI ĐẶT KIỂU BẢNG
+    // C�I �?T KI?U B?NG
     // =========================================================================
-    [Header("Table Style / Kiểu bảng")]
+    [Header("Table Style / Ki?u b?ng")]
     [Tooltip("Font for table text. Leave null for default Arial.")]
     public Font tableFont;
 
@@ -72,33 +72,33 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // AREA MULTIPLIER
-    // HỆ SỐ DIỆN TÍCH
+    // H? S? DI?N T�CH
     // =========================================================================
     private const int AREA_MULTIPLIER = 10;
 
-    // Maximum total durian area (maxHarvest × AREA_MULTIPLIER = 15 × 10 = 150).
-    // Diện tích tối đa của sầu riêng (maxHarvest × AREA_MULTIPLIER = 15 × 10 = 150).
+    // Maximum total durian area (maxHarvest � AREA_MULTIPLIER = 15 � 10 = 150).
+    // Di?n t�ch t?i da c?a s?u ri�ng (maxHarvest � AREA_MULTIPLIER = 15 � 10 = 150).
     private const int DURIAN_MAX_AREA = 150;
 
-    // Maximum total rice area (maxHarvest × AREA_MULTIPLIER = 25 × 10 = 250).
-    // Diện tích tối đa của lúa (maxHarvest × AREA_MULTIPLIER = 25 × 10 = 250).
+    // Maximum total rice area (maxHarvest � AREA_MULTIPLIER = 25 � 10 = 250).
+    // Di?n t�ch t?i da c?a l�a (maxHarvest � AREA_MULTIPLIER = 25 � 10 = 250).
     private const int RICE_MAX_AREA = 250;
 
     // =========================================================================
     // INTERNAL STATE
-    // TRẠNG THÁI NỘI BỘ
+    // TR?NG TH�I N?I B?
     // =========================================================================
     private readonly List<GameObject> _createdObjects = new();
 
     // =========================================================================
     // PHASE LABELS
-    // NHÃN GIAI ĐOẠN
+    // NH�N GIAI �O?N
     // =========================================================================
-    private static readonly string[] PhaseHeaders = { "T11–T1", "T2–T3", "T4" };
+    private static readonly string[] PhaseHeaders = { "T11�T1", "T2�T3", "T4" };
 
     // =========================================================================
     // OnEnable - Subscribe to data change events.
-    // OnEnable - Đăng ký sự kiện thay đổi dữ liệu.
+    // OnEnable - �ang k� s? ki?n thay d?i d? li?u.
     // =========================================================================
     private void OnEnable()
     {
@@ -112,13 +112,13 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // Freeze - Prevents or allows UI rebuilding.
-    // Freeze - Ngăn cản hoặc cho phép rebuild UI.
+    // Freeze - Ngan c?n ho?c cho ph�p rebuild UI.
     // =========================================================================
     public void Freeze(bool v) { /* reserved for future use */ }
 
     // =========================================================================
     // OnDisable - Unsubscribe from events.
-    // OnDisable - Hủy đăng ký khỏi events.
+    // OnDisable - H?y dang k� kh?i events.
     // =========================================================================
     private void OnDisable()
     {
@@ -131,43 +131,43 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // Rebuild - Clears and rebuilds the entire Excel-style table.
-    // Rebuild - Xóa và xây dựng lại toàn bộ bảng dạng Excel.
+    // Rebuild - X�a v� x�y d?ng l?i to�n b? b?ng d?ng Excel.
     // =========================================================================
     private void Rebuild()
     {
         // Allow rebuild when game ends (for final summary display).
-        // Cho phép rebuild khi game kết thúc (để hiển thị tổng kết).
+        // Cho ph�p rebuild khi game k?t th�c (d? hi?n th? t?ng k?t).
         if (!content)
         {
             Debug.LogWarning("[TotalBoard] Rebuild() skipped: content is null!");
             return;
         }
 
-        Debug.Log($"[TotalBoard] Rebuild() STARTED. content={content.name}, GameActive={RulesoftheGame_VU2_1.GameActive}");
+        Debug.Log($"[TotalBoard] Rebuild() STARTED. content={content.name}, GameActive={GameRulesProvider.GameActive}");
 
         // Clear all previously created objects.
-        // Xóa tất cả objects đã tạo trước đó.
+        // X�a t?t c? objects d� t?o tru?c d�.
         foreach (var obj in _createdObjects)
             if (obj) Destroy(obj);
         _createdObjects.Clear();
 
         // Also clear any legacy UI_ProductRow children.
-        // Xóa cả các UI_ProductRow con cũ.
+        // X�a c? c�c UI_ProductRow con cu.
         var legacyRows = content.GetComponentsInChildren<UI_ProductRow>(true);
         for (int i = legacyRows.Length - 1; i >= 0; i--)
             if (legacyRows[i]) Destroy(legacyRows[i].gameObject);
 
         // Ensure font is available.
-        // Đảm bảo font khả dụng.
+        // �?m b?o font kh? d?ng.
         if (tableFont == null)
             tableFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 
         // Ensure content has VerticalLayoutGroup for table layout.
-        // Đảm bảo content có VerticalLayoutGroup cho layout bảng.
+        // �?m b?o content c� VerticalLayoutGroup cho layout b?ng.
         EnsureVerticalLayout();
 
         // Get 3-phase data.
-        // Lấy dữ liệu 3 giai đoạn.
+        // L?y d? li?u 3 giai do?n.
         var summary = Thuan_23127_SeasonalSummary.Instance;
         Debug.Log($"[TotalBoard] SeasonalSummary.Instance = {(summary != null ? "EXISTS" : "NULL")}");
 
@@ -177,12 +177,12 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
         Debug.Log($"[TotalBoard] Data rows count = {data.Count}");
 
-        // ── Build header row ──
-        // ── Xây dựng hàng tiêu đề ──
+        // -- Build header row --
+        // -- X�y d?ng h�ng ti�u d? --
         BuildHeaderRow();
 
-        // ── Build data rows ──
-        // ── Xây dựng các hàng dữ liệu ──
+        // -- Build data rows --
+        // -- X�y d?ng c�c h�ng d? li?u --
         int rowIdx = 0;
         foreach (var (key, icon, scores, counts) in data)
         {
@@ -198,7 +198,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // EnsureVerticalLayout - Adds VerticalLayoutGroup if missing.
-    // EnsureVerticalLayout - Thêm VerticalLayoutGroup nếu chưa có.
+    // EnsureVerticalLayout - Th�m VerticalLayoutGroup n?u chua c�.
     // =========================================================================
     private void EnsureVerticalLayout()
     {
@@ -223,19 +223,19 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
     }
 
     // =========================================================================
-    // BuildHeaderRow - Creates the header: [ ] | T11–T1 | T2–T3 | T4
-    // BuildHeaderRow - Tạo hàng tiêu đề: [ ] | T11–T1 | T2–T3 | T4
+    // BuildHeaderRow - Creates the header: [ ] | T11�T1 | T2�T3 | T4
+    // BuildHeaderRow - T?o h�ng ti�u d?: [ ] | T11�T1 | T2�T3 | T4
     // =========================================================================
     private void BuildHeaderRow()
     {
         var row = CreateRowContainer("Header", headerRowHeight, headerBgColor);
 
         // Empty first cell (icon column).
-        // Ô trống đầu tiên (cột icon).
+        // � tr?ng d?u ti�n (c?t icon).
         CreateTextCell(row.transform, "", headerFontSize, headerTextColor, 0.15f);
 
         // Phase header cells.
-        // Các ô tiêu đề giai đoạn.
+        // C�c � ti�u d? giai do?n.
         for (int i = 0; i < 3; i++)
         {
             CreateTextCell(row.transform, PhaseHeaders[i], headerFontSize,
@@ -245,19 +245,19 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // BuildDataRow - Creates one product row with icon + 3 phase cells.
-    // BuildDataRow - Tạo một hàng sản phẩm với icon + 3 ô giai đoạn.
+    // BuildDataRow - T?o m?t h�ng s?n ph?m v?i icon + 3 � giai do?n.
     //
     // Each phase cell shows:
-    //   Diện tích: {count × 10}
-    //   Sản lượng: {score}
+    //   Di?n t�ch: {count � 10}
+    //   S?n lu?ng: {score}
     //
     // SPECIAL: Durian Phase 3 (T4) shows:
-    //   Sản lượng: 0
-    //   Diện tích mất: 150 - tổng diện tích đã thu hoạch (đại diện vùng mất trắng)
+    //   S?n lu?ng: 0
+    //   Di?n t�ch m?t: 150 - t?ng di?n t�ch d� thu ho?ch (d?i di?n v�ng m?t tr?ng)
     //
     // SPECIAL: Rice Phase 3 (T4) shows:
-    //   Sản lượng: 0
-    //   Diện tích mất: 250 - tổng diện tích đã thu hoạch
+    //   S?n lu?ng: 0
+    //   Di?n t�ch m?t: 250 - t?ng di?n t�ch d� thu ho?ch
     // =========================================================================
     private void BuildDataRow(string key, Sprite icon, int[] scores, int[] counts, int rowIdx)
     {
@@ -265,21 +265,21 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         var row = CreateRowContainer($"Row_{rowIdx}", dataRowHeight, bgColor);
 
         // Icon cell (first column).
-        // Ô icon (cột đầu tiên).
+        // � icon (c?t d?u ti�n).
         CreateIconCell(row.transform, icon, 0.15f);
 
         // Check if this row is Durian, Rice, or Shrimp.
-        // Kiểm tra hàng này có phải Sầu riêng, Lúa, hoặc Tôm không.
+        // Ki?m tra h�ng n�y c� ph?i S?u ri�ng, L�a, ho?c T�m kh�ng.
         bool isDurian = key.Contains("Durian") || key == "Plant:1";
         bool isRice   = key.Contains("Rice")   || key == "Plant:11";
         bool isShrimp = key.Contains("Shrimp");
 
         // Total harvested area across phase 1 + phase 2 (for phase 3 lost-area calc).
-        // Tổng diện tích thu hoạch được qua giai đoạn 1 + 2 (cho tính DT mất trắng GĐ3).
+        // T?ng di?n t�ch thu ho?ch du?c qua giai do?n 1 + 2 (cho t�nh DT m?t tr?ng G�3).
         int totalHarvestedArea = (counts[0] + counts[1]) * AREA_MULTIPLIER;
 
         // 3 phase cells with area + score.
-        // 3 ô giai đoạn với diện tích + sản lượng.
+        // 3 � giai do?n v?i di?n t�ch + s?n lu?ng.
         for (int i = 0; i < 3; i++)
         {
             string cellText;
@@ -287,7 +287,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
             if (isDurian && i == 2)
             {
                 // DURIAN PHASE 3 (T4): SL = 0, DTMT = 150 - harvested.
-                // SẦU RIÊNG GĐ3 (T4): SL = 0, DTMT (diện tích mất trắng).
+                // S?U RI�NG G�3 (T4): SL = 0, DTMT (di?n t�ch m?t tr?ng).
                 int lostArea = DURIAN_MAX_AREA - totalHarvestedArea;
                 if (lostArea < 0) lostArea = 0;
                 cellText = $"DTMT: {lostArea,4}\nSL:   {0,4}";
@@ -295,7 +295,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
             else if (isRice && i == 2)
             {
                 // RICE PHASE 3 (T4): SL = 0, DTMT = 250 - harvested.
-                // LÚA GĐ3 (T4): SL = 0, DTMT (diện tích mất trắng).
+                // L�A G�3 (T4): SL = 0, DTMT (di?n t�ch m?t tr?ng).
                 int lostArea = RICE_MAX_AREA - totalHarvestedArea;
                 if (lostArea < 0) lostArea = 0;
                 cellText = $"DTMT: {lostArea,4}\nSL:   {0,4}";
@@ -303,13 +303,13 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
             else if (isShrimp && i == 2)
             {
                 // SHRIMP PHASE 3 (T4): DTMT = 0, SL = accumulated score.
-                // TÔM GĐ3 (T4): DTMT (diện tích mất trắng) = 0, SL = điểm tích lũy.
+                // T�M G�3 (T4): DTMT (di?n t�ch m?t tr?ng) = 0, SL = di?m t�ch luy.
                 cellText = $"DTMT: {0,4}\nSL:   {scores[i],4}";
             }
             else if (i == 2)
             {
                 // OTHER PRODUCTS PHASE 3: also show DTMT label.
-                // SẢN PHẨM KHÁC GĐ3: cũng hiển thị DTMT.
+                // S?N PH?M KH�C G�3: cung hi?n th? DTMT.
                 int area = counts[i] * AREA_MULTIPLIER;
                 cellText = $"DTMT: {area,4}\nSL:   {scores[i],4}";
             }
@@ -327,7 +327,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // CreateRowContainer - Creates a horizontal layout row with background.
-    // CreateRowContainer - Tạo hàng ngang với nền.
+    // CreateRowContainer - T?o h�ng ngang v?i n?n.
     // =========================================================================
     private GameObject CreateRowContainer(string name, float height, Color bgColor)
     {
@@ -336,7 +336,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         _createdObjects.Add(row);
 
         // Background image.
-        // Hình nền.
+        // H�nh n?n.
         var bg = row.AddComponent<Image>();
         bg.color = bgColor;
 
@@ -351,7 +351,7 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         hlg.padding = new RectOffset(4, 4, 2, 2);
 
         // Fixed height.
-        // Chiều cao cố định.
+        // Chi?u cao c? d?nh.
         var le = row.AddComponent<LayoutElement>();
         le.preferredHeight = height;
         le.minHeight = height;
@@ -361,10 +361,10 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // CreateTextCell - Creates a text cell within a row.
-    // CreateTextCell - Tạo ô text trong một hàng.
+    // CreateTextCell - T?o � text trong m?t h�ng.
     //
     // flexibleWidth: proportional width (e.g., 0.2 = 20% of row).
-    // flexibleWidth: chiều rộng tỷ lệ (ví dụ: 0.2 = 20% hàng).
+    // flexibleWidth: chi?u r?ng t? l? (v� d?: 0.2 = 20% h�ng).
     // =========================================================================
     private GameObject CreateTextCell(Transform parent, string text, int size,
                                       Color color, float flexibleWidth,
@@ -375,28 +375,28 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
         cell.transform.SetParent(parent, false);
 
         // Cell background (for grid lines).
-        // Nền ô (cho đường kẻ lưới).
+        // N?n � (cho du?ng k? lu?i).
         var cellBg = cell.AddComponent<Image>();
         cellBg.color = new Color(0, 0, 0, 0); // transparent
 
         // Layout sizing.
-        // Kích thước layout.
+        // K�ch thu?c layout.
         var le = cell.AddComponent<LayoutElement>();
         le.flexibleWidth = flexibleWidth;
 
         // Add outline for readability (on cell Image).
-        // Thêm outline để dễ đọc (trên Image ô).
+        // Th�m outline d? d? d?c (tr�n Image �).
         var outline = cell.AddComponent<Outline>();
         outline.effectColor = gridLineColor;
         outline.effectDistance = new Vector2(0.5f, 0.5f);
 
         // Text on a child object (Unity only allows one Graphic per GameObject).
-        // Text trên object con (Unity chỉ cho phép 1 Graphic mỗi GameObject).
+        // Text tr�n object con (Unity ch? cho ph�p 1 Graphic m?i GameObject).
         var textGo = new GameObject("Text", typeof(RectTransform));
         textGo.transform.SetParent(cell.transform, false);
 
         // Stretch text to fill entire cell.
-        // Kéo giãn text để lấp đầy toàn bộ ô.
+        // K�o gi�n text d? l?p d?y to�n b? �.
         var textRT = textGo.GetComponent<RectTransform>();
         textRT.anchorMin = Vector2.zero;
         textRT.anchorMax = Vector2.one;
@@ -421,29 +421,29 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // CreateIconCell - Creates an icon cell with the product sprite.
-    // CreateIconCell - Tạo ô icon với sprite sản phẩm.
+    // CreateIconCell - T?o � icon v?i sprite s?n ph?m.
     // =========================================================================
     private GameObject CreateIconCell(Transform parent, Sprite sprite, float flexibleWidth)
     {
         var cell = new GameObject("IconCell", typeof(RectTransform));
         cell.transform.SetParent(parent, false);
 
-        // Layout sizing — MUST set preferredWidth = 0 so the Image's native
+        // Layout sizing � MUST set preferredWidth = 0 so the Image's native
         // sprite size does not influence HorizontalLayoutGroup column widths.
         // Without this, sprites with different native sizes (e.g., shrimp 200px
         // vs durian 64px) cause the icon cell to be wider/narrower per row,
         // shifting all data columns out of alignment.
-        // Layout sizing — PHẢI set preferredWidth = 0 để kích thước gốc của
-        // sprite không ảnh hưởng đến chiều rộng cột trong HorizontalLayoutGroup.
-        // Nếu không, các sprite có kích thước gốc khác nhau (ví dụ tôm 200px
-        // vs sầu riêng 64px) sẽ làm ô icon rộng/hẹp khác nhau mỗi hàng,
-        // khiến tất cả cột dữ liệu bị lệch.
+        // Layout sizing � PH?I set preferredWidth = 0 d? k�ch thu?c g?c c?a
+        // sprite kh�ng ?nh hu?ng d?n chi?u r?ng c?t trong HorizontalLayoutGroup.
+        // N?u kh�ng, c�c sprite c� k�ch thu?c g?c kh�c nhau (v� d? t�m 200px
+        // vs s?u ri�ng 64px) s? l�m � icon r?ng/h?p kh�c nhau m?i h�ng,
+        // khi?n t?t c? c?t d? li?u b? l?ch.
         var le = cell.AddComponent<LayoutElement>();
         le.flexibleWidth = flexibleWidth;
         le.preferredWidth = 0;
 
         // Icon image.
-        // Hình icon.
+        // H�nh icon.
         var img = cell.AddComponent<Image>();
         if (sprite != null)
         {
@@ -460,10 +460,10 @@ public class Thuan_23127_TotalBoard : MonoBehaviour
 
     // =========================================================================
     // ClearAllRows - Removes all created objects from display.
-    // ClearAllRows - Xóa tất cả objects đã tạo khỏi hiển thị.
+    // ClearAllRows - X�a t?t c? objects d� t?o kh?i hi?n th?.
     //
     // Called by: Game restart to clear the summary.
-    // Được gọi bởi: Restart game để xóa tổng kết.
+    // �u?c g?i b?i: Restart game d? x�a t?ng k?t.
     // =========================================================================
     public void ClearAllRows()
     {

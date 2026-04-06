@@ -220,12 +220,12 @@ public class TidalClockManager : MonoBehaviour
     {
         // Subscribe to season changes to adjust tidal behavior.
         // Đăng ký lắng nghe thay đổi mùa để điều chỉnh hành vi triều.
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonPhaseChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonPhaseChanged;
     }
 
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonPhaseChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonPhaseChanged;
     }
 
     private void Start()
@@ -431,7 +431,7 @@ public class TidalClockManager : MonoBehaviour
     {
         // Use static Saltwater_Intrusion from RulesoftheGame_VU2_1:
         // 0.0 = rainy (fresh), 0.5 = medium, 1.0 = dry (salty)
-        float saltLevel = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+        float saltLevel = GameRulesProvider.Saltwater_Intrusion;
         return Mathf.Lerp(1f, drySeasonSpringBoost, saltLevel);
     }
 

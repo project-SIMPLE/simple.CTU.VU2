@@ -10,19 +10,19 @@ using System.Collections.Generic;
 // VU2SceneBootstrapper - Tự động tạo tất cả hệ thống còn thiếu khi load scene.
 //
 // WHY THIS EXISTS:
-// The scene SCN_VU2_Level1_New only contains RulesoftheGame_VU2_1.
+// The scene SCN_VU2_Level1_New only contains RulesoftheGame_VU2_1 (or VU2_2 for Level 2).
 // All other management scripts (TidalClockManager, TidalClockUI, EnemySpawner,
 // LevelManager, etc.) are NOT present. This bootstrapper creates them at runtime.
 //
 // TẠI SAO CẦN SCRIPT NÀY:
-// Scene SCN_VU2_Level1_New chỉ chứa RulesoftheGame_VU2_1.
+// Scene SCN_VU2_Level1_New chỉ chứa RulesoftheGame_VU2_1 (hoặc VU2_2 cho Level 2).
 // Các script quản lý khác (TidalClockManager, TidalClockUI, EnemySpawner,
 // LevelManager, v.v.) KHÔNG có mặt. Bootstrapper này tạo chúng lúc runtime.
 //
-// USAGE: Attached to the same "GameManager" GameObject as RulesoftheGame_VU2_1.
-// Call Bootstrap() from RulesoftheGame_VU2_1.StartGame().
-// SỬ DỤNG: Gắn vào cùng GameObject "GameManager" với RulesoftheGame_VU2_1.
-// Gọi Bootstrap() từ RulesoftheGame_VU2_1.StartGame().
+// USAGE: Attached to the same "GameManager" GameObject as the Rules class.
+// Call Bootstrap() from the Rules class's StartGame().
+// SỬ DỤNG: Gắn vào cùng GameObject "GameManager" với class Rules.
+// Gọi Bootstrap() từ StartGame() của class Rules.
 // =============================================================================
 public class VU2SceneBootstrapper : MonoBehaviour
 {
@@ -141,13 +141,9 @@ public class VU2SceneBootstrapper : MonoBehaviour
         tcmObj.transform.SetParent(this.transform.parent);
         TidalClockManager tcm = tcmObj.AddComponent<TidalClockManager>();
 
-        // Sync with RulesoftheGame settings.
-        // Đồng bộ với cấu hình RulesoftheGame.
-        var rules = FindObjectOfType<RulesoftheGame_VU2_1>();
-        if (rules != null)
-        {
-            tcm.tidalCycleDuration = rules.monthDuration;
-        }
+        // Sync with game rules settings via provider.
+        // Đồng bộ với cấu hình game rules qua provider.
+        tcm.tidalCycleDuration = GameRulesProvider.MonthDuration;
 
         Debug.Log($"[VU2Bootstrapper] Created TidalClockManager (cycleDuration={tcm.tidalCycleDuration}s)");
     }
@@ -171,12 +167,7 @@ public class VU2SceneBootstrapper : MonoBehaviour
         // Try to find the player's camera/XR rig to position the panel.
         // Tìm camera/XR rig để đặt vị trí panel.
         Camera mainCam = Camera.main;
-        Transform player = null;
-        var rules = FindObjectOfType<RulesoftheGame_VU2_1>();
-        if (rules != null && rules.player != null)
-        {
-            player = rules.player;
-        }
+        Transform player = GameRulesProvider.Player;
 
         // Position: in front of player, slightly to the right and above.
         // Vị trí: phía trước người chơi, hơi sang phải và trên.
@@ -386,9 +377,8 @@ public class VU2SceneBootstrapper : MonoBehaviour
         // Tự phát hiện vị trí spawn từ water objects trong scene.
         if (spawnPositions == null || spawnPositions.Length == 0)
         {
-            // Find the water target (used by RulesoftheGame for water movement).
-            var rules = FindObjectOfType<RulesoftheGame_VU2_1>();
-            GameObject waterTarget = rules != null ? rules.target : null;
+            // Find the water target (used by game rules for water movement).
+            GameObject waterTarget = GameRulesProvider.Target;
 
             // Find all water-surface objects.
             List<Vector3> waterPositions = new List<Vector3>();
@@ -526,12 +516,11 @@ public class VU2SceneBootstrapper : MonoBehaviour
         // Chờ game thực sự bắt đầu và NavMesh sẵn sàng.
         yield return new WaitForSeconds(firstSpawnDelay);
 
-        var rules = FindObjectOfType<RulesoftheGame_VU2_1>();
-        if (rules == null || !rules.playGame)
+        if (!GameRulesProvider.IsPlaying)
         {
             Debug.Log("[VU2Bootstrapper] Game not running yet — waiting for StartGame...");
             // Wait until game starts.
-            while (rules != null && !rules.playGame)
+            while (!GameRulesProvider.IsPlaying)
             {
                 yield return new WaitForSeconds(1f);
             }
@@ -555,8 +544,8 @@ public class VU2SceneBootstrapper : MonoBehaviour
         {
             yield return new WaitForSeconds(30f); // Re-spawn every 30s (1 tidal cycle)
 
-            if (rules == null || !rules.playGame) break;
-            if (!RulesoftheGame_VU2_1.GameActive) break;
+            if (!GameRulesProvider.IsPlaying) break;
+            if (!GameRulesProvider.GameActive) break;
 
             foreach (var spawner in _createdSpawners)
             {
@@ -565,11 +554,11 @@ public class VU2SceneBootstrapper : MonoBehaviour
                     int amount = 5;
                     // Increase amount during high salinity.
                     // Tăng số lượng khi độ mặn cao.
-                    if (RulesoftheGame_VU2_1.Saltwater_Intrusion >= 0.5f) amount = 8;
-                    if (RulesoftheGame_VU2_1.Saltwater_Intrusion >= 1.0f) amount = 12;
+                    if (GameRulesProvider.Saltwater_Intrusion >= 0.5f) amount = 8;
+                    if (GameRulesProvider.Saltwater_Intrusion >= 1.0f) amount = 12;
 
                     spawner.ReStartAutoSpawn(amount);
-                    Debug.Log($"[VU2Bootstrapper] Re-spawning wave (salinity={RulesoftheGame_VU2_1.Saltwater_Intrusion:F1}, amount={amount})");
+                    Debug.Log($"[VU2Bootstrapper] Re-spawning wave (salinity={GameRulesProvider.Saltwater_Intrusion:F1}, amount={amount})");
                 }
             }
         }

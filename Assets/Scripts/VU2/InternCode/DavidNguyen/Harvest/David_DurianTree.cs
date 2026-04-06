@@ -66,14 +66,14 @@ public class David_DurianTree : MonoBehaviour
 
     private void OnEnable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
         
         CheckAndStartAutoDrop();
     }
 
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
         StopAutoDrop();
     }
 
@@ -136,7 +136,7 @@ public class David_DurianTree : MonoBehaviour
             StartAutoDrop();
             return;
         }
-        if (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f)
+        if (GameRulesProvider.Saltwater_Intrusion < 1f)
         {
             StartAutoDrop();
         }
@@ -310,7 +310,7 @@ public class David_DurianTree : MonoBehaviour
 
     private bool IsRainySeason()
     {
-        return RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f;
+        return GameRulesProvider.Saltwater_Intrusion < 1f;
     }
 
     /// <summary>

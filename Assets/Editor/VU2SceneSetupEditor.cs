@@ -25,9 +25,13 @@ public class VU2SceneSetupEditor : EditorWindow
         EditorGUILayout.Space(5);
 
         // Check each required component.
-        DrawStatus("RulesoftheGame_VU2_1", Object.FindObjectOfType<RulesoftheGame_VU2_1>() != null);
+        var vu2_1 = Object.FindObjectOfType<RulesoftheGame_VU2_1>();
+        var vu2_2 = Object.FindObjectOfType<RulesOfTheGame_VU2_2>();
+        bool hasRules = vu2_1 != null || vu2_2 != null;
+        string rulesName = vu2_1 != null ? "RulesoftheGame_VU2_1" : (vu2_2 != null ? "RulesOfTheGame_VU2_2" : "None");
+        DrawStatus($"Game Rules ({rulesName})", hasRules);
         DrawStatus("VU2SceneBootstrapper", Object.FindObjectOfType<VU2SceneBootstrapper>() != null,
-            "Auto-added at runtime by RulesoftheGame_VU2_1.Awake()");
+            "Auto-added at runtime by the Rules class's Awake()");
         DrawStatus("TidalClockManager", TidalClockManager.Instance != null || Object.FindObjectOfType<TidalClockManager>() != null,
             "Auto-created by bootstrapper at StartGame()");
         DrawStatus("TidalClockUI", Object.FindObjectOfType<TidalClockUI>() != null,
@@ -50,19 +54,19 @@ public class VU2SceneSetupEditor : EditorWindow
         DrawStatus("NavMesh baked", hasNavMesh, 
             hasNavMesh ? "OK" : "Not baked — enemies will use fallback movement (Transform.MoveTowards)");
 
-        // Check water target on RulesoftheGame.
-        var rules = Object.FindObjectOfType<RulesoftheGame_VU2_1>();
-        if (rules != null)
+        // Check water target on active rules.
+        MonoBehaviour rulesMB = (MonoBehaviour)vu2_1 ?? (MonoBehaviour)vu2_2;
+        IGameRules activeRules = rulesMB as IGameRules;
+        if (activeRules != null)
         {
-            DrawStatus("Water target assigned", rules.target != null);
-            DrawStatus($"monthDuration: {rules.monthDuration}s", true);
-            DrawStatus($"totalGameDuration: {rules.totalGameDuration}s", true);
+            DrawStatus("Water target assigned", activeRules.Target != null);
+            DrawStatus($"monthDuration: {activeRules.MonthDuration}s", true);
         }
 
         EditorGUILayout.Space(10);
         EditorGUILayout.HelpBox(
             "All missing components are auto-created at runtime by VU2SceneBootstrapper.\n" +
-            "The bootstrapper is auto-added in RulesoftheGame_VU2_1.Awake() and\n" +
+            "The bootstrapper is auto-added in the Rules class's Awake() and\n" +
             "Bootstrap() is called in StartGame().\n\n" +
             "No manual scene setup is required — just press Play!",
             MessageType.Info);

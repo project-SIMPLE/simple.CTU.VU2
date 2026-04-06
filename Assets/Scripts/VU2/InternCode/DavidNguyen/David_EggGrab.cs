@@ -133,7 +133,7 @@ public class David_EggGrab : MonoBehaviour
     {
         if (!other.CompareTag(bagTag)) return;
         if (_collected) return;
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
         
         // Don't collect while grabbed - must release first!
         if (_isGrabbed) return;

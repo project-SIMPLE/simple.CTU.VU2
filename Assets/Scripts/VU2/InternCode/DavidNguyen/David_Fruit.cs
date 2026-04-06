@@ -537,7 +537,7 @@ public class David_Fruit : MonoBehaviour
         
         // Game must be active to collect.
         // Game phải đang hoạt động mới thu hoạch được.
-        if (!RulesoftheGame_VU2_1.GameActive)
+        if (!GameRulesProvider.GameActive)
         {
             return;
         }
@@ -548,7 +548,7 @@ public class David_Fruit : MonoBehaviour
         // Sầu riêng héo và chết trong mùa khô (độ mặn cao).
         if (fruitType == FruitType.Durian)
         {
-            if (RulesoftheGame_VU2_1.Saltwater_Intrusion >= 1f)
+            if (GameRulesProvider.Saltwater_Intrusion >= 1f)
             {
                 return;
             }
@@ -586,7 +586,7 @@ public class David_Fruit : MonoBehaviour
         
         // Determine season (Rainy = low salinity, Dry = high salinity).
         // Xác định mùa (Mưa = độ mặn thấp, Khô = độ mặn cao).
-        bool isRainy = (RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f);
+        bool isRainy = (GameRulesProvider.Saltwater_Intrusion < 1f);
         
         switch (fruitType)
         {
@@ -597,7 +597,7 @@ public class David_Fruit : MonoBehaviour
                 // Phase 2 (T2-T3,  Intrusion=0.5):  75 pts — transitional
                 // Phase 3 (T4,     Intrusion=1.0):   0 pts  — blocked by TryCollect
                 {
-                    float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+                    float intrusion = GameRulesProvider.Saltwater_Intrusion;
                     if (intrusion < 0.1f) return 150;   // Phase 1 — mùa mưa đỉnh điểm
                     if (intrusion < 1f)   return 75;    // Phase 2 — chuyển tiếp
                     return 0;                           // Phase 3 — không thể thu hoạch
@@ -632,7 +632,7 @@ public class David_Fruit : MonoBehaviour
                 // Phase 2 (T2-T3,  Intrusion=0.5): 30 pts — bắt đầu xâm nhập mặn
                 // Phase 3 (T4,     Intrusion=1.0):  0 pts — mặn quá cao, mất trắng
                 {
-                    float intrusion = RulesoftheGame_VU2_1.Saltwater_Intrusion;
+                    float intrusion = GameRulesProvider.Saltwater_Intrusion;
                     if (intrusion < 0.1f) return 60;  // Phase 1 — lúa tốt
                     if (intrusion < 1f)   return 30;  // Phase 2 — giảm năng suất
                     return 0;                         // Phase 3 — thất thu
@@ -707,7 +707,7 @@ public class David_Fruit : MonoBehaviour
             _ => "Unknown"
         };
         bool isFresh = ownerArea != null && ownerArea.waterType == WaterType.Fresh;
-        bool isRainy = RulesoftheGame_VU2_1.Saltwater_Intrusion < 1f;
+        bool isRainy = GameRulesProvider.Saltwater_Intrusion < 1f;
         
         // Remove object from scene.
         // Xóa object khỏi scene.

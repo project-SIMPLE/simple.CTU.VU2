@@ -161,7 +161,7 @@ public class David_SeasonHUD : MonoBehaviour
     
     // Cached reference to access timeRemaining & monthDuration.
     // Tham chiếu cached để truy cập timeRemaining & monthDuration.
-    private RulesoftheGame_VU2_1 _gameRules;
+    // Migrated to GameRulesProvider (static class, no instance needed)
     
     // =========================================================================
     // Start - Initialize and display initial UI state.
@@ -178,7 +178,7 @@ public class David_SeasonHUD : MonoBehaviour
         
         // Cache reference to game rules for time slider updates.
         // Cache tham chiếu đến game rules để cập nhật time slider.
-        _gameRules = FindObjectOfType<RulesoftheGame_VU2_1>();
+        // _gameRules removed  using GameRulesProvider static class
         
         // Initialize time slider to 1 (full = 100%).
         // Khởi tạo time slider ở 1 (đầy = 100%).
@@ -197,11 +197,11 @@ public class David_SeasonHUD : MonoBehaviour
     {
         // Subscribe to season change event.
         // Đăng ký sự kiện đổi mùa.
-        RulesoftheGame_VU2_1.OnPhaseChanged += OnSeasonChanged;
+        GameRulesProvider.OnPhaseChanged += OnSeasonChanged;
         
         // Subscribe to month change event.
         // Đăng ký sự kiện đổi tháng.
-        RulesoftheGame_VU2_1.OnMonthChanged += OnMonthChanged;
+        GameRulesProvider.OnMonthChanged += OnMonthChanged;
     }
     
     // =========================================================================
@@ -210,8 +210,8 @@ public class David_SeasonHUD : MonoBehaviour
     // =========================================================================
     private void OnDisable()
     {
-        RulesoftheGame_VU2_1.OnPhaseChanged -= OnSeasonChanged;
-        RulesoftheGame_VU2_1.OnMonthChanged -= OnMonthChanged;
+        GameRulesProvider.OnPhaseChanged -= OnSeasonChanged;
+        GameRulesProvider.OnMonthChanged -= OnMonthChanged;
     }
     
     // =========================================================================
@@ -315,7 +315,7 @@ public class David_SeasonHUD : MonoBehaviour
     {
         // Determine season based on calendar month (May-Oct = Rainy, Nov-Apr = Dry).
         // Xác định mùa dựa trên tháng lịch (T5-10 = Mưa, T11-4 = Khô).
-        int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+        int displayMonth = GetDisplayMonth(GameRulesProvider.CurrentMonthIndex);
         bool isRainy = IsRainySeasonMonth(displayMonth);
         
         // Calculate target values.
@@ -323,7 +323,7 @@ public class David_SeasonHUD : MonoBehaviour
         
         // Water level from month table (0-100%).
         // Mực nước từ bảng tháng (0-100%).
-        float targetWaterLevel = Mathf.Clamp01(RulesoftheGame_VU2_1.CurrentWaterLevelPercent / 100f);
+        float targetWaterLevel = Mathf.Clamp01(GameRulesProvider.CurrentWaterLevelPercent / 100f);
         
         // Get actual salinity from both zones.
         // Lấy độ mặn thực từ cả 2 vùng.
@@ -480,7 +480,7 @@ public class David_SeasonHUD : MonoBehaviour
         // Giai đoạn 1: T11–T1 | Giai đoạn 2: T2–T3 | Giai đoạn 3: T4
         if (seasonLabel != null)
         {
-            int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+            int displayMonth = GetDisplayMonth(GameRulesProvider.CurrentMonthIndex);
             string phaseText;
             if (displayMonth >= 11 || displayMonth <= 1)
                 phaseText = "Giai đoạn 1 (T11–T1)";
@@ -504,7 +504,7 @@ public class David_SeasonHUD : MonoBehaviour
         // Label "Tháng:" is already set in the UI hierarchy (textThang).
         // Chỉ hiển thị số tháng lịch.
         // Label "Tháng:" đã có sẵn trong UI hierarchy (textThang).
-        int displayMonth = GetDisplayMonth(RulesoftheGame_VU2_1.CurrentMonthIndex);
+        int displayMonth = GetDisplayMonth(GameRulesProvider.CurrentMonthIndex);
         timeLabel.text = $"Tháng {displayMonth}";
     }
     
@@ -565,20 +565,20 @@ public class David_SeasonHUD : MonoBehaviour
 
         // Time slider — requires _gameRules to be valid.
         // Time slider — cần _gameRules hợp lệ.
-        if (_gameRules == null || timeSlider == null) return;
+        if (timeSlider == null) return;
 
-        float totalDuration = _gameRules.monthDuration * 6f;
+        float totalDuration = GameRulesProvider.MonthDuration * 6f;
         if (totalDuration <= 0f) return;
 
         // Progress 0.0 (start) → 1.0 (end).
-        float progress = Mathf.Clamp01(1f - _gameRules.timeRemaining / totalDuration);
+        float progress = Mathf.Clamp01(1f - GameRulesProvider.TimeRemaining / totalDuration);
         timeSlider.value = progress;
 
         // Color fill: green (Phase1) → yellow (Phase2) → red (Phase3).
         if (timeFill != null)
         {
-            float phase1End = _gameRules.monthDuration * 3f / totalDuration;
-            float phase2End = _gameRules.monthDuration * 5f / totalDuration;
+            float phase1End = GameRulesProvider.MonthDuration * 3f / totalDuration;
+            float phase2End = GameRulesProvider.MonthDuration * 5f / totalDuration;
             timeFill.color = progress <= phase1End ? Color.green
                            : progress <= phase2End ? Color.yellow
                            : Color.red;

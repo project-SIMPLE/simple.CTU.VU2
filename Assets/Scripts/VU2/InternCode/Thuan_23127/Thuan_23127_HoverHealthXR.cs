@@ -192,7 +192,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     private void OnHoverEntered(HoverEnterEventArgs _)
     {
         //  Kiểm tra game có đang active không
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
         
         // Đảm bảo panel và growth tồn tại
         if (panel == null) FindPanelAndTexts();
@@ -213,7 +213,7 @@ public class Thuan_23127_HoverHealthXR : MonoBehaviour
     void OnMouseEnter()
     {
         // Kiểm tra game có đang active không
-        if (!RulesoftheGame_VU2_1.GameActive) return;
+        if (!GameRulesProvider.GameActive) return;
         
         // Đảm bảo panel và growth tồn tại
         if (panel == null) FindPanelAndTexts();
