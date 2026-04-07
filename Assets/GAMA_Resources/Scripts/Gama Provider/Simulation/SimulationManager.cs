@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class SimulationManager : MonoBehaviour
 {
+    // EN: Main simulation orchestrator between Unity gameplay and GAMA messages.
+    // VI: Bộ điều phối chính giữa gameplay Unity và message từ GAMA.
     [SerializeField] protected InputActionReference primaryRightHandButton = null;
     [SerializeField] protected InputActionReference TryReconnectButton = null;
 
@@ -66,7 +68,8 @@ public class SimulationManager : MonoBehaviour
     public static SimulationManager Instance = null;
 
 
-    //allows to define the minimal time between two interactions
+    // EN: Minimal delay between interactions.
+    // VI: Khoảng thời gian tối thiểu giữa hai lần tương tác.
     protected float timeWithoutInteraction = 1.0f; //in second
 
 
@@ -82,12 +85,20 @@ public class SimulationManager : MonoBehaviour
 
     protected bool readyToSendPositionInit = true;
 
+    // EN: Base period for periodic position/state sync to GAMA.
+    // VI: Chu kỳ cơ sở để đồng bộ vị trí/trạng thái định kỳ lên GAMA.
     protected float TimeSendPosition = 0.5f;
+    // EN: Timer for enemy updates (staggered to avoid sending all packets at once).
+    // VI: Bộ đếm gửi vị trí enemy (lệch pha để tránh dồn gói tin cùng lúc).
     protected float TimerSendPositionEnemy = 0.0f;
 
 
 
+    // EN: Timer for fresh-water updates.
+    // VI: Bộ đếm gửi cập nhật fresh-water.
     protected float TimerSendPositionFW = 0.0f;
+    // EN: Timer for player position updates.
+    // VI: Bộ đếm gửi cập nhật vị trí người chơi.
     protected float TimerSendPosition = 0.0f;
 
     protected List<GameObject> locomotion;
@@ -170,6 +181,8 @@ public class SimulationManager : MonoBehaviour
 
     void Start()
     {
+        // EN: Runtime initialization of maps/flags and initial stagger for timers.
+        // VI: Khởi tạo map/cờ runtime và đặt lệch pha ban đầu cho các timer.
         geometryMap = new Dictionary<string, List<object>>();
         handleGeometriesRequested = false;
         // handlePlayerParametersRequested = false;
@@ -185,6 +198,9 @@ public class SimulationManager : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        // EN: Physics-step pipeline for deferred operations and state-driven sync.
+        // VI: Luồng xử lý theo bước vật lý cho tác vụ trì hoãn và đồng bộ theo trạng thái.
 
         if (sendMessageToReactivatePositionSent)
         {
@@ -234,6 +250,8 @@ public class SimulationManager : MonoBehaviour
 
         if (IsGameState(GameState.LOADING_DATA) && ConnectionManager.Instance.getUseMiddleware())
         {
+            // EN: Keep requesting initial data while loading, at a fixed interval.
+            // VI: Liên tục yêu cầu dữ liệu khởi tạo khi đang tải, theo chu kỳ cố định.
             if (TimerSendInit > 0)
                 TimerSendInit -= Time.deltaTime;
             if (TimerSendInit <= 0)
@@ -279,6 +297,9 @@ public class SimulationManager : MonoBehaviour
     private void Update()
     {
 
+        // EN: Frame-step pipeline for input, reconnect, and periodic outbound messages.
+        // VI: Luồng xử lý theo frame cho input, reconnect và gửi message định kỳ.
+
 
 
         if (currentTimePing > 0)
@@ -303,6 +324,8 @@ public class SimulationManager : MonoBehaviour
         }
         if (IsGameState(GameState.GAME))
         {
+            // EN: Three independent timers to spread network traffic by data type.
+            // VI: Ba timer độc lập để phân tải lưu lượng mạng theo từng loại dữ liệu.
 
             if (TimerSendPositionEnemy > 0)
             {
@@ -357,6 +380,8 @@ public class SimulationManager : MonoBehaviour
 
     public void SendEndMessageToGAMA()
     {
+        // EN: Notify server that this player has completed the game.
+        // VI: Thông báo lên server rằng người chơi đã kết thúc game.
         Debug.Log("END OF GAME");
         StartButton.interactable = true;
         Dictionary<string, string> args = new Dictionary<string, string> {
@@ -368,6 +393,8 @@ public class SimulationManager : MonoBehaviour
 
     public void sendReadyToGAMA()
     {
+        // EN: One-shot readiness handshake before gameplay starts.
+        // VI: Bắt tay trạng thái sẵn sàng một lần trước khi vào gameplay.
         if (StartButton.interactable == false)
         {
             StartButton.interactable = true;
@@ -394,6 +421,9 @@ public class SimulationManager : MonoBehaviour
 
     public void sendFreshWater()
     {
+
+        // EN: Collect active ally objects and send compact CSV-like payloads.
+        // VI: Thu thập object ally đang hoạt động và gửi payload dạng chuỗi nén kiểu CSV.
 
         GameObject[] freshWater = GameObject.FindGameObjectsWithTag("Ally");
         // action update_salty_water(string idP, string swsStr, string xsStr, string ysStr)
@@ -437,6 +467,9 @@ public class SimulationManager : MonoBehaviour
     public void updatePlayerPos()
     {
 
+        // EN: Send player pose + gameplay KPIs to GAMA each cycle.
+        // VI: Gửi tư thế người chơi + KPI gameplay lên GAMA theo chu kỳ.
+
         gameUI.computeScore();
 
         //action update_player_pos(string idP, int x, int y, int o)
@@ -466,6 +499,8 @@ public class SimulationManager : MonoBehaviour
 
     public void createEnemySpawner()
     {
+        // EN: Register all enemy spawners and send their initial positions.
+        // VI: Đăng ký toàn bộ enemy spawner và gửi vị trí ban đầu.
         if (ConnectionManager.Instance == null)
         {
             Debug.LogWarning("[SimulationManager] createEnemySpawner skipped — no GAMA connection.");
@@ -528,6 +563,9 @@ public class SimulationManager : MonoBehaviour
     public void sendEnemies()
     {
 
+        // EN: Periodic enemy position sync.
+        // VI: Đồng bộ vị trí enemy theo chu kỳ.
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         // action update_salty_water(string idP, string swsStr, string xsStr, string ysStr)
 
@@ -571,6 +609,8 @@ public class SimulationManager : MonoBehaviour
 
     public void sendTrees()
     {
+        // EN: Send active tree list and coordinates to server.
+        // VI: Gửi danh sách cây đang hoạt động và tọa độ lên server.
         if (ConnectionManager.Instance == null)
         {
             Debug.LogWarning("[SimulationManager] sendTrees skipped — no GAMA connection.");
@@ -906,6 +946,9 @@ public class SimulationManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
 
+        // EN: Centralized game-state transition + side effects (requests/notifications).
+        // VI: Chuyển trạng thái game tập trung + tác vụ phụ (request/thông báo).
+
         switch (newState)
         {
             case GameState.MENU:
@@ -1222,6 +1265,9 @@ public class SimulationManager : MonoBehaviour
     private void HandleServerMessageReceived(String firstKey, String content)
     {
 
+        // EN: Main inbound message router by payload key.
+        // VI: Bộ định tuyến message vào theo khóa dữ liệu.
+
         if (content == null || content.Equals("{}")) return;
         switch (firstKey)
         {
@@ -1325,6 +1371,8 @@ public class SimulationManager : MonoBehaviour
 
     private void TryReconnect()
     {
+        // EN: Send ping_GAMA and wait for timeout; reconnect if no response.
+        // VI: Gửi ping_GAMA và chờ timeout; tự reconnect nếu không có phản hồi.
         Dictionary<string, string> args = new Dictionary<string, string> {
             {"id",ConnectionManager.Instance.getUseMiddleware() ? ConnectionManager.Instance.GetConnectionId()  : ("\"" + ConnectionManager.Instance.GetConnectionId() +  "\"") }};
 

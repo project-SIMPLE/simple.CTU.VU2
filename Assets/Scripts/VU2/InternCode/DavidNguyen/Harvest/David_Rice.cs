@@ -6,8 +6,20 @@ using UnityEngine;
 // Sickle hits rice → Score calculated → Rice hidden → Respawn after delay
 // When affected by salinity (dry season) → Shrinks + tilts 45° to show stress
 // Khi chịu mặn (mùa khô) → Thu nhỏ + nghiêng 45° để thể hiện cây yếu
+//
+// IDamageable: Enemy (saltwater) can damage rice directly.
+//   HP > wiltThreshold  → healthy (upright)
+//   HP ≤ wiltThreshold  → ApplyWilt()  (tilt 45°, still harvestable if season allows)
+//   HP ≤ 0              → ApplyFall()  (tilt 90°, canHarvest = false)
+// Rice is NOT destroyed on death — it stays wilted until respawned by FarmArea.
+//
+// IDamageable: Enemy (nước mặn) có thể gây damage trực tiếp lên lúa.
+//   HP > wiltThreshold  → khỏe mạnh (đứng thẳng)
+//   HP ≤ wiltThreshold  → ApplyWilt()  (nghiêng 45°, vẫn thu hoạch được nếu mùa cho phép)
+//   HP ≤ 0              → ApplyFall()  (ngã 90°, canHarvest = false)
+// Lúa KHÔNG bị Destroy khi chết — nằm chờ FarmArea respawn.
 // =============================================================================
-public class David_Rice : MonoBehaviour
+public class David_Rice : MonoBehaviour, IDamageable
 {
     [Header("Rice Config / Cấu hình lúa")]
     
@@ -35,6 +47,27 @@ public class David_Rice : MonoBehaviour
     // SALINITY VISUAL EFFECTS / HIỆU ỨNG HÌNH ẢNH KHI CHỊU MẶN
     // =========================================================================
 
+    // =========================================================================
+    // EN: Health system — receives damage from Enemy (saltwater).
+    // VI: Hệ thống máu — nhận sát thương từ Enemy (nước mặn).
+    // EN: Rice is NOT destroyed on death; it just falls over (ApplyFall) and
+    //     waits for FarmArea to respawn it next season.
+    // VI: Lúa KHÔNG bị Destroy khi chết; chỉ ngã (ApplyFall) và chờ
+    //     FarmArea respawn vào mùa tiếp theo.
+    // =========================================================================
+    [Header("Health / Máu (Enemy damage)")]
+    [Tooltip(
+        "EN: Max HP. Enemy deals 1 dmg per 10s (attackDamage=1, throttle×2, interval=5s).\n" +
+        "    1 Enemy kills rice in: maxHealth × 10 seconds.\n" +
+        "VI: Máu tối đa. 1 Enemy giết lúa sau: maxHealth × 10 giây.\n" +
+        "    Ví dụ: maxHealth=10 → chết sau ~100 giây với 1 Enemy.")]
+    public int maxHealth = 10;
+
+    [Tooltip(
+        "EN: HP at which rice starts wilting (visual only — still harvestable if season allows).\n" +
+        "VI: Ngưỡng máu bắt đầu héo (chỉ visual — vẫn thu hoạch được nếu mùa cho phép).")]
+    public int wiltThresholdHP = 5;
+
     [Header("Salinity Wilt Effect / Hiệu ứng héo khi mặn")]
 
     [Tooltip("Tỷ lệ thu nhỏ khi chịu mặn (0.6 = còn 60% kích thước gốc)\n" +
@@ -57,8 +90,51 @@ public class David_Rice : MonoBehaviour
     [Range(0.5f, 10f)]
     public float wiltTransitionSpeed = 2f;
 
+    // =========================================================================
+    // DAMAGE COLOR EFFECTS / HIỆU ỨNG MÀU KHI NHẬN DAMAGE
+    // EN: Two-stage color change driven by HP and season phase:
+    //   Stage 1 (HP ≤ 50%):  wiltDamageColor  — yellowing, still alive
+    //   Stage 2 (Phase 3 or HP ≤ 0): fallDamageColor — brown/dead
+    // VI: Đổi màu 2 giai đoạn theo HP và phase:
+    //   Giai đoạn 1 (HP ≤ 50%): wiltDamageColor — vàng úa, còn sống
+    //   Giai đoạn 2 (Phase 3 hoặc HP ≤ 0): fallDamageColor — nâu/chết
+    // =========================================================================
+    [Header("Damage Color Effects / Màu khi nhận damage")]
+    [Tooltip(
+        "EN: Color applied when HP drops to 50% or below (yellowing)\n" +
+        "VI: Màu áp khi HP còn 50% hoặc ít hơn (vàng úa)")]
+    public Color wiltDamageColor = new Color(0.85f, 0.75f, 0.10f, 1f); // vàng úa
+
+    [Tooltip(
+        "EN: Color applied when Phase 3 begins OR HP reaches 0 (brown/dead)\n" +
+        "VI: Màu áp khi vào Giai đoạn 3 HOẶC HP = 0 (nâu/chết)")]
+    public Color fallDamageColor = new Color(0.40f, 0.25f, 0.05f, 1f); // nâu chết
+
+    [Tooltip(
+        "EN: Shader property name for color. URP/HDRP: _BaseColor | Built-in: _Color\n" +
+        "VI: Tên property shader cho màu.")]
+    public string colorProperty = "_BaseColor";
+    public bool tryCommonColorProps = true;
+
+    private static readonly string[] _fallbackColorProps =
+        { "_BaseColor", "_Color", "_Tint", "_TintColor" };
+
+    // Renderer cache for color changes
+    // Cache renderer để đổi màu
+    private Renderer[] _renderers;
+    private MaterialPropertyBlock _mpb;
+
+    // EN: Tracks which color stage is currently applied to avoid redundant GPU calls.
+    // VI: Theo dõi giai đoạn màu đang áp để tránh gọi GPU thừa.
+    private enum ColorStage { None, Wilt, Fall }
+    private ColorStage _colorStage = ColorStage.None;
+
     // State
     private bool _harvested = false;
+
+    // EN: Current HP — instance variable (not static).
+    // VI: Máu hiện tại — biến từng instance (không dùng static).
+    private int _currentHealth;
     
     // Salinity state / Trạng thái mặn
     private bool _isWilted = false;
@@ -75,12 +151,20 @@ public class David_Rice : MonoBehaviour
 
     private void Awake()
     {
+        // EN: Initialize HP. VI: Khởi tạo máu.
+        _currentHealth = maxHealth;
+
         // Cache initial transform values before any modification
         // Lưu giá trị transform ban đầu trước khi thay đổi
         _initialScale = transform.localScale;
         _initialRotation = transform.localRotation;
         _targetScale = _initialScale;
         _targetRotation = _initialRotation;
+
+        // EN: Cache all renderers and create shared MaterialPropertyBlock.
+        // VI: Cache tất cả renderer và tạo MaterialPropertyBlock dùng chung.
+        _renderers = GetComponentsInChildren<Renderer>(true);
+        _mpb = new MaterialPropertyBlock();
     }
 
     private void Start()
@@ -202,8 +286,8 @@ public class David_Rice : MonoBehaviour
     }
 
     /// <summary>
-    /// Apply wilt effect: shrink + tilt 45° (Phase 2, T2-T3).
-    /// Áp hiệu ứng héo: thu nhỏ + nghiêng 45° (Giai đoạn 2, T2-T3).
+    /// Apply wilt effect: shrink + tilt 45° + wilt color (Phase 2, T2-T3 or HP ≤ 50%).
+    /// Áp hiệu ứng héo: thu nhỏ + nghiêng 45° + màu vàng úa (Giai đoạn 2 hoặc HP ≤ 50%).
     /// </summary>
     public void ApplyWilt()
     {
@@ -215,11 +299,16 @@ public class David_Rice : MonoBehaviour
         _targetScale = _initialScale * wiltScale;
         _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, wiltTiltAngle);
         _isTransitioning = true;
+
+        // EN: Apply yellowing color — only escalate, never downgrade from Fall.
+        // VI: Áp màu vàng úa — chỉ leo thang, không hạ từ Fall xuống Wilt.
+        if (_colorStage == ColorStage.None)
+            ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
     }
 
     /// <summary>
-    /// Apply fall effect: rice falls completely (Phase 3, T4).
-    /// Áp hiệu ứng ngã: lúa ngã hẳn (Giai đoạn 3, T4).
+    /// Apply fall effect: rice falls completely + dead color (Phase 3, T4 or HP ≤ 0).
+    /// Áp hiệu ứng ngã: lúa ngã hẳn + màu nâu chết (Giai đoạn 3, T4 hoặc HP ≤ 0).
     /// </summary>
     public void ApplyFall()
     {
@@ -231,11 +320,15 @@ public class David_Rice : MonoBehaviour
         _targetScale = _initialScale * wiltScale * 0.8f;
         _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, fallTiltAngle);
         _isTransitioning = true;
+
+        // EN: Always apply dead color on fall regardless of previous stage.
+        // VI: Luôn áp màu nâu chết khi ngã, bất kể giai đoạn màu trước đó.
+        ApplyShaderColor(fallDamageColor, ColorStage.Fall);
     }
 
     /// <summary>
-    /// Clear wilt effect: restore original scale and rotation.
-    /// Xóa hiệu ứng héo: khôi phục scale và rotation gốc.
+    /// Clear wilt effect: restore original scale, rotation, and color.
+    /// Xóa hiệu ứng héo: khôi phục scale, rotation và màu gốc.
     /// </summary>
     public void ClearWilt()
     {
@@ -248,6 +341,10 @@ public class David_Rice : MonoBehaviour
         _targetScale = _initialScale;
         _targetRotation = _initialRotation;
         _isTransitioning = true;
+
+        // EN: Clear shader color — restore material's original color.
+        // VI: Xóa màu shader — khôi phục màu gốc của material.
+        ClearShaderColor();
     }
 
     /// <summary>
@@ -351,6 +448,14 @@ public class David_Rice : MonoBehaviour
         _harvested = false;
         canHarvest = true;
 
+        // EN: Reset HP so Enemy can damage again next season.
+        // VI: Reset máu để Enemy có thể gây damage lại mùa tiếp theo.
+        _currentHealth = maxHealth;
+
+        // EN: Clear damage color so rice looks fresh again.
+        // VI: Xóa màu damage để lúa trông tươi lại.
+        ClearShaderColor();
+
         if (riceVisual != null)
         {
             riceVisual.SetActive(true);
@@ -361,11 +466,157 @@ public class David_Rice : MonoBehaviour
         CheckCurrentSeason();
     }
 
+    // =========================================================================
+    // IDamageable — Enemy (saltwater) attacks rice each tick.
+    // IDamageable — Enemy (nước mặn) tấn công lúa mỗi tick.
+    // =========================================================================
+
+    /// <summary>
+    /// EN: Current HP accessor.
+    /// VI: Truy cập máu hiện tại.
+    /// </summary>
+    public int Health => _currentHealth;
+
+    /// <summary>
+    /// EN: Called by Enemy.DealDamage(). Maps HP to visual state:
+    ///       HP ≤ wiltThresholdHP → ApplyWilt (tilt 45°)
+    ///       HP ≤ 0               → ApplyFall (tilt 90°) + canHarvest = false
+    ///     Rice stays in scene — FarmArea respawns it next season.
+    /// VI: Được Enemy.DealDamage() gọi. Ánh xạ HP sang trạng thái hình ảnh:
+    ///       HP ≤ wiltThresholdHP → ApplyWilt (nghiêng 45°)
+    ///       HP ≤ 0               → ApplyFall (ngã 90°) + canHarvest = false
+    ///     Lúa ở lại scene — FarmArea respawn vào mùa tiếp theo.
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        if (IsDead()) return;
+
+        _currentHealth -= damage;
+        Debug.Log($"[David_Rice] '{gameObject.name}' TakeDamage({damage}) " +
+                  $"→ hp={_currentHealth}/{maxHealth}");
+
+        // EN: Stage 1 — HP ≤ 50%: yellow wilt color + tilt 45°.
+        // VI: Giai đoạn 1 — HP ≤ 50%: màu vàng úa + nghiêng 45°.
+        if (_currentHealth <= maxHealth / 2 && _colorStage == ColorStage.None)
+            ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
+
+        // EN: Transform wilt when HP crosses wilt threshold.
+        // VI: Hiệu ứng héo transform khi HP vượt ngưỡng.
+        if (_currentHealth <= wiltThresholdHP && !_isWilted)
+            ApplyWilt();
+
+        // EN: Stage 2 — HP ≤ 0: brown dead color + fall 90°.
+        // VI: Giai đoạn 2 — HP ≤ 0: màu nâu chết + ngã 90°.
+        if (_currentHealth <= 0)
+        {
+            Debug.Log($"[David_Rice] '{gameObject.name}' HP depleted → ApplyFall, canHarvest=false");
+            ApplyFall();
+            canHarvest = false;
+        }
+    }
+
+    /// <summary>
+    /// EN: Rice "dies" when HP ≤ 0. It falls over but is NOT destroyed
+    ///     (FarmArea handles respawn each season).
+    /// VI: Lúa "chết" khi HP ≤ 0. Nó ngã xuống nhưng KHÔNG bị Destroy
+    ///     (FarmArea xử lý respawn mỗi mùa).
+    /// </summary>
+    public void Die()
+    {
+        // EN: Rice death = fallen state. No Destroy — FarmArea respawns it.
+        // VI: Lúa chết = trạng thái ngã. Không Destroy — FarmArea respawn.
+        ApplyFall();
+        canHarvest = false;
+    }
+
+    /// <summary>
+    /// EN: Returns true when HP ≤ 0.
+    /// VI: Trả về true khi máu ≤ 0.
+    /// </summary>
+    public bool IsDead() => _currentHealth <= 0;
+
+    // =========================================================================
+    // COLOR HELPERS / HÀM HỖ TRỢ ĐỔI MÀU
+    // =========================================================================
+
+    /// <summary>
+    /// EN: Apply a shader color to all renderers via MaterialPropertyBlock.
+    ///     Uses _BaseColor (URP) with fallback to _Color (Built-in).
+    /// VI: Áp màu shader lên tất cả renderer qua MaterialPropertyBlock.
+    ///     Dùng _BaseColor (URP) với fallback _Color (Built-in).
+    /// </summary>
+    private void ApplyShaderColor(Color color, ColorStage stage)
+    {
+        if (_renderers == null || _mpb == null) return;
+        _colorStage = stage;
+
+        foreach (var r in _renderers)
+        {
+            if (r == null || r.sharedMaterial == null) continue;
+            string prop = FindColorProperty(r);
+            if (prop == null) continue;
+
+            r.GetPropertyBlock(_mpb);
+            _mpb.SetColor(prop, color);
+            r.SetPropertyBlock(_mpb);
+        }
+    }
+
+    /// <summary>
+    /// EN: Remove the color override — renderer reverts to material's original color.
+    /// VI: Xóa override màu — renderer trở về màu gốc của material.
+    /// </summary>
+    private void ClearShaderColor()
+    {
+        if (_renderers == null) return;
+        _colorStage = ColorStage.None;
+
+        foreach (var r in _renderers)
+        {
+            if (r == null) continue;
+            r.SetPropertyBlock(null);
+        }
+    }
+
+    /// <summary>
+    /// EN: Find the correct color shader property for a renderer's material.
+    /// VI: Tìm property màu shader phù hợp cho material của renderer.
+    /// </summary>
+    private string FindColorProperty(Renderer r)
+    {
+        if (r.sharedMaterial.HasProperty(colorProperty))
+            return colorProperty;
+
+        if (tryCommonColorProps)
+        {
+            foreach (var prop in _fallbackColorProps)
+            {
+                if (r.sharedMaterial.HasProperty(prop))
+                    return prop;
+            }
+        }
+        return null;
+    }
+
+    // =========================================================================
     // Context menu for testing in Editor
     // Menu ngữ cảnh để test trong Editor
+    // =========================================================================
     [ContextMenu("Test: Apply Wilt")]
     private void TestApplyWilt() => ApplyWilt();
 
     [ContextMenu("Test: Clear Wilt")]
     private void TestClearWilt() => ClearWilt();
+
+    [ContextMenu("Test: Take 1 Damage")]
+    private void TestTakeDamage() => TakeDamage(1);
+
+    [ContextMenu("Test: Apply Wilt Color")]
+    private void TestWiltColor() => ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
+
+    [ContextMenu("Test: Apply Fall Color")]
+    private void TestFallColor() => ApplyShaderColor(fallDamageColor, ColorStage.Fall);
+
+    [ContextMenu("Test: Clear Color")]
+    private void TestClearColor() => ClearShaderColor();
 }

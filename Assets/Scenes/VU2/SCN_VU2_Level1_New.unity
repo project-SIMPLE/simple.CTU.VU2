@@ -543,10 +543,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &9220346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3723,10 +3729,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &38307568
 GameObject:
   m_ObjectHideFlags: 0
@@ -25077,10 +25089,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &282170926
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25248,10 +25266,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &285831642
 GameObject:
   m_ObjectHideFlags: 0
@@ -26849,10 +26873,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &312094967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41512,10 +41542,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &343405942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49252,10 +49288,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &412304620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50076,10 +50118,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &426838347
 GameObject:
   m_ObjectHideFlags: 0
@@ -50904,10 +50952,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!43 &435372900
 Mesh:
   m_ObjectHideFlags: 0
@@ -56715,10 +56769,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &476109072
 GameObject:
   m_ObjectHideFlags: 0
@@ -58315,10 +58375,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!4 &503830286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4259404568330673979, guid: 31c3c8877e65c6e4ab005f6cefa74476,
@@ -58854,10 +58920,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &515571513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61401,10 +61473,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &554304619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65809,10 +65887,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &583492101
 GameObject:
   m_ObjectHideFlags: 0
@@ -71688,10 +71772,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &652174150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119806,10 +119896,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &972137262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127731,10 +127827,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!114 &1057648424 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7926034121350590407, guid: b151b1da475a6744aba78f5764bddc18,
@@ -128150,10 +128252,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &1062585711
 GameObject:
   m_ObjectHideFlags: 0
@@ -130628,10 +130736,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!4 &1083754417 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8273567521283702697, guid: df2f5d4d4daf1ec43a3edede1e9cb87e,
@@ -133657,10 +133771,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &1120685873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134443,10 +134563,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &1133008409
 GameObject:
   m_ObjectHideFlags: 0
@@ -144859,10 +144985,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!224 &1137114898 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1004097911450439916, guid: 56686f82f64b0af4688a89676403a500,
@@ -146265,10 +146397,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &1163645069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176811,10 +176949,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &1485934197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -188821,10 +188965,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &1626955840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -188992,10 +189142,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1 &1628380236
 GameObject:
   m_ObjectHideFlags: 0
@@ -224110,7 +224266,7 @@ PrefabInstance:
     - target: {fileID: 1077568249799591053, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
         type: 3}
@@ -252787,10 +252943,16 @@ MonoBehaviour:
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
   wiltScale: 0.6
   wiltTiltAngle: 45
   fallTiltAngle: 90
   wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!43 &2075962485
 Mesh:
   m_ObjectHideFlags: 0

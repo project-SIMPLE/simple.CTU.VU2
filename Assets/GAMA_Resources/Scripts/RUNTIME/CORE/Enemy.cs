@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour, IDamageable, IDamage
     [SerializeField] private float moveSpeed = 2f;      // NavMeshAgent speed / Tốc độ di chuyển
     [SerializeField] private float attackInterval = 5f; // Seconds between attacks / Giây giữa các đợt tấn công
     [SerializeField] private float attackRange = 2f;    // Attack radius / Bán kính tấn công
-    [SerializeField] private int attackDamage = 1;      // Damage per hit / Sát thương mỗi đòn
+    [SerializeField] private int attackDamage = 3;      // Damage per hit / Sát thương mỗi đòn
 
     [Header("Miscellaneous")]
     [SerializeField] Animator actionAnimator;    // Animator for attack/slide / Animator hành động tấn công/trượt
