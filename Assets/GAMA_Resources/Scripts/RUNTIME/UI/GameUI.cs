@@ -236,7 +236,7 @@ public class GameUI : MonoBehaviour
 
         startContent.gameObject.SetActive(false);
         gameManager.StartLevel();
-        
+        Debug.Log("SendTrees:");
         simulationManager.sendTrees();
         simulationManager.createEnemySpawner();
 

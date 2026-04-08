@@ -3,15 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-
+// EN: Singleton utility that converts GAMA polygon vertex data (integer coordinates)
+//     into extruded 3D meshes in Unity. Used by SimulationManager to create
+//     teleportation areas, walls, and other GAMA-defined geometries at runtime.
+//     Delegates actual mesh extrusion to the PolyExtruder component.
+// VI: Tiện ích singleton chuyển đổi dữ liệu đỉnh polygon GAMA (tọa độ số nguyên)
+//     thành mesh 3D đùn trong Unity. Được SimulationManager dùng để tạo
+//     vùng teleport, tường và các hình học GAMA định nghĩa khác lúc runtime.
+//     Ủy thác việc đùn mesh thực tế cho component PolyExtruder.
 public class PolygonGenerator
 {
+    // EN: Reference to the coordinate converter for GAMA→Unity transformations.
+    // VI: Tham chiếu đến bộ chuyển đổi tọa độ GAMA→Unity.
     CoordinateConverter converter;
 
+    // EN: Y offset applied to all generated background geometries.
+    // VI: Offset Y áp dụng cho tất cả hình học nền được tạo.
     float offsetYBackgroundGeom;
 
+    // EN: Singleton instance.
+    // VI: Instance singleton.
     private static PolygonGenerator instance;
 
+    // EN: Cached meshes from the last GeneratePolygons call (side/bottom/top).
+    //     Used by callers to attach MeshColliders to specific faces.
+    // VI: Các mesh được cache từ lần gọi GeneratePolygons cuối cùng (bên/đáy/nóc).
+    //     Người gọi dùng để gắn MeshCollider vào các mặt cụ thể.
     public Mesh surroundMesh;
     public Mesh bottomMesh;
     public Mesh topMesh;
@@ -41,6 +58,12 @@ public class PolygonGenerator
 
 
 
+    // EN: Main entry point: convert a flat list of GAMA integer coordinates
+    //     into a textured/colored 3D extruded polygon GameObject.
+    //     Steps: decode pairs → convert to Unity 2D → determine color/material → extrude.
+    // VI: Điểm vào chính: chuyển danh sách tọa độ số nguyên GAMA phẳng
+    //     thành GameObject polygon 3D đùn có texture/màu.
+    //     Các bước: giải mã cặp → chuyển sang Unity 2D → xác định màu/material → đùn.
     public GameObject GeneratePolygons(bool editMode, String name, List<int> points, PropertiesGAMA prop, int precision)
     {
    
@@ -85,7 +108,10 @@ public class PolygonGenerator
     }
 
 
-    // Start is called before the first frame update
+    // EN: Internal method: create a PolyExtruder component and generate
+    //     the actual 3D mesh from 2D polygon points.
+    // VI: Phương thức nội bộ: tạo component PolyExtruder và sinh
+    //     mesh 3D thực tế từ các điểm polygon 2D.
     GameObject GeneratePolygon(bool editMode, String name, Vector2[] MeshDataPoints, float extrusionHeight, Material mat, Color32 color)
     {
         bool isUsingBottomMeshIn3D = false;

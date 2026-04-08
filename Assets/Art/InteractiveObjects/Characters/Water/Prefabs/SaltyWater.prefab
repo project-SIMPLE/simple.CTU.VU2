@@ -678,8 +678,8 @@ MonoBehaviour:
   health: 2
   moveSpeed: 4
   attackInterval: 4
-  attackRange: 11.5
-  attackDamage: 1
+  attackRange: 23
+  attackDamage: 2
   actionAnimator: {fileID: 4236646826230012177}
   emotionAnimator: {fileID: 6291549279252108224}
   targetLayerMask:

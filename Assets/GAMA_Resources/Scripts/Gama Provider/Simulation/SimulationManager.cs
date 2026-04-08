@@ -7,35 +7,68 @@ using UnityEngine.InputSystem;
 
 using UnityEngine.UI;
 
+// EN: Main simulation orchestrator between Unity gameplay and GAMA server messages.
+//     Responsibilities:
+//     1. Connection lifecycle: subscribe to ConnectionManager events, handle auth flow.
+//     2. Inbound messages: route GAMA payloads to terrain, animation, spawn-rate, subsidence handlers.
+//     3. Outbound sync: periodically send player position, enemy positions, ally positions to GAMA.
+//     4. One-shot registration: send tree list, enemy spawner list, pumper list to GAMA.
+//     5. Game state machine: MENU → WAITING → LOADING_DATA → GAME → END.
+//     Subclasses (Solo, Multi, Interaction) override virtual methods for game-specific behavior.
+// VI: Bộ điều phối mô phỏng chính giữa gameplay Unity và message server GAMA.
+//     Trách nhiệm:
+//     1. Vòng đời kết nối: đăng ký event ConnectionManager, xử lý luồng xác thực.
+//     2. Message đến: định tuyến payload GAMA đến handler địa hình, animation, spawn-rate, sụt lún.
+//     3. Đồng bộ ra: gửi định kỳ vị trí player, enemy, ally lên GAMA.
+//     4. Đăng ký một lần: gửi danh sách cây, spawner, pumper lên GAMA.
+//     5. Máy trạng thái: MENU → WAITING → LOADING_DATA → GAME → END.
+//     Lớp con (Solo, Multi, Interaction) override các phương thức ảo cho hành vi riêng.
 public class SimulationManager : MonoBehaviour
 {
-    // EN: Main simulation orchestrator between Unity gameplay and GAMA messages.
-    // VI: Bộ điều phối chính giữa gameplay Unity và message từ GAMA.
+    // EN: XR input action for the primary right-hand button (triggers TriggerMainButton).
+    // VI: Input action XR cho nút chính tay phải (kích hoạt TriggerMainButton).
     [SerializeField] protected InputActionReference primaryRightHandButton = null;
+    // EN: XR input action for the reconnect button (triggers TryReconnect).
+    // VI: Input action XR cho nút reconnect (kích hoạt TryReconnect).
     [SerializeField] protected InputActionReference TryReconnectButton = null;
 
     [Header("Base GameObjects")]
+    // EN: The player XR rig root.
+    // VI: Gốc XR rig của người chơi.
     [SerializeField] protected GameObject player;
+    // EN: Ground plane scaled to match GAMA world bounds.
+    // VI: Mặt đất được scale khớp với giới hạn thế giới GAMA.
     [SerializeField] protected GameObject Ground;
 
 
-    // optional: define a scale between GAMA and Unity for the location given
+    // EN: Scaling and offset coefficients for GAMA ↔ Unity coordinate conversion.
+    // VI: Hệ số co giãn và offset cho chuyển đổi tọa độ GAMA ↔ Unity.
     [Header("Coordinate conversion parameters")]
     [SerializeField] protected float GamaCRSCoefX = 1.0f;
     [SerializeField] protected float GamaCRSCoefY = 1.0f;
     [SerializeField] protected float GamaCRSOffsetX = 0.0f;
     [SerializeField] protected float GamaCRSOffsetY = 0.0f;
+    // EN: Reference to the level/wave manager controlling spawns and timers.
+    // VI: Tham chiếu đến level/wave manager điều khiển spawn và timer.
     [SerializeField] protected LevelManager levelManager;
 
+    // EN: Reference to the game HUD/UI controller.
+    // VI: Tham chiếu đến controller HUD/UI game.
     [SerializeField] protected GameUI gameUI;
 
+    // EN: Player’s XR origin transform (used for position sync to GAMA).
+    // VI: Transform XR origin của người chơi (dùng để đồng bộ vị trí lên GAMA).
     protected Transform XROrigin;
 
     // Z offset and scale
     [SerializeField] protected float GamaCRSOffsetZ = 0.0f;
 
+    // EN: Objects whose position is tracked and sent back to GAMA via move_geoms_followed.
+    // VI: Các đối tượng có vị trí được theo dõi và gửi lại GAMA qua move_geoms_followed.
     protected List<GameObject> toFollow;
 
+    // EN: XR interaction manager for registering interactable objects.
+    // VI: XR interaction manager để đăng ký các đối tượng tương tác.
     XRInteractionManager interactionManager;
 
     // ################################ EVENTS ################################
@@ -48,23 +81,49 @@ public class SimulationManager : MonoBehaviour
     //    public static event Action<WorldJSONInfo> OnWorldDataReceived;
     // ########################################################################
 
+    // EN: Map of geometry name → [GameObject, PropertiesGAMA] for GAMA-created objects.
+    // VI: Map tên hình học → [GameObject, PropertiesGAMA] cho các đối tượng GAMA tạo.
     protected Dictionary<string, List<object>> geometryMap;
+    // EN: Map of property type ID → PropertiesGAMA definition.
+    // VI: Map ID kiểu thuộc tính → định nghĩa PropertiesGAMA.
     protected Dictionary<string, PropertiesGAMA> propertyMap = null;
 
+    // EN: Currently selected interactable objects.
+    // VI: Các đối tượng tương tác đang được chọn.
     protected List<GameObject> SelectedObjects;
 
 
+    // EN: Deferred flags — set by message handler, processed in FixedUpdate to avoid
+    //     modifying Unity objects on the WebSocket callback thread.
+    // VI: Cờ trì hoãn — được set bởi message handler, xử lý trong FixedUpdate để tránh
+    //     thay đổi đối tượng Unity trên thread callback WebSocket.
     protected bool handleGeometriesRequested;
     protected bool handleGroundParametersRequested;
 
+    // EN: Coordinate converter initialized from ConnectionParameter (GAMA CRS ↔ Unity).
+    // VI: Bộ chuyển đổi tọa độ khởi tạo từ ConnectionParameter (GAMA CRS ↔ Unity).
     protected CoordinateConverter converter;
+    // EN: Polygon mesh generator for GAMA geometries.
+    // VI: Bộ tạo mesh polygon cho hình học GAMA.
     protected PolygonGenerator polyGen;
-    protected ConnectionParameter parameters = null;// ConnectionParameter.CreateFromJSON("{\"precision\": 10000,\"world\": [2147483647,2147483647],\"minPlayerUpdateDuration\": 1000}");
+    // EN: Connection parameters received from GAMA (precision, world size, etc.).
+    // VI: Tham số kết nối nhận từ GAMA (precision, kích thước thế giới, v.v.).
+    protected ConnectionParameter parameters = null;
+    // EN: Property definitions received from GAMA.
+    // VI: Định nghĩa thuộc tính nhận từ GAMA.
     protected AllProperties propertiesGAMA;
+    // EN: Initial world geometry data from GAMA.
+    // VI: Dữ liệu hình học thế giới ban đầu từ GAMA.
     protected WorldJSONInfo infoWorld;
+    // EN: Pending animation command from GAMA (processed in FixedUpdate then nulled).
+    // VI: Lệnh animation đang chờ từ GAMA (xử lý trong FixedUpdate rồi null).
     protected AnimationInfo infoAnimation = null;
+    // EN: Current game state in the state machine.
+    // VI: Trạng thái game hiện tại trong máy trạng thái.
     public GameState currentState;
 
+    // EN: Singleton instance.
+    // VI: Instance singleton.
     public static SimulationManager Instance = null;
 
 
@@ -105,6 +164,10 @@ public class SimulationManager : MonoBehaviour
     protected MoveHorizontal mh = null;
     protected MoveVertical mv = null;
 
+    // EN: Pending deferred data objects — set by inbound handler, consumed in FixedUpdate.
+    //     Each is nulled after processing to avoid double-handling.
+    // VI: Các đối tượng dữ liệu trì hoãn — set bởi handler đến, tiêu thụ trong FixedUpdate.
+    //     Mỗi cái được null sau khi xử lý để tránh xử lý hai lần.
     protected DEMData data;
     protected DEMDataLoc dataLoc;
     protected TeleoportAreaInfo dataTeleport;
@@ -114,9 +177,15 @@ public class SimulationManager : MonoBehaviour
     protected EnemySpawnerInfo infoEnemySp;
     protected SubsidenceInfo subsidenceInfo;
 
+    // EN: UI button to start the game (disabled until GAMA says ready).
+    // VI: Nút UI bắt đầu game (bị vô hiệu cho đến khi GAMA báo sẵn sàng).
     public Button StartButton;
 
+    // EN: Registry of water pump barracks by InstanceID string — updated by GAMA spawn-rate messages.
+    // VI: Sổ đăng ký pumper nước theo chuỗi InstanceID — cập nhật bởi message spawn-rate từ GAMA.
     private Dictionary<string, Barrack> waterPumps;
+    // EN: Registry of enemy spawners by InstanceID string — updated by GAMA spawn-rate messages.
+    // VI: Sổ đăng ký enemy spawner theo chuỗi InstanceID — cập nhật bởi message spawn-rate từ GAMA.
     private Dictionary<string, EnemySpawner> enemySpawners;
 
     private bool sendReady = true;
@@ -139,10 +208,12 @@ public class SimulationManager : MonoBehaviour
         // toDelete = new List<GameObject>();
 
         locomotion = new List<GameObject>(GameObject.FindGameObjectsWithTag("locomotion"));
-        mh = player.GetComponentInChildren<MoveHorizontal>();
-        mv = player.GetComponentInChildren<MoveVertical>();
-
-        XROrigin = player.transform;//.Find("XR Origin (XR Rig)");
+        if (player != null)
+        {
+            mh = player.GetComponentInChildren<MoveHorizontal>();
+            mv = player.GetComponentInChildren<MoveVertical>();
+            XROrigin = player.transform;//.Find("XR Origin (XR Rig)");
+        }
         playerMovement(false);
         toFollow = new List<GameObject>();
         waterPumps = new Dictionary<string, Barrack>();
@@ -151,6 +222,8 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Subscribe to ConnectionManager events for server messages, connection state, and auth.
+    // VI: Đăng ký event ConnectionManager cho message server, trạng thái kết nối và xác thực.
     void OnEnable()
     {
         if (ConnectionManager.Instance != null)
@@ -166,12 +239,17 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    // EN: Unsubscribe from ConnectionManager events to avoid memory leaks.
+    // VI: Hủy đăng ký event ConnectionManager để tránh rò rỉ bộ nhớ.
     void OnDisable()
     {
         Debug.Log("SimulationManager: OnDisable");
-        ConnectionManager.Instance.OnServerMessageReceived -= HandleServerMessageReceived;
-        ConnectionManager.Instance.OnConnectionAttempted -= HandleConnectionAttempted;
-        ConnectionManager.Instance.OnConnectionStateChanged -= HandleConnectionStateChanged;
+        if (ConnectionManager.Instance != null)
+        {
+            ConnectionManager.Instance.OnServerMessageReceived -= HandleServerMessageReceived;
+            ConnectionManager.Instance.OnConnectionAttempted -= HandleConnectionAttempted;
+            ConnectionManager.Instance.OnConnectionStateChanged -= HandleConnectionStateChanged;
+        }
     }
 
     void OnDestroy()
@@ -187,7 +265,8 @@ public class SimulationManager : MonoBehaviour
         handleGeometriesRequested = false;
         // handlePlayerParametersRequested = false;
         handleGroundParametersRequested = false;
-        interactionManager = player.GetComponentInChildren<XRInteractionManager>();
+        if (player != null)
+            interactionManager = player.GetComponentInChildren<XRInteractionManager>();
         OnEnable();
         TimerSendPositionEnemy = TimeSendPosition / 2.0f;
         TimerSendPosition = TimeSendPosition / 3.0f;
@@ -349,7 +428,7 @@ public class SimulationManager : MonoBehaviour
                 sendFreshWater();
                 TimerSendPositionFW = TimeSendPosition;
             }
-            if (TimerSendPosition <= 0 && !gameUI.endDone)
+            if (TimerSendPosition <= 0 && (gameUI == null || !gameUI.endDone))
             {
                 updatePlayerPos();
                 TimerSendPosition = TimeSendPosition;
@@ -373,8 +452,10 @@ public class SimulationManager : MonoBehaviour
     {
         gameStarted = true;
         Debug.Log("START GAME");
-        levelManager.setWaveTime(startGameParameters.time_prep, startGameParameters.time_def);
-        gameUI.StartUI();
+        if (levelManager != null)
+            levelManager.setWaveTime(startGameParameters.time_prep, startGameParameters.time_def);
+        if (gameUI != null)
+            gameUI.StartUI();
 
     }
 
@@ -383,7 +464,8 @@ public class SimulationManager : MonoBehaviour
         // EN: Notify server that this player has completed the game.
         // VI: Thông báo lên server rằng người chơi đã kết thúc game.
         Debug.Log("END OF GAME");
-        StartButton.interactable = true;
+        if (StartButton != null)
+            StartButton.interactable = true;
         Dictionary<string, string> args = new Dictionary<string, string> {
                     {"idP", ConnectionManager.Instance.GetConnectionId()} };
 
@@ -395,7 +477,7 @@ public class SimulationManager : MonoBehaviour
     {
         // EN: One-shot readiness handshake before gameplay starts.
         // VI: Bắt tay trạng thái sẵn sàng một lần trước khi vào gameplay.
-        if (StartButton.interactable == false)
+        if (StartButton != null && StartButton.interactable == false)
         {
             StartButton.interactable = true;
             Dictionary<string, string> args = new Dictionary<string, string> {
@@ -470,7 +552,13 @@ public class SimulationManager : MonoBehaviour
         // EN: Send player pose + gameplay KPIs to GAMA each cycle.
         // VI: Gửi tư thế người chơi + KPI gameplay lên GAMA theo chu kỳ.
 
-        gameUI.computeScore();
+        if (XROrigin == null || parameters == null)
+        {
+            return;
+        }
+
+        if (gameUI != null)
+            gameUI.computeScore();
 
         //action update_player_pos(string idP, int x, int y, int o)
         Vector2 vF = new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z);
@@ -485,14 +573,19 @@ public class SimulationManager : MonoBehaviour
              {"x", ""+XROrigin.localPosition.x * parameters.precision },
               {"y",""+XROrigin.localPosition.z * parameters.precision},
                {"o",angle+"" },
-            {"remaining_time",((int) levelManager.CurrentTime)+"" },
-            {"dtree",((int) gameUI.DeadTreeNumber)+"" },
-            {"fwater",((int) gameUI.TotalNeutralWater)+"" },
-            {"score",((float) gameUI.ScoreGame)+"" },
+            {"remaining_time", levelManager != null ? ((int) levelManager.CurrentTime)+"" : "0" },
+            {"dtree", gameUI != null ? ((int) gameUI.DeadTreeNumber)+"" : "0" },
+            {"fwater", gameUI != null ? ((int) gameUI.TotalNeutralWater)+"" : "0" },
+            {"score", gameUI != null ? ((float) gameUI.ScoreGame)+"" : "0" },
+            {"name_tree", "rice:durian:shrimp" },
+            {"quanlity", David_Fruit.GetHarvestCount(FruitType.Rice) + ":" +
+                         David_Fruit.GetHarvestCount(FruitType.Durian) + ":" +
+                         David_Fruit.GetHarvestCount(FruitType.Shrimp)}
 
 
         };
-        Debug.Log(""+gameUI.DeadTreeNumber);
+        if (gameUI != null)
+            Debug.Log(""+gameUI.DeadTreeNumber);
 
         ConnectionManager.Instance.SendExecutableAsk("update_player_pos", args);
     }
@@ -506,6 +599,11 @@ public class SimulationManager : MonoBehaviour
             Debug.LogWarning("[SimulationManager] createEnemySpawner skipped — no GAMA connection.");
             return;
         }
+        if (levelManager == null)
+        {
+            Debug.LogWarning("[SimulationManager] createEnemySpawner skipped — no LevelManager.");
+            return;
+        }
         List<EnemySpawner> spawns = levelManager.Spawns;
         string idTs = ",";
         string xs = "";
@@ -516,7 +614,13 @@ public class SimulationManager : MonoBehaviour
         {
 
             GameObject t = s.gameObject;
-            enemySpawners.Add(t.GetInstanceID() + "", t.GetComponent<EnemySpawner>());
+            string spawnKey = t.GetInstanceID() + "";
+            if (enemySpawners.ContainsKey(spawnKey))
+            {
+                Debug.LogWarning("[SimulationManager] Duplicate EnemySpawner InstanceID skipped: " + spawnKey);
+                continue;
+            }
+            enemySpawners.Add(spawnKey, t.GetComponent<EnemySpawner>());
 
             if (isFirst)
             {
@@ -653,9 +757,11 @@ public class SimulationManager : MonoBehaviour
         };
 
         ConnectionManager.Instance.SendExecutableAsk("create_trees", args);
-
+        Debug.Log("Finish SEND TREES TO GAMA");
     }
 
+    // EN: Update subsidence data on the SubsidenceManager component.
+    // VI: Cập nhật dữ liệu sụt lún lên component SubsidenceManager.
     private void updateSubsidence()
     {
         SubsidenceManager subMan = GameObject.FindGameObjectWithTag("subsidenceManager").GetComponent<SubsidenceManager>();
@@ -664,6 +770,8 @@ public class SimulationManager : MonoBehaviour
         subMan.RemainingWaterLevelGlobal = (0.0f + subsidenceInfo.waterGlobal) / parameters.precision;
         // Debug.Log("" + subMan.RemainingWaterLevelLocal);
     }
+    // EN: Apply GAMA-sent spawn rates to each registered EnemySpawner and restart their auto-spawn.
+    // VI: Áp dụng spawn rate từ GAMA cho từng EnemySpawner đã đăng ký và khởi động lại auto-spawn.
     private void updateInfoSpawnRateEnemy()
     {
         for (int i = 0; i < infoEnemySp.enemyspawners.Count; i++)
@@ -674,6 +782,10 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    // EN: Apply GAMA-sent spawn rates to each registered water pumper (Barrack).
+    //     Note: the rate is halved before applying.
+    // VI: Áp dụng spawn rate từ GAMA cho từng pumper nước (Barrack) đã đăng ký.
+    //     Lưu ý: tốc độ được chia 2 trước khi áp dụng.
     private void updateInfoSpawnRatePumper()
     {
         for (int i = 0; i < infoPump.pumpers.Count; i++)
@@ -683,6 +795,10 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    // EN: Apply GAMA animation commands to named geometry objects.
+    //     Sets Animator parameters (int/float/bool) and fires triggers.
+    // VI: Áp dụng lệnh animation GAMA lên các đối tượng geometry được đặt tên.
+    //     Set tham số Animator (int/float/bool) và kích hoạt trigger.
     private void updateAnimation()
     {
 
@@ -721,6 +837,10 @@ public class SimulationManager : MonoBehaviour
         }
 
     }
+    // EN: Build or rebuild a TeleportationArea from GAMA polygon data.
+    //     Creates extruded meshes and adds MeshColliders for XR teleportation.
+    // VI: Xây hoặc xây lại TeleportationArea từ dữ liệu polygon GAMA.
+    //     Tạo mesh đùn và thêm MeshCollider cho teleportation XR.
     private void manageTeleportationArea()
     {
         if (polyGen == null)
@@ -791,6 +911,10 @@ public class SimulationManager : MonoBehaviour
         dataTeleport = null;
     }
 
+    // EN: Build invisible wall colliders from GAMA data.
+    //     NOTE: Currently disabled (entire body is commented out).
+    // VI: Xây collider tường vô hình từ dữ liệu GAMA.
+    //     GHI CHÚ: Hiện đang bị vô hiệu (toàn bộ thân hàm bị comment).
     private void manageWalls()
     {
 
@@ -840,6 +964,10 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Apply a partial DEM heightmap patch at (indexX, indexY) on the named Terrain.
+    //     If the new valMax exceeds the current terrain height, rescales existing heights.
+    // VI: Áp dụng miếng vá heightmap DEM tại (indexX, indexY) trên Terrain được đặt tên.
+    //     Nếu valMax mới vượt quá chiều cao terrain hiện tại, co giãn lại các height hiện có.
     private void manageSetValueTerrain()
     {
         Terrain[] terrains = Terrain.activeTerrains;
@@ -889,6 +1017,10 @@ public class SimulationManager : MonoBehaviour
         dataLoc = null;
     }
 
+    // EN: Replace the entire heightmap of the named Terrain with full DEM data from GAMA.
+    //     Also repositions and resizes the terrain to match GAMA world dimensions.
+    // VI: Thay thế toàn bộ heightmap của Terrain được đặt tên bằng dữ liệu DEM đầy đủ từ GAMA.
+    //     Cũng định vị lại và thay đổi kích thước terrain cho khớp với kích thước thế giới GAMA.
     private void manageUpdateTerrain()
     {
         Terrain[] terrains = Terrain.activeTerrains;
@@ -922,6 +1054,8 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Enable or disable player locomotion (horizontal/vertical movement + locomotion GameObjects).
+    // VI: Bật hoặc tắt di chuyển người chơi (di chuyển ngang/dọc + các GameObject locomotion).
     void playerMovement(Boolean active)
     {
         foreach (GameObject loc in locomotion)
@@ -1005,6 +1139,8 @@ public class SimulationManager : MonoBehaviour
     // ############################# INITIALIZERS ####################################
 
 
+    // EN: Scale and position the Ground plane to match the GAMA world bounding box.
+    // VI: Co giãn và đặt vị trí mặt đất (Ground) cho khớp bounding box thế giới GAMA.
     private void InitGroundParameters()
     {
         Debug.Log("GroundParameters : Beginnig ground initialization");
@@ -1029,6 +1165,10 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Send tracked "toFollow" object positions back to GAMA as a batch.
+    //     Format: separator-delimited names and coordinates.
+    // VI: Gửi lô vị trí các đối tượng "toFollow" đang theo dõi lại GAMA.
+    //     Định dạng: tên và tọa độ phân cách bằng ký tự ngăn.
     private void UpdateGameToFollowPosition()
     {
         if (toFollow.Count > 0)
@@ -1062,7 +1202,12 @@ public class SimulationManager : MonoBehaviour
     }
 
 
-    // ############################################ UPDATERS ############################################
+    // EN: Alternative player position sender using CoordinateConverter (3D with GAMA CRS).
+    //     NOTE: This method is NOT called in the Update loop — appears to be dead code.
+    //     The active version is updatePlayerPos() which sends raw Unity coords * precision.
+    // VI: Phương thức gửi vị trí người chơi thay thế dùng CoordinateConverter (3D với GAMA CRS).
+    //     GHI CHÚ: Phương thức này KHÔNG được gọi trong Update loop — có vẻ là dead code.
+    //     Phiên bản đang dùng là updatePlayerPos() gửi tọa độ Unity thô * precision.
     private void UpdatePlayerPosition()
     {
         Vector2 vF = new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z);
@@ -1093,6 +1238,10 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Configure a newly created/instantiated GameObject: set name, tag,
+    //     add to toFollow list if needed, and wire up XR interaction components.
+    // VI: Cấu hình GameObject mới tạo/khởi tạo: đặt tên, tag,
+    //     thêm vào danh sách toFollow nếu cần, và gắn các component tương tác XR.
     private void instantiateGO(GameObject obj, String name, PropertiesGAMA prop)
     {
         obj.name = name;
@@ -1156,6 +1305,10 @@ public class SimulationManager : MonoBehaviour
 
 
 
+    // EN: Load a prefab from Resources, scale it, add colliders, register in geometryMap,
+    //     and configure interaction via instantiateGO.
+    // VI: Tải prefab từ Resources, scale, thêm collider, đăng ký vào geometryMap,
+    //     và cấu hình tương tác qua instantiateGO.
     private GameObject instantiatePrefab(String name, PropertiesGAMA prop, bool initGame)
     {
         if (prop.prefabObj == null)
@@ -1209,6 +1362,8 @@ public class SimulationManager : MonoBehaviour
 
 
     // ############################################# HANDLERS ########################################
+    // EN: When the middleware authenticates this player, transition to LOADING_DATA.
+    // VI: Khi middleware xác thực người chơi này, chuyển sang trạng thái LOADING_DATA.
     private void HandleConnectionStateChanged(ConnectionState state)
     {
         Debug.Log("HandleConnectionStateChanged: " + state);
@@ -1221,30 +1376,42 @@ public class SimulationManager : MonoBehaviour
     }
 
 
+    // EN: Virtual hook for subclass-specific per-frame logic (called at end of Update).
+    // VI: Hook ảo cho logic theo frame riêng của lớp con (gọi cuối Update).
     protected virtual void OtherUpdate()
     {
 
     }
 
+    // EN: Virtual hook for main controller button press.
+    // VI: Hook ảo khi nhấn nút chính trên controller.
     protected virtual void TriggerMainButton()
     {
 
     }
 
+    // EN: Virtual hook for XR hover-enter on interactable objects.
+    // VI: Hook ảo khi tia XR đi vào đối tượng tương tác.
     protected virtual void HoverEnterInteraction(HoverEnterEventArgs ev)
     {
     }
 
+    // EN: Virtual hook for XR hover-exit on interactable objects.
+    // VI: Hook ảo khi tia XR rời khỏi đối tượng tương tác.
     protected virtual void HoverExitInteraction(HoverExitEventArgs ev)
     {
 
     }
 
+    // EN: Virtual hook for XR select (grab/click) on interactable objects.
+    // VI: Hook ảo khi chọn (grab/click) trên đối tượng tương tác XR.
     protected virtual void SelectInteraction(SelectEnterEventArgs ev)
     {
 
     }
 
+    // EN: Utility: change all renderer materials on a GameObject to the given color.
+    // VI: Tiện ích: đổi tất cả material renderer trên GameObject sang màu cho trước.
     static public void ChangeColor(GameObject obj, Color color)
     {
         Renderer[] renderers = obj.gameObject.GetComponentsInChildren<Renderer>();
@@ -1253,10 +1420,14 @@ public class SimulationManager : MonoBehaviour
             renderers[i].material.color = color;
         }
     }
+    // EN: Virtual hook called after all GAMA geometries have been loaded.
+    // VI: Hook ảo được gọi sau khi tất cả geometry GAMA đã được tải.
     protected virtual void AdditionalInitAfterGeomLoading()
     {
 
     }
+    // EN: Virtual hook for handling unknown/custom GAMA message keys (the "default" case).
+    // VI: Hook ảo xử lý các khóa message GAMA không xác định/tùy chỉnh (case "default").
     protected virtual void ManageOtherMessages(string content)
     {
 
@@ -1351,6 +1522,8 @@ public class SimulationManager : MonoBehaviour
 
     }
 
+    // EN: Handle connection success/failure. On success from MENU state, transition to WAITING.
+    // VI: Xử lý kết nối thành công/thất bại. Nếu thành công từ MENU, chuyển sang WAITING.
     private void HandleConnectionAttempted(bool success)
     {
         Debug.Log("SimulationManager: Connection attempt " + (success ? "successful" : "failed"));
@@ -1386,6 +1559,8 @@ public class SimulationManager : MonoBehaviour
     // ############################################# UTILITY FUNCTIONS ########################################
 
 
+    // EN: Send a GAMA restart command to reinitialize the simulation.
+    // VI: Gửi lệnh restart GAMA để khởi tạo lại mô phỏng.
     public void RestartGame()
     {
         Debug.Log("RESTART GAMA SIM ");
@@ -1395,12 +1570,15 @@ public class SimulationManager : MonoBehaviour
         ConnectionManager.Instance.SendExecutableAsk("restart", args);
     }
 
+    // EN: Check if the current state matches the given state.
+    // VI: Kiểm tra trạng thái hiện tại có khớp với trạng thái cho trước không.
     public bool IsGameState(GameState state)
     {
         return currentState == state;
     }
 
-
+    // EN: Get the current game state.
+    // VI: Lấy trạng thái game hiện tại.
     public GameState GetCurrentState()
     {
         return currentState;
@@ -1411,22 +1589,36 @@ public class SimulationManager : MonoBehaviour
 
 
 // ############################################################
+// EN: Game lifecycle states for the SimulationManager state machine.
+// VI: Các trạng thái vòng đời game cho máy trạng thái SimulationManager.
 public enum GameState
 {
-    // not connected to middleware
+    // EN: Not connected to middleware/GAMA. Initial state.
+    // VI: Chưa kết nối middleware/GAMA. Trạng thái ban đầu.
     MENU,
-    // connected to middleware, waiting for authentication
+    // EN: Connected to middleware, waiting for GAMA to authenticate this player.
+    // VI: Đã kết nối middleware, đang chờ GAMA xác thực người chơi này.
     WAITING,
-    // connected to middleware, authenticated, waiting for initial data from middleware
+    // EN: Authenticated; requesting and receiving initial data (properties, world, DEM).
+    // VI: Đã xác thực; đang yêu cầu và nhận dữ liệu ban đầu (properties, world, DEM).
     LOADING_DATA,
-    // connected to middleware, authenticated, initial data received, simulation running
+    // EN: Simulation running — periodic sync active.
+    // VI: Mô phỏng đang chạy — đồng bộ định kỳ đang hoạt động.
     GAME,
+    // EN: Game ended normally.
+    // VI: Game kết thúc bình thường.
     END,
+    // EN: Unrecoverable error / connection lost.
+    // VI: Lỗi không khôi phục được / mất kết nối.
     CRASH
 }
 
 
 
+// EN: Extension method providing a non-boxing TryGetComponent fallback
+//     for older Unity versions that don't have it built-in.
+// VI: Extension method cung cấp TryGetComponent không boxing dự phòng
+//     cho các phiên bản Unity cũ chưa có sẵn.
 public static class Extensions
 {
     public static bool TryGetComponent<T>(this GameObject obj, T result) where T : Component

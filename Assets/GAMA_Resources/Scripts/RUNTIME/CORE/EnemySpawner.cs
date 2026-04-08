@@ -4,27 +4,58 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour, ISpawner
 {
+    // EN: Prefab of the enemy to spawn.
+    // VI: Prefab enemy sẽ được tạo ra.
     [SerializeField] private GameObject spawnPrefab;
+
+    // EN: Time interval (seconds) between each spawn. Also used as a divisor to calculate spawnCount in StartAutoSpawn.
+    // VI: Khoảng thời gian (giây) giữa mỗi lần spawn. Cũng dùng làm số chia để tính spawnCount trong StartAutoSpawn.
+    // *** TIP: Giảm giá trị này để spawn nhanh hơn (nhiều enemy hơn trong cùng thời gian). ***
     [SerializeField] private float spawnRate = 1.0f;
+
+    // EN: Waypoints the enemy will follow after spawning.
+    // VI: Các điểm đường đi mà enemy sẽ theo sau khi xuất hiện.
     [SerializeField] private List<Transform> wayPoints;
 
-    // runtime privates
+    // EN: Total number of enemies this spawner will create before stopping.
+    // VI: Tổng số enemy spawner này tạo ra trước khi dừng.
+    // *** TIP: Tăng giá trị mặc định này để spawn nhiều enemy hơn nếu không dùng StartAutoSpawn. ***
     private int spawnCount = 10;
+
+    // EN: Minimum number of enemies to spawn (lower bound guard).
+    // VI: Số enemy tối thiểu (giới hạn dưới, tránh về 0).
     private int minSpawnCount = 1;
-    private int maxSpawnCount = 1;
+
+    // EN: Maximum number of enemies to spawn (upper bound in StartAutoSpawn formula).
+    // VI: Số enemy tối đa (giới hạn trên trong công thức StartAutoSpawn).
+    // *** TIP: ĐÂY LÀ ĐIỂM QUAN TRỌNG — hiện tại = 1, tăng lên để cho phép nhiều enemy hơn. ***
+    private int maxSpawnCount = 50;
+
+    // EN: Counter tracking how many enemies have been spawned so far.
+    // VI: Biến đếm số enemy đã được spawn.
     private int count = 0;
 
-    // Getters
+    // --- Getters / Properties ---
+
+    // EN: Returns the name of the spawn prefab.
+    // VI: Trả về tên prefab enemy.
     public string SpawnName
     {
         get { return spawnPrefab.name; }
     }
+
+    // EN: Gets or sets the spawn rate (interval in seconds).
+    // VI: Lấy hoặc đặt tốc độ spawn (khoảng thời gian giữa các lần spawn, tính bằng giây).
     public float SpawnRate
     {
         get { return spawnRate; }
         set { spawnRate = value; }
     }
 
+    // EN: Instantiates one enemy at this spawner's position, assigns waypoints, then increments counter.
+    //     Stops repeating when spawnCount is reached.
+    // VI: Tạo một enemy tại vị trí spawner, gán waypoints, rồi tăng biến đếm.
+    //     Dừng lặp khi đạt đủ spawnCount.
     public void Spawn()
     {
         if (!spawnPrefab) return;
@@ -38,6 +69,11 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         }
     }
 
+    // EN: Restarts spawning using spawnRate to derive how many enemies to create.
+    //     Formula: spawnCount = spawnRate * 0.5 (floored), minimum = minSpawnCount.
+    // VI: Khởi động lại việc spawn, dùng spawnRate để tính số lượng enemy.
+    //     Công thức: spawnCount = spawnRate * 0.5 (làm tròn xuống), tối thiểu = minSpawnCount.
+    // *** TIP: Thay hệ số 0.5 bằng số lớn hơn (ví dụ 2.0f) để tăng số enemy khi restart. ***
     public void ReStartAutoSpawn(int amount)
     {
         CancelInvoke("Spawn");
@@ -47,6 +83,14 @@ public class EnemySpawner : MonoBehaviour, ISpawner
         InvokeRepeating("Spawn", .1f, 0.5f);
         Debug.Log("rate " + spawnRate+ " cnt "+spawnCount);
     }
+
+    // EN: Starts spawning for the first time.
+    //     spawnCount = clamp(amount / spawnRate, minSpawnCount, maxSpawnCount).
+    //     Since maxSpawnCount = 1, result is always 1 unless you raise maxSpawnCount.
+    // VI: Bắt đầu spawn lần đầu tiên.
+    //     spawnCount = clamp(amount / spawnRate, minSpawnCount, maxSpawnCount).
+    //     Vì maxSpawnCount = 1, kết quả luôn là 1 — hãy tăng maxSpawnCount để thay đổi.
+    // *** TIP: Tăng maxSpawnCount (ví dụ = 50) để cho phép công thức tính ra số lớn hơn. ***
     public void StartAutoSpawn(GameObject spawn, int amount)
     {
         spawnPrefab = spawn;

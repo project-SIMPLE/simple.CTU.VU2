@@ -673,6 +673,13 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour, IGameRules
         SetMovementLocked(false);
         GameplayUIRoot.SetActive(true);
         GameUIRoot.SetActive(true);
+
+        // EN: Notify GAMA bridge to send tree/spawner data to GAMA server.
+        // VI: Thông báo GAMA bridge gửi dữ liệu cây/spawner lên GAMA server.
+        if (GAMABridgeLevel1.Instance != null)
+        {
+            GAMABridgeLevel1.Instance.NotifyGameStarted();
+        }
     }
 
     // =========================================================================
