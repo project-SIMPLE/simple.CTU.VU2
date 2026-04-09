@@ -4,45 +4,45 @@ using UnityEngine;
 
 // =============================================================================
 // ProductKind - Categorizes entities for summary tracking.
-// ProductKind - Phân lo?i th?c th? d? theo dõi t?ng k?t.
+// ProductKind - Phï¿½n lo?i th?c th? d? theo dï¿½i t?ng k?t.
 // =============================================================================
 public enum ProductKind { Plant, Animal, Fish }
 
 // =============================================================================
 // SeasonalCounters - Stores harvest counts and scores per phase (3 phases).
-// SeasonalCounters - Luu tr? s? l?n thu ho?ch và di?m theo giai do?n (3 GĞ).
+// SeasonalCounters - Luu tr? s? l?n thu ho?ch vï¿½ di?m theo giai do?n (3 Gï¿½).
 //
-// Phase 0 = GĞ1 (T11–T1), Phase 1 = GĞ2 (T2–T3), Phase 2 = GĞ3 (T4)
+// Phase 0 = Gï¿½1 (T11ï¿½T1), Phase 1 = Gï¿½2 (T2ï¿½T3), Phase 2 = Gï¿½3 (T4)
 // =============================================================================
 [Serializable]
 public class SeasonalCounters
 {
     // Icon for this product type.
-    // Icon cho lo?i s?n ph?m này.
+    // Icon cho lo?i s?n ph?m nï¿½y.
     public Sprite icon;
     
-    // Harvest count per phase: [0]=GĞ1, [1]=GĞ2, [2]=GĞ3.
-    // S? l?n thu ho?ch theo giai do?n: [0]=GĞ1, [1]=GĞ2, [2]=GĞ3.
+    // Harvest count per phase: [0]=Gï¿½1, [1]=Gï¿½2, [2]=Gï¿½3.
+    // S? l?n thu ho?ch theo giai do?n: [0]=Gï¿½1, [1]=Gï¿½2, [2]=Gï¿½3.
     public int[] count = new int[3];
     
-    // Total score earned per phase: [0]=GĞ1, [1]=GĞ2, [2]=GĞ3.
-    // T?ng di?m ki?m du?c theo giai do?n: [0]=GĞ1, [1]=GĞ2, [2]=GĞ3.
+    // Total score earned per phase: [0]=Gï¿½1, [1]=Gï¿½2, [2]=Gï¿½3.
+    // T?ng di?m ki?m du?c theo giai do?n: [0]=Gï¿½1, [1]=Gï¿½2, [2]=Gï¿½3.
     public int[] score = new int[3];
 }
 
 // =============================================================================
 // Thuan_23127_SeasonalSummary - Tracks and summarizes all harvests by product type.
-// Thuan_23127_SeasonalSummary - Theo dõi và t?ng k?t t?t c? thu ho?ch theo lo?i SP.
+// Thuan_23127_SeasonalSummary - Theo dï¿½i vï¿½ t?ng k?t t?t c? thu ho?ch theo lo?i SP.
 // 
 // 3-phase system:
-//   Phase 0 (GĞ1): T11–T1 (MonthIndex 1–3)
-//   Phase 1 (GĞ2): T2–T3  (MonthIndex 4–5)
-//   Phase 2 (GĞ3): T4     (MonthIndex 6)
+//   Phase 0 (Gï¿½1): T11ï¿½T1 (MonthIndex 1ï¿½3)
+//   Phase 1 (Gï¿½2): T2ï¿½T3  (MonthIndex 4ï¿½5)
+//   Phase 2 (Gï¿½3): T4     (MonthIndex 6)
 //
 // H? th?ng 3 giai do?n:
-//   GĞ 0 (GĞ1): T11–T1 (MonthIndex 1–3)
-//   GĞ 1 (GĞ2): T2–T3  (MonthIndex 4–5)
-//   GĞ 2 (GĞ3): T4     (MonthIndex 6)
+//   Gï¿½ 0 (Gï¿½1): T11ï¿½T1 (MonthIndex 1ï¿½3)
+//   Gï¿½ 1 (Gï¿½2): T2ï¿½T3  (MonthIndex 4ï¿½5)
+//   Gï¿½ 2 (Gï¿½3): T4     (MonthIndex 6)
 // =============================================================================
 public class Thuan_23127_SeasonalSummary : MonoBehaviour
 {
@@ -81,21 +81,21 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     // CurrentPhaseIndex - Tr? v? index giai do?n hi?n t?i (0, 1, ho?c 2).
     //
     // Based on CurrentMonthIndex from RulesoftheGame_VU2_1:
-    //   MonthIndex 1–3 ? Phase 0 (GĞ1: T11–T1)
-    //   MonthIndex 4–5 ? Phase 1 (GĞ2: T2–T3)
-    //   MonthIndex 6   ? Phase 2 (GĞ3: T4)
+    //   MonthIndex 1ï¿½3 ? Phase 0 (Gï¿½1: T11ï¿½T1)
+    //   MonthIndex 4ï¿½5 ? Phase 1 (Gï¿½2: T2ï¿½T3)
+    //   MonthIndex 6   ? Phase 2 (Gï¿½3: T4)
     //
-    // D?a trên CurrentMonthIndex t? RulesoftheGame_VU2_1:
-    //   MonthIndex 1–3 ? Phase 0 (GĞ1: T11–T1)
-    //   MonthIndex 4–5 ? Phase 1 (GĞ2: T2–T3)
-    //   MonthIndex 6   ? Phase 2 (GĞ3: T4)
+    // D?a trï¿½n CurrentMonthIndex t? RulesoftheGame_VU2_1:
+    //   MonthIndex 1ï¿½3 ? Phase 0 (Gï¿½1: T11ï¿½T1)
+    //   MonthIndex 4ï¿½5 ? Phase 1 (Gï¿½2: T2ï¿½T3)
+    //   MonthIndex 6   ? Phase 2 (Gï¿½3: T4)
     // =========================================================================
     private static int CurrentPhaseIndex()
     {
         int month = GameRulesProvider.CurrentMonthIndex;
-        if (month <= 3) return 0;  // GĞ1: T11, T12, T1
-        if (month <= 5) return 1;  // GĞ2: T2, T3
-        return 2;                   // GĞ3: T4
+        if (month <= 3) return 0;  // Gï¿½1: T11, T12, T1
+        if (month <= 5) return 1;  // Gï¿½2: T2, T3
+        return 2;                   // Gï¿½3: T4
     }
 
     // =========================================================================
@@ -106,7 +106,7 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
 
     // =========================================================================
     // GetOrCreate - Gets existing counters or creates new ones.
-    // GetOrCreate - L?y b? d?m hi?n có ho?c t?o m?i.
+    // GetOrCreate - L?y b? d?m hi?n cï¿½ ho?c t?o m?i.
     // =========================================================================
     private SeasonalCounters GetOrCreate(ProductKind kind, int id, Sprite icon)
     {
@@ -117,17 +117,17 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
             _map[key] = c;
         }
         // Update icon if not set yet.
-        // C?p nh?t icon n?u chua có.
+        // C?p nh?t icon n?u chua cï¿½.
         if (c.icon == null && icon != null) c.icon = icon;
         return c;
     }
 
     // =========================================================================
     // Track - Registers a plant/animal/fish for harvest tracking.
-    // Track - Ğang kı m?t cây/d?ng v?t/cá d? theo dõi thu ho?ch.
+    // Track - ï¿½ang kï¿½ m?t cï¿½y/d?ng v?t/cï¿½ d? theo dï¿½i thu ho?ch.
     // 
     // Called by: FarmArea.PlantInternal() when planting.
-    // Ğu?c g?i b?i: FarmArea.PlantInternal() khi tr?ng.
+    // ï¿½u?c g?i b?i: FarmArea.PlantInternal() khi tr?ng.
     // 
     // When the entity is harvested:
     // - Determine current phase from CurrentMonthIndex
@@ -136,9 +136,9 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     // - Fire OnChanged event for UI refresh
     // 
     // Khi th?c th? du?c thu ho?ch:
-    // - Xác d?nh giai do?n hi?n t?i t? CurrentMonthIndex
-    // - Tang s? d?m cho giai do?n dó
-    // - C?ng di?m vào t?ng giai do?n
+    // - Xï¿½c d?nh giai do?n hi?n t?i t? CurrentMonthIndex
+    // - Tang s? d?m cho giai do?n dï¿½
+    // - C?ng di?m vï¿½o t?ng giai do?n
     // - B?n s? ki?n OnChanged d? refresh UI
     // =========================================================================
     public void Track(Thuan_23127_PlantGrowth growth, Thuan_23127_SeedTag tag)
@@ -146,7 +146,7 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         if (!growth || !tag) return;
 
         // Determine product kind and ID from seed tag.
-        // Xác d?nh lo?i s?n ph?m và ID t? seed tag.
+        // Xï¿½c d?nh lo?i s?n ph?m vï¿½ ID t? seed tag.
         ProductKind kind;
         int id;
         if      (tag.plantId  > 0) { kind = ProductKind.Plant;  id = tag.plantId;  }
@@ -155,10 +155,10 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         else return;
 
         // Subscribe to harvest event.
-        // Ğang kı s? ki?n thu ho?ch.
+        // ï¿½ang kï¿½ s? ki?n thu ho?ch.
         growth.OnHarvested += points =>
         {
-            int phase = CurrentPhaseIndex();  // 0=GĞ1, 1=GĞ2, 2=GĞ3
+            int phase = CurrentPhaseIndex();  // 0=Gï¿½1, 1=Gï¿½2, 2=Gï¿½3
             var st = GetOrCreate(kind, id, tag.hudIcon);
             st.count[phase] += 1;
             st.score[phase] += points;
@@ -166,26 +166,26 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         };
 
         // No need to explicitly unsubscribe - object will be GC'd with its events.
-        // Không c?n h?y dang kı - object s? du?c GC cùng v?i events c?a nó.
+        // Khï¿½ng c?n h?y dang kï¿½ - object s? du?c GC cï¿½ng v?i events c?a nï¿½.
         growth.OnAboutToDestroy += () => { /* no-op */ };
     }
     
     // =========================================================================
     // TrackDirect - Direct tracking for grab-based items (Egg, Shrimp, Fruit).
-    // TrackDirect - Theo dõi tr?c ti?p cho items dùng grab (Tr?ng, Tôm, Qu?).
+    // TrackDirect - Theo dï¿½i tr?c ti?p cho items dï¿½ng grab (Tr?ng, Tï¿½m, Qu?).
     // 
     // Called by: David_EggGrab, David_ShrimpGrab, David_Fruit when collecting.
-    // Ğu?c g?i b?i: David_EggGrab, David_ShrimpGrab, David_Fruit khi thu ho?ch.
+    // ï¿½u?c g?i b?i: David_EggGrab, David_ShrimpGrab, David_Fruit khi thu ho?ch.
     // 
     // This bypasses PlantGrowth and directly records points.
-    // Ği?u này b? qua PlantGrowth và ghi nh?n di?m tr?c ti?p.
+    // ï¿½i?u nï¿½y b? qua PlantGrowth vï¿½ ghi nh?n di?m tr?c ti?p.
     // =========================================================================
     public void TrackDirect(string productName, Sprite icon, int points)
     {
         // Use product name as unique key (e.g., "Egg", "Shrimp", "Coconut")
         var key = $"Direct:{productName}";
         
-        int phase = CurrentPhaseIndex(); // 0=GĞ1, 1=GĞ2, 2=GĞ3
+        int phase = CurrentPhaseIndex(); // 0=Gï¿½1, 1=Gï¿½2, 2=Gï¿½3
         var counters = GetOrCreate_Direct(key, icon);
         
         counters.score[phase] += points;
@@ -213,13 +213,13 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     //   (key, icon, score[3], count[3])
     //   - key    = product identifier (e.g., "Direct:Durian", "Plant:1")
     //   - score[i] = total score in phase i
-    //   - count[i] = harvest count in phase i (area = count × 10)
+    //   - count[i] = harvest count in phase i (area = count ï¿½ 10)
     // 
-    // Tr? v?: Danh sách tuple:
+    // Tr? v?: Danh sï¿½ch tuple:
     //   (key, icon, score[3], count[3])
-    //   - key    = d?nh danh s?n ph?m (ví d?: "Direct:Durian", "Plant:1")
+    //   - key    = d?nh danh s?n ph?m (vï¿½ d?: "Direct:Durian", "Plant:1")
     //   - score[i] = t?ng di?m ? giai do?n i
-    //   - count[i] = s? l?n thu ho?ch ? giai do?n i (di?n tích = count × 10)
+    //   - count[i] = s? l?n thu ho?ch ? giai do?n i (di?n tï¿½ch = count ï¿½ 10)
     // =========================================================================
     public List<(string key, Sprite icon, int[] scores, int[] counts)> GetAllPhaseData()
     {
@@ -228,7 +228,7 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         {
             var c = kv.Value;
             // Clone arrays to prevent external mutation.
-            // Clone m?ng d? tránh thay d?i t? bên ngoài.
+            // Clone m?ng d? trï¿½nh thay d?i t? bï¿½n ngoï¿½i.
             int[] scores = { c.score[0], c.score[1], c.score[2] };
             int[] counts = { c.count[0], c.count[1], c.count[2] };
             list.Add((kv.Key, c.icon, scores, counts));
@@ -238,7 +238,7 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
 
     // =========================================================================
     // GetAllScores - LEGACY wrapper, returns 2-season data for compatibility.
-    // GetAllScores - Wrapper CU, tr? v? d? li?u 2 mùa tuong thích.
+    // GetAllScores - Wrapper CU, tr? v? d? li?u 2 mï¿½a tuong thï¿½ch.
     // =========================================================================
     public List<(Sprite icon, int rainy, int dry)> GetAllScores()
     {
@@ -262,10 +262,10 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
     
     // =========================================================================
     // ResetAllData - Clears all tracking data.
-    // ResetAllData - Xóa t?t c? d? li?u theo dõi.
+    // ResetAllData - XÃ³a táº¥t cáº£ dá»¯ liá»‡u theo dÃµi.
     // 
     // Called by: Game restart to clear statistics.
-    // Ğu?c g?i b?i: Restart game d? xóa th?ng kê.
+    // ÄÆ°á»£c gá»i bá»Ÿi: Restart game Ä‘á»ƒ xÃ³a thá»‘ng kÃª.
     // =========================================================================
     public void ResetAllData()
     {
@@ -274,6 +274,26 @@ public class Thuan_23127_SeasonalSummary : MonoBehaviour
         OnChanged?.Invoke();
         
         Debug.Log("SeasonalSummary: All data has been reset");
+    }
+
+    // =========================================================================
+    // GetTotalHarvestCount - Returns total harvest count across all 3 phases
+    //                        for keys containing the given product name.
+    // GetTotalHarvestCount - Tráº£ vá» tá»•ng sá»‘ láº§n thu hoáº¡ch qua 3 giai Ä‘oáº¡n
+    //                        cho cÃ¡c key chá»©a tÃªn sáº£n pháº©m cho trÆ°á»›c.
+    // =========================================================================
+    public int GetTotalHarvestCount(string productName)
+    {
+        int total = 0;
+        foreach (var kv in _map)
+        {
+            if (kv.Key.Contains(productName))
+            {
+                var c = kv.Value;
+                total += c.count[0] + c.count[1] + c.count[2];
+            }
+        }
+        return total;
     }
 
 }

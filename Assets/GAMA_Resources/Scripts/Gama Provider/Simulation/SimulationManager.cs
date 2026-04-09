@@ -542,6 +542,7 @@ public class SimulationManager : MonoBehaviour
 
         };
 
+        Debug.Log($"[GAMA Send] update_fresh_water | allies count={sws.Split(',').Length - 1}");
         ConnectionManager.Instance.SendExecutableAsk("update_fresh_water", args);
 
     }
@@ -577,18 +578,46 @@ public class SimulationManager : MonoBehaviour
             {"dtree", gameUI != null ? ((int) gameUI.DeadTreeNumber)+"" : "0" },
             {"fwater", gameUI != null ? ((int) gameUI.TotalNeutralWater)+"" : "0" },
             {"score", gameUI != null ? ((float) gameUI.ScoreGame)+"" : "0" },
-            {"name_tree", "rice:durian:shrimp" },
-            {"quanlity", David_Fruit.GetHarvestCount(FruitType.Rice) + ":" +
-                         David_Fruit.GetHarvestCount(FruitType.Durian) + ":" +
-                         David_Fruit.GetHarvestCount(FruitType.Shrimp)}
+            {"name_crop", "Rice:Durian:Shrimp" },
+            {"life_tree", GetLifeTree()},
+            {"quanlity", GetHarvestQuantity()}
 
 
         };
-        if (gameUI != null)
-            Debug.Log(""+gameUI.DeadTreeNumber);
-
+        
         ConnectionManager.Instance.SendExecutableAsk("update_player_pos", args);
+        Debug.Log($"[GAMA Send] update_player_pos | score={args["score"]}, remaining_time={args["remaining_time"]}, dtree={args["dtree"]}, fwater={args["fwater"]}, life_tree={args["life_tree"]}, quanlity={args["quanlity"]}");
     }
+
+    // EN: Returns remaining (alive) count per product: "rice_remaining:durian_remaining:shrimp_remaining".
+    //     Uses SeasonalSummary (tracks ALL harvest sources) instead of David_Fruit._harvestCounts
+    //     which only tracks Durian (Rice/Shrimp use separate scripts).
+    // VI: Trả về số còn tồn tại mỗi SP: "lúa_còn:sầu_riêng_còn:tôm_còn".
+    //     Dùng SeasonalSummary (theo dõi TẤT CẢ nguồn thu hoạch) thay vì David_Fruit._harvestCounts
+    //     vốn chỉ theo dõi Sầu riêng (Lúa/Tôm dùng script riêng).
+    private string GetLifeTree()
+    {
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        int riceHarvested   = summary != null ? summary.GetTotalHarvestCount("Rice") : 0;
+        int durianHarvested = summary != null ? summary.GetTotalHarvestCount("Durian") : 0;
+        int shrimpHarvested = summary != null ? summary.GetTotalHarvestCount("Shrimp") : 0;
+        int riceLife   = 25 - riceHarvested;
+        int durianLife = 15 - durianHarvested;
+        int shrimpLife = 5  - shrimpHarvested;
+        return Mathf.Max(0, riceLife) + ":" + Mathf.Max(0, durianLife) + ":" + Mathf.Max(0, shrimpLife);
+    }
+
+    // EN: Returns harvested count per product: "rice_harvested:durian_harvested:shrimp_harvested".
+    // VI: Trả về số đã thu hoạch mỗi SP: "lúa_đã_thu:sầu_riêng_đã_thu:tôm_đã_thu".
+    private string GetHarvestQuantity()
+    {
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+        int rice   = summary != null ? summary.GetTotalHarvestCount("Rice") : 0;
+        int durian = summary != null ? summary.GetTotalHarvestCount("Durian") : 0;
+        int shrimp = summary != null ? summary.GetTotalHarvestCount("Shrimp") : 0;
+        return rice + ":" + durian + ":" + shrimp;
+    }
+
 
     public void createEnemySpawner()
     {
@@ -646,6 +675,7 @@ public class SimulationManager : MonoBehaviour
 
         };
 
+        Debug.Log($"[GAMA Send] create_enemy_spawners | spawners count={idTs.Split(',').Length - 1}");
         ConnectionManager.Instance.SendExecutableAsk("create_enemy_spawners", args);
     }
 
@@ -662,7 +692,9 @@ public class SimulationManager : MonoBehaviour
 
         };
 
+        
         ConnectionManager.Instance.SendExecutableAsk("move_create_pumper", args);
+        Debug.Log($"[GAMA Send] move_create_pumper | idP={args["idP"]}, idwp={args["idwp"]}, x={args["x"]}, y={args["y"]}");
     }
     public void sendEnemies()
     {
@@ -707,6 +739,7 @@ public class SimulationManager : MonoBehaviour
 
         };
 
+        Debug.Log($"[GAMA Send] update_salty_water | enemies count={sws.Split(',').Length - 1}");
         ConnectionManager.Instance.SendExecutableAsk("update_salty_water", args);
 
     }
@@ -756,6 +789,7 @@ public class SimulationManager : MonoBehaviour
 
         };
 
+        Debug.Log($"[GAMA Send] create_trees | trees count={idTs.Split(',').Length - 1}");
         ConnectionManager.Instance.SendExecutableAsk("create_trees", args);
         Debug.Log("Finish SEND TREES TO GAMA");
     }
