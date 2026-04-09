@@ -144813,12 +144813,6 @@ MonoBehaviour:
   m_OriginalMeshObject: {fileID: -3671973644736936662, guid: f8815bf2922a46742a449d502a8d3532,
     type: 3}
   m_Mode: 1
---- !u!1 &1135798245 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4317536167588894378, guid: 66157b4b613218d4e81a5c64aef70a80,
-    type: 3}
-  m_PrefabInstance: {fileID: 1135798242}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1136664655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179283,7 +179277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1676966932}
-  ground: {fileID: 1135798245}
+  ground: {fileID: 0}
   gamaServerIP: 192.168.88.148
   sendInterval: 0.5
 --- !u!1001 &1502709438
@@ -205666,7 +205660,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1699630729}
   m_OnClick:
     m_PersistentCalls:

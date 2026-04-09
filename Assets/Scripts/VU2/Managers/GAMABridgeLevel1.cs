@@ -150,6 +150,7 @@ public class GAMABridgeLevel1 : MonoBehaviour
         sendTimer = 0f;
 
         SendScoreDataToGAMA();
+        SendUpdatePlayerPosToGAMA();
     }
 
     // =========================================================================
@@ -277,7 +278,65 @@ public class GAMABridgeLevel1 : MonoBehaviour
             args["phase_data"] = "";
         }
 
+        Debug.Log($"[GAMABridgeLevel1 Send] player_position_updated | score={args["total_score"]}, time_remaining={args["time_remaining"]}, phase={args["current_phase"]}");
         ConnectionManager.Instance.SendExecutableAsk("player_position_updated", args);
+    }
+
+    // =========================================================================
+    // SendUpdatePlayerPosToGAMA - Sends update_player_pos matching Level2's
+    // SimulationManager.updatePlayerPos() structure so GAMA receives the same
+    // action from both levels.
+    // =========================================================================
+    private void SendUpdatePlayerPosToGAMA()
+    {
+        if (player == null) return;
+
+        var gm = Thuan_23127_GameManager.Instance;
+        var summary = Thuan_23127_SeasonalSummary.Instance;
+
+        // EN: Harvest counts for life_tree and quanlity (same logic as SimulationManager).
+        // VI: Số lượng thu hoạch cho life_tree và quanlity (cùng logic với SimulationManager).
+        int riceH   = summary != null ? summary.GetTotalHarvestCount("Rice") : 0;
+        int durianH = summary != null ? summary.GetTotalHarvestCount("Durian") : 0;
+        int shrimpH = summary != null ? summary.GetTotalHarvestCount("Shrimp") : 0;
+
+        string lifeTree = Mathf.Max(0, 25 - riceH) + ":" + Mathf.Max(0, 15 - durianH) + ":" + Mathf.Max(0, 5 - shrimpH);
+        string quanlity = riceH + ":" + durianH + ":" + shrimpH;
+
+        // EN: Use default precision=1000 (Level1 doesn't access SimulationManager.parameters).
+        // VI: Dùng precision mặc định=1000 (Level1 không truy cập SimulationManager.parameters).
+        const int precision = 1000;
+        int px = (int)(player.transform.position.x * precision);
+        int py = (int)(player.transform.position.z * precision);
+
+        // EN: Camera forward angle (same formula as SimulationManager.updatePlayerPos).
+        // VI: Góc hướng camera (cùng công thức với SimulationManager.updatePlayerPos).
+        int angle = 0;
+        if (Camera.main != null)
+        {
+            Vector2 vF = new Vector2(Camera.main.transform.forward.x, Camera.main.transform.forward.z).normalized;
+            Vector2 vR = new Vector2(player.transform.forward.x, player.transform.forward.z).normalized;
+            float c = vF.x * vR.x + vF.y * vR.y;
+            float s = vF.x * vR.y - vF.y * vR.x;
+            angle = (int)(((s > 0) ? -1.0 : 1.0) * (180 / System.Math.PI) * System.Math.Acos(c) * precision);
+        }
+
+        Dictionary<string, string> args = new Dictionary<string, string> {
+            {"idP", ConnectionManager.Instance.GetConnectionId()},
+            {"x", "" + px},
+            {"y", "" + py},
+            {"o", angle + ""},
+            {"remaining_time", ((int)GameRulesProvider.TimeRemaining).ToString()},
+            {"dtree", "0"},
+            {"fwater", "0"},
+            {"score", (gm != null ? gm.Score : 0).ToString()},
+            {"name_crop", "Rice:Durian:Shrimp"},
+            {"life_tree", lifeTree},
+            {"quanlity", quanlity}
+        };
+
+        Debug.Log($"[GAMABridgeLevel1 Send] update_player_pos | score={args["score"]}, remaining_time={args["remaining_time"]}, life_tree={args["life_tree"]}, quanlity={args["quanlity"]}");
+        ConnectionManager.Instance.SendExecutableAsk("update_player_pos", args);
     }
 
     // =========================================================================
