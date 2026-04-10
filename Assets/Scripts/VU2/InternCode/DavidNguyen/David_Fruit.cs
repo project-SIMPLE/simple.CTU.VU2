@@ -518,15 +518,16 @@ public class David_Fruit : MonoBehaviour
     // 
     // Checks: Is game active? Is this fruit harvestable in current season?
     // Kiểm tra: Game có đang chạy không? Trái này có thể thu hoạch trong mùa hiện tại không?
+    // 
+    // FIXED: Now allows collection while holding fruit (grab → put in bag).
+    // KHẮC PHỤC: Giờ cho phép thu hoạch khi đang cầm (grab → bỏ vào túi).
     // =========================================================================
     private void TryCollect()
     {
-        // Can't collect while being grabbed - must release first!
-        // Không thể thu hoạch khi đang cầm - phải thả ra trước!
-        if (_currentGrabTarget != null)
-        {
-            return;
-        }
+        // REMOVED: Previously blocked collection while grabbed.
+        // Now allows "grab fruit → put in bag" workflow as intended.
+        // ĐÃ XÓA: Trước đây chặn thu hoạch khi đang cầm.
+        // Giờ cho phép workflow "cầm trái → bỏ vào túi" như mong muốn.
         
         // Check if fruit can be collected (for tree fruits).
         // Kiểm tra xem quả có thể thu hoạch không (cho quả trên cây).
@@ -563,7 +564,33 @@ public class David_Fruit : MonoBehaviour
             return;
         }
         
+        // Force-release grab BEFORE collecting to prevent XR from holding destroyed object.
+        // Buộc thả grab TRƯỚC KHI thu hoạch để ngăn XR cầm object đã bị hủy.
+        ForceReleaseGrab();
+        
         CollectFruit();
+    }
+    
+    /// <summary>
+    /// Forces the XR system to release this object if it's being grabbed.
+    /// Buộc hệ thống XR thả object này nếu đang được cầm.
+    /// </summary>
+    private void ForceReleaseGrab()
+    {
+        if (_currentGrabInteractable != null && _currentGrabInteractable.isSelected)
+        {
+            // Get the XR Interaction Manager from the interactable itself
+            // Lấy XR Interaction Manager từ chính interactable
+            var interactionManager = _currentGrabInteractable.interactionManager;
+            if (interactionManager != null)
+            {
+                // Cancel selection (force drop)
+                interactionManager.CancelInteractableSelection((IXRSelectInteractable)_currentGrabInteractable);
+            }
+        }
+        
+        // Clear tracking state
+        _currentGrabTarget = null;
     }
     
     // =========================================================================

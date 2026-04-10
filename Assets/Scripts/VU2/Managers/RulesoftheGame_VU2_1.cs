@@ -680,6 +680,15 @@ public class RulesoftheGame_VU2_1 : MonoBehaviour, IGameRules
         {
             GAMABridgeLevel1.Instance.NotifyGameStarted();
         }
+
+        // EN: Trigger SimulationManager to enter GAME state (same as Level2's GameManager.StartLevel()).
+        // VI: Kích hoạt SimulationManager chuyển sang trạng thái GAME (giống GameManager.StartLevel() của Level2).
+        SimulationManager sm = FindObjectOfType<SimulationManager>();
+        if (sm != null)
+        {
+            sm.UpdateGameState(GameState.GAME);
+            Debug.Log("[RulesoftheGame_VU2_1] SimulationManager set to GAME state.");
+        }
     }
 
     // =========================================================================

@@ -204,8 +204,8 @@ public class GameUI : MonoBehaviour
 
         }
 
-        transform.LookAt(new Vector3(head.position.x, transform.position.y, head.position.z));
-        transform.forward *= -1;
+        // transform.LookAt(new Vector3(head.position.x, transform.position.y, head.position.z));
+        // transform.forward *= -1;
     }
 
     public void StartTutorialUI()

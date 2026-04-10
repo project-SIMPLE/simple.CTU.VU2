@@ -48,6 +48,7 @@ public class GAMABridgeLevel1 : MonoBehaviour
     private bool gamaReady = false;
     private bool gameStarted = false;
     private float sendTimer = 0f;
+    private float posTimer = 0f;
 
     // EN: Cached HUD reference for salinity readings.
     // VI: Tham chiếu HUD được cache để đọc độ mặn.
@@ -61,10 +62,15 @@ public class GAMABridgeLevel1 : MonoBehaviour
 
     public static GAMABridgeLevel1 Instance { get; private set; }
 
+    // EN: DISABLED — Level1 now uses Level2's system (ManagersMulti pre-placed in scene).
+    //     GAMABridgeLevel1 is kept as a stub so RulesoftheGame_VU2_1 references don't break.
+    // VI: ĐÃ TẮT — Level1 giờ dùng hệ thống Level2 (ManagersMulti đặt sẵn trong scene).
+    //     GAMABridgeLevel1 giữ lại dạng stub để tham chiếu từ RulesoftheGame_VU2_1 không lỗi.
+
     void Awake()
     {
         Instance = this;
-        SpawnManagersMulti();
+        // SpawnManagersMulti(); // DISABLED — ManagersMulti is now pre-placed in scene like Level2
     }
 
     private void SpawnManagersMulti()
@@ -116,24 +122,9 @@ public class GAMABridgeLevel1 : MonoBehaviour
     //     Gửi vị trí cây và dữ liệu spawner kẻ thù lên GAMA server.
     public void NotifyGameStarted()
     {
-        if (!gamaReady || simulationManager == null)
-        {
-            Debug.LogWarning("[GAMABridgeLevel1] GAMA not ready. Skipping game start notification.");
-            return;
-        }
-
-        Debug.Log("[GAMABridgeLevel1] Game started — sending trees to GAMA.");
-        simulationManager.sendTrees();
-        simulationManager.createEnemySpawner();
-
-        // EN: Start periodic data sending to GAMA.
-        // VI: Bắt đầu gửi dữ liệu định kỳ lên GAMA.
-        gameStarted = true;
-        sendTimer = 0f;
-
-        // EN: Cache David_SeasonHUD for salinity readings.
-        // VI: Cache David_SeasonHUD để đọc độ mặn.
-        _seasonHUD = FindObjectOfType<David_SeasonHUD>();
+        // DISABLED — Level1 now uses Level2's SimulationManager system.
+        // SimulationManager.Update() handles sendEnemies/sendFreshWater/updatePlayerPos natively.
+        Debug.Log("[GAMABridgeLevel1] NotifyGameStarted called but DISABLED — using Level2 system.");
     }
 
     // =========================================================================
@@ -142,15 +133,8 @@ public class GAMABridgeLevel1 : MonoBehaviour
     // =========================================================================
     void Update()
     {
-        if (!gameStarted || !gamaReady) return;
-        if (ConnectionManager.Instance == null) return;
-
-        sendTimer += Time.deltaTime;
-        if (sendTimer < sendInterval) return;
-        sendTimer = 0f;
-
-        SendScoreDataToGAMA();
-        SendUpdatePlayerPosToGAMA();
+        // DISABLED — Level1 now uses Level2's SimulationManager.Update() for all GAMA communication.
+        return;
     }
 
     // =========================================================================

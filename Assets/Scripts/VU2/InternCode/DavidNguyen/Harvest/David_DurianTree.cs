@@ -274,15 +274,38 @@ public class David_DurianTree : MonoBehaviour
         durian.isOnTree = false;
         durian.canCollect = true;
 
+        // =========================================================================
+        // FIX: Ignore collision between durian and tree colliders
+        // This prevents the durian from bouncing off the tree's Box Collider when it falls.
+        // KHẮC PHỤC: Bỏ qua va chạm giữa sầu riêng và collider của cây
+        // Điều này ngăn sầu riêng bị bật ra khỏi Box Collider của cây khi rơi.
+        // =========================================================================
+        Collider durianCol = durian.GetComponent<Collider>();
+        Collider[] treeColliders = GetComponentsInChildren<Collider>();
+        if (durianCol != null)
+        {
+            foreach (var treeCol in treeColliders)
+            {
+                // Skip if same object (the durian itself)
+                if (treeCol.gameObject == durian.gameObject) continue;
+                Physics.IgnoreCollision(durianCol, treeCol, true);
+            }
+        }
+
         // Enable physics
         var rb = durian.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            // Reset any existing velocity first
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            
             rb.isKinematic = false;
             rb.useGravity = true;
             
-            // Add slight random force
-            rb.AddForce(Random.insideUnitSphere * 0.3f, ForceMode.Impulse);
+            // Add slight DOWNWARD force only (not random) to ensure it falls down
+            // Thêm lực hướng XUỐNG (không random) để đảm bảo rơi xuống
+            rb.AddForce(Vector3.down * 0.5f, ForceMode.Impulse);
         }
 
         // Detach from tree
