@@ -278,8 +278,7 @@ public class David_TreeWiltController : MonoBehaviour, IDamageable
         if (IsDead()) return;
 
         _currentHealth -= damage;
-        Debug.Log($"[David_TreeWiltController] '{gameObject.name}' TakeDamage({damage}) " +
-                  $"→ hp={_currentHealth}/{maxHealth}");
+       // Debug.Log($"[David_TreeWiltController] '{gameObject.name}' TakeDamage({damage}) " + $"→ hp={_currentHealth}/{maxHealth}");
 
         // EN: Enter wilt state when health crosses the threshold.
         // VI: Chuyển sang héo khi máu vượt ngưỡng.

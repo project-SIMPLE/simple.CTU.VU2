@@ -244,6 +244,34 @@ public class David_Fruit : MonoBehaviour
     /// </summary>
     public void SetupAfterDrop()
     {
+        Debug.Log($"[David_Fruit] {gameObject.name}: SetupAfterDrop called");
+        
+        var grabInteractable = GetComponent<XRGrabInteractable>();
+        if (grabInteractable != null)
+        {
+            // Force re-registration with XRInteractionManager
+            // This is needed because detaching from parent can invalidate the registration
+            // Buộc đăng ký lại với XRInteractionManager
+            // Cần thiết vì việc detach khỏi parent có thể làm mất đăng ký
+            
+            // Temporarily disable and re-enable to force re-registration
+            grabInteractable.enabled = false;
+            grabInteractable.enabled = true;
+            
+            // =========================================================================
+            // FIX: Ensure collider is NOT a trigger! XR Ray doesn't detect triggers by default.
+            // KHẮC PHỤC: Đảm bảo collider KHÔNG phải trigger! XR Ray không detect trigger mặc định.
+            // =========================================================================
+            Collider col = GetComponent<Collider>();
+            if (col != null && col.isTrigger)
+            {
+                col.isTrigger = false;
+                Debug.LogWarning($"[David_Fruit] {gameObject.name}: Collider was TRIGGER, changed to non-trigger for grab!");
+            }
+            
+            Debug.Log($"[David_Fruit] {gameObject.name}: Force re-registered XRGrabInteractable. Collider isTrigger={col?.isTrigger}");
+        }
+        
         // Reset flag so setup runs again
         _isInstantGrabSetup = false;
         SetupInstantGrab();
@@ -253,45 +281,98 @@ public class David_Fruit : MonoBehaviour
     {
         var grabInteractable = GetComponent<XRGrabInteractable>();
         
-        if (grabInteractable != null && grabInteractable.enabled)
+        if (grabInteractable == null)
         {
-            // REMOVE existing listeners first to prevent duplicates!
-            grabInteractable.selectEntered.RemoveListener(OnGrabbed);
-            grabInteractable.selectExited.RemoveListener(OnReleased);
-            
-            // Only setup once to avoid duplicate event subscriptions
-            if (_isInstantGrabSetup)
-            {
-                return;
-            }
-            _isInstantGrabSetup = true;
-            
-            // INSTANT SNAP TO HAND - Not to ray hit point!
-            grabInteractable.movementType = XRBaseInteractable.MovementType.Instantaneous;
-            grabInteractable.attachEaseInTime = 0f;
-            
-            // IMPORTANT: Disable dynamic attach so object snaps to HAND, not ray hit point
-            grabInteractable.useDynamicAttach = false;
-            
-            // CRITICAL: Don't retain parent! This prevents re-parenting to tree on grab!
-            grabInteractable.retainTransformParent = false;
-            
-            // FIX: Disable throwOnDetach for kinematic rigidbody
-            grabInteractable.throwOnDetach = false;
-            
-            // CRITICAL FIX: Disable tracking so WE control position, not XR system!
-            grabInteractable.trackPosition = false;
-            grabInteractable.trackRotation = false;
-            
-            // Subscribe to grab/release events
-            grabInteractable.selectEntered.AddListener(OnGrabbed);
-            grabInteractable.selectExited.AddListener(OnReleased);
-            
-            // FORCE REMOVE all grab transformers - they interfere with manual teleport!
-            grabInteractable.startingMultipleGrabTransformers.Clear();
-            grabInteractable.startingSingleGrabTransformers.Clear();
-            
+            Debug.LogWarning($"[David_Fruit] {gameObject.name}: No XRGrabInteractable found!");
+            return;
         }
+        
+        if (!grabInteractable.enabled)
+        {
+            Debug.LogWarning($"[David_Fruit] {gameObject.name}: XRGrabInteractable is DISABLED!");
+            return;
+        }
+        
+        // REMOVE existing listeners first to prevent duplicates!
+        grabInteractable.selectEntered.RemoveListener(OnGrabbed);
+        grabInteractable.selectExited.RemoveListener(OnReleased);
+        
+        // Only setup once to avoid duplicate event subscriptions
+        if (_isInstantGrabSetup)
+        {
+            return;
+        }
+        _isInstantGrabSetup = true;
+        
+        // =========================================================================
+        // CRITICAL: Ensure XRInteractionManager is assigned!
+        // Without this, XR system won't register this interactable for selection.
+        // QUAN TRỌNG: Đảm bảo XRInteractionManager được gán!
+        // Không có nó, XR system sẽ không đăng ký interactable này để select.
+        // =========================================================================
+        if (grabInteractable.interactionManager == null)
+        {
+            var manager = FindObjectOfType<XRInteractionManager>();
+            if (manager != null)
+            {
+                grabInteractable.interactionManager = manager;
+                Debug.Log($"[David_Fruit] {gameObject.name}: Auto-assigned XRInteractionManager");
+            }
+            else
+            {
+                Debug.LogError($"[David_Fruit] {gameObject.name}: No XRInteractionManager found in scene!");
+            }
+        }
+        
+        // =========================================================================
+        // CRITICAL: Ensure colliders are registered with XRGrabInteractable!
+        // XR Interaction Toolkit requires colliders to detect ray/direct interaction.
+        // QUAN TRỌNG: Đảm bảo colliders được đăng ký với XRGrabInteractable!
+        // XR Interaction Toolkit cần colliders để detect tương tác ray/trực tiếp.
+        // =========================================================================
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            // FIX: XR Ray doesn't detect trigger colliders by default!
+            // KHẮC PHỤC: XR Ray không detect trigger colliders mặc định!
+            if (col.isTrigger)
+            {
+                col.isTrigger = false;
+                Debug.LogWarning($"[David_Fruit] {gameObject.name}: Changed collider {col.name} from TRIGGER to non-trigger!");
+            }
+            
+            if (!grabInteractable.colliders.Contains(col))
+            {
+                grabInteractable.colliders.Add(col);
+            }
+        }
+        Debug.Log($"[David_Fruit] {gameObject.name}: Registered {colliders.Length} colliders. All non-trigger.");
+        
+        // INSTANT SNAP TO HAND - Not to ray hit point!
+        grabInteractable.movementType = XRBaseInteractable.MovementType.Instantaneous;
+        grabInteractable.attachEaseInTime = 0f;
+        
+        // IMPORTANT: Disable dynamic attach so object snaps to HAND, not ray hit point
+        grabInteractable.useDynamicAttach = false;
+        
+        // CRITICAL: Don't retain parent! This prevents re-parenting to tree on grab!
+        grabInteractable.retainTransformParent = false;
+        
+        // FIX: Disable throwOnDetach for kinematic rigidbody
+        grabInteractable.throwOnDetach = false;
+        
+        // FIX: KEEP tracking ENABLED here! We disable it in OnGrabbed() after selection.
+        // Disabling before grab prevents XR system from completing the selection.
+        // KHẮC PHỤC: GIỮ tracking BẬT ở đây! Chỉ tắt trong OnGrabbed() sau khi đã select.
+        // Tắt trước khi grab ngăn XR system hoàn thành selection.
+        grabInteractable.trackPosition = true;
+        grabInteractable.trackRotation = true;
+        
+        // Subscribe to grab/release events
+        grabInteractable.selectEntered.AddListener(OnGrabbed);
+        grabInteractable.selectExited.AddListener(OnReleased);
+        
+        Debug.Log($"[David_Fruit] {gameObject.name}: XRGrabInteractable setup complete. Colliders={grabInteractable.colliders.Count}, Manager={grabInteractable.interactionManager?.name ?? "NULL"}");
     }
     
     private void OnDestroy()
@@ -333,6 +414,8 @@ public class David_Fruit : MonoBehaviour
     
     private void OnGrabbed(SelectEnterEventArgs args)
     {
+        Debug.Log($"[David_Fruit] OnGrabbed: {gameObject.name}, fruitType={fruitType}, wasOnTree={isOnTree}");
+        
         isOnTree = false;
 
         // All fruits (including Durian) can be collected immediately on grab.
@@ -395,6 +478,14 @@ public class David_Fruit : MonoBehaviour
             Vector3 offsetPosition = _currentGrabTarget.position + _currentGrabTarget.TransformDirection(actualOffset);
             transform.position = offsetPosition;
             transform.rotation = _currentGrabTarget.rotation;
+
+            // NOW disable tracking so WE control position via LateUpdate, not XR system!
+            // GIỜ tắt tracking để CHÚNG TA điều khiển vị trí qua LateUpdate, không phải XR system!
+            if (_currentGrabInteractable != null)
+            {
+                _currentGrabInteractable.trackPosition = false;
+                _currentGrabInteractable.trackRotation = false;
+            }
 
             // Durian haptic harvest DISABLED — no shake/delay.
             // Rung tay sầu riêng ĐÃ TẮT — không rung/delay.

@@ -187,6 +187,9 @@ public class SimulationManager : MonoBehaviour
     // EN: Registry of enemy spawners by InstanceID string — updated by GAMA spawn-rate messages.
     // VI: Sổ đăng ký enemy spawner theo chuỗi InstanceID — cập nhật bởi message spawn-rate từ GAMA.
     private Dictionary<string, EnemySpawner> enemySpawners;
+    // EN: Registry of tree barriers by InstanceID string — tracks planted trees that block enemies.
+    // VI: Sổ đăng ký tree barrier theo chuỗi InstanceID — theo dõi cây trồng chặn enemy.
+    private Dictionary<string, GameObject> treeBarriers;
 
     private bool sendReady = true;
 
@@ -218,6 +221,7 @@ public class SimulationManager : MonoBehaviour
         toFollow = new List<GameObject>();
         waterPumps = new Dictionary<string, Barrack>();
         enemySpawners = new Dictionary<string, EnemySpawner>();
+        treeBarriers = new Dictionary<string, GameObject>();
 
     }
 
@@ -696,6 +700,74 @@ public class SimulationManager : MonoBehaviour
         ConnectionManager.Instance.SendExecutableAsk("move_create_pumper", args);
         Debug.Log($"[GAMA Send] move_create_pumper | idP={args["idP"]}, idwp={args["idwp"]}, x={args["x"]}, y={args["y"]}");
     }
+
+    // =========================================================================
+    // TREE BARRIER REGISTRATION — Đăng ký cây trồng chặn nước mặn với GAMA.
+    // =========================================================================
+
+    /// <summary>
+    /// EN: Register a new TreeBarrier with GAMA server when planted.
+    /// VI: Đăng ký TreeBarrier mới với GAMA server khi trồng.
+    /// </summary>
+    public void createTreeBarrier(GameObject treeBarrier)
+    {
+        if (ConnectionManager.Instance == null)
+        {
+            Debug.LogWarning("[SimulationManager] createTreeBarrier skipped — no GAMA connection.");
+            return;
+        }
+        if (parameters == null)
+        {
+            Debug.LogWarning("[SimulationManager] createTreeBarrier skipped — parameters not initialized.");
+            return;
+        }
+
+        string key = treeBarrier.GetInstanceID() + "";
+        if (treeBarriers.ContainsKey(key))
+        {
+            Debug.LogWarning($"[SimulationManager] Duplicate TreeBarrier InstanceID skipped: {key}");
+            return;
+        }
+        treeBarriers.Add(key, treeBarrier);
+
+        Dictionary<string, string> args = new Dictionary<string, string> {
+            {"idP", ConnectionManager.Instance.GetConnectionId()},
+            {"idtb", treeBarrier.GetInstanceID() + ""},
+            {"x", "" + treeBarrier.transform.position.x * parameters.precision},
+            {"y", "" + treeBarrier.transform.position.z * parameters.precision}
+        };
+
+        ConnectionManager.Instance.SendExecutableAsk("create_tree_barrier", args);
+        Debug.Log($"[GAMA Send] create_tree_barrier | idP={args["idP"]}, idtb={args["idtb"]}, x={args["x"]}, y={args["y"]}");
+    }
+
+    /// <summary>
+    /// EN: Notify GAMA server when a TreeBarrier dies.
+    /// VI: Thông báo GAMA server khi TreeBarrier chết.
+    /// </summary>
+    public void deleteTreeBarrier(GameObject treeBarrier)
+    {
+        if (ConnectionManager.Instance == null)
+        {
+            Debug.LogWarning("[SimulationManager] deleteTreeBarrier skipped — no GAMA connection.");
+            return;
+        }
+
+        string key = treeBarrier.GetInstanceID() + "";
+        if (treeBarriers.ContainsKey(key))
+        {
+            treeBarriers.Remove(key);
+        }
+
+        Dictionary<string, string> args = new Dictionary<string, string> {
+            {"idP", ConnectionManager.Instance.GetConnectionId()},
+            {"idtb", treeBarrier.GetInstanceID() + ""}
+        };
+
+        ConnectionManager.Instance.SendExecutableAsk("delete_tree_barrier", args);
+        Debug.Log($"[GAMA Send] delete_tree_barrier | idP={args["idP"]}, idtb={args["idtb"]}");
+    }
+
     public void sendEnemies()
     {
 

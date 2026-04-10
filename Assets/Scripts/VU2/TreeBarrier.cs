@@ -104,6 +104,15 @@ public class TreeBarrier : MonoBehaviour, IDamageable
 
         // Màu ban đầu (full HP)
         UpdateVisuals();
+
+        // =========================================================================
+        // GAMA REGISTRATION — Đăng ký với GAMA server tương tự WaterPump/Barrack.
+        // =========================================================================
+        SimulationManager sm = FindObjectOfType<SimulationManager>();
+        if (sm != null)
+            sm.createTreeBarrier(gameObject);
+        else
+            Debug.LogWarning($"[TreeBarrier] SimulationManager not found — skipping GAMA registration for {gameObject.name}");
     }
 
     void Update()
@@ -246,6 +255,13 @@ public class TreeBarrier : MonoBehaviour, IDamageable
 
         // Thả enemy trước khi chết
         ReleaseEnemy();
+
+        // =========================================================================
+        // GAMA NOTIFICATION — Thông báo GAMA server cây đã chết.
+        // =========================================================================
+        SimulationManager sm = FindObjectOfType<SimulationManager>();
+        if (sm != null)
+            sm.deleteTreeBarrier(gameObject);
 
         if (animator != null)
             animator.Play("Tree_Die");
