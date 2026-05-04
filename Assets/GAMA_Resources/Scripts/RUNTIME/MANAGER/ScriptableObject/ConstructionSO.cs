@@ -13,6 +13,15 @@ public class ConstructionSO : ScriptableObject
     public string description;
     public int maxQuantity;
     public float cooldownTime;
+
+    [Header("Carry-and-Plant Mode (vd: trồng cây)")]
+    [Tooltip("Nếu bật: sau khi nhấn Button, một bản sao 'cây con' sẽ xuất hiện trên tay người chơi. Người chơi phải đi vào PlantingZone rồi mới đặt được công trình. Nếu tắt: dùng flow ray + SurfaceConnector mặc định.")]
+    public bool requireCarryToPlant = false;
+    [Tooltip("Prefab hiển thị trên tay khi đang mang (vd: cây con). Nếu để trống sẽ dùng modelBuildPrefab.")]
+    public GameObject carryPrefab;
+    [Tooltip("Scale tương đối khi cầm trên tay (so với prefab gốc)")]
+    public float carryScale = 0.3f;
+
     private int currentQuantity;
     private float currentTime;
 

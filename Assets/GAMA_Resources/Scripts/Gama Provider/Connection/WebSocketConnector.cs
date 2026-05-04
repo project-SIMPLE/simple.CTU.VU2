@@ -36,7 +36,7 @@ public abstract class WebSocketConnector : MonoBehaviour
     protected bool fixedProperties = true;
     // EN: Fallback IP when fixedProperties is true.
     // VI: IP mặc định khi fixedProperties là true.
-    protected string DefaultIP = "192.168.88.148"; //"localhost";//"192.168.1.68"; 10.16.14.40 (test)"192.168.0.50"// "192.168.0.50"
+    protected string DefaultIP = "localhost"; //"localhost";//"192.168.1.68"; 10.16.14.40 (test)"192.168.0.50"// "192.168.0.50"
     // EN: Fallback port when fixedProperties is true.
     // VI: Port mặc định khi fixedProperties là true.
     protected string DefaultPort = "8080";

@@ -33,13 +33,31 @@ public class BuildSystemManager : MonoBehaviour
 
     [SerializeField] private SubsidenceManager subsidenceManager;
 
+    [Header("Carry-and-Plant Mode")]
+    [Tooltip("Transform được dùng làm điểm gắn vật cầm trên tay (vd: AttachTransform của right controller, hoặc 1 child rỗng dưới Main Camera Offset). Cần thiết khi ConstructionSO có requireCarryToPlant = true.")]
+    [SerializeField] private Transform handAttachPoint;
+    [Tooltip("Offset cục bộ so với handAttachPoint khi đặt vật cầm.")]
+    [SerializeField] private Vector3 carryLocalOffset = new Vector3(0f, 0f, 0.15f);
+    [Tooltip("Xoay cục bộ (Euler) khi đặt vật cầm trên tay.")]
+    [SerializeField] private Vector3 carryLocalEuler = Vector3.zero;
+    [Tooltip("(Tuỳ chọn) Transform vị trí Player dùng để kiểm tra PlantingZone. Nếu để trống sẽ tự dùng Camera.main.")]
+    [SerializeField] private Transform playerOriginOverride;
+    [Tooltip("Thời gian (giây) sau khi vào carry mode không cho phép trồng — tránh trồng nhầm do trigger XR vẫn đang giữ.")]
+    [SerializeField] private float carryGraceTime = 0.4f;
+
     private bool isBuilding = false;
     private int currentBuildingIndex = 0;
     private GameObject ghostConstruction;
     private Connector currentTargetConnector;
 
+    // Carry-mode runtime state
+    private bool isCarrying = false;
+    private GameObject carriedObject;
+    private float carryStartTime;
+
     // Getters
     public bool IsBuilding => isBuilding;
+    public bool IsCarrying => isCarrying;
     public List<ConstructionSO> Constructions => constructions;
 
     public void Start()
@@ -57,7 +75,8 @@ public class BuildSystemManager : MonoBehaviour
         UpdateCooldowns(Time.deltaTime);
         if (isBuilding)
         {
-            ProcessBuilding();
+            if (isCarrying) ProcessCarrying();
+            else ProcessBuilding();
         }
     }
 
@@ -81,6 +100,17 @@ public class BuildSystemManager : MonoBehaviour
         currentBuildingIndex = constructionIndex;
         currentTargetConnector = null;
 
+        ConstructionSO so = constructions[constructionIndex];
+
+        // === Carry-and-Plant mode ===
+        if (so.requireCarryToPlant)
+        {
+            BeginCarryMode(so);
+            Debug.Log($"[BuildSystem] CARRY mode ON - construction: {so.name}. Đi tới PlantingZone để trồng.");
+            return;
+        }
+
+        // === Default ray + ghost mode ===
         // Hiện icon "!" trên ray tay phải
         if (buildModeIndicator != null)
             buildModeIndicator.SetActive(true);
@@ -88,7 +118,7 @@ public class BuildSystemManager : MonoBehaviour
         // Tắt UI chặn raycast để ray xuyên qua UI đến SurfaceConnector
         SetUIBlocksRaycasts(false);
 
-        Debug.Log($"[BuildSystem] Build mode ON - construction: {constructions[constructionIndex].name}");
+        Debug.Log($"[BuildSystem] Build mode ON - construction: {so.name}");
     }
 
     /// <summary>
@@ -97,6 +127,7 @@ public class BuildSystemManager : MonoBehaviour
     public void CancelBuilding()
     {
         DestroyGhost();
+        EndCarryMode();
         isBuilding = false;
         currentTargetConnector = null;
 
@@ -118,6 +149,13 @@ public class BuildSystemManager : MonoBehaviour
     /// </summary>
     public void Build()
     {
+        // Carry-and-Plant flow: chỉ trồng được khi đang đứng trong PlantingZone.
+        if (isBuilding && isCarrying)
+        {
+            BuildFromCarry();
+            return;
+        }
+
         if (!isBuilding || ghostConstruction == null || currentTargetConnector == null) return;
 
         var ghost = ghostConstruction.GetComponent<GhostConstruction>();
@@ -311,6 +349,155 @@ public class BuildSystemManager : MonoBehaviour
         {
             if (cg != null)
                 cg.blocksRaycasts = value;
+        }
+    }
+
+    // =========================================================================
+    // CARRY-AND-PLANT MODE
+    // =========================================================================
+
+    /// <summary>
+    /// Bắt đầu chế độ "cầm cây trên tay": instantiate prefab cầm tay làm con của handAttachPoint,
+    /// và bật highlight cho mọi PlantingZone đang có người chơi đứng trong.
+    /// </summary>
+    private void BeginCarryMode(ConstructionSO so)
+    {
+        isCarrying = true;
+        carryStartTime = Time.time;
+
+        Transform attach = ResolveHandAttachPoint();
+        if (attach == null)
+        {
+            Debug.LogWarning("[BuildSystem] Không tìm được điểm gắn vật cầm tay. " +
+                             "Hãy gán 'Hand Attach Point', hoặc đảm bảo 'Build Ray Interactor' đã được gán.");
+        }
+        else
+        {
+            GameObject prefab = so.carryPrefab != null ? so.carryPrefab : so.modelBuildPrefab;
+            if (prefab != null)
+            {
+                carriedObject = Instantiate(prefab, attach);
+                carriedObject.transform.localPosition = carryLocalOffset;
+                carriedObject.transform.localRotation = Quaternion.Euler(carryLocalEuler);
+                carriedObject.transform.localScale = prefab.transform.localScale * Mathf.Max(0.01f, so.carryScale);
+
+                // Tắt physics / collider để không cản chuyển động của controller
+                foreach (var rb in carriedObject.GetComponentsInChildren<Rigidbody>())
+                {
+                    rb.isKinematic = true;
+                    rb.useGravity = false;
+                }
+                foreach (var col in carriedObject.GetComponentsInChildren<Collider>())
+                {
+                    col.enabled = false;
+                }
+                // Tắt các script gameplay không liên quan trên ghost/sapling (vd: GhostConstruction, TreeBarrier...)
+                foreach (var mb in carriedObject.GetComponentsInChildren<MonoBehaviour>())
+                {
+                    if (mb is GhostConstruction) mb.enabled = false;
+                }
+            }
+        }
+
+        SetUIBlocksRaycasts(true); // không cần ray, để UI hoạt động bình thường
+        if (buildModeIndicator != null) buildModeIndicator.SetActive(false);
+
+        // Highlight mọi PlantingZone trong scene để player biết đi đâu
+        PlantingZone.UpdateHighlights(GetPlayerPosition(), true);
+    }
+
+    /// <summary>Lấy vị trí để đối chiếu với PlantingZone (HMD camera).</summary>
+    private Vector3 GetPlayerPosition()
+    {
+        if (playerOriginOverride != null) return playerOriginOverride.position;
+        if (Camera.main != null) return Camera.main.transform.position;
+        if (buildRayInteractor != null) return buildRayInteractor.transform.position;
+        return transform.position;
+    }
+
+    /// <summary>
+    /// Tự động tìm điểm gắn vật cầm tay theo thứ tự ưu tiên:
+    /// 1. handAttachPoint do user gán
+    /// 2. Build Ray Interactor (đã có sẵn = tay phải)
+    /// 3. Main Camera (fallback cuối cùng — vật sẽ "dán" trước mặt)
+    /// </summary>
+    private Transform ResolveHandAttachPoint()
+    {
+        if (handAttachPoint != null) return handAttachPoint;
+        if (buildRayInteractor != null) return buildRayInteractor.transform;
+        if (Camera.main != null) return Camera.main.transform;
+        return null;
+    }
+
+    /// <summary>Mỗi frame trong chế độ carry: cập nhật highlight zone theo vị trí player.</summary>
+    private void ProcessCarrying()
+    {
+        PlantingZone.UpdateHighlights(GetPlayerPosition(), true);
+    }
+
+    /// <summary>
+    /// Xác nhận trồng cây: chỉ thành công khi đang đứng trong 1 PlantingZone hợp lệ.
+    /// </summary>
+    private void BuildFromCarry()
+    {
+        // Tránh trồng nhầm frame đầu (XR trigger vẫn đang giữ sau khi click Button_Tree).
+        if (Time.time - carryStartTime < carryGraceTime) return;
+
+        Vector3 playerPos = GetPlayerPosition();
+        PlantingZone zone = PlantingZone.FindZoneContaining(playerPos);
+        if (zone == null)
+        {
+            Debug.Log($"[BuildSystem] Chưa ở trong vùng được phép trồng (player @ {playerPos}). Hãy đi đến PlantingZone (vùng được highlight).");
+            return;
+        }
+
+        ConstructionSO so = constructions[currentBuildingIndex];
+        if (so.finalPrefab == null) return;
+
+        Vector3 pos = zone.PlantPosition;
+        Quaternion rot = so.finalPrefab.transform.rotation; // dùng rotation gốc của prefab (cây đứng thẳng)
+
+        GameObject planted = Instantiate(so.finalPrefab, pos, rot);
+
+        var remover = planted.GetComponent<ConstructionRemover>();
+        if (remover != null) remover.buildSystemManager = this;
+
+        so.ResetCooldown();
+        so.DecreaseQuantity();
+        if (currentBuildingIndex < buildIU.ImageCooldownList.Count
+            && buildIU.ImageCooldownList[currentBuildingIndex] != null)
+            buildIU.ImageCooldownList[currentBuildingIndex].fillAmount = 1;
+
+        if (subsidenceManager != null)
+        {
+            subsidenceManager.IncreaseSubsidenceLevel();
+            subsidenceManager.DecreaseWaterLevel();
+        }
+
+        UpdateStatistics(currentBuildingIndex);
+        if (StatisticsManager.Instance != null)
+        {
+            StatisticsManager.Instance.AddActionHistory("Build", so.name, pos);
+        }
+
+        zone.NotifyPlanted();
+
+        EndCarryMode();
+        FinishBuilding();
+    }
+
+    /// <summary>Dọn dẹp visual cây trên tay và tắt highlight zone.</summary>
+    private void EndCarryMode()
+    {
+        if (carriedObject != null)
+        {
+            Destroy(carriedObject);
+            carriedObject = null;
+        }
+        if (isCarrying)
+        {
+            PlantingZone.ClearAllHighlights();
+            isCarrying = false;
         }
     }
 }

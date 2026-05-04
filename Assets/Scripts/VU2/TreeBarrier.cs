@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // =============================================================================
@@ -50,13 +51,36 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     [Tooltip("Tốc độ kéo enemy về gốc cây (units/s)")]
     [SerializeField] private float enemyPullSpeed = 3f;
 
+    [Header("Growth Stages / Giai đoạn lớn lên")]
+    [Tooltip("Thời gian (giây) để cây lớn hoàn toàn: 0..0.5*total = Sapling (1/3), 0.5..1*total = Small (1/2), >total = Big (1.0).")]
+    [SerializeField] private float fullGrowthTime = 20f;
+    [Tooltip("Scale cây non (Sapling) so với scale gốc.")]
+    [Range(0.05f, 1f)]
+    [SerializeField] private float saplingScale = 0.333f;
+    [Tooltip("Scale cây nhỏ (Small) so với scale gốc.")]
+    [Range(0.05f, 1f)]
+    [SerializeField] private float smallScale = 0.5f;
+    [Tooltip("Số enemy tối đa cây có thể giữ ở giai đoạn Sapling / Small / Big.")]
+    [SerializeField] private int saplingCapacity = 0;
+    [SerializeField] private int smallCapacity = 1;
+    [SerializeField] private int bigCapacity = 2;
+
+    public enum GrowthStage { Sapling, Small, Big }
+
     // =========================================================================
     // RUNTIME STATE
     // =========================================================================
     private int currentHealth;
     private float corrosionAccumulator;
-    private GameObject trappedEnemy;
-    private EnemyController trappedController;
+    private readonly List<TrappedEntry> trappedEnemies = new List<TrappedEntry>();
+    private float plantedTime;
+    private GrowthStage currentStage = GrowthStage.Sapling;
+
+    private struct TrappedEntry
+    {
+        public GameObject obj;
+        public EnemyController controller;
+    }
 
     // Visual state
     private Renderer[] _renderers;
@@ -68,7 +92,9 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     // PUBLIC PROPERTIES
     // =========================================================================
     public int Health => currentHealth;
-    public bool IsTrapping => trappedEnemy != null;
+    public bool IsTrapping => trappedEnemies.Count > 0;
+    public GrowthStage Stage => currentStage;
+    public int TrapCapacity => GetCapacityForStage(currentStage);
 
     // =========================================================================
     // LIFECYCLE
@@ -77,6 +103,8 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     void Start()
     {
         currentHealth = maxHealth;
+        plantedTime = Time.time;
+        currentStage = GrowthStage.Sapling;
 
         // Tự tạo / cấu hình trigger collider
         SphereCollider trigger = GetComponent<SphereCollider>();
@@ -102,7 +130,7 @@ public class TreeBarrier : MonoBehaviour, IDamageable
         _mpb = new MaterialPropertyBlock();
         _initialScale = transform.localScale;
 
-        // Màu ban đầu (full HP)
+        // Màu ban đầu (full HP) + scale Sapling (1/3)
         UpdateVisuals();
 
         // =========================================================================
@@ -119,47 +147,82 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     {
         if (IsDead()) return;
 
+        // Cập nhật giai đoạn lớn lên theo thời gian
+        UpdateGrowthStage();
+
         // Cập nhật HUD
         if (GameUI.Instance != null)
             GameUI.Instance.UpdateConstructionPosition(gameObject);
 
-        // Fallback: quét OverlapSphere để bắt enemy đi qua mà trigger không phát hiện.
-        // (Transform.MoveTowards không đi qua physics engine → có thể skip trigger)
-        if (trappedEnemy == null)
+        // Dọn những entry không còn hợp lệ
+        PruneTrappedList();
+
+        // Nếu còn sức chứa, quét enemy mới (fallback OverlapSphere)
+        if (trappedEnemies.Count < TrapCapacity)
         {
             ScanForEnemyInRange();
         }
 
-        // Nếu đang giữ enemy → kéo về gốc cây + ăn mòn
-        if (trappedEnemy != null)
+        // Giữ enemy: kéo về gốc cây + ăn mòn cây
+        if (trappedEnemies.Count > 0)
         {
-            // Kiểm tra enemy đã bị hủy hoặc chết
-            if (trappedEnemy == null || !trappedEnemy.activeInHierarchy)
+            for (int i = 0; i < trappedEnemies.Count; i++)
             {
-                ReleaseEnemy();
-                return;
+                var entry = trappedEnemies[i];
+                if (entry.obj == null) continue;
+                Vector3 pullTarget = transform.position;
+                pullTarget.y = entry.obj.transform.position.y;
+                entry.obj.transform.position = Vector3.MoveTowards(
+                    entry.obj.transform.position, pullTarget, enemyPullSpeed * Time.deltaTime);
             }
 
-            var enemy = trappedEnemy.GetComponent<Enemy>();
-            if (enemy != null && enemy.IsDead())
-            {
-                ReleaseEnemy();
-                return;
-            }
-
-            // Kéo enemy về gốc cây cho rõ ràng
-            Vector3 pullTarget = transform.position;
-            pullTarget.y = trappedEnemy.transform.position.y; // giữ nguyên Y
-            trappedEnemy.transform.position = Vector3.MoveTowards(
-                trappedEnemy.transform.position, pullTarget, enemyPullSpeed * Time.deltaTime);
-
-            // Ăn mòn cây
+            // Ăn mòn cây (không nhân số enemy để độ khó ổn định)
             corrosionAccumulator += corrosionDamagePerSecond * Time.deltaTime;
             if (corrosionAccumulator >= 1f)
             {
                 int dmg = Mathf.FloorToInt(corrosionAccumulator);
                 corrosionAccumulator -= dmg;
                 TakeDamage(dmg);
+            }
+        }
+    }
+
+    /// <summary>Xác định stage hiện tại theo thời gian đã trồng. Cập nhật visual khi đổi stage.</summary>
+    private void UpdateGrowthStage()
+    {
+        float elapsed = Time.time - plantedTime;
+        GrowthStage newStage;
+        if (elapsed >= fullGrowthTime) newStage = GrowthStage.Big;
+        else if (elapsed >= fullGrowthTime * 0.5f) newStage = GrowthStage.Small;
+        else newStage = GrowthStage.Sapling;
+
+        if (newStage != currentStage)
+        {
+            currentStage = newStage;
+            UpdateVisuals();
+            Debug.Log($"[TreeBarrier] {name} grew to stage {currentStage} (capacity={TrapCapacity})");
+        }
+    }
+
+    private void PruneTrappedList()
+    {
+        for (int i = trappedEnemies.Count - 1; i >= 0; i--)
+        {
+            var entry = trappedEnemies[i];
+            bool drop = false;
+            if (entry.obj == null || !entry.obj.activeInHierarchy)
+            {
+                drop = true;
+            }
+            else
+            {
+                var enemy = entry.obj.GetComponent<Enemy>();
+                if (enemy != null && enemy.IsDead()) drop = true;
+            }
+            if (drop)
+            {
+                if (entry.controller != null) entry.controller.SetTrapped(false);
+                trappedEnemies.RemoveAt(i);
             }
         }
     }
@@ -174,6 +237,8 @@ public class TreeBarrier : MonoBehaviour, IDamageable
     /// </summary>
     private void ScanForEnemyInRange()
     {
+        if (trappedEnemies.Count >= TrapCapacity) return;
+
         Collider[] hits = Physics.OverlapSphere(transform.position, trapRadius);
         foreach (var hit in hits)
         {
@@ -185,15 +250,17 @@ public class TreeBarrier : MonoBehaviour, IDamageable
             var controller = hit.GetComponent<EnemyController>();
             if (controller == null || controller.IsTrapped) continue;
 
+            if (IsAlreadyTrapped(hit.gameObject)) continue;
+
             TrapEnemy(hit.gameObject, controller);
-            return; // Chỉ bắt 1 con
+            if (trappedEnemies.Count >= TrapCapacity) return;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (IsDead()) return;
-        if (trappedEnemy != null) return; // Đã giữ 1 con rồi
+        if (trappedEnemies.Count >= TrapCapacity) return; // Đã đầy
 
         if (!other.CompareTag("Enemy")) return;
 
@@ -203,35 +270,59 @@ public class TreeBarrier : MonoBehaviour, IDamageable
         var controller = other.GetComponent<EnemyController>();
         if (controller == null) return;
 
-        // Bắt enemy
+        if (IsAlreadyTrapped(other.gameObject)) return;
+
         TrapEnemy(other.gameObject, controller);
+    }
+
+    private bool IsAlreadyTrapped(GameObject obj)
+    {
+        for (int i = 0; i < trappedEnemies.Count; i++)
+            if (trappedEnemies[i].obj == obj) return true;
+        return false;
     }
 
     private void TrapEnemy(GameObject enemyObj, EnemyController controller)
     {
-        trappedEnemy = enemyObj;
-        trappedController = controller;
-
-        // Dừng di chuyển enemy
+        trappedEnemies.Add(new TrappedEntry { obj = enemyObj, controller = controller });
         controller.SetTrapped(true);
-
-        Debug.Log($"[TreeBarrier] {name} trapped {enemyObj.name}");
+        Debug.Log($"[TreeBarrier] {name} trapped {enemyObj.name} ({trappedEnemies.Count}/{TrapCapacity})");
     }
 
     /// <summary>
-    /// Thả enemy khi cây chết hoặc enemy bị tiêu diệt.
-    /// Release enemy when tree dies or enemy is neutralized.
+    /// Thả tất cả enemy khi cây chết.
     /// </summary>
-    private void ReleaseEnemy()
+    private void ReleaseAllEnemies()
     {
-        if (trappedController != null)
+        for (int i = 0; i < trappedEnemies.Count; i++)
         {
-            trappedController.SetTrapped(false);
+            if (trappedEnemies[i].controller != null)
+                trappedEnemies[i].controller.SetTrapped(false);
         }
-        trappedEnemy = null;
-        trappedController = null;
+        trappedEnemies.Clear();
+        Debug.Log($"[TreeBarrier] {name} released all enemies");
+    }
 
-        Debug.Log($"[TreeBarrier] {name} released enemy");
+    private int GetCapacityForStage(GrowthStage stage)
+    {
+        switch (stage)
+        {
+            case GrowthStage.Sapling: return saplingCapacity;
+            case GrowthStage.Small: return smallCapacity;
+            case GrowthStage.Big: return bigCapacity;
+            default: return 0;
+        }
+    }
+
+    private float GetScaleForStage(GrowthStage stage)
+    {
+        switch (stage)
+        {
+            case GrowthStage.Sapling: return saplingScale;
+            case GrowthStage.Small: return smallScale;
+            case GrowthStage.Big: return 1f;
+            default: return 1f;
+        }
     }
 
     // =========================================================================
@@ -254,7 +345,7 @@ public class TreeBarrier : MonoBehaviour, IDamageable
         currentHealth = 0;
 
         // Thả enemy trước khi chết
-        ReleaseEnemy();
+        ReleaseAllEnemies();
 
         // =========================================================================
         // GAMA NOTIFICATION — Thông báo GAMA server cây đã chết.
@@ -305,9 +396,10 @@ public class TreeBarrier : MonoBehaviour, IDamageable
             r.SetPropertyBlock(_mpb);
         }
 
-        // Scale: _initialScale (full HP) → _initialScale * minScale (0 HP)
-        float scaleFactor = Mathf.Lerp(minScale, 1f, hpRatio);
-        transform.localScale = _initialScale * scaleFactor;
+        // Scale = stage scale * (một chút shrink theo HP để báo hiệu sắp chết)
+        float stageFactor = GetScaleForStage(currentStage);
+        float hpFactor = Mathf.Lerp(minScale, 1f, hpRatio);
+        transform.localScale = _initialScale * stageFactor * hpFactor;
 
         // Animation theo ngưỡng HP
         if (animator != null)
