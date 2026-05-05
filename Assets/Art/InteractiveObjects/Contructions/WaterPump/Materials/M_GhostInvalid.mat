@@ -35,7 +35,7 @@ Material:
     - _BaseColor: {r: 1, g: 0, b: 0, a: 0.50980395}
     - _Color: {r: 1, g: 0, b: 0, a: 0.50980395}
     - _Color1: {r: 1, g: 1, b: 1, a: 0}
-    - _Shadow_Color: {r: 0.048059803, g: 0.6792453, b: 0.13760279, a: 0}
+    - _Shadow_Color: {r: 0.6784314, g: 0.19550294, b: 0.047058802, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4335519573377203481
 MonoBehaviour:

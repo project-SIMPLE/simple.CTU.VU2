@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89f3a249893bbb41a40444384c8b2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 999
+  maxHealth: 1000000
   corrosionDamagePerSecond: 0
   animator: {fileID: 0}
   healthyColor: {r: 1, g: 1, b: 1, a: 1}
@@ -214,6 +214,12 @@ MonoBehaviour:
   minScale: 0.8
   trapRadius: 10
   enemyPullSpeed: 3
+  fullGrowthTime: 20
+  saplingScale: 0.333
+  smallScale: 0.5
+  saplingCapacity: 0
+  smallCapacity: 1
+  bigCapacity: 2
 --- !u!114 &5263389819708685069
 MonoBehaviour:
   m_ObjectHideFlags: 0

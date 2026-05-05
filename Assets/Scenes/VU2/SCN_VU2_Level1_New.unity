@@ -60817,7 +60817,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1820426857}
   m_OnClick:
     m_PersistentCalls:
@@ -156043,7 +156043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &519917227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215876,6 +215876,11 @@ MonoBehaviour:
   connectorDetectionRadius: 1.5
   uiCanvasGroups: []
   subsidenceManager: {fileID: 1499863372}
+  handAttachPoint: {fileID: 0}
+  carryLocalOffset: {x: 0, y: 0, z: 0.15}
+  carryLocalEuler: {x: 0, y: 0, z: 0}
+  playerOriginOverride: {fileID: 0}
+  carryGraceTime: 0.4
 --- !u!4 &781295967
 Transform:
   m_ObjectHideFlags: 0
@@ -323703,7 +323708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1134731864
 Transform:
   m_ObjectHideFlags: 0
@@ -444966,7 +444971,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -491679,7 +491684,7 @@ PrefabInstance:
     - target: {fileID: 1077568249799591053, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6696467980461973084, guid: 894cbc7e0986f4aa2bc1fee171cdb09b,
         type: 3}

@@ -44,6 +44,12 @@ public class BuildSystemManager : MonoBehaviour
     [SerializeField] private Transform playerOriginOverride;
     [Tooltip("Thời gian (giây) sau khi vào carry mode không cho phép trồng — tránh trồng nhầm do trigger XR vẫn đang giữ.")]
     [SerializeField] private float carryGraceTime = 0.4f;
+    [Tooltip("Material áp lên ghost khi player đang đứng trong PlantingZone (hợp lệ — có thể trồng). Thường là màu xanh trong suốt.")]
+    [SerializeField] private Material carryPreviewValidMaterial;
+    [Tooltip("Material áp lên ghost khi player ở NGOÀI PlantingZone (không trồng được). Thường là màu đỏ trong suốt.")]
+    [SerializeField] private Material carryPreviewInvalidMaterial;
+    [Tooltip("Scale của ghost preview so với prefab gốc (vd: 0.33 = 1/3). Áp dụng cho carry mode (Tree).")]
+    [SerializeField] private float carryPreviewScale = 1f / 3f;
 
     private bool isBuilding = false;
     private int currentBuildingIndex = 0;
@@ -54,6 +60,8 @@ public class BuildSystemManager : MonoBehaviour
     private bool isCarrying = false;
     private GameObject carriedObject;
     private float carryStartTime;
+    private GameObject carryPreviewGhost;
+    private PlantingZone carryPreviewZone;
 
     // Getters
     public bool IsBuilding => isBuilding;
@@ -171,6 +179,10 @@ public class BuildSystemManager : MonoBehaviour
             ghostConstruction.transform.position,
             buildRotation
         );
+
+        // SFX: tiếng đặt công trình (3D tại vị trí xây).
+        if (AudioManager.instance != null)
+            AudioManager.instance.PlayBuilding(ghostConstruction.transform.position);
 
         var remover = construction.GetComponent<ConstructionRemover>();
         if (remover != null)
@@ -403,7 +415,12 @@ public class BuildSystemManager : MonoBehaviour
         if (buildModeIndicator != null) buildModeIndicator.SetActive(false);
 
         // Highlight mọi PlantingZone trong scene để player biết đi đâu
-        PlantingZone.UpdateHighlights(GetPlayerPosition(), true);
+        Vector3 pPos = GetPlayerPosition();
+        PlantingZone.UpdateHighlights(pPos, true);
+        // Hiện ghost preview ngay từ đầu (zone hiện tại nếu có, không thì zone gần nhất).
+        PlantingZone insideZone = PlantingZone.FindZoneContaining(pPos);
+        PlantingZone targetZone = insideZone != null ? insideZone : PlantingZone.FindNearestZone(pPos);
+        UpdateCarryPreviewGhost(targetZone, insideZone != null);
     }
 
     /// <summary>Lấy vị trí để đối chiếu với PlantingZone (HMD camera).</summary>
@@ -429,10 +446,94 @@ public class BuildSystemManager : MonoBehaviour
         return null;
     }
 
-    /// <summary>Mỗi frame trong chế độ carry: cập nhật highlight zone theo vị trí player.</summary>
+    /// <summary>Mỗi frame trong chế độ carry: cập nhật highlight zone theo vị trí player + ghost preview tại vị trí trồng.</summary>
     private void ProcessCarrying()
     {
-        PlantingZone.UpdateHighlights(GetPlayerPosition(), true);
+        Vector3 playerPos = GetPlayerPosition();
+        PlantingZone.UpdateHighlights(playerPos, true);
+
+        // Ghost LUÔN hiện: nếu player đang trong zone → xanh (hợp lệ); nếu không → hiện ở zone gần nhất với màu đỏ.
+        PlantingZone insideZone = PlantingZone.FindZoneContaining(playerPos);
+        PlantingZone targetZone = insideZone != null ? insideZone : PlantingZone.FindNearestZone(playerPos);
+        UpdateCarryPreviewGhost(targetZone, insideZone != null);
+    }
+
+    /// <summary>
+    /// Hiện ghost preview của cây tại vị trí PlantingZone (luôn hiện khi có ít nhất 1 zone).
+    /// <paramref name="isValid"/> = true → áp validMaterial (xanh); false → invalidMaterial (đỏ).
+    /// </summary>
+    private void UpdateCarryPreviewGhost(PlantingZone zone, bool isValid)
+    {
+        if (zone == null)
+        {
+            if (carryPreviewGhost != null && carryPreviewGhost.activeSelf)
+                carryPreviewGhost.SetActive(false);
+            carryPreviewZone = null;
+            return;
+        }
+
+        ConstructionSO so = constructions[currentBuildingIndex];
+        GameObject sourcePrefab = so.modelBuildPrefab != null ? so.modelBuildPrefab : so.finalPrefab;
+        if (sourcePrefab == null) return;
+
+        if (carryPreviewGhost == null)
+        {
+            carryPreviewGhost = Instantiate(sourcePrefab);
+            // Tắt mọi script gameplay để ghost chỉ là visual (không tự đổi material, không bắt enemy, ...)
+            foreach (var mb in carryPreviewGhost.GetComponentsInChildren<MonoBehaviour>())
+            {
+                mb.enabled = false;
+            }
+            // Tắt vật lý / collider để không chặn player.
+            foreach (var rb in carryPreviewGhost.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.isKinematic = true;
+                rb.useGravity = false;
+            }
+            foreach (var col in carryPreviewGhost.GetComponentsInChildren<Collider>())
+            {
+                col.enabled = false;
+            }
+            // Scale ghost xuống (vd: 1/3) cho khỏi quá to so với player.
+            float s = Mathf.Max(0.01f, carryPreviewScale);
+            carryPreviewGhost.transform.localScale = sourcePrefab.transform.localScale * s;
+        }
+
+        if (zone != carryPreviewZone)
+        {
+            carryPreviewZone = zone;
+            // Dùng rotation gốc của finalPrefab để cây đứng thẳng đúng với khi trồng thật.
+            Quaternion rot = so.finalPrefab != null
+                ? so.finalPrefab.transform.rotation
+                : sourcePrefab.transform.rotation;
+            carryPreviewGhost.transform.SetPositionAndRotation(zone.PlantPosition, rot);
+        }
+
+        // Áp material valid/invalid theo trạng thái.
+        Material mat = isValid ? carryPreviewValidMaterial : carryPreviewInvalidMaterial;
+        if (mat != null)
+        {
+            ApplyGhostMaterial(carryPreviewGhost, mat);
+        }
+
+        if (!carryPreviewGhost.activeSelf)
+            carryPreviewGhost.SetActive(true);
+    }
+
+    private static void ApplyGhostMaterial(GameObject ghost, Material mat)
+    {
+        foreach (var mr in ghost.GetComponentsInChildren<MeshRenderer>())
+        {
+            var mats = new Material[mr.sharedMaterials.Length];
+            for (int i = 0; i < mats.Length; i++) mats[i] = mat;
+            mr.materials = mats;
+        }
+        foreach (var smr in ghost.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            var mats = new Material[smr.sharedMaterials.Length];
+            for (int i = 0; i < mats.Length; i++) mats[i] = mat;
+            smr.materials = mats;
+        }
     }
 
     /// <summary>
@@ -458,6 +559,9 @@ public class BuildSystemManager : MonoBehaviour
         Quaternion rot = so.finalPrefab.transform.rotation; // dùng rotation gốc của prefab (cây đứng thẳng)
 
         GameObject planted = Instantiate(so.finalPrefab, pos, rot);
+
+        // SFX: tiếng đặt cây / trồng thành công (3D tại vị trí trồng).
+        if (AudioManager.instance != null) AudioManager.instance.PlayBuilding(pos);
 
         var remover = planted.GetComponent<ConstructionRemover>();
         if (remover != null) remover.buildSystemManager = this;
@@ -494,6 +598,12 @@ public class BuildSystemManager : MonoBehaviour
             Destroy(carriedObject);
             carriedObject = null;
         }
+        if (carryPreviewGhost != null)
+        {
+            Destroy(carryPreviewGhost);
+            carryPreviewGhost = null;
+        }
+        carryPreviewZone = null;
         if (isCarrying)
         {
             PlantingZone.ClearAllHighlights();

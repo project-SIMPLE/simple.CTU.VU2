@@ -67,6 +67,25 @@ public class PlantingZone : MonoBehaviour
         return null;
     }
 
+    /// <summary>Tìm zone gần vị trí nhất (theo PlantPosition). Null nếu chưa có zone nào.</summary>
+    public static PlantingZone FindNearestZone(Vector3 worldPos)
+    {
+        PlantingZone best = null;
+        float bestSqr = float.MaxValue;
+        for (int i = 0; i < _allZones.Count; i++)
+        {
+            var z = _allZones[i];
+            if (z == null || !z.isActiveAndEnabled) continue;
+            float sqr = (z.PlantPosition - worldPos).sqrMagnitude;
+            if (sqr < bestSqr)
+            {
+                bestSqr = sqr;
+                best = z;
+            }
+        }
+        return best;
+    }
+
     /// <summary>BuildSystemManager gọi mỗi frame trong carry mode để cập nhật highlight theo vị trí player.</summary>
     public static void UpdateHighlights(Vector3 playerPos, bool carrying)
     {
