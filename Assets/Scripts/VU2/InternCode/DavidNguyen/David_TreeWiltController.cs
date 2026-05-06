@@ -114,20 +114,18 @@ public class David_TreeWiltController : MonoBehaviour, IDamageable
     }
     
     /// <summary>
-    /// Được gọi khi mùa thay đổi
+    /// Được gọi khi mùa thay đổi — dùng intrusion để robust với cả VU2_1 và VU2_2 (enum không đồng nhất giữa hai level).
     /// </summary>
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        // Phase 3 (Rainy2 = T4) has high salinity → wilt tree.
-        // Giai đoạn 3 (Rainy2 = T4) mặn cao → cây héo.
-        bool isPhase3 = (newPhase == SeasonPhase.Rainy2);
-        
-        
-        if (isPhase3 && !_isWilted)
+        // High salinity → wilt tree. Độ mặn cao → cây héo.
+        bool isDry = GameRulesProvider.Saltwater_Intrusion >= 1f;
+
+        if (isDry && !_isWilted)
         {
             ApplyWilt();
         }
-        else if (!isPhase3 && _isWilted)
+        else if (!isDry && _isWilted)
         {
             ClearWilt();
         }

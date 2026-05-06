@@ -88,7 +88,7 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
 
     // Saltwater intrusion level: 1.0 = start (salty from dry season), 0.0 = end (fresh).
     // Mức xâm nhập mặn: 1.0 = bắt đầu (mặn từ mùa khô), 0.0 = kết thúc (ngọt).
-    public static float Saltwater_Intrusion = 1.0f;
+    public static float Saltwater_Intrusion = 0.0f;
 
     // Current season phase.
     // Pha mùa hiện tại.
@@ -265,8 +265,16 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
     Transform IGameRules.Player => player;
     GameObject IGameRules.Target => target;
 
-    private void OnEnable() => GameRulesProvider.Register(this);
-    private void OnDisable() => GameRulesProvider.Unregister(this);
+    private void OnEnable()
+    {
+        GameRulesProvider.Register(this);
+        LevelManager.OnWaveStepChanged += HandleWaveStepChanged;
+    }
+    private void OnDisable()
+    {
+        GameRulesProvider.Unregister(this);
+        LevelManager.OnWaveStepChanged -= HandleWaveStepChanged;
+    }
 
     private void FirePhaseChanged(SeasonPhase p) => PhaseChanged?.Invoke(p);
     private void FireMonthChanged(int m) => MonthChanged?.Invoke(m);
@@ -330,17 +338,13 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
     // Update - Main game loop. Runs every frame during gameplay.
     // Update - Vòng lặp game chính. Chạy mỗi frame trong gameplay.
     //
-    // TIMELINE (3 phases, computed from monthDuration):
-    // Phase 1 (T5–T7):  0 to monthDuration×3  — Saltwater_Intrusion = 1.0 (high, residual from dry)
-    // Phase 2 (T8–T9):  monthDuration×3 to ×5 — Saltwater_Intrusion = 0.5 (medium, rains washing out salt)
-    // Phase 3 (T10):    monthDuration×5 to ×6 — Saltwater_Intrusion = 0.0 (low, peak rainy season)
-    // >monthDuration×6: Game End
+    // TIMELINE (đồng bộ với LevelManager.OnWaveStepChanged):
+    //   Preparation  → Phase Rainy2  — Saltwater_Intrusion = 0.0 (mùa mưa)
+    //   Defense      → Phase Dry     — Saltwater_Intrusion = 1.0 (mùa khô)
+    //   LevelManager.Finished → Game End
     //
-    // DÒNG THỜI GIAN (3 giai đoạn, tính từ monthDuration):
-    // Giai đoạn 1 (T5–T7):  0 đến monthDuration×3  — Saltwater_Intrusion = 1.0 (cao, tồn dư từ mùa khô)
-    // Giai đoạn 2 (T8–T9):  monthDuration×3 đến ×5 — Saltwater_Intrusion = 0.5 (TB, mưa rửa muối)
-    // Giai đoạn 3 (T10):    monthDuration×5 đến ×6 — Saltwater_Intrusion = 0.0 (thấp, đỉnh mùa mưa)
-    // >monthDuration×6: Kết thúc Game
+    // Update này chỉ lo time/clock/month/water animation.
+    // Phase chuyển hoàn toàn event-driven qua HandleWaveStepChanged().
     // =========================================================================
     public void Update()
     {
@@ -356,144 +360,147 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
         // Cập nhật hệ thống tháng (độc lập với logic giai đoạn).
         UpdateMonthAndWaterLevel(timeRemaining);
 
-        // Calculate phase boundaries from monthDuration (NOT hardcoded).
-        // Tính mốc giai đoạn từ monthDuration (KHÔNG hardcode).
-        // Phase 1: 3 months (T5,T6,T7), Phase 2: 2 months (T8,T9), Phase 3: 1 month (T10)
-        float phase1End = monthDuration * 3f;   // Default 30×3 = 90s
-        float phase2End = monthDuration * 5f;   // Default 30×5 = 150s
-        float gameEnd   = monthDuration * 6f;   // Default 30×6 = 180s
+        // Drive water animation if active.
+        // Đẩy animation nước nếu đang hoạt động.
+        if (_moving && target) _applyMoveThisFrame = true;
 
-        // =====================================================================
-        // PHASE 1: T5–T7 — High salinity (residual from dry season)
-        // GIAI ĐOẠN 1: T5–T7 — Độ mặn cao (tồn dư từ mùa khô)
-        //
-        // Early rainy season, rain just starting, saltwater still present.
-        // Đầu mùa mưa, mưa mới bắt đầu, nước mặn vẫn còn.
-        // =====================================================================
-        if (timeRemaining <= phase1End)
+        // End game when LevelManager finishes all waves.
+        // Kết thúc game khi LevelManager hoàn thành tất cả wave.
+        if (_levelManager == null) _levelManager = FindObjectOfType<LevelManager>();
+        if (_levelManager != null && _levelManager.Finished)
         {
-            SetPhase(SeasonPhase.Dry);  // Using Dry phase = high salinity
-            _rainning = false;
-
-            // Early rainy season — still mostly dry weather visuals.
-            // Đầu mùa mưa — hình ảnh vẫn chủ yếu là nắng khô.
-            Rain_image.SetActive(false);
-            Sun_image.SetActive(true);
-            RenderSettings.skybox = Skybox_Sun;
-            DynamicGI.UpdateEnvironment();
-            PlayMusic(normalMusic);
-
-            _moving = false;
-            _enteredPhase2 = false;
-            _enteredPhase3 = false;
+            EndGame();
         }
-        // =====================================================================
-        // PHASE 2: T8–T9 — Medium salinity (rains washing out salt)
-        // GIAI ĐOẠN 2: T8–T9 — Độ mặn trung bình (mưa rửa muối)
-        //
-        // Mid rainy season, consistent rainfall, salinity dropping.
-        // Giữa mùa mưa, mưa đều đặn, độ mặn giảm.
-        // =====================================================================
-        else if (timeRemaining > phase1End && timeRemaining <= phase2End)
+    }
+
+    // =========================================================================
+    // HandleWaveStepChanged - Reacts to LevelManager wave step transitions.
+    // HandleWaveStepChanged - Phản ứng với chuyển step của LevelManager.
+    // =========================================================================
+    private LevelManager _levelManager;
+    private Coroutine _intrusionRampCoroutine;
+
+    [Header("Dry Phase Ramp")]
+    [Tooltip("Thời gian (giây) để Saltwater_Intrusion ramp 0→1 khi vào Defense. Trong khoảng này nước rút dần; cây chỉ héo khi ramp xong.")]
+    public float intrusionRampDuration = 8f;
+
+    private void HandleWaveStepChanged(WaveStep step)
+    {
+        if (!playGame) return;
+
+        // Stop any in-progress ramp on every transition.
+        // Dừng ramp đang chạy mỗi khi chuyển step.
+        if (_intrusionRampCoroutine != null)
         {
-            SetPhase(SeasonPhase.Rainy1);  // Using Rainy1 = transition phase
+            StopCoroutine(_intrusionRampCoroutine);
+            _intrusionRampCoroutine = null;
+        }
+
+        if (step == WaveStep.Preparation)
+        {
+            // Rainy season: low salinity, rain visuals, water at base level.
+            // Mùa mưa: mặn thấp, hiệu ứng mưa, nước ở mức gốc.
+            Saltwater_Intrusion = 0f;
+            SetPhase(SeasonPhase.Rainy2);
             _rainning = true;
 
-            // Enable rain effects and rainy skybox.
-            // Bật hiệu ứng mưa và skybox mưa.
-            //Weather_Rain.SetActive(true); // DISABLED — tắt hiệu ứng mưa tạm thời
-            Rain_image.SetActive(true);
-            Sun_image.SetActive(false);
-            RenderSettings.skybox = Skybox_Rain;
+            if (Weather_Rain) Weather_Rain.SetActive(true);
+            if (Rain_image) Rain_image.SetActive(true);
+            if (Sun_image) Sun_image.SetActive(false);
+            if (Skybox_Rain) RenderSettings.skybox = Skybox_Rain;
             DynamicGI.UpdateEnvironment();
             PlayMusic(rainMusic);
 
-            // Start water rising animation when entering phase 2.
-            // Bắt đầu animation nước dâng khi vào giai đoạn 2.
-            if (!_enteredPhase2)
-            {
-                _enteredPhase2 = true;
-                _phaseStartTime = timeRemaining;
-                _fromPos = target ? target.transform.position : pointA;
-                _toPos = Vector3.Lerp(pointA, pointB, 0.5f); // Move halfway up
-                _moving = true;
-            }
-            if (_moving && target) _applyMoveThisFrame = true;
+            _moving = false;
         }
-        // =====================================================================
-        // PHASE 3: T10 — Low salinity (peak rainy season)
-        // GIAI ĐOẠN 3: T10 — Độ mặn thấp (đỉnh mùa mưa)
-        //
-        // Peak rainy season, heavy rainfall, saltwater fully flushed.
-        // Đỉnh mùa mưa, mưa nặng hạt, nước mặn bị rửa sạch.
-        // =====================================================================
-        else if (timeRemaining > phase2End && timeRemaining <= gameEnd)
+        else // WaveStep.Defense
         {
-            SetPhase(SeasonPhase.Rainy2);  // Using Rainy2 = peak rain, lowest salinity
-            _rainning = true;
-
-            // Heavy rain effects.
-            // Hiệu ứng mưa lớn.
-            Weather_Rain.SetActive(true);
-            Rain_image.SetActive(true);
-            Sun_image.SetActive(false);
-            RenderSettings.skybox = Skybox_Rain;
-            DynamicGI.UpdateEnvironment();
-            PlayMusic(rainMusic);
-
-            // Continue water rising to full level in phase 3.
-            // Tiếp tục nước dâng đến mức tối đa trong giai đoạn 3.
-            if (!_enteredPhase3)
-            {
-                _enteredPhase3 = true;
-                _phaseStartTime = timeRemaining;
-                _fromPos = target ? target.transform.position : Vector3.Lerp(pointA, pointB, 0.5f);
-                _toPos = pointB; // Full water level
-                _moving = true;
-            }
-            if (_moving && target) _applyMoveThisFrame = true;
-        }
-        // =====================================================================
-        // GAME END (>gameEnd)
-        // KẾT THÚC GAME (>gameEnd)
-        // =====================================================================
-        else
-        {
+            // Dry season: visuals đổi NGAY, nhưng intrusion ramp dần để nước rút trước
+            // → cây chỉ héo khi nước thực sự đã rút (qua threshold).
             _rainning = false;
-            Weather_Rain.SetActive(false);
-            Rain_image.SetActive(false);
-            Sun_image.SetActive(true);
-            RenderSettings.skybox = Skybox_Sun;
+
+            if (Weather_Rain) Weather_Rain.SetActive(false);
+            if (Rain_image) Rain_image.SetActive(false);
+            if (Sun_image) Sun_image.SetActive(true);
+            if (Skybox_Sun) RenderSettings.skybox = Skybox_Sun;
             DynamicGI.UpdateEnvironment();
             PlayMusic(normalMusic);
 
-            // Stop the game.
-            // Dừng game.
-            playGame = false;
-            GameActive = false;
+            // Start water rising animation across the entire Defense step.
+            // Bắt đầu animation nước dâng trải dài toàn bộ step Defense.
+            _phaseStartTime = timeRemaining;
+            _fromPos = target ? target.transform.position : pointA;
+            _toPos = pointB;
+            if (_levelManager == null) _levelManager = FindObjectOfType<LevelManager>();
+            if (_levelManager != null) moveTime = _levelManager.CurrentWaveStepTime;
+            _moving = true;
 
-            _moving = false;
-            _applyMoveThisFrame = false;
-
-            // Freeze all HUDs and scoreboards.
-            // Đóng băng tất cả HUD và bảng điểm.
-            var farms = FindObjectsOfType<FarmArea>(true);
-            foreach (var a in farms) a.FreezeHUD();
-
-            var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
-            foreach (var b in boards) b.Freeze(true);
-
-            // Lock player movement.
-            // Khóa di chuyển người chơi.
-            SetMovementLocked(true);
-
-            // Play end game sound and show result menu.
-            // Phát âm thanh kết thúc và hiển thị menu kết quả.
-            if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
-            ResultMenu.SetActive(true);
-            if (GameplayUIRoot) GameplayUIRoot.SetActive(false);
-            if (GameUIRoot) GameUIRoot.SetActive(false);
+            // Ramp Saltwater_Intrusion 0→1 dần dần. SubsidenceManager sẽ lerp seasonY
+            // theo intrusion → nước SF_Water_Sea (1) rút từ từ. SetPhase(Dry) chỉ fire
+            // khi intrusion vượt ngưỡng → cây héo SAU khi nước đã rút.
+            _intrusionRampCoroutine = StartCoroutine(RampIntrusionToDry());
         }
+    }
+
+    private System.Collections.IEnumerator RampIntrusionToDry()
+    {
+        float duration = Mathf.Max(0.1f, intrusionRampDuration);
+        float startIntrusion = Saltwater_Intrusion;
+        float elapsed = 0f;
+
+        // Ramp Saltwater_Intrusion 0→1 dần. SubsidenceManager đọc giá trị này
+        // → SF_Water_Sea (1) sẽ rút từ rainyWaterY xuống dryWaterY song song.
+        // CHƯA fire SetPhase(Dry) trong khi ramp → cây chưa nhận OnPhaseChanged → chưa héo.
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            Saltwater_Intrusion = Mathf.Lerp(startIntrusion, 1f, t);
+            yield return null;
+        }
+
+        // Sau khi nước đã rút xong → fire SetPhase(Dry) → cây mới héo.
+        Saltwater_Intrusion = 1f;
+        SetPhase(SeasonPhase.Dry);
+        _intrusionRampCoroutine = null;
+    }
+
+    // =========================================================================
+    // EndGame - Finalize gameplay and show result UI.
+    // EndGame - Kết thúc gameplay và hiện thị UI kết quả.
+    // =========================================================================
+    private void EndGame()
+    {
+        if (!playGame) return;
+
+        _rainning = false;
+        if (Weather_Rain) Weather_Rain.SetActive(false);
+        if (Rain_image) Rain_image.SetActive(false);
+        if (Sun_image) Sun_image.SetActive(true);
+        if (Skybox_Sun) RenderSettings.skybox = Skybox_Sun;
+        DynamicGI.UpdateEnvironment();
+        PlayMusic(normalMusic);
+
+        playGame = false;
+        GameActive = false;
+
+        _moving = false;
+        _applyMoveThisFrame = false;
+
+        // Freeze all HUDs and scoreboards.
+        // Đóng băng tất cả HUD và bảng điểm.
+        var farms = FindObjectsOfType<FarmArea>(true);
+        foreach (var a in farms) a.FreezeHUD();
+
+        var boards = FindObjectsOfType<Thuan_23127_TotalBoard>(true);
+        foreach (var b in boards) b.Freeze(true);
+
+        SetMovementLocked(true);
+
+        if (_audioSource && messageSfx) _audioSource.PlayOneShot(messageSfx);
+        if (ResultMenu) ResultMenu.SetActive(true);
+        if (GameplayUIRoot) GameplayUIRoot.SetActive(false);
+        if (GameUIRoot) GameUIRoot.SetActive(false);
     }
 
     // =========================================================================
@@ -662,11 +669,18 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
 
         // Log timing configuration for debugging.
         // Ghi log cấu hình thời gian để debug.
-        Debug.Log($"[GAME START - LEVEL 2] monthDuration={monthDuration}s | " +
-                  $"Phase1(T5-T7): 0-{monthDuration * 3}s (Salinity=1.0) | " +
-                  $"Phase2(T8-T9): {monthDuration * 3}-{monthDuration * 5}s (Salinity=0.5) | " +
-                  $"Phase3(T10): {monthDuration * 5}-{monthDuration * 6}s (Salinity=0.0) | " +
-                  $"Total: {monthDuration * 6}s = {monthDuration * 6 / 60f}min");
+        if (_levelManager == null) _levelManager = FindObjectOfType<LevelManager>();
+        if (_levelManager != null)
+        {
+            Debug.Log($"[GAME START - LEVEL 2] Timeline đồng bộ với LevelManager | " +
+                      $"Preparation = Rainy (Salinity=0.0) | " +
+                      $"Defense = Dry (Salinity=1.0) | " +
+                      $"End khi LevelManager.Finished");
+        }
+        else
+        {
+            Debug.LogWarning("[GAME START - LEVEL 2] Không tìm thấy LevelManager — phase sẽ không tự chuyển.");
+        }
 
         // Save player start position for potential reset.
         // Lưu vị trí bắt đầu của người chơi để reset nếu cần.
@@ -688,6 +702,18 @@ public class RulesOfTheGame_VU2_2 : MonoBehaviour, IGameRules
         _moving = false;
         _applyMoveThisFrame = false;
         _phaseStartTime = timeRemaining;
+
+        // Sync initial phase from LevelManager's current wave step
+        // (vì OnWaveStepChanged có thể đã fire trước khi VU2_2 subscribe).
+        if (_levelManager != null)
+        {
+            HandleWaveStepChanged(_levelManager.CurrentWaveStep);
+        }
+        else
+        {
+            // Fallback: assume Preparation/Rainy at game start.
+            HandleWaveStepChanged(WaveStep.Preparation);
+        }
 
         // Unlock player movement.
         // Mở khóa di chuyển người chơi.

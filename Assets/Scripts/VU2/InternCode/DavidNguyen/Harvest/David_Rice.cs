@@ -259,29 +259,29 @@ public class David_Rice : MonoBehaviour, IDamageable
 
     /// <summary>
     /// Called when season changes via OnPhaseChanged event.
-    /// Được gọi khi mùa thay đổi qua event OnPhaseChanged.
+    /// Dùng intrusion thay vì enum để robust với cả VU2_1 và VU2_2.
     /// </summary>
     private void OnSeasonChanged(SeasonPhase newPhase)
     {
-        switch (newPhase)
+        float intrusion = GameRulesProvider.Saltwater_Intrusion;
+
+        if (intrusion >= 1f)
         {
-            case SeasonPhase.Rainy1:
-                // Phase 1 (T11-T1): lúa khỏe mạnh, đứng thẳng
-                ClearWilt();
-                canHarvest = true;
-                break;
-
-            case SeasonPhase.Dry:
-                // Phase 2 (T2-T3): lúa nghiêng 45°, vẫn thu hoạch được
-                ApplyWilt();
-                canHarvest = true;
-                break;
-
-            case SeasonPhase.Rainy2:
-                // Phase 3 (T4): lúa ngã hẳn 90°, KHÔNG thu hoạch được
-                ApplyFall();
-                canHarvest = false;
-                break;
+            // Đỉnh mùa khô / mặn cao: lúa ngã hẳn, KHÔNG thu hoạch được
+            ApplyFall();
+            canHarvest = false;
+        }
+        else if (intrusion >= 0.5f)
+        {
+            // Chuyển tiếp: lúa nghiêng 45°, vẫn thu hoạch được
+            ApplyWilt();
+            canHarvest = true;
+        }
+        else
+        {
+            // Đỉnh mùa mưa / mặn thấp: lúa khỏe mạnh, đứng thẳng
+            ClearWilt();
+            canHarvest = true;
         }
     }
 

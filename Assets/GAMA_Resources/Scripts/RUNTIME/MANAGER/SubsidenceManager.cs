@@ -44,8 +44,8 @@ public class SubsidenceManager : MonoBehaviour
     [Header("Water Level by Season (Y world)")]
     [Tooltip("Mực nước mùa mưa (Saltwater_Intrusion = 0). Mặc định y = 0.")]
     [SerializeField] private float rainyWaterY = 0f;
-    [Tooltip("Mực nước mùa khô (Saltwater_Intrusion = 1). Mặc định y = -0.5.")]
-    [SerializeField] private float dryWaterY = -0.5f;
+    [Tooltip("Mực nước mùa khô (Saltwater_Intrusion = 1). Mặc định y = -1.")]
+    [SerializeField] private float dryWaterY = -1f;
     [Tooltip("Độ mượt khi chuyển giữa mùa mưa/khô (lerp speed). 0 = nhảy tức thời.")]
     [SerializeField] private float seasonSmoothing = 1f;
     [Tooltip("Mức dâng tối đa do sụt lún (y world). Tổng season + subsidence không vượt quá mức này.")]
@@ -55,7 +55,7 @@ public class SubsidenceManager : MonoBehaviour
     [Tooltip("Bật ảnh hưởng của thuỷ triều (Moon Orbit) lên mực nước.")]
     [SerializeField] private bool enableTide = true;
     [Tooltip("Biên độ thuỷ triều (mét). Mực nước dao động từ baseY - amplitude đến baseY + amplitude.")]
-    [SerializeField] private float tideAmplitude = 0.3f;
+    [SerializeField] private float tideAmplitude = 0.2f;
     [Tooltip("Số chu kỳ thuỷ triều trên 1 vòng quay mặt trăng. 2 = bán nhật triều (2 đỉnh + 2 đáy / vòng), 1 = nhật triều.")]
     [SerializeField] private float tideCyclesPerOrbit = 2f;
     [Tooltip("Lệch pha (0..1). 0 = bắt đầu vị trí trung bình & dâng lên.")]
@@ -147,11 +147,17 @@ public class SubsidenceManager : MonoBehaviour
         // Lưu Y gốc (fallback) và khởi tạo seasonY = mực mùa hiện tại.
         if (waterSurface != null && !_waterBaseCaptured)
         {
-            _waterBaseY = waterSurface.transform.position.y;
+            _waterBaseY = waterSurface.transform.localPosition.y;
             _seasonY = ComputeSeasonBaseY();
             _subsidenceRise = 0f;
             _displayedTide = 0f;
             _waterBaseCaptured = true;
+
+            // Ép Y của water surface về đúng baseY ngay frame đầu
+            // → tránh hiện tượng "nước dâng cao" trong vài frame đầu khi smoothing lợi chưa xướng hết, hoặc rules chưa cache kịp.
+            Vector3 p0 = waterSurface.transform.localPosition;
+            p0.y = _seasonY;
+            waterSurface.transform.localPosition = p0;
         }
     }
 
@@ -320,9 +326,9 @@ public class SubsidenceManager : MonoBehaviour
         float clampedRise = Mathf.Clamp01(_subsidenceRise);
         float baseY = Mathf.Lerp(_seasonY, subsidenceMaxY, clampedRise);
 
-        Vector3 p = waterSurface.transform.position;
+        Vector3 p = waterSurface.transform.localPosition;
         p.y = baseY + _displayedTide;
-        waterSurface.transform.position = p;
+        waterSurface.transform.localPosition = p;
     }
 
     /// <summary>Lấy mực nước theo mùa từ Saltwater_Intrusion (0=mưa → 1=khô).</summary>
