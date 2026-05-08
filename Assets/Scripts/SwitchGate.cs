@@ -214,6 +214,14 @@ public class SwitchGate : MonoBehaviour
 // =============================================================================
 public class GateBlockerZone : MonoBehaviour
 {
+    /// <summary>
+    /// Tổng số enemy đã bị PFB_Gate_G2 chặn (tích lũy trong toàn level).
+    /// Reset khi reload scene (static field tự reset trong Editor PlayMode tuỳ cấu hình).
+    /// </summary>
+    public static int TotalEnemiesBlocked = 0;
+
+    public static void ResetCounter() { TotalEnemiesBlocked = 0; }
+
     private SphereCollider _trigger;
     private bool _isActive = false;
     private readonly List<EnemyController> _trappedEnemies = new List<EnemyController>();
@@ -303,8 +311,11 @@ public class GateBlockerZone : MonoBehaviour
     {
         controller.SetTrapped(true);
         if (!_trappedEnemies.Contains(controller))
+        {
             _trappedEnemies.Add(controller);
-        Debug.Log($"[GateBlocker] Trapped {controller.gameObject.name}");
+            TotalEnemiesBlocked++;   // đếm số enemy bị cổng chặn
+        }
+        Debug.Log($"[GateBlocker] Trapped {controller.gameObject.name} (total blocked: {TotalEnemiesBlocked})");
     }
 
     private void ReleaseAllEnemies()

@@ -51,12 +51,14 @@ public class GameUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI win_reportLivingTreesNumber;
     [SerializeField] private TextMeshProUGUI win_reportDeadTreesNumber;
     [SerializeField] private TextMeshProUGUI win_reportPumpNumber;
+    [SerializeField] private TextMeshProUGUI win_reportWaterGateNumber;
     [SerializeField] private TextMeshProUGUI win_reportEnemiesNumber;
     [SerializeField] private TextMeshProUGUI win_reportSubsidenceScore;
 
     [SerializeField] private TextMeshProUGUI lose_reportLivingTreesNumber;
     [SerializeField] private TextMeshProUGUI lose_reportDeadTreesNumber;
     [SerializeField] private TextMeshProUGUI lose_reportPumpNumber;
+    [SerializeField] private TextMeshProUGUI lose_reportWaterGateNumber;
     [SerializeField] private TextMeshProUGUI lose_reportEnemiesNumber;
     [SerializeField] private TextMeshProUGUI lose_reportSubsidenceScore;
 
@@ -70,6 +72,15 @@ public class GameUI : MonoBehaviour
     public float NumberPumper = 0;
     public float TotalNeutralWater = 0;
     public float TotalMiningWater = 0;
+    public float WaterGateBlockedNumber = 0;
+
+    // ==== TreeBarrier counters (đếm RIÊNG cho cây rừng "PFB_TreeBarrier" do người chơi trồng) ====
+    // Tách khỏi LiveTreeNumber/DeadTreeNumber (vốn đếm tất cả IDamageable: durian, rice, ...).
+    // Public để các script khác có thể tham chiếu.
+    public int TreeBarrierAlive = 0;   // số cây rừng còn sống
+    public int TreeBarrierDead  = 0;   // số cây rừng đã chết
+    public int TreeBarrierTotal = 0;   // tổng cây rừng đã trồng (alive + dead)
+
     public float ScoreGame = 0;
 
     void Start()
@@ -87,6 +98,15 @@ public class GameUI : MonoBehaviour
         finalContent.SetActive(false);
         Instance = this;
         TotalTree = playerResourcesManager.TotalTree;
+        GateBlockerZone.ResetCounter();   // reset bộ đếm enemy bị cổng chặn cho phiên chơi mới
+
+        // Tắt TẤT CẢ panel kết thúc khi vào game — chỉ bật Final_Win_English khi game kết thúc.
+        if (finalContent_Win  != null) finalContent_Win.SetActive(false);
+        if (finalContent_Lose != null) finalContent_Lose.SetActive(false);
+        DeactivateSiblingPanel("Final_Win_Vietnamese");
+        DeactivateSiblingPanel("Final_Lose_Vietnamese");
+        DeactivateSiblingPanel("Final_Win_English");
+        DeactivateSiblingPanel("Final_Lose_English");
         Debug.Log("Start Total Tree:"+ TotalTree);
         Debug.Log("Start Live Tree:"+ LiveTreeNumber);
         Debug.Log("Start Dead Tree:"+ DeadTreeNumber);
@@ -98,31 +118,127 @@ public class GameUI : MonoBehaviour
     }
     public void computeScore()
     {
-
-        
         SubsidenceScore = subsidenceManager.SubsidenceScore;
-        
-        //DeadTreeNumber = dtree;
-        LiveTreeNumber =  playerResourcesManager.CurrentRefillSources; //TotalTree - DeadTreeNumber;//
+
+        LiveTreeNumber = playerResourcesManager.CurrentRefillSources;
         DeadTreeNumber = playerResourcesManager.TotalTree - playerResourcesManager.CurrentRefillSources;
         NumberPumper = StatisticsManager.Instance.WaterPumpCount;
         TotalNeutralWater = StatisticsManager.Instance.EnemyKillCount;
         TotalMiningWater = 100 - subsidenceManager.RemainingWaterLevelLocal;
+        WaterGateBlockedNumber = GateBlockerZone.TotalEnemiesBlocked;
 
+        // Đếm RIÊNG TreeBarrier (cây rừng trồng) — tách khỏi LiveTree/DeadTree (đếm tất cả IDamageable).
+        CountTreeBarriers();
 
-        // SubsidenceScore = 1;
-        // TotalTree = 199;
-        // DeadTreeNumber = 199;
-        // LiveTreeNumber = TotalTree-DeadTreeNumber;// playerResourcesManager.CurrentRefillSources;
-        // NumberPumper = 10;
-        // TotalNeutralWater = 100;
-        // TotalMiningWater = 100;
-        ScoreGame = ((1 - (SubsidenceScore / 10)) + ((LiveTreeNumber+1) / (TotalTree+1)) + (1 - ((NumberPumper+1) / 10)) + (((TotalNeutralWater+1)/200+1) / (TotalMiningWater+1))) * 100;
-        
-        //ScoreGame = ((1 - (SubsidenceScore / 10)) + (LiveTreeNumber / TotalTree) + (1 - (NumberPumper / 10)) + ((TotalNeutralWater/200+1) / (TotalMiningWater+1))) * 100;
-        
-        ScoreGame = Mathf.Round(ScoreGame);
-        //ScoreGame = Mathf.Round(ScoreGame * 100.0f) * 0.01f;
+        // =====================================================================
+        // SCORING FORMULA (Level 2 — kịch bản mới)
+        // CÔNG THỨC TÍNH ĐIỂM
+        //
+        //   + Chặn 1 con mặn   : +15
+        //   + Trồng 1 cây rừng : +10  (cây còn sống)
+        //   + Đặt 1 máy bơm    : +10
+        //   - Sụt lún (khai nước quá mức) : -20 / đơn vị SubsidenceScore
+        //   - Cây trồng chết   : -10
+        //
+        // Điểm = Máy bơm × 10 + Cây sống × 10 + Mặn diệt × 15
+        //      - (SubsidenceScore × 20 + Cây chết × 10)
+        // =====================================================================
+        const int POINT_PER_PUMP        = 10;
+        const int POINT_PER_LIVE_TREE   = 10;
+        const int POINT_PER_ENEMY       = 15;
+        const int PENALTY_PER_SUBSIDE   = 20;  // mỗi đơn vị SubsidenceScore = 1 lần khai thác quá mức
+        const int PENALTY_PER_DEAD_TREE = 10;
+
+        float positive = NumberPumper      * POINT_PER_PUMP
+                       + TreeBarrierAlive  * POINT_PER_LIVE_TREE
+                       + TotalNeutralWater * POINT_PER_ENEMY;
+
+        float negative = SubsidenceScore   * PENALTY_PER_SUBSIDE
+                       + TreeBarrierDead   * PENALTY_PER_DEAD_TREE;
+
+        ScoreGame = Mathf.Round(positive - negative);
+    }
+
+    /// <summary>
+    /// Quét toàn scène và đếm cây rừng (TreeBarrier) còn sống / đã chết.
+    /// Gọi trong computeScore(); có thể gọi bất kỳ lúc nào nếu cần lấy số liệu real-time.
+    /// </summary>
+    public void CountTreeBarriers()
+    {
+        // FindObjectsOfType chỉ trả về object active. Cây đã destroy sẽ không còn,
+        // nên dùng counter tích lũy trong TreeBarrier nếu cần; ở đây dựa vào IsDead().
+        TreeBarrier[] all = FindObjectsOfType<TreeBarrier>(true);
+        int alive = 0, dead = 0;
+        for (int i = 0; i < all.Length; i++)
+        {
+            if (all[i] == null) continue;
+            if (all[i].IsDead()) dead++; else alive++;
+        }
+        TreeBarrierAlive = alive;
+        TreeBarrierDead  = dead;
+        TreeBarrierTotal = alive + dead;
+    }
+
+    /// <summary>
+    /// Tìm và bind text vào các TMP child trong panel kết thúc (Final_Win_English ...).
+    /// Tự động dò theo tên — không cần kéo thả trong Inspector.
+    /// Mapping (theo screenshot Final_Win_English):
+    ///   "Text (TMP)- Living Tree Number"  -> số cây rừng còn sống (LiveTreeNumber)
+    ///   "Text (TMP)- Dead Trees Number"   -> số cây đã chết (DeadTreeNumber)
+    ///   "Text (TMP)- Pump Number"         -> số máy bơm đặt (NumberPumper)
+    ///   "Text (TMP)- WaterGate Number"    -> số enemy bị PFB_Gate_G2 chặn
+    ///   "Text (TMP)- Enemies Number"      -> số enemy bị diệt (TotalNeutralWater)
+    ///   "SCORE (TMP)"                     -> điểm tổng (ScoreGame)
+    /// </summary>
+    private void BindFinalPanelTexts(GameObject panel)
+    {
+        if (panel == null) return;
+
+        // Living / Dead trong panel kết thúc hiển thị theo TreeBarrier (cây rừng trồng),
+        // đúng theo kịch bản tính điểm Level 2.
+        SetTMPText(panel, "Text (TMP)- Living Tree Number", TreeBarrierAlive.ToString());
+        SetTMPText(panel, "Text (TMP)- Dead Trees Number",  TreeBarrierDead.ToString());
+        SetTMPText(panel, "Text (TMP)- Pump Number",        NumberPumper.ToString());
+        SetTMPText(panel, "Text (TMP)- WaterGate Number",   WaterGateBlockedNumber.ToString());
+        SetTMPText(panel, "Text (TMP)- Enemies Number",     TotalNeutralWater.ToString());
+        SetTMPText(panel, "SCORE (TMP)",                    ScoreGame.ToString());
+    }
+
+    private static void SetTMPText(GameObject root, string childName, string value)
+    {
+        Transform t = FindChildRecursiveByName(root.transform, childName);
+        if (t == null) return;
+        var tmp = t.GetComponent<TextMeshProUGUI>();
+        if (tmp != null) tmp.text = value;
+    }
+
+    private static Transform FindChildRecursiveByName(Transform parent, string name)
+    {
+        if (parent.name == name) return parent;
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform found = FindChildRecursiveByName(parent.GetChild(i), name);
+            if (found != null) return found;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Tìm panel theo tên trong scene (kể cả khi đang inactive) và tắt đi.
+    /// Dùng để chắc chắn chỉ Final_Win_English hiển thị khi kết thúc.
+    /// </summary>
+    private static void DeactivateSiblingPanel(string panelName)
+    {
+        // Resources.FindObjectsOfTypeAll bao gồm cả object inactive.
+        var all = Resources.FindObjectsOfTypeAll<Transform>();
+        foreach (var t in all)
+        {
+            if (t == null) continue;
+            if (t.name != panelName) continue;
+            // Bỏ qua prefab assets (không thuộc scene).
+            if (t.gameObject.scene.IsValid() == false) continue;
+            t.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -143,11 +259,22 @@ public class GameUI : MonoBehaviour
             // Debug.Log("SubsidenceScore:"+ SubsidenceScore);
             // Debug.Log("ScoreGame:"+ ScoreGame);
             // Son : update menu win and lose 
-            if (LiveTreeNumber > 0 && SubsidenceScore < 1.25f) //  GAMA < 2.75f          (DeadTreeNumber/LiveTreeNumber) < (0.4)
+            // Win/Lose dựa trên điểm: > 0 = thắng, ≤ 0 = thua.
+
+            // Bảo đảm các panel kết thúc khác bị tắt — chỉ Final_Win_English hiển thị.
+            DeactivateSiblingPanel("Final_Win_Vietnamese");
+            DeactivateSiblingPanel("Final_Lose_Vietnamese");
+            DeactivateSiblingPanel("Final_Lose_English");
+
+            if (ScoreGame > 0f)
             {
                 finalContent_Win.SetActive(true);
             }
             else finalContent_Lose.SetActive(true);
+
+            Debug.Log($"[GameUI] Game ended. Score={ScoreGame}. " +
+                      $"WinPanel.active={finalContent_Win.activeSelf} " +
+                      $"LosePanel.active={finalContent_Lose.activeSelf}");
 
             
 
@@ -188,19 +315,25 @@ public class GameUI : MonoBehaviour
 
 
 
-            // Son: Update Win and Lose
-             
-            win_reportLivingTreesNumber.text = "" + LiveTreeNumber;
-            win_reportDeadTreesNumber.text = "" + DeadTreeNumber;
-            win_reportPumpNumber.text = "" + NumberPumper;
-            win_reportEnemiesNumber.text = "" + TotalNeutralWater;
-            win_reportSubsidenceScore.text = "" + ScoreGame;
+            // Son: Update Win and Lose — bind text bằng tên TMP children trong panel đang hiện.
+            // Tránh phụ thuộc vào reference Inspector cũ (vốn trỏ vào panel Vietnamese).
+            GameObject activePanel = (ScoreGame > 0f) ? finalContent_Win : finalContent_Lose;
+            BindFinalPanelTexts(activePanel);
 
-            lose_reportLivingTreesNumber.text = "" + LiveTreeNumber;
-            lose_reportDeadTreesNumber.text = "" + DeadTreeNumber;
-            lose_reportPumpNumber.text = "" + NumberPumper;
-            lose_reportEnemiesNumber.text = "" + TotalNeutralWater;
-            lose_reportSubsidenceScore.text = "" + ScoreGame;
+            // Vẫn cập nhật các serialized ref cũ (nếu user còn liên kết) để không phá vỡ.
+            if (win_reportLivingTreesNumber != null) win_reportLivingTreesNumber.text = "" + LiveTreeNumber;
+            if (win_reportDeadTreesNumber != null) win_reportDeadTreesNumber.text = "" + DeadTreeNumber;
+            if (win_reportPumpNumber != null) win_reportPumpNumber.text = "" + NumberPumper;
+            if (win_reportWaterGateNumber != null) win_reportWaterGateNumber.text = "" + WaterGateBlockedNumber;
+            if (win_reportEnemiesNumber != null) win_reportEnemiesNumber.text = "" + TotalNeutralWater;
+            if (win_reportSubsidenceScore != null) win_reportSubsidenceScore.text = "" + ScoreGame;
+
+            if (lose_reportLivingTreesNumber != null) lose_reportLivingTreesNumber.text = "" + LiveTreeNumber;
+            if (lose_reportDeadTreesNumber != null) lose_reportDeadTreesNumber.text = "" + DeadTreeNumber;
+            if (lose_reportPumpNumber != null) lose_reportPumpNumber.text = "" + NumberPumper;
+            if (lose_reportWaterGateNumber != null) lose_reportWaterGateNumber.text = "" + WaterGateBlockedNumber;
+            if (lose_reportEnemiesNumber != null) lose_reportEnemiesNumber.text = "" + TotalNeutralWater;
+            if (lose_reportSubsidenceScore != null) lose_reportSubsidenceScore.text = "" + ScoreGame;
 
         }
 
