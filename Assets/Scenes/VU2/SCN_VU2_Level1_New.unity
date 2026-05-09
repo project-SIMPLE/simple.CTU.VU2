@@ -71948,6 +71948,7 @@ MonoBehaviour:
   wayPoints:
   - {fileID: 390364812}
   - {fileID: 2035436857}
+  spawnCount: 5
 --- !u!1 &216985733
 GameObject:
   m_ObjectHideFlags: 0
@@ -78560,6 +78561,7 @@ MonoBehaviour:
   wayPoints:
   - {fileID: 231241481}
   - {fileID: 1067068510}
+  spawnCount: 5
 --- !u!1 &234351099
 GameObject:
   m_ObjectHideFlags: 0
@@ -215881,6 +215883,9 @@ MonoBehaviour:
   carryLocalEuler: {x: 0, y: 0, z: 0}
   playerOriginOverride: {fileID: 0}
   carryGraceTime: 0.4
+  carryPreviewValidMaterial: {fileID: 0}
+  carryPreviewInvalidMaterial: {fileID: 0}
+  carryPreviewScale: 0.33333334
 --- !u!4 &781295967
 Transform:
   m_ObjectHideFlags: 0
@@ -313939,6 +313944,7 @@ MonoBehaviour:
   - {fileID: 1218825960}
   - {fileID: 2090944479}
   - {fileID: 393343878}
+  spawnCount: 5
 --- !u!4 &1083026534
 Transform:
   m_ObjectHideFlags: 0
@@ -314782,6 +314788,7 @@ MonoBehaviour:
   wayPoints:
   - {fileID: 2090944479}
   - {fileID: 393343878}
+  spawnCount: 5
 --- !u!1 &1088889635
 GameObject:
   m_ObjectHideFlags: 0
@@ -406629,6 +406636,19 @@ MonoBehaviour:
   waterRiseSpeed: 0.03
   waterHeight: 1
   waterLevelRatio: 0.05
+  waterSurfaceOverride: {fileID: 0}
+  waterSurfaceChildName: SF_Water
+  autoEnableOnFlood: 0
+  rainyWaterY: 0
+  dryWaterY: -1
+  seasonSmoothing: 1
+  subsidenceMaxY: 0.5
+  enableTide: 1
+  tideAmplitude: 0.2
+  tideCyclesPerOrbit: 2
+  tidePhaseOffset: 0
+  tideSmoothing: 0
+  subsidenceRiseSpeed: 0.05
   rotationModifier: {x: 1, y: 1, z: 1}
 --- !u!4 &1499863373
 Transform:
@@ -408641,11 +408661,13 @@ MonoBehaviour:
   win_reportLivingTreesNumber: {fileID: 510352294}
   win_reportDeadTreesNumber: {fileID: 1723154459}
   win_reportPumpNumber: {fileID: 870834382}
+  win_reportWaterGateNumber: {fileID: 0}
   win_reportEnemiesNumber: {fileID: 1607193308}
   win_reportSubsidenceScore: {fileID: 455893321}
   lose_reportLivingTreesNumber: {fileID: 772759835}
   lose_reportDeadTreesNumber: {fileID: 244078983}
   lose_reportPumpNumber: {fileID: 570207222}
+  lose_reportWaterGateNumber: {fileID: 0}
   lose_reportEnemiesNumber: {fileID: 1091474177}
   lose_reportSubsidenceScore: {fileID: 162865880}
   endDone: 0
@@ -408656,6 +408678,10 @@ MonoBehaviour:
   NumberPumper: 0
   TotalNeutralWater: 0
   TotalMiningWater: 0
+  WaterGateBlockedNumber: 0
+  TreeBarrierAlive: 0
+  TreeBarrierDead: 0
+  TreeBarrierTotal: 0
   ScoreGame: 0
   GamaCRSCoefX: 1
   GamaCRSCoefY: 1
@@ -457200,6 +457226,18 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
+  cancelBuildAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9dafa79c-5273-4d5c-b99e-c2cfd21db976
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
 --- !u!1001 &1701406757
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -467445,6 +467483,7 @@ MonoBehaviour:
   - {fileID: 390364812}
   - {fileID: 2035436857}
   - {fileID: 1517459185}
+  spawnCount: 5
 --- !u!1001 &1746799383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -467726,6 +467765,7 @@ MonoBehaviour:
   - {fileID: 390364812}
   - {fileID: 2035436857}
   - {fileID: 1517459185}
+  spawnCount: 5
 --- !u!1001 &1754148776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -568732,7 +568772,7 @@ RectTransform:
   m_GameObject: {fileID: 4015128327392802361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
   m_LocalPosition: {x: 0, y: 0, z: 0.71}
-  m_LocalScale: {x: 0.0020000006, y: 0.002, z: 0.0020000006}
+  m_LocalScale: {x: 0.0015, y: 0.0015, z: 0.0015}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8180815008940771538}
@@ -568740,7 +568780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.44, y: 0.54}
+  m_AnchoredPosition: {x: 1.5, y: 0.54}
   m_SizeDelta: {x: 1000, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4015128327392802366

@@ -16,6 +16,11 @@ public class InputManager : MonoBehaviour
     public InputActionProperty buildActive;
     public GameObject buildRay;
     public InputActionProperty buildAction;
+    [Tooltip("Cò trái (Left Trigger) — bóp để HOÀN TÁC/HUỶ thao tác xây dựng đang diễn ra (trồng cây, đặt máy bơm, cổng...).")]
+    public InputActionProperty cancelBuildAction;
+
+    // Edge-detect cho cancel để 1 lần bóp = 1 lần huỷ (tránh huỷ liên tục khi giữ).
+    private bool cancelHeldLastFrame = false;
 
     void Update()
     {
@@ -33,7 +38,21 @@ public class InputManager : MonoBehaviour
             }
             
         }
-        
+
+        // Cò trái (Left Trigger) → huỷ thao tác xây/trồng đang diễn ra.
+        // Phát hiện sườn lên (press) để tránh gọi CancelBuilding nhiều lần khi giữ.
+        bool cancelHeldNow = cancelBuildAction.action != null
+            && cancelBuildAction.action.ReadValue<float>() >= 0.5f;
+        if (cancelHeldNow && !cancelHeldLastFrame)
+        {
+            if (buildManager.IsBuilding)
+            {
+                buildManager.CancelBuilding();
+                Debug.Log("[InputManager] Cancel build by Left Trigger.");
+            }
+        }
+        cancelHeldLastFrame = cancelHeldNow;
+
         bool shouldShowBuildRay = buildManager.IsBuilding;
         buildRay.SetActive(shouldShowBuildRay);
 

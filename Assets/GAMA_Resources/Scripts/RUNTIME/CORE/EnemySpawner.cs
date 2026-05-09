@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     // EN: Total number of enemies this spawner will create before stopping.
     // VI: Tổng số enemy spawner này tạo ra trước khi dừng.
     // *** TIP: Tăng giá trị mặc định này để spawn nhiều enemy hơn nếu không dùng StartAutoSpawn. ***
-    private int spawnCount = 10;
+    public int spawnCount = 5;
 
     // EN: Minimum number of enemies to spawn (lower bound guard).
     // VI: Số enemy tối thiểu (giới hạn dưới, tránh về 0).

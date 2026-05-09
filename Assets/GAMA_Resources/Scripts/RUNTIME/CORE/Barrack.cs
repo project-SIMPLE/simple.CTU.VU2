@@ -36,7 +36,12 @@ public class Barrack : MonoBehaviour, ISpawner, IDamageable
 
     [Header("Stats")]
     [SerializeField] private bool freeSpawn;     // If true, spawning costs no HP / Nếu true, spawn không tốn máu
-    [SerializeField] private int health;         // Total HP / Tổng máu
+    // EN: Starting water amount (HP). Default 2 — player must refill via grab.
+    // VI: Lượng nước (HP) khởi điểm. Mặc định 2 — người chơi phải nạp thêm bằng grab.
+    [SerializeField] private int health = 2;     // Starting / Current HP / Máu khởi điểm
+    // EN: Maximum water capacity. Refill cannot exceed this value.
+    // VI: Dung tích nước tối đa. Nạp thêm không vượt quá giá trị này.
+    [SerializeField] private int maxHealth = 20;
 
     [SerializeField] private float spawnRate;        // Seconds between spawns / Giây giữa các lần spawn
     [SerializeField] private GameObject spawnPrefab; // FreshWater prefab to spawn / Prefab Nước Ngọt để spawn
@@ -69,6 +74,12 @@ public class Barrack : MonoBehaviour, ISpawner, IDamageable
     {
         get { return currentHealh; }
     }
+    // EN: Water capacity ceiling exposed for UI / refill scripts.
+    // VI: Trần dung tích nước, mở ra cho UI / script nạp nước.
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+    }
     public string SpawnName
     {
         get { return spawnPrefab.name; }
@@ -92,6 +103,11 @@ public class Barrack : MonoBehaviour, ISpawner, IDamageable
     /// </summary>
     void Start()
     {
+        // Clamp starting health to [0, maxHealth] so prefab cannot start above capacity.
+        // Giới hạn máu khởi điểm trong [0, maxHealth] để prefab không vượt dung tích.
+        if (maxHealth < 1) maxHealth = 1;
+        if (health > maxHealth) health = maxHealth;
+        if (health < 0) health = 0;
         currentHealh = health;
 
         // Find GameManager (may be absent in test scenes).
@@ -210,6 +226,28 @@ public class Barrack : MonoBehaviour, ISpawner, IDamageable
     public bool IsDead()
     {
         return currentHealh <= 0;
+    }
+
+    // =========================================================================
+    // REFILL — Player grabs the pump (like shrimp grab) to add water back.
+    // NẠP NƯỚC — Người chơi grab máy bơm (giống grab tôm) để bơm thêm nước.
+    // =========================================================================
+
+    /// <summary>
+    /// EN: Add <paramref name="amount"/> water (HP) capped at <see cref="MaxHealth"/>.
+    ///     Returns the amount actually added (0 if already full or pump destroyed).
+    /// VI: Cộng <paramref name="amount"/> nước (HP), không vượt quá <see cref="MaxHealth"/>.
+    ///     Trả về lượng thực sự đã cộng (0 nếu đã đầy hoặc máy bơm đã bị phá huỷ).
+    /// </summary>
+    public int Refill(int amount)
+    {
+        if (amount <= 0) return 0;
+        if (IsDead()) return 0; // Không nạp lại được khi máy bơm đã bị phá huỷ.
+        if (currentHealh >= maxHealth) return 0;
+
+        int before = currentHealh;
+        currentHealh = Mathf.Min(maxHealth, currentHealh + amount);
+        return currentHealh - before;
     }
 
     // =========================================================================
