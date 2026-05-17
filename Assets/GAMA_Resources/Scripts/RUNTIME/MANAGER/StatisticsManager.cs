@@ -37,6 +37,12 @@ public class StatisticsManager : MonoBehaviour
     private int currentSluiceGateCount = 0;
     private int currentTreeBarrierCount = 0;
     private int currentEnemyCount = 0;
+    // Số enemy mặn đã xâm nhập tới cuối tuyến (không bị diệt, không bị chặn).
+    // Number of saltwater enemies that reached the end of their path (breached inland).
+    private int currentEnemyBreachedCount = 0;
+    // Số cây ăn quả/lương thực chết (Tree.cs, David_DurianTree, David_Rice...).
+    // Number of fruit/crop trees that died (excluding planted TreeBarrier forest trees).
+    private int currentFruitTreeDeathCount = 0;
     
     [HideInInspector] public List<ActionHistory> histories;
 
@@ -72,6 +78,20 @@ public class StatisticsManager : MonoBehaviour
     public void IncreaseEnemyKillCount()
     {
         currentEnemyCount += 1;
+    }
+
+    // Gọi khi 1 enemy mặn đi hết tuyến waypoint mà chưa bị diệt → coi như xâm nhập nội đồng.
+    // Called when an enemy reaches the end of its waypoint path without being killed.
+    public void IncreaseEnemyBreachedCount()
+    {
+        currentEnemyBreachedCount += 1;
+    }
+
+    // Gọi khi 1 cây ăn quả/lương thực (Tree.cs, David_DurianTree, David_Rice...) chết.
+    // Called when a fruit/crop tree dies.
+    public void IncreaseFruitTreeDeathCount()
+    {
+        currentFruitTreeDeathCount += 1;
     }
 
     public void AddActionHistory(string action, string construction, Vector2 position)
@@ -113,5 +133,17 @@ public class StatisticsManager : MonoBehaviour
     public int EnemyKillCount
     { 
         get { return currentEnemyCount; } 
+    }
+
+    // Số enemy xâm nhập nội đồng (đi hết tuyến mà chưa bị diệt).
+    public int EnemyBreachedCount
+    {
+        get { return currentEnemyBreachedCount; }
+    }
+
+    // Số cây ăn quả / lương thực đã chết.
+    public int FruitTreeDeathCount
+    {
+        get { return currentFruitTreeDeathCount; }
     }
 }

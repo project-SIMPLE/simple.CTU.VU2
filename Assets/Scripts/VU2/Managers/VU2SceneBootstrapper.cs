@@ -37,7 +37,7 @@ public class VU2SceneBootstrapper : MonoBehaviour
 
     [Tooltip("Number of enemy spawners to create.\n"
            + "Số lượng spawner cần tạo.")]
-    public int spawnerCount = 3;
+    public int spawnerCount = 2;
 
     [Tooltip("Number of waypoints per spawner path.\n"
            + "Số waypoint mỗi đường đi của spawner.")]
@@ -45,11 +45,24 @@ public class VU2SceneBootstrapper : MonoBehaviour
 
     [Tooltip("Spawn interval in seconds.\n" 
            + "Khoảng cách sinh quái (giây).")]
-    public float spawnRate = 3f;
+    public float spawnRate = 6f;
 
     [Tooltip("Delay before first spawn wave (seconds).\n"
            + "Delay trước khi wave đầu tiên spawn (giây).")]
-    public float firstSpawnDelay = 10f;
+    public float firstSpawnDelay = 15f;
+
+    [Header("Wave Settings / Cài đặt đợt quái")]
+    [Tooltip("Số quái mỗi wave (đợt đầu và mặc định).\nEnemies per wave (initial + default).")]
+    public int enemiesPerWave = 2;
+
+    [Tooltip("Số quái mỗi wave khi độ mặn cao (>=0.5).\nEnemies per wave at high salinity.")]
+    public int enemiesPerWaveHighSalinity = 4;
+
+    [Tooltip("Số quái mỗi wave khi độ mặn cực đại (>=1.0).\nEnemies per wave at maximum salinity.")]
+    public int enemiesPerWaveMaxSalinity = 6;
+
+    [Tooltip("Khoảng thời gian giữa các wave (giây).\nSeconds between waves.")]
+    public float waveInterval = 60f;
 
     [Header("Spawn Positions / Vị trí spawn")]
     [Tooltip("Spawn positions. Auto-detected from water objects if empty.\n"
@@ -534,7 +547,7 @@ public class VU2SceneBootstrapper : MonoBehaviour
         {
             if (spawner != null)
             {
-                spawner.ReStartAutoSpawn(5); // Spawn 5 enemies per wave
+                spawner.ReStartAutoSpawn(enemiesPerWave);
             }
         }
 
@@ -542,7 +555,7 @@ public class VU2SceneBootstrapper : MonoBehaviour
         // Spawn lặp lại theo chu kỳ triều.
         while (true)
         {
-            yield return new WaitForSeconds(30f); // Re-spawn every 30s (1 tidal cycle)
+            yield return new WaitForSeconds(waveInterval);
 
             if (!GameRulesProvider.IsPlaying) break;
             if (!GameRulesProvider.GameActive) break;
@@ -551,11 +564,9 @@ public class VU2SceneBootstrapper : MonoBehaviour
             {
                 if (spawner != null)
                 {
-                    int amount = 5;
-                    // Increase amount during high salinity.
-                    // Tăng số lượng khi độ mặn cao.
-                    if (GameRulesProvider.Saltwater_Intrusion >= 0.5f) amount = 8;
-                    if (GameRulesProvider.Saltwater_Intrusion >= 1.0f) amount = 12;
+                    int amount = enemiesPerWave;
+                    if (GameRulesProvider.Saltwater_Intrusion >= 0.5f) amount = enemiesPerWaveHighSalinity;
+                    if (GameRulesProvider.Saltwater_Intrusion >= 1.0f) amount = enemiesPerWaveMaxSalinity;
 
                     spawner.ReStartAutoSpawn(amount);
                     Debug.Log($"[VU2Bootstrapper] Re-spawning wave (salinity={GameRulesProvider.Saltwater_Intrusion:F1}, amount={amount})");

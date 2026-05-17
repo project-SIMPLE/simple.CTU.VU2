@@ -15,7 +15,17 @@ public class GhostConstruction : MonoBehaviour
 
 
     private bool buildable;
-    private bool collide = false;
+    // EN: Set of obstacle colliders currently overlapping the ghost trigger.
+    //     Using a HashSet (instead of a single bool) prevents flicker when
+    //     multiple obstacles enter/exit at different frames — the original
+    //     `collide` boolean would be wrongly cleared by ANY OnTriggerExit
+    //     even when other obstacles were still inside.
+    // VI: Tập các collider chướng ngại đang chồng lên trigger ghost.
+    //     Dùng HashSet (thay vì 1 boolean) tránh nhấp nháy khi nhiều vật cùng
+    //     vào/ra ở các frame khác nhau — biến `collide` cũ sẽ bị reset sai
+    //     bởi MỘT OnTriggerExit dù các vật khác vẫn còn bên trong.
+    private readonly HashSet<Collider> _overlappingObstacles = new HashSet<Collider>();
+    private bool collide => _overlappingObstacles.Count > 0;
 
     // Getter
     public bool IsBuildable {
@@ -39,25 +49,36 @@ public class GhostConstruction : MonoBehaviour
 
     void Awake()
     {
-        collide = false;
+        _overlappingObstacles.Clear();
+    }
+
+    private bool IsObstacleLayer(int layer)
+    {
+        return collideLayerMask == (collideLayerMask | (1 << layer));
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (collideLayerMask == (collideLayerMask | (1 << other.gameObject.layer)))
-            collide = true;           
+        if (IsObstacleLayer(other.gameObject.layer))
+            _overlappingObstacles.Add(other);
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (collideLayerMask == (collideLayerMask | (1 << other.gameObject.layer)))
-            collide = true;           
+        if (IsObstacleLayer(other.gameObject.layer))
+            _overlappingObstacles.Add(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (collideLayerMask == (collideLayerMask | (1 << other.gameObject.layer)))
-            collide = false;
+        if (IsObstacleLayer(other.gameObject.layer))
+            _overlappingObstacles.Remove(other);
+    }
+
+    void OnDisable()
+    {
+        // Reset state khi ghost bị tắt/destroy để tránh giữ tham chiếu cũ.
+        _overlappingObstacles.Clear();
     }
 
     private void UpdateConstructionValidity(){

@@ -15,10 +15,15 @@ public class Tree : MonoBehaviour, IDamageable
     */
 
     [Header("Stats")]
-    // [SerializeField] private int health = 2;
+    [Tooltip("Máu khởi tạo của cây. Mặc định 200.\nInitial HP per tree.")]
+    [SerializeField] private int initialHealth = 200;
 
     // runtime privates
-    public static int currentHealh;
+    // FIX (VU2): chuyển từ `static` → instance để mỗi cây có HP riêng.
+    // Trước đây static khiến TẤT CẢ cây chia sẻ chung 1 thanh máu —
+    // Enemy đánh 1 cây thì cả vườn cùng héo/chết → bug "tác động độ mặn game 1".
+    // FIX (VU2): changed from static to instance so each tree has its own HP.
+    private int currentHealh;
     public Animator anim;
     AnimatorStateInfo stateInfo;
     public TextMeshProUGUI hp;
@@ -42,7 +47,7 @@ public class Tree : MonoBehaviour, IDamageable
     void Start()
     {
         //currentHealh = health;
-        currentHealh = 200;
+        currentHealh = initialHealth;
         anim = GetComponent<Animator>();
         stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         // Debug.Log("Tree_currentHealh"+ currentHealh);
@@ -216,6 +221,10 @@ public class Tree : MonoBehaviour, IDamageable
         {     
             GameUI.Instance.CountDeadTree(); 
         }
+        // Thống kê: cây ăn quả/lương thực chết (PFB_Rice, PFB_Coconut, PFB_Banana, PFB_Orange...).
+        // Statistics: a fruit/crop tree died.
+        if (StatisticsManager.Instance != null)
+            StatisticsManager.Instance.IncreaseFruitTreeDeathCount();
         Destroy(gameObject);
     }
 

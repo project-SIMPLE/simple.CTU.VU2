@@ -20,4 +20,4 @@ MonoBehaviour:
   description: "Nh\u1EA5n n\xFAt c\xF2 \u0111\u1EC3 ch\u1ECDn\nSau \u0111\xF3 ch\u1ECDn
     v\xED tr\xED tr\xEAn b\u1EDD s\xF4ng"
   maxQuantity: 10
-  cooldownTime: 0
+  cooldownTime: 10

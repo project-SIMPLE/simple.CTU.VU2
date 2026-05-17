@@ -302,6 +302,11 @@ public class David_TreeWiltController : MonoBehaviour, IDamageable
         Debug.Log($"[David_TreeWiltController] Die() called on '{gameObject.name}' " +
                   $"(instanceID={gameObject.GetInstanceID()}, hp={_currentHealth})");
 
+        // Thống kê: 1 cây ăn quả (durian wilt controller) chết.
+        // Statistics: a fruit tree died.
+        if (StatisticsManager.Instance != null)
+            StatisticsManager.Instance.IncreaseFruitTreeDeathCount();
+
         try
         {
             // EN: Remove HUD marker.

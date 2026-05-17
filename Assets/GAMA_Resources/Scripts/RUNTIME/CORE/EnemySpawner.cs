@@ -77,11 +77,16 @@ public class EnemySpawner : MonoBehaviour, ISpawner
     public void ReStartAutoSpawn(int amount)
     {
         CancelInvoke("Spawn");
-        spawnCount = spawnRate == 0 ? minSpawnCount : Mathf.Max(minSpawnCount,(int)(spawnRate*0.5));
-        // spawnCount=(int)spawnRate;
+        // Sửa: tôn trọng tham số `amount` từ caller (bootstrapper). Nếu amount<=0
+        // mới rơi về công thức cũ (spawnRate*0.5).
+        if (amount > 0)
+            spawnCount = Mathf.Max(minSpawnCount, amount);
+        else
+            spawnCount = spawnRate == 0 ? minSpawnCount : Mathf.Max(minSpawnCount, (int)(spawnRate * 0.5f));
         count = 0;
-        InvokeRepeating("Spawn", .1f, 0.5f);
-        Debug.Log("rate " + spawnRate+ " cnt "+spawnCount);
+        // Spawn từng con cách nhau theo spawnRate (không hải ra cuộn nhanh 0.5s/con).
+        InvokeRepeating("Spawn", 0.1f, Mathf.Max(0.1f, spawnRate));
+        Debug.Log("[EnemySpawner] rate " + spawnRate + " cnt " + spawnCount);
     }
 
     // EN: Starts spawning for the first time.

@@ -121,6 +121,9 @@ public class EnemyController : MonoBehaviour
         {
             if (currentWayPointIndex >= wayPoints.Count)
             {
+                // Reached final waypoint without being killed → enemy breached inland.
+                // Đến waypoint cuối mà chưa bị diệt → xâm nhập nội đồng.
+                ReportBreachOnce();
                 Destroy(this.gameObject, .1f);
             }
             else if (wayPoints[currentWayPointIndex] != null)
@@ -145,6 +148,9 @@ public class EnemyController : MonoBehaviour
 
         if (currentWayPointIndex >= wayPoints.Count)
         {
+            // Reached final waypoint without being killed → enemy breached inland.
+            // Đến waypoint cuối mà chưa bị diệt → xâm nhập nội đồng.
+            ReportBreachOnce();
             Destroy(this.gameObject, .1f);
             return;
         }
@@ -182,6 +188,20 @@ public class EnemyController : MonoBehaviour
         wayPointsSet = true;
         hasStartedMoving = false;
         currentWayPointIndex = 0;
+    }
+
+    // Cho phép báo cáo breach đúng 1 lần cho mỗi enemy (bảo vệ chống đếm trùng).
+    // Ensures breach is reported exactly once per enemy.
+    private bool _breachReported = false;
+    private void ReportBreachOnce()
+    {
+        if (_breachReported) return;
+        _breachReported = true;
+        // Chỉ tính nếu enemy vẫn sống (không bị Ally/công trình diệt).
+        // Only count if enemy is still alive (was not neutralized).
+        if (enemy != null && enemy.IsDead()) return;
+        if (StatisticsManager.Instance != null)
+            StatisticsManager.Instance.IncreaseEnemyBreachedCount();
     }
 
     /// <summary>

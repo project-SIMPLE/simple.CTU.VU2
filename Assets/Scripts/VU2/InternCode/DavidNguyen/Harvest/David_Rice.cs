@@ -523,11 +523,25 @@ public class David_Rice : MonoBehaviour, IDamageable
     /// </summary>
     public void Die()
     {
+        // Guard chống đếm trùng trong cùng 1 "vòng đời" trước khi FarmArea respawn.
+        // Guard against double-count within the same life before FarmArea respawns.
+        if (_deathReported) return;
+        _deathReported = true;
+
+        // Thống kê: 1 cây lúa chết.
+        // Statistics: a rice plant died.
+        if (StatisticsManager.Instance != null)
+            StatisticsManager.Instance.IncreaseFruitTreeDeathCount();
+
         // EN: Rice death = fallen state. No Destroy — FarmArea respawns it.
         // VI: Lúa chết = trạng thái ngã. Không Destroy — FarmArea respawn.
         ApplyFall();
         canHarvest = false;
     }
+
+    // Cờ reset khi FarmArea respawn (nếu cần có thể expose qua method ResetDeathFlag).
+    private bool _deathReported = false;
+    public void ResetDeathFlag() { _deathReported = false; }
 
     /// <summary>
     /// EN: Returns true when HP ≤ 0.

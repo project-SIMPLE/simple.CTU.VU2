@@ -81,6 +81,14 @@ public class GameUI : MonoBehaviour
     public int TreeBarrierDead  = 0;   // số cây rừng đã chết
     public int TreeBarrierTotal = 0;   // tổng cây rừng đã trồng (alive + dead)
 
+    // ==== Bổ sung chỉ số chấm điểm (yc người dùng) ====
+    // Số enemy mặn xâm nhập nội đồng (đi hết tuyến waypoint mà không bị diệt/chặn).
+    // Number of saltwater enemies that breached inland.
+    public int EnemiesBreached = 0;
+    // Số cây ăn quả / lương thực đã chết (lúa, sầu riêng, dừa, chuối, cam ...).
+    // Number of fruit/crop trees that died.
+    public int FruitTreeDead = 0;
+
     public float ScoreGame = 0;
 
     void Start()
@@ -99,6 +107,9 @@ public class GameUI : MonoBehaviour
         Instance = this;
         TotalTree = playerResourcesManager.TotalTree;
         GateBlockerZone.ResetCounter();   // reset bộ đếm enemy bị cổng chặn cho phiên chơi mới
+        // Reset 2 counter mới cho phiên chơi mới (EnemiesBreached & FruitTreeDead lưu trong StatisticsManager).
+        EnemiesBreached = 0;
+        FruitTreeDead   = 0;
 
         // Tắt TẤT CẢ panel kết thúc khi vào game — chỉ bật Final_Win_English khi game kết thúc.
         if (finalContent_Win  != null) finalContent_Win.SetActive(false);
@@ -127,6 +138,14 @@ public class GameUI : MonoBehaviour
         TotalMiningWater = 100 - subsidenceManager.RemainingWaterLevelLocal;
         WaterGateBlockedNumber = GateBlockerZone.TotalEnemiesBlocked;
 
+        // Lấy số enemy xâm nhập nội đồng & số cây ăn quả chết từ StatisticsManager.
+        // Read breached-enemy count & fruit-tree death count from StatisticsManager.
+        if (StatisticsManager.Instance != null)
+        {
+            EnemiesBreached = StatisticsManager.Instance.EnemyBreachedCount;
+            FruitTreeDead   = StatisticsManager.Instance.FruitTreeDeathCount;
+        }
+
         // Đếm RIÊNG TreeBarrier (cây rừng trồng) — tách khỏi LiveTree/DeadTree (đếm tất cả IDamageable).
         CountTreeBarriers();
 
@@ -139,22 +158,28 @@ public class GameUI : MonoBehaviour
         //   + Đặt 1 máy bơm    : +10
         //   - Sụt lún (khai nước quá mức) : -20 / đơn vị SubsidenceScore
         //   - Cây trồng chết   : -10
+        //   - Enemy xâm nhập nội đồng : -15
+        //   - Cây ăn quả chết  : -5
         //
         // Điểm = Máy bơm × 10 + Cây sống × 10 + Mặn diệt × 15
-        //      - (SubsidenceScore × 20 + Cây chết × 10)
+        //      - (SubsidenceScore × 20 + Cây rừng chết × 10 + Enemy xâm nhập × 15 + Cây ăn quả chết × 5)
         // =====================================================================
         const int POINT_PER_PUMP        = 10;
         const int POINT_PER_LIVE_TREE   = 10;
         const int POINT_PER_ENEMY       = 15;
         const int PENALTY_PER_SUBSIDE   = 20;  // mỗi đơn vị SubsidenceScore = 1 lần khai thác quá mức
         const int PENALTY_PER_DEAD_TREE = 10;
+        const int PENALTY_PER_BREACH    = 15;  // enemy lọt vào nội đồng
+        const int PENALTY_PER_FRUIT_DIE = 5;   // cây ăn quả chết
 
         float positive = NumberPumper      * POINT_PER_PUMP
                        + TreeBarrierAlive  * POINT_PER_LIVE_TREE
                        + TotalNeutralWater * POINT_PER_ENEMY;
 
         float negative = SubsidenceScore   * PENALTY_PER_SUBSIDE
-                       + TreeBarrierDead   * PENALTY_PER_DEAD_TREE;
+                       + TreeBarrierDead   * PENALTY_PER_DEAD_TREE
+                       + EnemiesBreached   * PENALTY_PER_BREACH
+                       + FruitTreeDead     * PENALTY_PER_FRUIT_DIE;
 
         ScoreGame = Mathf.Round(positive - negative);
     }
@@ -201,6 +226,11 @@ public class GameUI : MonoBehaviour
         SetTMPText(panel, "Text (TMP)- Pump Number",        NumberPumper.ToString());
         SetTMPText(panel, "Text (TMP)- WaterGate Number",   WaterGateBlockedNumber.ToString());
         SetTMPText(panel, "Text (TMP)- Enemies Number",     TotalNeutralWater.ToString());
+        // Mới: số enemy xâm nhập nội đồng + số cây rừng đã trồng + số cây ăn quả chết.
+        // New metrics: enemies breached inland, total planted trees, fruit trees dead.
+        SetTMPText(panel, "Text (TMP)- Breached Number",    EnemiesBreached.ToString());
+        SetTMPText(panel, "Text (TMP)- Planted Tree Number", TreeBarrierTotal.ToString());
+        SetTMPText(panel, "Text (TMP)- Fruit Tree Dead Number", FruitTreeDead.ToString());
         SetTMPText(panel, "SCORE (TMP)",                    ScoreGame.ToString());
     }
 
@@ -321,18 +351,18 @@ public class GameUI : MonoBehaviour
             BindFinalPanelTexts(activePanel);
 
             // Vẫn cập nhật các serialized ref cũ (nếu user còn liên kết) để không phá vỡ.
-            if (win_reportLivingTreesNumber != null) win_reportLivingTreesNumber.text = "" + LiveTreeNumber;
-            if (win_reportDeadTreesNumber != null) win_reportDeadTreesNumber.text = "" + DeadTreeNumber;
+            if (win_reportLivingTreesNumber != null) win_reportLivingTreesNumber.text = "" + TreeBarrierTotal;
+            if (win_reportDeadTreesNumber != null) win_reportDeadTreesNumber.text = "" + TreeBarrierDead;
             if (win_reportPumpNumber != null) win_reportPumpNumber.text = "" + NumberPumper;
             if (win_reportWaterGateNumber != null) win_reportWaterGateNumber.text = "" + WaterGateBlockedNumber;
-            if (win_reportEnemiesNumber != null) win_reportEnemiesNumber.text = "" + TotalNeutralWater;
+            if (win_reportEnemiesNumber != null) win_reportEnemiesNumber.text = "" + EnemiesBreached;
             if (win_reportSubsidenceScore != null) win_reportSubsidenceScore.text = "" + ScoreGame;
 
-            if (lose_reportLivingTreesNumber != null) lose_reportLivingTreesNumber.text = "" + LiveTreeNumber;
-            if (lose_reportDeadTreesNumber != null) lose_reportDeadTreesNumber.text = "" + DeadTreeNumber;
+            if (lose_reportLivingTreesNumber != null) lose_reportLivingTreesNumber.text = "" + TreeBarrierTotal;
+            if (lose_reportDeadTreesNumber != null) lose_reportDeadTreesNumber.text = "" + TreeBarrierDead;
             if (lose_reportPumpNumber != null) lose_reportPumpNumber.text = "" + NumberPumper;
             if (lose_reportWaterGateNumber != null) lose_reportWaterGateNumber.text = "" + WaterGateBlockedNumber;
-            if (lose_reportEnemiesNumber != null) lose_reportEnemiesNumber.text = "" + TotalNeutralWater;
+            if (lose_reportEnemiesNumber != null) lose_reportEnemiesNumber.text = "" + EnemiesBreached;
             if (lose_reportSubsidenceScore != null) lose_reportSubsidenceScore.text = "" + ScoreGame;
 
         }

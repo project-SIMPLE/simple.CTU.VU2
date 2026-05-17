@@ -1738,6 +1738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -1745,6 +1746,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &24825914
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2471,6 +2479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -2478,6 +2487,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &30406560
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3557,6 +3573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -3564,6 +3581,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &34962209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4545,6 +4569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -4552,6 +4577,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &48384768 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5849765080480587857, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -10465,6 +10497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -10472,6 +10505,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!224 &123228016 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4015128326712939851, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -11263,6 +11303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -11270,6 +11311,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &129712184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13727,6 +13775,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 615013728}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -14020,6 +14069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -14027,6 +14077,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &158649147
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15427,6 +15484,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1400608622}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -15697,6 +15755,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 1361627153}
@@ -15736,6 +15795,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 172129261}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -26882,6 +26943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -26889,6 +26951,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &281165609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27081,6 +27150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -27088,6 +27158,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &283197174
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -27576,6 +27653,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -27583,6 +27661,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &290482838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27943,6 +28028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -27950,6 +28036,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &294325111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44823,6 +44916,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1071587356}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -45753,6 +45847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -45760,6 +45855,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &357222087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48084,6 +48186,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2093222869}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -52408,6 +52511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -52415,6 +52519,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &435738521
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54599,6 +54710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -54606,6 +54718,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &448520976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55531,6 +55650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -55538,6 +55658,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &460026717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59674,6 +59801,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 425256548}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -60340,6 +60468,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 193966110}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -62791,6 +62920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -62798,6 +62928,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &537082894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62858,6 +62995,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 47129556}
@@ -62897,6 +63035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 541885868}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -63116,6 +63256,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 1717122143}
@@ -63155,6 +63296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 547122687}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -63395,10 +63538,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseScore: 10
+  riceIcon: {fileID: 0}
   canHarvest: 1
   ownerArea: {fileID: 348123982}
   riceVisual: {fileID: 0}
   harvestSound: {fileID: 0}
+  maxHealth: 10
+  wiltThresholdHP: 5
+  wiltScale: 0.6
+  wiltTiltAngle: 45
+  fallTiltAngle: 90
+  wiltTransitionSpeed: 2
+  wiltDamageColor: {r: 0.85, g: 0.75, b: 0.1, a: 1}
+  fallDamageColor: {r: 0.4, g: 0.25, b: 0.05, a: 1}
+  colorProperty: _BaseColor
+  tryCommonColorProps: 1
 --- !u!1001 &554304619
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64527,6 +64681,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1511998616}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -64775,6 +64930,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 517610664}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -68016,6 +68172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -68023,6 +68180,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &591188467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -69760,6 +69924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -69767,6 +69932,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &604692522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1962376703435983918, guid: fd28f23af44f73f4a95e33435872ad15,
@@ -69851,6 +70023,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1958852141}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -69949,6 +70122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -69956,6 +70130,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &609137201
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70856,6 +71037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -70863,6 +71045,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &611095151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71232,6 +71421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -71239,6 +71429,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &611624055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71472,6 +71669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 611624058}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -71514,6 +71713,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 123178841}
@@ -73216,6 +73416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -73223,6 +73424,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &626275463
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -73907,6 +74115,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 667458160}
@@ -73946,6 +74155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 643432994}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -75585,6 +75796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -75592,6 +75804,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &661412387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76158,6 +76377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -76165,6 +76385,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &668317785
 GameObject:
   m_ObjectHideFlags: 0
@@ -78680,6 +78907,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1251532286}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -79586,6 +79814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -79593,6 +79822,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &701284492
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -79935,6 +80171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -79942,6 +80179,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &707645736
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80719,6 +80963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -80726,6 +80971,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &709502528
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -82788,6 +83040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -82795,6 +83048,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1001 &725972288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83134,6 +83394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -83141,6 +83402,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &725972296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84952,6 +85220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -84959,6 +85228,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &734801126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87947,6 +88223,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 956128862}
@@ -87986,6 +88263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 761227380}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -88879,6 +89158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -88886,6 +89166,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &766603572
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -98708,6 +98995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -98715,6 +99003,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &829188754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123721,6 +124016,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 127750554}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -125849,6 +126145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -125856,6 +126153,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &951209439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -126331,6 +126635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -126338,6 +126643,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1001 &957899421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128055,6 +128367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -128062,6 +128375,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &975550831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129951,6 +130271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -129958,6 +130279,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &988523592
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132852,6 +133180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -132859,6 +133188,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1018310877
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -133318,6 +133654,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 1884887423}
@@ -133357,6 +133694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 1021324669}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -134507,6 +134846,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   content: {fileID: 1573405099}
   rowPrefab: {fileID: 1026360658}
+  tableFont: {fileID: 0}
+  bodyFontSize: 22
+  headerFontSize: 22
+  headerBgColor: {r: 0.15, g: 0.35, b: 0.65, a: 1}
+  headerTextColor: {r: 1, g: 1, b: 1, a: 1}
+  bodyTextColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  evenRowColor: {r: 0.92, g: 0.95, b: 1, a: 1}
+  oddRowColor: {r: 1, g: 1, b: 1, a: 1}
+  gridLineColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  dataRowHeight: 80
+  headerRowHeight: 45
 --- !u!114 &1032823387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134710,6 +135060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -134717,6 +135068,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &1033293748
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135979,6 +136337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -135986,6 +136345,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &1048607089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1004097911450439917, guid: 56686f82f64b0af4688a89676403a500,
@@ -138123,6 +138489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -138130,6 +138497,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &1076044012
 GameObject:
   m_ObjectHideFlags: 0
@@ -141703,6 +142077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -141710,6 +142085,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1128700359
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -156770,6 +157152,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 1046874197}
@@ -156809,6 +157192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 1187784278}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -158572,6 +158957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -158579,6 +158965,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1190865812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158975,6 +159368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -158982,6 +159376,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1191447845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163983,6 +164384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -163990,6 +164392,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &1246123366
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -168191,6 +168600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -168198,6 +168608,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1284209682
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169978,6 +170395,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 604657541}
@@ -170017,6 +170435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 1300167787}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -170350,6 +170770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -170357,6 +170778,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1305575145
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -170657,6 +171085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -170664,6 +171093,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1307374136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171573,6 +172009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -171580,6 +172017,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1323581993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171820,6 +172264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -171827,6 +172272,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1324336714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172543,6 +172995,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1085519446}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -175625,6 +176078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -175632,6 +176086,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &1362741553
 GameObject:
   m_ObjectHideFlags: 0
@@ -175734,6 +176195,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 2019939132}
@@ -175773,6 +176235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 1362789061}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -181057,6 +181521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -181064,6 +181529,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1425091900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182128,6 +182600,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1940317955}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -182882,6 +183355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -182889,6 +183363,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1434479528
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -183896,6 +184377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b3a0e966c084b04b9f96fda92880681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionMode: 1
   knockCooldown: 30
   minFallDelay: 0.3
   maxFallDelay: 0.8
@@ -183911,8 +184393,6 @@ MonoBehaviour:
   knockZoneCollider: {fileID: 0}
   testKnockKey: 101
   enableKeyboardTesting: 1
-  enableXRKnock: 1
-  handTag: Hand
 --- !u!1001 &1440129304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185903,6 +186383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -185910,6 +186391,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1462773315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186436,6 +186924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -186443,6 +186932,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &1468412422
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -186547,6 +187043,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2046061857}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -189795,6 +190292,7 @@ MonoBehaviour:
   StartMenu: {fileID: 1228729654}
   ResultMenu: {fileID: 1239591041}
   ResultDetailsScore: {fileID: 1671029278}
+  InteractiveObjects: {fileID: 0}
   UIForVR: {fileID: 1289821708}
   NPC_Talk: {fileID: 1302545582}
   Skybox_Rain: {fileID: 2100000, guid: c1c961cbd00909b45b34d97fd7df5cbf, type: 2}
@@ -190212,6 +190710,8 @@ MonoBehaviour:
   outsideSalinityFill: {fileID: 0}
   seasonLabel: {fileID: 0}
   timeLabel: {fileID: 906054598}
+  timeSlider: {fileID: 0}
+  timeFill: {fileID: 0}
   rainyColor: {r: 0.2, g: 0.6, b: 1, a: 1}
   dryColor: {r: 1, g: 0.6, b: 0.2, a: 1}
   transitionDuration: 10
@@ -199376,6 +199876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -199383,6 +199884,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1619308564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -213128,6 +213636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -213135,6 +213644,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1663768811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -213395,6 +213911,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 2095703763}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -214388,6 +214905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -214395,6 +214913,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1679768675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216116,6 +216641,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 239248855}
   rainySalinity: 2
+  midSalinity: 1
   drySalinity: 3
   useAreaSeasonalSalinity: 1
   waterType: 1
@@ -216245,6 +216771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -216252,6 +216779,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1697448679
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -223260,6 +223794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -223267,6 +223802,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1 &1718428920 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7294248288144746930, guid: ee0f723af4b4e684ea4dfdabe0e23dff,
@@ -226572,6 +227114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -226579,6 +227122,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1751931584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -227118,6 +227668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -227125,6 +227676,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1752775126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229802,6 +230360,7 @@ MonoBehaviour:
   riceRespawnTime: 30
   sickleSpawnSound: {fileID: 0}
   sickleDestroySound: {fileID: 0}
+  sickleDestroyDelay: 3
 --- !u!1 &1772359426
 GameObject:
   m_ObjectHideFlags: 0
@@ -231210,6 +231769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -231217,6 +231777,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1791303430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -232285,6 +232852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -232292,6 +232860,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1797847306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234125,6 +234700,7 @@ MonoBehaviour:
   jsonReader: {fileID: 1501849108}
   hud: {fileID: 1089442106}
   rainySalinity: 0.5
+  midSalinity: 1
   drySalinity: 1.5
   useAreaSeasonalSalinity: 1
   waterType: 0
@@ -236130,6 +236706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -236137,6 +236714,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1851877327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236576,6 +237160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -236583,6 +237168,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1856204939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247642,6 +248234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -247649,6 +248242,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1001 &1887706003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249855,6 +250455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -249862,6 +250463,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!65 &1911087684
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -251158,6 +251766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -251165,6 +251774,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &1923472669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -251442,6 +252058,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 725835609}
@@ -251481,6 +252098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 1930906398}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -257790,6 +258409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -257797,6 +258417,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &1988705318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259484,6 +260111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -259491,6 +260119,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!54 &2008031764
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -261782,6 +262417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 1
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -261789,6 +262425,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!1001 &2022747714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -271103,6 +271746,7 @@ MonoBehaviour:
   minDropInterval: 5
   maxDropInterval: 20
   onlyDropInRainySeason: 1
+  maxFruitsPerSeason: 1
   fallSound: {fileID: 0}
   durians:
   - {fileID: 1073353850}
@@ -271142,6 +271786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f4f4edf2d766f45838a26aa5dacbe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
+  wiltThreshold: 10
   treeAnimator: {fileID: 2127232014}
   animGood: Tree_Good
   animBad: Tree_Bad
@@ -271900,6 +272546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fruitType: 3
+  productIcon: {fileID: 0}
   ownerArea: {fileID: 0}
   bagTag: Bag
   destroyOnCollect: 1
@@ -271907,6 +272554,13 @@ MonoBehaviour:
   isOnTree: 0
   canCollect: 1
   dropSound: {fileID: 0}
+  grabOffset: {x: 0, y: -0.3, z: 0.3}
+  grabScale: 0.5
+  autoAdjustByFruitType: 1
+  durianHarvestDuration: 1.5
+  durianHapticAmplitude: 0.5
+  durianStruggleSpeed: 12
+  durianStruggleIntensity: 0.02
 --- !u!114 &2141313914
 MonoBehaviour:
   m_ObjectHideFlags: 0
