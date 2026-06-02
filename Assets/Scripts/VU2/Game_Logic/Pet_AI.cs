@@ -23,6 +23,15 @@ public class Pet_AI : MonoBehaviour
     // =========================================================================
     public Animator _animator;
 
+    [Header("Aquatic / Lội nước")]
+    [Tooltip("Nếu true, thú cưng sẽ tự động bám theo mặt nước (Tự động bật cho Tôm/Cá)")]
+    public bool isAquatic = false;
+    
+    [Tooltip("Độ sâu của tôm so với mặt nước (số dương = bơi chìm xuống bao nhiêu mét)")]
+    public float swimDepth = 0.15f;
+
+    [SerializeField] private Transform _waterSurface;
+
     // =========================================================================
     // MOVEMENT CONFIGURATION
     // =========================================================================
@@ -75,6 +84,29 @@ public class Pet_AI : MonoBehaviour
         walkCounter = walkTime;
         waitCounter = waitTime;
 
+        // Auto-detect aquatic animals by name (only Shrimp as requested)
+        string lowerName = gameObject.name.ToLower();
+        if (lowerName.Contains("shrimp") || lowerName.Contains("tom"))
+        {
+            isAquatic = true;
+            Debug.Log("[Pet_AI] Đã nhận diện TÔM: " + gameObject.name);
+        }
+
+        // Find water surface if aquatic
+        if (isAquatic)
+        {
+            var tideEffect = FindObjectOfType<TidalWaterEffect>();
+            if (tideEffect != null && tideEffect.waterSurface != null)
+            {
+                _waterSurface = tideEffect.waterSurface;
+                Debug.Log("[Pet_AI] Đã tìm thấy mặt nước cho Tôm: " + _waterSurface.name);
+            }
+            else
+            {
+                Debug.LogWarning("[Pet_AI] LỖI: Tôm không tìm thấy TidalWaterEffect hoặc waterSurface!");
+            }
+        }
+
         ChooseDirection();
     }
 
@@ -83,6 +115,18 @@ public class Pet_AI : MonoBehaviour
     // =========================================================================
     private void Update()
     {
+        // Follow water surface height smoothly if aquatic
+        if (isAquatic && _waterSurface != null)
+        {
+            Vector3 pos = transform.position;
+            // Swim slightly below the surface (-swimDepth)
+            pos.y = Mathf.Lerp(pos.y, _waterSurface.position.y - swimDepth, Time.deltaTime * 2f);
+            transform.position = pos;
+            
+            // Update home Y so it doesn't try to swim to old depth
+            _homePosition.y = pos.y;
+        }
+
         if (isWalking)
         {
             walkCounter -= Time.deltaTime;
