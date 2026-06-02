@@ -15,6 +15,7 @@ using UnityEngine;
 // - Đi bộ ngẫu nhiên trong bán kính nhỏ từ vị trí bắt đầu
 // - Định kỳ quay về vị trí gốc
 // - Animation mổ thóc (ăn)
+// (Note: Optimized surface tracking for aquatic pets)
 // =============================================================================
 public class Pet_AI : MonoBehaviour
 {
