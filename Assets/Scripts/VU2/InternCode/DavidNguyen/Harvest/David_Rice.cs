@@ -99,35 +99,17 @@ public class David_Rice : MonoBehaviour, IDamageable
     //   Giai đoạn 1 (HP ≤ 50%): wiltDamageColor — vàng úa, còn sống
     //   Giai đoạn 2 (Phase 3 hoặc HP ≤ 0): fallDamageColor — nâu/chết
     // =========================================================================
-    [Header("Damage Color Effects / Màu khi nhận damage")]
-    [Tooltip(
-        "EN: Color applied when HP drops to 50% or below (yellowing)\n" +
-        "VI: Màu áp khi HP còn 50% hoặc ít hơn (vàng úa)")]
-    public Color wiltDamageColor = new Color(0.85f, 0.75f, 0.10f, 1f); // vàng úa
 
-    [Tooltip(
-        "EN: Color applied when Phase 3 begins OR HP reaches 0 (brown/dead)\n" +
-        "VI: Màu áp khi vào Giai đoạn 3 HOẶC HP = 0 (nâu/chết)")]
-    public Color fallDamageColor = new Color(0.40f, 0.25f, 0.05f, 1f); // nâu chết
-
-    [Tooltip(
-        "EN: Shader property name for color. URP/HDRP: _BaseColor | Built-in: _Color\n" +
-        "VI: Tên property shader cho màu.")]
-    public string colorProperty = "_BaseColor";
-    public bool tryCommonColorProps = true;
-
-    private static readonly string[] _fallbackColorProps =
-        { "_BaseColor", "_Color", "_Tint", "_TintColor" };
+    [Header("Material Variants / Biến thể Chất liệu (Thay Áo)")]
+    [Tooltip("Kéo Material lúa bình thường (màu xanh) vào đây")]
+    public Material normalMaterial;
+    
+    [Tooltip("Kéo Material lúa héo (màu nâu sẫm) vào đây")]
+    public Material wiltedMaterial;
 
     // Renderer cache for color changes
     // Cache renderer để đổi màu
     private Renderer[] _renderers;
-    private MaterialPropertyBlock _mpb;
-
-    // EN: Tracks which color stage is currently applied to avoid redundant GPU calls.
-    // VI: Theo dõi giai đoạn màu đang áp để tránh gọi GPU thừa.
-    private enum ColorStage { None, Wilt, Fall }
-    private ColorStage _colorStage = ColorStage.None;
 
     // State
     private bool _harvested = false;
@@ -161,10 +143,9 @@ public class David_Rice : MonoBehaviour, IDamageable
         _targetScale = _initialScale;
         _targetRotation = _initialRotation;
 
-        // EN: Cache all renderers and create shared MaterialPropertyBlock.
-        // VI: Cache tất cả renderer và tạo MaterialPropertyBlock dùng chung.
+        // EN: Cache all renderers
+        // VI: Cache tất cả renderer
         _renderers = GetComponentsInChildren<Renderer>(true);
-        _mpb = new MaterialPropertyBlock();
     }
 
     private void Start()
@@ -300,10 +281,12 @@ public class David_Rice : MonoBehaviour, IDamageable
         _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, wiltTiltAngle);
         _isTransitioning = true;
 
-        // EN: Apply yellowing color — only escalate, never downgrade from Fall.
-        // VI: Áp màu vàng úa — chỉ leo thang, không hạ từ Fall xuống Wilt.
-        if (_colorStage == ColorStage.None)
-            ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
+        // Thay Áo (Material Swap): Chuyển sang áo sẫm màu
+        if (wiltedMaterial != null && _renderers != null)
+        {
+            foreach (var r in _renderers)
+                if (r != null) r.sharedMaterial = wiltedMaterial;
+        }
     }
 
     /// <summary>
@@ -321,9 +304,12 @@ public class David_Rice : MonoBehaviour, IDamageable
         _targetRotation = _initialRotation * Quaternion.Euler(0f, 0f, fallTiltAngle);
         _isTransitioning = true;
 
-        // EN: Always apply dead color on fall regardless of previous stage.
-        // VI: Luôn áp màu nâu chết khi ngã, bất kể giai đoạn màu trước đó.
-        ApplyShaderColor(fallDamageColor, ColorStage.Fall);
+        // Thay Áo (Material Swap): Chuyển sang áo sẫm màu
+        if (wiltedMaterial != null && _renderers != null)
+        {
+            foreach (var r in _renderers)
+                if (r != null) r.sharedMaterial = wiltedMaterial;
+        }
     }
 
     /// <summary>
@@ -342,9 +328,12 @@ public class David_Rice : MonoBehaviour, IDamageable
         _targetRotation = _initialRotation;
         _isTransitioning = true;
 
-        // EN: Clear shader color — restore material's original color.
-        // VI: Xóa màu shader — khôi phục màu gốc của material.
-        ClearShaderColor();
+        // Thay Áo (Material Swap): Khôi phục áo xanh gốc
+        if (normalMaterial != null && _renderers != null)
+        {
+            foreach (var r in _renderers)
+                if (r != null) r.sharedMaterial = normalMaterial;
+        }
     }
 
     /// <summary>
@@ -452,9 +441,12 @@ public class David_Rice : MonoBehaviour, IDamageable
         // VI: Reset máu để Enemy có thể gây damage lại mùa tiếp theo.
         _currentHealth = maxHealth;
 
-        // EN: Clear damage color so rice looks fresh again.
-        // VI: Xóa màu damage để lúa trông tươi lại.
-        ClearShaderColor();
+        // Thay Áo (Material Swap): Khôi phục áo xanh gốc
+        if (normalMaterial != null && _renderers != null)
+        {
+            foreach (var r in _renderers)
+                if (r != null) r.sharedMaterial = normalMaterial;
+        }
 
         if (riceVisual != null)
         {
@@ -495,10 +487,9 @@ public class David_Rice : MonoBehaviour, IDamageable
         Debug.Log($"[David_Rice] '{gameObject.name}' TakeDamage({damage}) " +
                   $"→ hp={_currentHealth}/{maxHealth}");
 
-        // EN: Stage 1 — HP ≤ 50%: yellow wilt color + tilt 45°.
-        // VI: Giai đoạn 1 — HP ≤ 50%: màu vàng úa + nghiêng 45°.
-        if (_currentHealth <= maxHealth / 2 && _colorStage == ColorStage.None)
-            ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
+        // EN: Stage 1 — HP ≤ 50%: visual tilt
+        // VI: Giai đoạn 1 — HP ≤ 50%: visual tilt
+        // Remove apply shader color logic since Material Swap handles visual wilt
 
         // EN: Transform wilt when HP crosses wilt threshold.
         // VI: Hiệu ứng héo transform khi HP vượt ngưỡng.
@@ -549,68 +540,7 @@ public class David_Rice : MonoBehaviour, IDamageable
     /// </summary>
     public bool IsDead() => _currentHealth <= 0;
 
-    // =========================================================================
-    // COLOR HELPERS / HÀM HỖ TRỢ ĐỔI MÀU
-    // =========================================================================
 
-    /// <summary>
-    /// EN: Apply a shader color to all renderers via MaterialPropertyBlock.
-    ///     Uses _BaseColor (URP) with fallback to _Color (Built-in).
-    /// VI: Áp màu shader lên tất cả renderer qua MaterialPropertyBlock.
-    ///     Dùng _BaseColor (URP) với fallback _Color (Built-in).
-    /// </summary>
-    private void ApplyShaderColor(Color color, ColorStage stage)
-    {
-        if (_renderers == null || _mpb == null) return;
-        _colorStage = stage;
-
-        foreach (var r in _renderers)
-        {
-            if (r == null || r.sharedMaterial == null) continue;
-            string prop = FindColorProperty(r);
-            if (prop == null) continue;
-
-            r.GetPropertyBlock(_mpb);
-            _mpb.SetColor(prop, color);
-            r.SetPropertyBlock(_mpb);
-        }
-    }
-
-    /// <summary>
-    /// EN: Remove the color override — renderer reverts to material's original color.
-    /// VI: Xóa override màu — renderer trở về màu gốc của material.
-    /// </summary>
-    private void ClearShaderColor()
-    {
-        if (_renderers == null) return;
-        _colorStage = ColorStage.None;
-
-        foreach (var r in _renderers)
-        {
-            if (r == null) continue;
-            r.SetPropertyBlock(null);
-        }
-    }
-
-    /// <summary>
-    /// EN: Find the correct color shader property for a renderer's material.
-    /// VI: Tìm property màu shader phù hợp cho material của renderer.
-    /// </summary>
-    private string FindColorProperty(Renderer r)
-    {
-        if (r.sharedMaterial.HasProperty(colorProperty))
-            return colorProperty;
-
-        if (tryCommonColorProps)
-        {
-            foreach (var prop in _fallbackColorProps)
-            {
-                if (r.sharedMaterial.HasProperty(prop))
-                    return prop;
-            }
-        }
-        return null;
-    }
 
     // =========================================================================
     // Context menu for testing in Editor
@@ -625,12 +555,4 @@ public class David_Rice : MonoBehaviour, IDamageable
     [ContextMenu("Test: Take 1 Damage")]
     private void TestTakeDamage() => TakeDamage(1);
 
-    [ContextMenu("Test: Apply Wilt Color")]
-    private void TestWiltColor() => ApplyShaderColor(wiltDamageColor, ColorStage.Wilt);
-
-    [ContextMenu("Test: Apply Fall Color")]
-    private void TestFallColor() => ApplyShaderColor(fallDamageColor, ColorStage.Fall);
-
-    [ContextMenu("Test: Clear Color")]
-    private void TestClearColor() => ClearShaderColor();
 }
